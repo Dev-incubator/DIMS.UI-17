@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
+import { NavLink, Route, Switch } from 'react-router-dom';
 import { appTitle } from '../config';
-import logo from '../icons/logo.svg';
 import classes from './App.module.css';
+import { Members } from '../pages/members/Members';
+import { Progress } from '../pages/members/progress/Progress';
+import { UserTasks } from '../pages/members/userTasks/UserTasks';
 
 export const App = () => {
   useEffect(() => {
@@ -10,10 +13,14 @@ export const App = () => {
 
   return (
     <div className={classes.App}>
-      <header className={classes.Header}>
-        <img src={logo} className={classes.Logo} alt='logo' />
-        <h1 className={classes.Text}>Learn React with Dev Incubator</h1>
+      <header className={classes.links}>
+        <NavLink to='/users'>Members</NavLink>
       </header>
+      <Switch>
+        <Route path='/users' exact component={Members} />
+        <Route path='/progress' component={Progress} />
+        <Route path='/tasks/:id' component={UserTasks} />
+      </Switch>
     </div>
   );
 };
