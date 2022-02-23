@@ -1,3 +1,5 @@
+export const baseURL = 'https://json-server-for-dims.herokuapp.com';
+
 export const sex = {
   man: 'Male',
   woman: 'Women',

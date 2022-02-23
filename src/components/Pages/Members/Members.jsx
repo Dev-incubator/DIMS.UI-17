@@ -17,11 +17,13 @@ export class Members extends React.Component {
   async componentDidMount() {
     const users = await getFakeUsers();
     const items = await getMemberItems(users);
+    // console.log('-------', items);
     this.setState({ items });
   }
 
   render() {
     const { items } = this.state;
+
     return (
       <div className={style.members}>
         <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} />

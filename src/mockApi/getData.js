@@ -1,4 +1,4 @@
-import { PAGES_KEYS } from '../shared/constants';
+import { PAGES_KEYS, baseURL } from '../shared/constants';
 import { filterProgress, filterCurrentTasks } from '../shared/helpers';
 
 // import { getFirestore, collection, getDocs } from 'firebase/firestore';
@@ -22,14 +22,14 @@ import { filterProgress, filterCurrentTasks } from '../shared/helpers';
 // }
 
 export async function getFakeUsers() {
-  const response = await fetch('http://localhost:3001/users');
+  const response = await fetch(`${baseURL}/users`);
   const users = await response.json();
 
   return users;
 }
 
 export async function getFakeTasks() {
-  const response = await fetch('http://localhost:3001/tasks');
+  const response = await fetch(`${baseURL}/tasks`);
   const tasks = await response.json();
 
   return tasks;
@@ -37,6 +37,7 @@ export async function getFakeTasks() {
 
 export async function getFakeCurrentTasks(id, page) {
   const allTasks = await getFakeTasks();
-  const mainTasks = allTasks.filter((item) => item.subscribers.includes(id));
+  const mainTasks = allTasks.tasks.filter((item) => item.subscribers.includes(id));
+
   return page === PAGES_KEYS.progress ? filterProgress(mainTasks) : filterCurrentTasks(mainTasks);
 }
