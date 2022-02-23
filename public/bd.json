@@ -1,0 +1,68 @@
+{
+  "users": [
+    {
+      "id": "0",
+      "name": "Ivan",
+      "direction": "Frontend",
+      "email": "qwe@qwe.com",
+      "lastName": "Ivanov",
+      "sex": "Male",
+      "education": "BSUIR",
+      "birthDate": "07.08.1992",
+      "universityAverageAcore": "8.5",
+      "mathScore": "8",
+      "address": "Minsk",
+      "mobilePhone": "+37529-1414144",
+      "skype": "ivanSkype",
+      "startDate": "16.01.2022",
+      "tasks": [1]
+    },
+    {
+      "id": "1",
+      "name": "Olya",
+      "direction": "Java",
+      "email": "asd@asd.com",
+      "lastName": "Ivanova",
+      "sex": "Woman",
+      "education": "BGU",
+      "birthDate": "05.10.1998",
+      "universityAverageAcore": "7.8",
+      "mathScore": "9",
+      "address": "Gomel",
+      "mobilePhone": "+37529-2222222",
+      "skype": "olyaSkype",
+      "startDate": "15.01.2022",
+      "tasks": [0]
+    }
+  ],
+  "tasks": [
+    {
+      "id": "0",
+      "name": "Creat Button",
+      "description": "Color red",
+      "startDate": "16.02.2022",
+      "deadlineDate": "25.02.2022",
+      "status": "active",
+      "track": {"data": "25.02.2022", "node": "node Taks 1"},
+      "subTasks": [
+        { "id": "1", "name": "creat component", "description": "creat class component", "track": {"data": "25.02.2022", "node": "node subTaks 2"}, "date": "25.02.2022" },
+        { "id": "2", "name": "hendle props", "description": "destruction", "track": {"data": "25.02.2022", "node": "node subTaks 2"}, "date": "25.02.2022" }
+      ],
+      "subscribers": ["0", "1"]
+    },
+    {
+      "id": "1",
+      "name": "Add propType",
+      "description": "type string",
+      "startDate": "16.02.2022",
+      "deadlineDate": "24.02.2022",
+      "status": "",
+      "track": {"data": "25.02.2022", "node": "node Taks 2"},
+      "subTasks": [
+        { "id": "1", "name": "add library", "description": "add library desc", "date": "25.02.2022" },
+        { "id": "2", "name": "sub 2", "description": "sub 2 destruction", "date": "25.02.2022" }
+      ],
+      "subscribers": ["1"]
+    }
+  ]
+}

@@ -1,12 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+// import { initializeApp } from 'firebase/app';
+import { BrowserRouter } from 'react-router-dom';
 import { App } from './App/App';
 import reportWebVitals from './reportWebVitals';
+// import { firebaseConfig } from './configFirebase';
+// import { getUsers } from './mockApi/getData';
+// import { auth } from './mockApi/authUser';
+
+// const app = initializeApp(firebaseConfig);
+
+// auth(app);
+// getUsers(app);
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
 );
