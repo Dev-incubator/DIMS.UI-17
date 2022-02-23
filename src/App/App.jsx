@@ -18,7 +18,7 @@ export const App = () => {
       </header>
       <Switch>
         <Route path='/users' exact component={Members} />
-        <Route path='/progress' component={Progress} />
+        <Route path='/progress/:id' component={Progress} />
         <Route path='/tasks/:id' component={UserTasks} />
       </Switch>
     </div>

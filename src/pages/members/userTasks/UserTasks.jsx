@@ -13,7 +13,7 @@ export class UserTasks extends PureComponent {
     super(props);
     this.state = {
       tasks: [],
-      user: null,
+      name: null,
     };
   }
 
@@ -22,18 +22,18 @@ export class UserTasks extends PureComponent {
     const userId = match.params.id;
     const user = await getUserById(userId);
     const tasks = await getTasksData(userId);
-    this.setState((prevState) => ({ ...prevState, user, tasks }));
+    this.setState((prevState) => ({ ...prevState, name: user.name, tasks }));
   }
 
   render() {
-    const { tasks, user } = this.state;
-    if (!tasks || !user) {
+    const { tasks, name } = this.state;
+    if (!tasks || !name) {
       return <div>Loading...</div>;
     }
 
     return (
       <div>
-        <PageHeader text={`${user.name}'s current tasks`} />
+        <PageHeader text={`${name}'s current tasks`} />
         <table className={styles.userTasks}>
           <TableHeader titles={tableTitles} />
           <tbody>
