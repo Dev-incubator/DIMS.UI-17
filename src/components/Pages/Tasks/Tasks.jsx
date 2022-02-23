@@ -29,6 +29,7 @@ export class Tasks extends React.Component {
 
   render() {
     const { tasks } = this.state;
+
     return (
       <div className={style.admin}>
         <PageTitle title={TITLES_PAGES.currentTasks} buttonTitle={BUTTONS_NAMES.backToList} onClick={stepBack} />

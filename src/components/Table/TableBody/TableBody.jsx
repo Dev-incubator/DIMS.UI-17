@@ -12,8 +12,8 @@ export function TableBody({ items }) {
             <td>
               <a href={`http:\\${id}`}>{name}</a>
             </td>
-            {other.map((item) => (
-              <td key={Math.random()}>{item}</td>
+            {other.map((elem, indexElem) => (
+              <td key={elem + indexElem.toString()}>{elem}</td>
             ))}
           </tr>
         );
