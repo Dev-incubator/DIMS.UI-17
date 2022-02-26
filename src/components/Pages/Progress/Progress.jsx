@@ -1,5 +1,5 @@
 import React from 'react';
-import { getFakeCurrentTasks } from '../../../mockApi/getData';
+import { getMemberTasks } from '../../../mockApi/getData';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES, PAGES_KEYS } from '../../../shared/constants';
@@ -22,7 +22,7 @@ export class Progress extends React.Component {
   }
 
   async getProgress(id) {
-    const progress = await getFakeCurrentTasks(id, PAGES_KEYS.progress);
+    const progress = await getMemberTasks(id, PAGES_KEYS.progress);
     this.setState({ progress });
   }
 

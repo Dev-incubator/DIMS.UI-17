@@ -2,7 +2,7 @@ import { ButtonsAdmin } from '../components/Buttons/ButtonsAdmin/ButtonsAdmin';
 import { ButtonsStatusUpdate } from '../components/Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 
 export async function getMemberItems(items) {
-  const users = await items.users;
+  const users = await items;
 
   return users.map((item) => [
     item.id,

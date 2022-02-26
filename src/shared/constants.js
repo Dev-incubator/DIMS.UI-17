@@ -1,4 +1,5 @@
 export const baseURL = 'https://json-server-for-dims.herokuapp.com';
+export const baseLocalURL = 'http://localhost:3001';
 
 export const sex = {
   man: 'Male',

@@ -35,9 +35,18 @@ export async function getFakeTasks() {
   return tasks;
 }
 
-export async function getFakeCurrentTasks(id, page) {
-  const allTasks = await getFakeTasks();
-  const mainTasks = allTasks.tasks.filter((item) => item.subscribers.includes(id));
+export async function getMemberTasks(id, page) {
+  const response = await fetch(`${baseURL}/users/?id=${id}`);
+  const user = await response.json();
+  const { tasksId } = user[0];
+  const tasks = await Promise.all(
+    tasksId.map(async (taskId) => {
+      const currentTask = await fetch(`${baseURL}/tasks/${taskId}`);
+      const task = await currentTask.json();
 
-  return page === PAGES_KEYS.progress ? filterProgress(mainTasks) : filterCurrentTasks(mainTasks);
+      return task;
+    }),
+  );
+
+  return page === PAGES_KEYS.progress ? filterProgress(tasks) : filterCurrentTasks(tasks);
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, PAGES_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
-import { getFakeCurrentTasks } from '../../../mockApi/getData';
+import { getMemberTasks } from '../../../mockApi/getData';
 import { stepBack } from '../../../shared/helpers';
 import style from './Tasks.module.css';
 
@@ -23,7 +23,7 @@ export class Tasks extends React.Component {
   }
 
   async getProgress(id) {
-    const tasks = await getFakeCurrentTasks(id, PAGES_KEYS.tasks);
+    const tasks = await getMemberTasks(id, PAGES_KEYS.tasks);
     this.setState({ tasks });
   }
 
