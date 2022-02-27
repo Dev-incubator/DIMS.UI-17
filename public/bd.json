@@ -42,8 +42,7 @@
       "description": "Color red",
       "startDate": "16.02.2022",
       "deadlineDate": "25.02.2022",
-      "status": "active",
-      "track": {"data": "25.02.2022", "node": "node Taks 1"}
+      "status": "active"
     },
     {
       "id": "1",
@@ -51,8 +50,7 @@
       "description": "type string",
       "startDate": "16.02.2022",
       "deadlineDate": "24.02.2022",
-      "status": "",
-      "track": {"data": "25.02.2022", "node": "node Taks 2"}
+      "status": ""
     }
   ],
   "subTasks": [
@@ -63,6 +61,7 @@
   ],
   "tracks": [
     {"id": "0", "taskId": "0", "data": "25.02.2022", "node": "node Taks 1"},
-    {"id": "1", "taskId": "1", "data": "25.02.2022", "node": "node Taks 2"}
+    {"id": "1", "taskId": "1", "data": "25.02.2022", "node": "node Taks 2"},
+    {"id": "2", "taskId": "1", "data": "26.02.2022", "node": "node 2 for Taks 1"}
   ]
 }

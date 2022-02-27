@@ -1,8 +1,8 @@
 import React from 'react';
-import { getMemberTasks } from '../../../mockApi/getData';
+import { getTraks } from '../../../mockApi/getData';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
-import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES, PAGES_KEYS } from '../../../shared/constants';
+import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES } from '../../../shared/constants';
 import { stepBack } from '../../../shared/helpers';
 
 export class Progress extends React.Component {
@@ -22,7 +22,7 @@ export class Progress extends React.Component {
   }
 
   async getProgress(id) {
-    const progress = await getMemberTasks(id, PAGES_KEYS.progress);
+    const progress = await getTraks(id);
     this.setState({ progress });
   }
 

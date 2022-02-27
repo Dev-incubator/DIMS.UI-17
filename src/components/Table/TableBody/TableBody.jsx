@@ -7,7 +7,7 @@ export function TableBody({ items }) {
         const [id, name, ...other] = item;
 
         return (
-          <tr key={id}>
+          <tr key={id + index.toString()}>
             <td>{index}</td>
             <td>
               <a href={`http:\\${id}`}>{name}</a>

@@ -1,5 +1,17 @@
 @import-normalize;
 
+:root {
+  --bg-color-primary-button: #0275d8;
+  --bg-color-secondery-button: #fff;
+  --bg-color-edit-button: #f0ad4e;
+  --bg-color-delete-button: #d9534f;
+  --bg-color-save-button: #28a745;
+  --color-primary: #fff;
+  --bg-color-secondery: #e5e5e5;
+
+  --width-content: 800px;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -19,10 +31,10 @@ table {
   width: 100%;
 }
 thead {
-  background-color: #e5e5e5;
+  background-color: var(--bg-color-secondery);
 }
 tbody {
-  background-color: #fff;
+  background-color: var(--color-primary);
 }
 
 body {

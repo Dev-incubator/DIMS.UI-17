@@ -13,8 +13,8 @@ export function ButtonsAdmin({ id }) {
         <Button title={BUTTONS_NAMES.progress} />
       </NavLink>
 
-      <Button title={BUTTONS_NAMES.edit} type={BUTTONS_TYPES.typeEdit} />
-      <Button title={BUTTONS_NAMES.delete} type={BUTTONS_TYPES.typeDelete} />
+      <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} />
+      <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} />
     </>
   );
 }

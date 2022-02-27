@@ -1,5 +1,4 @@
 import { Switch, Route } from 'react-router-dom';
-import { USER_ROLES } from '../shared/constants';
 import { Home } from '../components/Home/Home';
 import { Members } from '../components/Pages/Members/Members';
 import { Tasks } from '../components/Pages/Tasks/Tasks';
@@ -14,10 +13,10 @@ export const App = () => {
           <Home />
         </Route>
         <Route path='/members'>
-          <Members role={USER_ROLES.admin} />
+          <Members />
         </Route>
         <Route path='/progress'>
-          <Progress role={USER_ROLES.admin} />
+          <Progress />
         </Route>
         <Route exact path='/tasks'>
           <Tasks />

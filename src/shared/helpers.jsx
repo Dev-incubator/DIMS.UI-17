@@ -16,10 +16,19 @@ export async function getMemberItems(items) {
 }
 
 export async function filterProgress(items) {
-  const tasks = await items;
+  const traks = await items;
+  const allTraks = traks.map((item) => {
+    const row = item.track.map((track) => {
+      return { id: item.id, name: item.name, node: track.node, data: track.data };
+    });
 
-  return tasks.map((item) => [item.id, item.name, item.track.node, item.startDate]);
+    return row;
+  });
+  const rows = allTraks.flat();
+
+  return rows.map((item) => [item.id, item.name, item.node, item.data]);
 }
+
 export async function filterCurrentTasks(items) {
   const tasks = await items;
 

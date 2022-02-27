@@ -1,5 +1,5 @@
 import React from 'react';
-import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, PAGES_KEYS } from '../../../shared/constants';
+import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getMemberTasks } from '../../../mockApi/getData';
@@ -23,7 +23,7 @@ export class Tasks extends React.Component {
   }
 
   async getProgress(id) {
-    const tasks = await getMemberTasks(id, PAGES_KEYS.tasks);
+    const tasks = await getMemberTasks(id);
     this.setState({ tasks });
   }
 

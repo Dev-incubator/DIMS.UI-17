@@ -1,23 +1,23 @@
 button {
-    font-size: 16px;
-    color: #fff;
-    font-weight: 400;
-    border-radius: 4px;
-    width: 90px;
-    height: 40px;
+  font-size: 16px;
+  color: var(--color-primary);
+  font-weight: 400;
+  border-radius: 4px;
+  width: 90px;
+  height: 40px;
 }
 .typePrimary {
-    background-color: #0275D8;
+  background-color: var(--bg-color-primary-button);
 }
 .typeSecondary {
-    background-color: #fff;
+  background-color: var(--bg-color-secondery-button);
 }
 .typeEdit {
-    background-color: #F0AD4E;
+  background-color: var(--bg-color-edit-button);
 }
 .typeDelete {
-    background-color: #D9534F;
+  background-color: var(--bg-color-delete-button);
 }
 .typeSave {
-    background-color: #28A745;
+  background-color: var(--bg-color-save-button);
 }
