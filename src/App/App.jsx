@@ -3,25 +3,34 @@ import { Home } from '../components/Home/Home';
 import { Members } from '../components/Pages/Members/Members';
 import { Tasks } from '../components/Pages/Tasks/Tasks';
 import { Progress } from '../components/Pages/Progress/Progress';
-import style from './App.module.css';
+import { Header } from '../components/Common/Header/Header';
+import { Footer } from '../components/Common/Footer/Footer';
+import { Login } from '../components/Pages/Login/Login';
 
 export const App = () => {
   return (
-    <div className={style.content}>
-      <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route path='/members'>
-          <Members />
-        </Route>
-        <Route path='/progress'>
-          <Progress />
-        </Route>
-        <Route exact path='/tasks'>
-          <Tasks />
-        </Route>
-      </Switch>
-    </div>
+    <>
+      <Header />
+      <main>
+        <Switch>
+          <Route exact path='/'>
+            <Home />
+          </Route>
+          <Route path='/members'>
+            <Members />
+          </Route>
+          <Route path='/progress'>
+            <Progress />
+          </Route>
+          <Route exact path='/tasks'>
+            <Tasks />
+          </Route>
+          <Route exact path='/login'>
+            <Login />
+          </Route>
+        </Switch>
+      </main>
+      <Footer />
+    </>
   );
 };

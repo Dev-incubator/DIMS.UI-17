@@ -4,7 +4,6 @@ import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getMemberTasks } from '../../../mockApi/getData';
 import { stepBack } from '../../../shared/helpers';
-import style from './Tasks.module.css';
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -31,10 +30,10 @@ export class Tasks extends React.Component {
     const { tasks } = this.state;
 
     return (
-      <div className={style.admin}>
+      <>
         <PageTitle title={TITLES_PAGES.currentTasks} buttonTitle={BUTTONS_NAMES.backToList} onClick={stepBack} />
         <Table titles={TABLE_TITLES.currentTasks} items={tasks} />
-      </div>
+      </>
     );
   }
 }

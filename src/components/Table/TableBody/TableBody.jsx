@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
+import style from './TableBody.module.css';
 
 export function TableBody({ items }) {
   return (
-    <tbody>
+    <tbody className={style.table}>
       {items.map((item, index) => {
         const [id, name, ...other] = item;
 

@@ -1,13 +1,9 @@
-import { NavLink } from 'react-router-dom';
+import { Login } from '../Pages/Login/Login';
 
 export function Home() {
   return (
-    <nav>
-      <ul>
-        <li>
-          <NavLink to='/members'>Members</NavLink>
-        </li>
-      </ul>
-    </nav>
+    <div>
+      <Login />
+    </div>
   );
 }

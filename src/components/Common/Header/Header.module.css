@@ -1,0 +1,28 @@
+.header {
+  background-color: var(--bg-color-primary);
+  position: relative;
+}
+.contentWrapper {
+  max-width: var(--width-content);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+}
+nav {
+  padding-left: 3rem;
+}
+a {
+  text-decoration: none;
+  color: var(--color-primary);
+}
+.logo {
+  padding: 1rem;
+}
+a:hover {
+  color: var(--color-active-link);
+}
+.login {
+  position: absolute;
+  right: 0;
+}
