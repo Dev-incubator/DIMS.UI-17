@@ -12,12 +12,12 @@ export function Header() {
         <nav>
           <ul className={style.headerNav}>
             <li className={style.navItem}>
-              <NavLink to='/members' activeClassName='selected'>
+              <NavLink to='/members' activeClassName={style.selected}>
                 Members
               </NavLink>
             </li>
             <li className={style.navItem}>
-              <NavLink to='/tasks' activeClassName='selected'>
+              <NavLink to='/tasks' activeClassName={style.selected}>
                 Tasks
               </NavLink>
             </li>

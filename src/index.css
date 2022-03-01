@@ -67,9 +67,6 @@ tbody {
   max-width: var(--width-content);
   margin: 0 auto;
 }
-.selected {
-  color: var(--color-active-link);
-}
 main {
   flex: 1;
   max-width: var(--width-content);
