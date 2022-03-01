@@ -42,7 +42,7 @@ input:focus {
 .error:focus {
   box-shadow: 0 0 0 3px var(--color-error);
 }
-p {
+.errorTitle {
   margin: 0;
   padding-top: 1rem;
   color: var(--color-error);

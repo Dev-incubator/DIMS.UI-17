@@ -8,6 +8,7 @@ export const sex = {
 
 export const TITLES_PAGES = {
   members: 'Members',
+  allTasks: 'All Tasks',
   currentTasks: 'Current Tasks',
   progress: 'Progress',
 };

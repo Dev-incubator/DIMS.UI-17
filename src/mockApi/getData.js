@@ -8,11 +8,11 @@ export async function getFakeUsers() {
   return users;
 }
 
-export async function getFakeTasks() {
+export async function getAllFakeTasks() {
   const response = await fetch(`${baseURL}/tasks`);
   const tasks = await response.json();
 
-  return tasks;
+  return filterCurrentTasks(tasks);
 }
 
 export async function getMemberTasks(id) {

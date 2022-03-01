@@ -10,10 +10,15 @@ export function Header() {
           <img className={style.logo} src={logo} alt='logo' />
         </NavLink>
         <nav>
-          <ul>
+          <ul className={style.headerNav}>
             <li className={style.navItem}>
               <NavLink to='/members' activeClassName='selected'>
                 Members
+              </NavLink>
+            </li>
+            <li className={style.navItem}>
+              <NavLink to='/tasks' activeClassName='selected'>
+                Tasks
               </NavLink>
             </li>
           </ul>

@@ -72,7 +72,7 @@ export class Login extends React.Component {
               type='text'
               id='email'
             />
-            <p>{emailErrors.length ? 'login is invalid' : ''}</p>
+            <p className={style.errorTitle}>{emailErrors.length ? 'login is invalid' : ''}</p>
           </label>
           <label htmlFor='password'>
             Password
@@ -86,7 +86,7 @@ export class Login extends React.Component {
               id='password'
               placeholder='password'
             />
-            <p>{passworErrors.length ? 'password is invalid' : ''}</p>
+            <p className={style.errorTitle}>{passworErrors.length ? 'password is invalid' : ''}</p>
           </label>
           <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
             Sign in

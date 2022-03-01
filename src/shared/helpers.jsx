@@ -51,3 +51,6 @@ export async function getFakeTasksItems(tasks) {
 export function stepBack() {
   window.history.back();
 }
+export function createTask() {
+  console.log('show modal');
+}
