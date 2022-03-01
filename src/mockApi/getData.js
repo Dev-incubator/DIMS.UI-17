@@ -1,5 +1,5 @@
 import { baseURL } from '../shared/constants';
-import { filterCurrentTasks, filterProgress } from '../shared/helpers';
+import { filterCurrentTasks, filterProgress, filterAllTasks } from '../shared/helpers';
 
 export async function getFakeUsers() {
   const response = await fetch(`${baseURL}/users`);
@@ -8,11 +8,11 @@ export async function getFakeUsers() {
   return users;
 }
 
-export async function getAllFakeTasks() {
+export async function getAllFakeTasks(isAllTasksPage) {
   const response = await fetch(`${baseURL}/tasks`);
   const tasks = await response.json();
 
-  return filterCurrentTasks(tasks);
+  return isAllTasksPage ? filterAllTasks(tasks) : filterCurrentTasks(tasks);
 }
 
 export async function getMemberTasks(id) {
@@ -31,7 +31,7 @@ export async function getMemberTasks(id) {
   return filterCurrentTasks(tasks);
 }
 
-export async function getTraks(userId) {
+export async function getTracks(userId, isTrackPage) {
   const memberId = await userId;
   const response = await fetch(`${baseURL}/users/?id=${memberId}`);
   const user = await response.json();
@@ -49,5 +49,5 @@ export async function getTraks(userId) {
     }),
   );
 
-  return filterProgress(traks);
+  return filterProgress(traks, isTrackPage);
 }

@@ -1,3 +1,4 @@
+import { ButtonsTrack } from '../components/Buttons/ButtonsTrack/ButtonsTrack';
 import { ButtonsAdmin } from '../components/Buttons/ButtonsAdmin/ButtonsAdmin';
 import { ButtonsStatusUpdate } from '../components/Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 
@@ -15,18 +16,38 @@ export async function getMemberItems(items) {
   ]);
 }
 
-export async function filterProgress(items) {
+export async function filterProgress(items, isTrackPage) {
   const traks = await items;
   const allTraks = traks.map((item) => {
     const row = item.track.map((track) => {
-      return { id: item.id, name: item.name, node: track.node, data: track.data };
+      return {
+        id: item.id,
+        name: item.name,
+        node: track.node,
+        data: track.data,
+      };
     });
 
     return row;
   });
   const rows = allTraks.flat();
 
-  return rows.map((item) => [item.id, item.name, item.node, item.data]);
+  return isTrackPage
+    ? rows.map((item) => [item.id, item.name, item.node, item.data, <ButtonsTrack id={item.id} />])
+    : rows.map((item) => [item.id, item.name, item.node, item.data]);
+}
+
+export async function filterAllTasks(items) {
+  const tasks = await items;
+
+  return tasks.map((item) => [
+    item.id,
+    item.name,
+    item.description,
+    item.startDate,
+    item.deadlineDate,
+    <ButtonsTrack />,
+  ]);
 }
 
 export async function filterCurrentTasks(items) {

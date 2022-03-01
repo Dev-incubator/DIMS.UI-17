@@ -1,5 +1,5 @@
 import React from 'react';
-import { getTraks } from '../../../mockApi/getData';
+import { getTracks } from '../../../mockApi/getData';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES } from '../../../shared/constants';
@@ -22,7 +22,7 @@ export class Progress extends React.Component {
   }
 
   async getProgress(id) {
-    const progress = await getTraks(id);
+    const progress = await getTracks(id);
     this.setState({ progress });
   }
 

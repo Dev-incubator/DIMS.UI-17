@@ -11,6 +11,7 @@ export const TITLES_PAGES = {
   allTasks: 'All Tasks',
   currentTasks: 'Current Tasks',
   progress: 'Progress',
+  track: 'Task track',
 };
 export const BUTTONS_NAMES = {
   create: 'Create',
@@ -34,7 +35,9 @@ export const BUTTONS_TYPES = {
 export const TABLE_TITLES = {
   members: ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Actions'],
   currentTasks: ['#', 'Task name', 'Start date', 'Deadline', 'Status', 'Actions'],
+  allTasks: ['#', 'Task name', 'Description', 'Start date', 'Deadline', 'Actions'],
   progress: ['#', 'Task name', 'Task note', 'Date'],
+  track: ['#', 'Task', 'Note', 'Date', 'Actions'],
 };
 
 export const USER_ROLES = {
@@ -52,4 +55,8 @@ export const STATUS_KEYS = {
   active: 'Active',
   success: 'Success',
   fail: 'Fail',
+};
+
+export const LINKPATH_KEYS = {
+  track: 'track',
 };

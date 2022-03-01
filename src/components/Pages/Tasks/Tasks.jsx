@@ -1,5 +1,5 @@
 import React from 'react';
-import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/constants';
+import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, PAGES_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getMemberTasks, getAllFakeTasks } from '../../../mockApi/getData';
@@ -13,6 +13,7 @@ export class Tasks extends React.Component {
       pageTitle: null,
       buttonTitle: null,
       buttonClick: null,
+      tableTitles: [null],
     };
   }
 
@@ -25,14 +26,16 @@ export class Tasks extends React.Component {
         pageTitle: TITLES_PAGES.currentTasks,
         buttonTitle: BUTTONS_NAMES.backToList,
         buttonClick: stepBack,
+        tableTitles: TABLE_TITLES.currentTasks,
       });
     } else {
-      const tasks = await getAllFakeTasks();
+      const tasks = await getAllFakeTasks(PAGES_KEYS.tasks);
       this.setState({
         pageTitle: TITLES_PAGES.allTasks,
         tasks,
         buttonTitle: BUTTONS_NAMES.create,
         buttonClick: createTask,
+        tableTitles: TABLE_TITLES.allTasks,
       });
     }
   }
@@ -43,12 +46,12 @@ export class Tasks extends React.Component {
   }
 
   render() {
-    const { tasks, pageTitle, buttonTitle, buttonClick } = this.state;
+    const { tasks, pageTitle, buttonTitle, buttonClick, tableTitles } = this.state;
 
     return (
       <>
         <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} />
-        <Table titles={TABLE_TITLES.currentTasks} items={tasks} />
+        <Table titles={tableTitles} items={tasks} />
       </>
     );
   }

@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import style from './TableBody.module.css';
 
-export function TableBody({ items }) {
+export function TableBody({ items, linkPath }) {
   return (
     <tbody className={style.table}>
       {items.map((item, index) => {
@@ -11,7 +12,7 @@ export function TableBody({ items }) {
           <tr key={id + index.toString()}>
             <td>{index}</td>
             <td>
-              <a href={`http:\\${id}`}>{name}</a>
+              <NavLink to={`${linkPath}/?member=${id}`}>{name}</NavLink>
             </td>
             {other.map((elem, indexElem) => (
               <td key={elem + indexElem.toString()}>{elem}</td>
@@ -25,8 +26,10 @@ export function TableBody({ items }) {
 
 TableBody.propTypes = {
   items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+  linkPath: PropTypes.string,
 };
 
 TableBody.defaultProps = {
   items: ['#'],
+  linkPath: '',
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { getFakeUsers } from '../../../mockApi/getData';
 import { getMemberItems } from '../../../shared/helpers';
 import { PageTitle } from '../../PageTitle/PageTitle';
-import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/constants';
+import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS } from '../../../shared/constants';
 import { Table } from '../../Table/Table';
 
 export class Members extends React.Component {
@@ -25,7 +25,7 @@ export class Members extends React.Component {
     return (
       <div>
         <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} />
-        <Table titles={TABLE_TITLES.members} items={items} />
+        <Table titles={TABLE_TITLES.members} items={items} linkPath={LINKPATH_KEYS.track} />
       </div>
     );
   }

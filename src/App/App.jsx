@@ -6,6 +6,7 @@ import { Progress } from '../components/Pages/Progress/Progress';
 import { Header } from '../components/Common/Header/Header';
 import { Footer } from '../components/Common/Footer/Footer';
 import { Login } from '../components/Pages/Login/Login';
+import { Track } from '../components/Pages/Track/Track';
 
 export const App = () => {
   return (
@@ -24,6 +25,9 @@ export const App = () => {
           </Route>
           <Route exact path='/tasks'>
             <Tasks />
+          </Route>
+          <Route exact path='/track'>
+            <Track />
           </Route>
           <Route exact path='/login'>
             <Login />
