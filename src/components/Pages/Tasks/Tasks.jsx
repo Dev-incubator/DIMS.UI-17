@@ -1,10 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getMemberTasks } from '../../../mockApi/getData';
-import { stepBack } from '../../../shared/helpers';
-import style from './Tasks.module.css';
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -14,11 +13,11 @@ export class Tasks extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const params = new URLSearchParams(document.location.search);
-    const id = params.get('member');
+  async componentDidMount() {
+    const { match } = this.props;
+    const id = match.params;
     if (id) {
-      this.getProgress(id);
+      await this.getProgress(id);
     }
   }
 
@@ -31,10 +30,16 @@ export class Tasks extends React.Component {
     const { tasks } = this.state;
 
     return (
-      <div className={style.admin}>
-        <PageTitle title={TITLES_PAGES.currentTasks} buttonTitle={BUTTONS_NAMES.backToList} onClick={stepBack} />
+      <div>
+        <PageTitle title={TITLES_PAGES.currentTasks} buttonTitle={BUTTONS_NAMES.backToList} isBackButton={!!true} />
         <Table titles={TABLE_TITLES.currentTasks} items={tasks} />
       </div>
     );
   }
 }
+
+Tasks.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
+  }).isRequired,
+};

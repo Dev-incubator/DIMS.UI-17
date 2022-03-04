@@ -31,9 +31,29 @@ export const BUTTONS_TYPES = {
 };
 
 export const TABLE_TITLES = {
-  members: ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Actions'],
-  currentTasks: ['#', 'Task name', 'Start date', 'Deadline', 'Status', 'Actions'],
-  progress: ['#', 'Task name', 'Task note', 'Date'],
+  members: {
+    id: '#',
+    name: 'Full name',
+    direction: 'Direction',
+    education: 'Education',
+    startDate: 'Start',
+    birthDate: 'Age',
+    actions: 'Actions',
+  },
+  currentTasks: {
+    id: '#',
+    name: 'Task name',
+    startDate: 'Start date',
+    deadlineDate: 'Deadline',
+    status: 'Status',
+    actions: 'Actions',
+  },
+  progress: {
+    id: '#',
+    name: 'Task name',
+    node: 'Task note',
+    date: 'Date',
+  },
 };
 
 export const USER_ROLES = {
