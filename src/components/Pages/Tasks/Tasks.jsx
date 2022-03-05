@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, PAGES_KEYS } from '../../../shared/constants';
+import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
-import { getMemberTasks, getAllFakeTasks } from '../../../mockApi/getData';
+import { getMemberTasks } from '../../../mockApi/getData';
 import { createTask } from '../../../shared/helpers';
 
 export class Tasks extends React.Component {
@@ -11,31 +11,22 @@ export class Tasks extends React.Component {
     super(props);
     this.state = {
       tasks: [],
-      pageTitle: null,
-      buttonTitle: null,
-      buttonClick: null,
-      tableTitles: [null],
+      pageTitle: '',
+      buttonTitle: '',
+      buttonClick: createTask,
+      tableTitles: {},
     };
   }
 
   async componentDidMount() {
     const { match } = this.props;
-    const id = match.params;
+    const { id } = match.params;
     if (id) {
       await this.getProgress(id);
       this.setState({
         pageTitle: TITLES_PAGES.currentTasks,
         buttonTitle: BUTTONS_NAMES.backToList,
         tableTitles: TABLE_TITLES.currentTasks,
-      });
-    } else {
-      const tasks = await getAllFakeTasks(PAGES_KEYS.tasks);
-      this.setState({
-        pageTitle: TITLES_PAGES.allTasks,
-        tasks,
-        buttonTitle: BUTTONS_NAMES.create,
-        buttonClick: createTask,
-        tableTitles: TABLE_TITLES.allTasks,
       });
     }
   }

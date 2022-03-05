@@ -20,7 +20,7 @@ export async function filterProgress(items, isTrackPage) {
         id: item.id,
         name: item.name,
         node: track.node,
-        data: track.data,
+        date: track.date,
       };
     });
 
@@ -28,22 +28,16 @@ export async function filterProgress(items, isTrackPage) {
   });
   const rows = allTraks.flat();
 
-  return isTrackPage
-    ? rows.map((item) => [item.id, item.name, item.node, item.data, <ButtonsTrack id={item.id} />])
-    : rows.map((item) => [item.id, item.name, item.node, item.data]);
+  return isTrackPage ? rows.map((item) => ({ ...item, actions: <ButtonsTrack id={item.id} /> })) : rows;
 }
 
 export async function filterAllTasks(items) {
   const tasks = await items;
 
-  return tasks.map((item) => [
-    item.id,
-    item.name,
-    item.description,
-    item.startDate,
-    item.deadlineDate,
-    <ButtonsTrack />,
-  ]);
+  return tasks.map((item) => ({
+    ...item,
+    actions: <ButtonsTrack />,
+  }));
 }
 
 export async function filterCurrentTasks(items) {

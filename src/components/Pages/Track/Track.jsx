@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createTask } from '../../../shared/helpers';
 import { TITLES_PAGES, BUTTONS_NAMES, TABLE_TITLES, PAGES_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
@@ -14,20 +15,21 @@ export class Track extends React.Component {
   }
 
   async componentDidMount() {
-    const params = new URLSearchParams(document.location.search);
-    const id = params.get('member');
+    const { match } = this.props;
+    const { id } = match.params;
     if (id) {
       this.getProgress(id);
     }
   }
 
   async getProgress(id) {
-    const progress = await getTracks(id, PAGES_KEYS.progress);
+    const progress = await getTracks(id, PAGES_KEYS.track);
     this.setState({ progress });
   }
 
   render() {
     const { progress } = this.state;
+    console.log(progress);
 
     return (
       <>
@@ -37,3 +39,9 @@ export class Track extends React.Component {
     );
   }
 }
+
+Track.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
+  }).isRequired,
+};

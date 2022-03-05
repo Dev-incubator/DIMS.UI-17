@@ -15,9 +15,10 @@ export async function getAllFakeTasks(isAllTasksPage) {
   return isAllTasksPage ? filterAllTasks(tasks) : filterCurrentTasks(tasks);
 }
 
-export async function getMemberTasks({ id }) {
+export async function getMemberTasks(id) {
   const response = await fetch(`${baseURL}/users/?id=${id}`);
   const user = await response.json();
+  console.log('user', user);
   const { tasksId } = user[0];
   const tasks = await Promise.all(
     tasksId.map(async (taskId) => {

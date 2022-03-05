@@ -2,6 +2,7 @@ import { Switch, Route } from 'react-router-dom';
 import { Home } from '../components/Home/Home';
 import { Members } from '../components/Pages/Members/Members';
 import { Tasks } from '../components/Pages/Tasks/Tasks';
+import { AllTasks } from '../components/Pages/Tasks/AllTasks';
 import { Progress } from '../components/Pages/Progress/Progress';
 import { Header } from '../components/Common/Header/Header';
 import { Footer } from '../components/Common/Footer/Footer';
@@ -17,8 +18,9 @@ export const App = () => {
           <Route exact path='/' component={Home} />
           <Route path='/members' component={Members} />
           <Route path='/progress/:id' component={Progress} />
-          <Route path='/tasks/:id' component={Tasks} />
-          <Route path='/track/:id' component={Track} />
+          <Route exact path='/tasks' component={AllTasks} />
+          <Route exact path='/tasks/:id' component={Tasks} />
+          <Route path='/tasks/track/:id' component={Track} />
           <Route path='/login' component={Login} />
         </Switch>
       </main>

@@ -46,7 +46,7 @@ export const TABLE_TITLES = {
     name: 'Task',
     node: 'Node',
     date: 'Date',
-    actins: 'Actions',
+    actions: 'Actions',
   },
   members: {
     id: '#',
@@ -82,6 +82,7 @@ export const USER_ROLES = {
 export const PAGES_KEYS = {
   tasks: 'tasks',
   progress: 'progress',
+  track: 'track',
 };
 
 export const STATUS_KEYS = {
