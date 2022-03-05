@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, PAGES_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getMemberTasks, getAllFakeTasks } from '../../../mockApi/getData';
-import { stepBack, createTask } from '../../../shared/helpers';
+import { createTask } from '../../../shared/helpers';
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -18,14 +19,13 @@ export class Tasks extends React.Component {
   }
 
   async componentDidMount() {
-    const params = new URLSearchParams(document.location.search);
-    const id = params.get('member');
+    const { match } = this.props;
+    const id = match.params;
     if (id) {
-      this.getProgress(id);
+      await this.getProgress(id);
       this.setState({
         pageTitle: TITLES_PAGES.currentTasks,
         buttonTitle: BUTTONS_NAMES.backToList,
-        buttonClick: stepBack,
         tableTitles: TABLE_TITLES.currentTasks,
       });
     } else {
@@ -50,9 +50,15 @@ export class Tasks extends React.Component {
 
     return (
       <>
-        <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} />
+        <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} isBackButton={!!true} />
         <Table titles={tableTitles} items={tasks} />
       </>
     );
   }
 }
+
+Tasks.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
+  }).isRequired,
+};

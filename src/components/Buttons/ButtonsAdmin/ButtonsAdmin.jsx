@@ -6,10 +6,10 @@ import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
 export function ButtonsAdmin({ id }) {
   return (
     <>
-      <NavLink to={`/tasks/?member=${id}`}>
+      <NavLink to={`/tasks/${id}`}>
         <Button title={BUTTONS_NAMES.tasks} />
       </NavLink>
-      <NavLink to={`/progress/?member=${id}`}>
+      <NavLink to={`/progress/${id}`}>
         <Button title={BUTTONS_NAMES.progress} />
       </NavLink>
 

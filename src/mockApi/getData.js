@@ -1,11 +1,11 @@
 import { baseURL } from '../shared/constants';
-import { filterCurrentTasks, filterProgress, filterAllTasks } from '../shared/helpers';
+import { filterCurrentTasks, filterProgress, filterAllTasks, filterMembers } from '../shared/helpers';
 
 export async function getFakeUsers() {
   const response = await fetch(`${baseURL}/users`);
   const users = await response.json();
 
-  return users;
+  return filterMembers(users);
 }
 
 export async function getAllFakeTasks(isAllTasksPage) {
@@ -15,7 +15,7 @@ export async function getAllFakeTasks(isAllTasksPage) {
   return isAllTasksPage ? filterAllTasks(tasks) : filterCurrentTasks(tasks);
 }
 
-export async function getMemberTasks(id) {
+export async function getMemberTasks({ id }) {
   const response = await fetch(`${baseURL}/users/?id=${id}`);
   const user = await response.json();
   const { tasksId } = user[0];

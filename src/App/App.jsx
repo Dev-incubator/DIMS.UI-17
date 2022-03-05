@@ -14,24 +14,12 @@ export const App = () => {
       <Header />
       <main>
         <Switch>
-          <Route exact path='/'>
-            <Home />
-          </Route>
-          <Route path='/members'>
-            <Members />
-          </Route>
-          <Route path='/progress'>
-            <Progress />
-          </Route>
-          <Route exact path='/tasks'>
-            <Tasks />
-          </Route>
-          <Route exact path='/track'>
-            <Track />
-          </Route>
-          <Route exact path='/login'>
-            <Login />
-          </Route>
+          <Route exact path='/' component={Home} />
+          <Route path='/members' component={Members} />
+          <Route path='/progress/:id' component={Progress} />
+          <Route path='/tasks/:id' component={Tasks} />
+          <Route path='/track/:id' component={Track} />
+          <Route path='/login' component={Login} />
         </Switch>
       </main>
       <Footer />

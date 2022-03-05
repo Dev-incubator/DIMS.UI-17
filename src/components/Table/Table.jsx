@@ -1,24 +1,42 @@
 import PropTypes from 'prop-types';
-import { TableBody } from './TableBody/TableBody';
-import { TableHead } from './TableHead/TableHead';
+import { NavLink } from 'react-router-dom';
 
 export function Table({ titles, items, linkPath }) {
+  const titlesTable = Object.values(titles);
+
   return (
     <table>
-      <TableHead titles={titles} />
-      <TableBody items={items} linkPath={linkPath} />
+      <thead>
+        <tr>
+          {titlesTable.map((item) => (
+            <th key={item}>{item}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {items.map((item, index) => {
+          const { id, name, ...other } = titles;
+          const keys = Object.keys(other);
+
+          return (
+            <tr key={item + index.toString()}>
+              <td>{index}</td>
+              <td>
+                <NavLink to={`${linkPath}/${id}`}>{item.name}</NavLink>
+              </td>
+              {keys.map((elem, indexElem) => (
+                <td key={item[elem] + indexElem.toString()}>{item[elem]}</td>
+              ))}
+            </tr>
+          );
+        })}
+      </tbody>
     </table>
   );
 }
 
 Table.propTypes = {
-  titles: PropTypes.node,
-  items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-  linkPath: PropTypes.string,
-};
-
-Table.defaultProps = {
-  titles: ['#'],
-  items: {},
-  linkPath: '',
+  titles: PropTypes.objectOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  linkPath: PropTypes.string.isRequired,
 };

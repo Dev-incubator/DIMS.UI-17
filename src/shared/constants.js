@@ -33,11 +33,44 @@ export const BUTTONS_TYPES = {
 };
 
 export const TABLE_TITLES = {
-  members: ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Actions'],
-  currentTasks: ['#', 'Task name', 'Start date', 'Deadline', 'Status', 'Actions'],
-  allTasks: ['#', 'Task name', 'Description', 'Start date', 'Deadline', 'Actions'],
-  progress: ['#', 'Task name', 'Task note', 'Date'],
-  track: ['#', 'Task', 'Note', 'Date', 'Actions'],
+  allTasks: {
+    id: '#',
+    name: 'Task name',
+    direction: 'Direction',
+    startDate: 'Start date',
+    deadlineDate: 'Deadline',
+    actions: 'Actions',
+  },
+  track: {
+    id: '#',
+    name: 'Task',
+    node: 'Node',
+    date: 'Date',
+    actins: 'Actions',
+  },
+  members: {
+    id: '#',
+    name: 'Full name',
+    direction: 'Direction',
+    education: 'Education',
+    startDate: 'Start',
+    birthDate: 'Age',
+    actions: 'Actions',
+  },
+  currentTasks: {
+    id: '#',
+    name: 'Task name',
+    startDate: 'Start date',
+    deadlineDate: 'Deadline',
+    status: 'Status',
+    actions: 'Actions',
+  },
+  progress: {
+    id: '#',
+    name: 'Task name',
+    node: 'Task note',
+    date: 'Date',
+  },
 };
 
 export const USER_ROLES = {

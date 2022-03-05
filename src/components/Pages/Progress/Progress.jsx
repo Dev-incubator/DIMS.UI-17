@@ -1,9 +1,9 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import { getTracks } from '../../../mockApi/getData';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES } from '../../../shared/constants';
-import { stepBack } from '../../../shared/helpers';
 
 export class Progress extends React.Component {
   constructor(props) {
@@ -13,11 +13,11 @@ export class Progress extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const params = new URLSearchParams(document.location.search);
-    const id = params.get('member');
+  async componentDidMount() {
+    const { match } = this.props;
+    const { id } = match.params;
     if (id) {
-      this.getProgress(id);
+      await this.getProgress(id);
     }
   }
 
@@ -31,9 +31,15 @@ export class Progress extends React.Component {
 
     return (
       <div>
-        <PageTitle title={TITLES_PAGES.progress} buttonTitle={BUTTONS_NAMES.backToList} onClick={stepBack} />
+        <PageTitle title={TITLES_PAGES.progress} buttonTitle={BUTTONS_NAMES.backToList} isBackButton={!!true} />
         <Table items={progress} titles={TABLE_TITLES.progress} />
       </div>
     );
   }
 }
+
+Progress.propTypes = {
+  match: propTypes.shape({
+    params: propTypes.shape({ id: propTypes.string.isRequired }),
+  }).isRequired,
+};
