@@ -29,7 +29,6 @@ export class Track extends React.Component {
 
   render() {
     const { progress } = this.state;
-    console.log(progress);
 
     return (
       <>
