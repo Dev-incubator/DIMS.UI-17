@@ -37,5 +37,5 @@ export function Table({ titles, items }) {
 
 Table.propTypes = {
   titles: PropTypes.objectOf(PropTypes.string).isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  items: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
