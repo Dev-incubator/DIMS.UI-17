@@ -4,17 +4,12 @@ import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getAllFakeTasks } from '../../../mockApi/getData';
 import { createTask } from '../../../shared/helpers';
+import { initialStateTasks } from '../../../shared/store';
 
 export class AllTasks extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tasks: [],
-      pageTitle: '',
-      buttonTitle: '',
-      buttonClick: createTask,
-      tableTitles: {},
-    };
+    this.state = initialStateTasks;
   }
 
   async componentDidMount() {
@@ -33,7 +28,7 @@ export class AllTasks extends React.Component {
 
     return (
       <>
-        <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} isBackButton={!!true} />
+        <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} isBackButton />
         <Table titles={tableTitles} items={tasks} />
       </>
     );

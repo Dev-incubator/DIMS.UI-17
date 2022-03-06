@@ -4,18 +4,12 @@ import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/const
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getMemberTasks } from '../../../mockApi/getData';
-import { createTask } from '../../../shared/helpers';
+import { initialStateTasks } from '../../../shared/store';
 
 export class Tasks extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tasks: [],
-      pageTitle: '',
-      buttonTitle: '',
-      buttonClick: createTask,
-      tableTitles: {},
-    };
+    this.state = initialStateTasks;
   }
 
   async componentDidMount() {
@@ -41,7 +35,7 @@ export class Tasks extends React.Component {
 
     return (
       <>
-        <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} isBackButton={!!true} />
+        <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} isBackButton />
         <Table titles={tableTitles} items={tasks} />
       </>
     );

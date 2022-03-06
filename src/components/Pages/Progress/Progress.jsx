@@ -31,7 +31,7 @@ export class Progress extends React.Component {
 
     return (
       <div>
-        <PageTitle title={TITLES_PAGES.progress} buttonTitle={BUTTONS_NAMES.backToList} isBackButton={!!true} />
+        <PageTitle title={TITLES_PAGES.progress} buttonTitle={BUTTONS_NAMES.backToList} isBackButton />
         <Table items={progress} titles={TABLE_TITLES.progress} />
       </div>
     );
