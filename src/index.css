@@ -11,6 +11,7 @@
   --color-primary: #fff;
   --color-active-link: #2666CF;
   --color-error: red;
+  --color-modal: rgba(0, 0, 0, 0.4);
 
   --text-color-primary: #000;
 
@@ -23,6 +24,8 @@
   --fw-light: 300;
   --fw-medium: 500;
   --fw-bold: 700;
+
+  --transition: 0.3s all;
 }
 * {
   box-sizing: border-box;
