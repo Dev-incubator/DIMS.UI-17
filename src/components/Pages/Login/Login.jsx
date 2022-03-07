@@ -61,10 +61,10 @@ export class Login extends React.Component {
       <>
         <h1 className={style.title}>Sign in to CMS</h1>
         <form action='' className={style.login}>
-          <label htmlFor='email'>
+          <label className={style.login__label} htmlFor='email'>
             Email address
             <input
-              className={emailErrors.length ? style.error : ''}
+              className={emailErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
               name='email'
               onChange={this.handleInput}
               onBlur={this.handleFocus}
@@ -74,10 +74,10 @@ export class Login extends React.Component {
             />
             <p className={style.errorTitle}>{emailErrors.length ? 'login is invalid' : ''}</p>
           </label>
-          <label htmlFor='password'>
+          <label className={style.login__label} htmlFor='password'>
             Password
             <input
-              className={passworErrors.length ? style.error : ''}
+              className={passworErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
               name='password'
               value={password}
               onChange={this.handleInput}

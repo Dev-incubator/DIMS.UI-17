@@ -6,10 +6,10 @@
   padding: 1rem;
   color: var(--color-primary);
 }
-label {
+.login__label {
   padding: 0.5rem 0;
 }
-input {
+.login__input {
   display: flex;
   margin-top: 0.2rem;
   padding: 0.2rem 0.5rem;
@@ -20,7 +20,7 @@ input {
   border: none;
   outline: none;
 }
-input:focus {
+.login__input:focus {
   box-shadow: 0 0 0 3px var(--bg-color-login-button);
 }
 .buttonLogin {

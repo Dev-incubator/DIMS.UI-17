@@ -94,3 +94,7 @@ export const STATUS_KEYS = {
 export const LINKPATH_KEYS = {
   track: 'track',
 };
+
+export const MODALTITLE_KEYS = {
+  createMember: 'Create member',
+};

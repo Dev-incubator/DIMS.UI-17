@@ -1,14 +1,15 @@
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
+import { goBack } from '../../../shared/helpers';
 import style from './Modal.module.css';
 
-export function Modal({ callModal, isActive, children }) {
+export function Modal({ title, children }) {
+  const history = useHistory();
+
   return (
-    <div className={isActive ? `${style.modal} ${style.modalActive}` : style.modal} onClick={callModal} role='none'>
-      <div
-        className={isActive ? `${style.content} ${style.contentActive}` : style.content}
-        onClick={(e) => e.stopPropagation()}
-        role='none'
-      >
+    <div className={style.modal} onClick={goBack(history)} role='none'>
+      <div className={style.content} onClick={(e) => e.stopPropagation()} role='none'>
+        <h1 className={style.title}>{title}</h1>
         {children}
       </div>
     </div>
@@ -17,6 +18,5 @@ export function Modal({ callModal, isActive, children }) {
 
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  callModal: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };
