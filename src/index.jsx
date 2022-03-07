@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App/App';
 import reportWebVitals from './reportWebVitals';
+import './firebase';
 
 ReactDOM.render(
   <React.StrictMode>
