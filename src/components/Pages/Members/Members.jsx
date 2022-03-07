@@ -23,8 +23,6 @@ export class Members extends React.Component {
 
   render() {
     const { members } = this.state;
-    const { match } = this.props;
-    console.log(match);
 
     return (
       <>

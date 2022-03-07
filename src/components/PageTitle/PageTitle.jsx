@@ -1,11 +1,9 @@
-import { useHistory, Link, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import style from './PageTitle.module.css';
 import { Button } from '../Buttons/Button/Button';
-import { goBack } from '../../shared/helpers';
+import style from './PageTitle.module.css';
 
 export function PageTitle({ title, buttonTitle, onClick, isBackButton, popupPath }) {
-  const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
 
@@ -13,7 +11,7 @@ export function PageTitle({ title, buttonTitle, onClick, isBackButton, popupPath
     <div className={style.title}>
       <h1>{title}</h1>
       <Link to={`${pathname}/${popupPath}`}>
-        <Button title={buttonTitle} onClick={isBackButton ? goBack(history) : onClick} />
+        <Button title={buttonTitle} isBackButton={isBackButton} onClick={onClick} />
       </Link>
     </div>
   );

@@ -11,6 +11,7 @@ button {
 }
 .typeSecondary {
   background-color: var(--bg-color-secondery-button);
+  color: var(--text-color-primary);
 }
 .typeEdit {
   background-color: var(--bg-color-edit-button);

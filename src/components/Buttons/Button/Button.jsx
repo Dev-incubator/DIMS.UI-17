@@ -1,17 +1,20 @@
 import PropTypes from 'prop-types';
-// import { Link, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { goBack } from '../../../shared/scripts';
 import style from './Button.module.css';
 
-export function Button({ title, onClick, stylingType, ...restProps }) {
-  // const location = useLocation();
-  // const { pathname } = location;
+export function Button({ title, onClick, stylingType, isBackButton, ...restProps }) {
+  const history = useHistory();
 
   return (
-    // <Link to={`${pathname}/${popupPath}`}>
-    <button className={style[stylingType]} type='button' onClick={onClick} {...restProps}>
+    <button
+      className={style[stylingType]}
+      type='button'
+      onClick={isBackButton ? goBack(history) : onClick}
+      {...restProps}
+    >
       <span>{title}</span>
     </button>
-    // </Link>
   );
 }
 
@@ -19,12 +22,12 @@ Button.propTypes = {
   title: PropTypes.node,
   onClick: PropTypes.func,
   stylingType: PropTypes.string,
-  // popupPath: PropTypes.string,
+  isBackButton: PropTypes.bool,
 };
 
 Button.defaultProps = {
   onClick: () => console.log('Control'),
   title: 'Save',
   stylingType: 'typePrimary',
-  // popupPath: 'popup',
+  isBackButton: false,
 };

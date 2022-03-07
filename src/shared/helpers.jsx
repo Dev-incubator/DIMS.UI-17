@@ -55,11 +55,6 @@ export async function getFakeTasksItems(tasks) {
   return items.map((item) => [item.id, item.name, item.startDate, item.deadlineDate, item.status]);
 }
 
-export function goBack(history) {
-  const stepBack = () => history.goBack();
-
-  return stepBack;
-}
 export function createTask() {
   console.log('show modal');
 }

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { goBack } from '../../../shared/helpers';
+import { goBack } from '../../../shared/scripts';
 import style from './Modal.module.css';
 
 export function Modal({ title, children }) {
