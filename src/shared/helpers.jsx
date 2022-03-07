@@ -1,8 +1,8 @@
 import { ButtonsAdmin } from '../components/Buttons/ButtonsAdmin/ButtonsAdmin';
 import { ButtonsStatusUpdate } from '../components/Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 
-export async function filterMembers(items) {
-  const users = await items;
+export function filterMembers(items) {
+  const users = items;
 
   return users.map((item) => ({
     ...item,
@@ -11,8 +11,8 @@ export async function filterMembers(items) {
   }));
 }
 
-export async function filterProgress(items) {
-  const traks = await items;
+export function filterProgress(items) {
+  const traks = items;
   const allTraks = traks.map((item) => {
     const row = item.track.map((track) => {
       return { id: item.id, name: item.name, node: track.node, date: track.date };
@@ -25,8 +25,8 @@ export async function filterProgress(items) {
   return rows;
 }
 
-export async function filterCurrentTasks(items) {
-  const tasks = await items;
+export function filterCurrentTasks(items) {
+  const tasks = items;
 
   return tasks.map((item) => ({
     ...item,
@@ -34,8 +34,8 @@ export async function filterCurrentTasks(items) {
   }));
 }
 
-export async function getFakeTasksItems(tasks) {
-  const items = await tasks;
+export function getFakeTasksItems(tasks) {
+  const items = tasks;
 
   return items.map((item) => [item.id, item.name, item.startDate, item.deadlineDate, item.status]);
 }

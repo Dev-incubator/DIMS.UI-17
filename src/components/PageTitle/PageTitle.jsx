@@ -2,7 +2,6 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import style from './PageTitle.module.css';
 import { Button } from '../Buttons/Button/Button';
-import { goBack } from '../../shared/helpers';
 
 export function PageTitle({ title, buttonTitle, onClick, isBackButton }) {
   const history = useHistory();
@@ -10,8 +9,16 @@ export function PageTitle({ title, buttonTitle, onClick, isBackButton }) {
   return (
     <div className={style.title}>
       <h1>{title}</h1>
-
-      <Button title={buttonTitle} onClick={isBackButton ? goBack(history) : onClick} />
+      <Button
+        title={buttonTitle}
+        onClick={
+          isBackButton
+            ? () => {
+                history.goBack();
+              }
+            : onClick
+        }
+      />
     </div>
   );
 }

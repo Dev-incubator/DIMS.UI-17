@@ -2,13 +2,11 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
 export function Table({ titles, items }) {
-  const titlesTable = Object.values(titles);
-
   return (
     <table>
       <thead>
         <tr>
-          {titlesTable.map((item) => (
+          {Object.values(titles).map((item) => (
             <th key={item}>{item}</th>
           ))}
         </tr>

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import noop from '../../../shared/noop';
 import style from './Button.module.css';
 
 export function Button({ title, onClick, stylingType, ...restProps }) {
@@ -16,7 +17,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  onClick: () => console.log('Control'),
+  onClick: noop,
   title: 'Save',
   stylingType: 'typePrimary',
 };

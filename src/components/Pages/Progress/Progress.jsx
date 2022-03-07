@@ -11,9 +11,11 @@ export class Progress extends React.Component {
     this.state = {
       progress: [],
     };
+    this.isComponentMounted = false;
   }
 
   async componentDidMount() {
+    this.isComponentMounted = true;
     const { match } = this.props;
     const { id } = match.params;
     if (id) {
@@ -21,9 +23,15 @@ export class Progress extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.isComponentMounted = false;
+  }
+
   async getProgress(id) {
     const progress = await getTraks(id);
-    this.setState({ progress });
+    if (this.isComponentMounted) {
+      this.setState({ progress });
+    }
   }
 
   render() {
@@ -31,7 +39,7 @@ export class Progress extends React.Component {
 
     return (
       <div>
-        <PageTitle title={TITLES_PAGES.progress} buttonTitle={BUTTONS_NAMES.backToList} isBackButton={!!true} />
+        <PageTitle title={TITLES_PAGES.progress} buttonTitle={BUTTONS_NAMES.backToList} isBackButton />
         <Table items={progress} titles={TABLE_TITLES.progress} />
       </div>
     );

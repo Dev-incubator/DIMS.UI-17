@@ -31,7 +31,7 @@ export class Tasks extends React.Component {
 
     return (
       <div>
-        <PageTitle title={TITLES_PAGES.currentTasks} buttonTitle={BUTTONS_NAMES.backToList} isBackButton={!!true} />
+        <PageTitle title={TITLES_PAGES.currentTasks} buttonTitle={BUTTONS_NAMES.backToList} isBackButton />
         <Table titles={TABLE_TITLES.currentTasks} items={tasks} />
       </div>
     );
