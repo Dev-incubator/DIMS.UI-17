@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import { createTask } from '../../../shared/helpers';
 import { TITLES_PAGES, BUTTONS_NAMES, TABLE_TITLES, PAGES_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
@@ -15,8 +15,13 @@ export class Track extends React.Component {
   }
 
   async componentDidMount() {
-    const { match } = this.props;
-    const { id } = match.params;
+    const {
+      params: {
+        match: {
+          params: { id },
+        },
+      },
+    } = this.props;
     if (id) {
       this.getProgress(id);
     }
@@ -40,7 +45,7 @@ export class Track extends React.Component {
 }
 
 Track.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
+  params: propTypes.shape({
+    match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }),
   }).isRequired,
 };

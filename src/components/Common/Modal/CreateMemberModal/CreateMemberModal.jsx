@@ -1,7 +1,8 @@
 import React from 'react';
 import { initialStateCreatMember } from '../../../../shared/store';
-import { BUTTONS_TYPES, BUTTONS_NAMES } from '../../../../shared/constants';
+import { BUTTONS_TYPES, BUTTONS_NAMES, DIRECTIONS_KEYS, SEX_KEYS, USER_ROLES } from '../../../../shared/constants';
 import { Button } from '../../../Buttons/Button/Button';
+import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateMemberModal.module.css';
 
 export class CreateMemberModal extends React.Component {
@@ -44,108 +45,54 @@ export class CreateMemberModal extends React.Component {
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
         <div className={style.section}>
-          <label className={style.section__item} htmlFor='name'>
-            Name:
-            <input onChange={this.handleChange} value={name} type='text' name='name' id='name' />
-          </label>
-          <label className={style.section__item} htmlFor='lastName'>
-            Last name:
-            <input onChange={this.handleChange} value={lastName} type='text' name='lastName' id='lastName' />
-          </label>
-          <label className={style.section__item} htmlFor='email'>
-            Email:
-            <input onChange={this.handleChange} value={email} type='text' name='email' id='email' />
-          </label>
-          <label className={style.section__item} htmlFor='direction'>
-            Direction:
-            <select name='direction' onChange={this.handleChange} value={direction}>
-              <option value='java'>Java</option>
-              <option value='frontend'>Frontend</option>
-            </select>
-          </label>
-          <label className={style.section__item} htmlFor='sex'>
-            Sex:
-            <select name='sex' onChange={this.handleChange} value={sex}>
-              <option value='male'>Male</option>
-              <option value='woman'>Woman</option>
-            </select>
-          </label>
-          <label className={style.section__item} htmlFor='role'>
-            Role:
-            <select name='role' onChange={this.handleChange} value={role}>
-              <option value='member'>member</option>
-              <option value='mentor'>Mentor</option>
-              <option value='admin'>Admin</option>
-            </select>
-          </label>
-          <label className={style.section__item} htmlFor='password'>
-            Password:
-            <input onChange={this.handleChange} value={password} type='text' name='password' id='password' />
-          </label>
-          <label className={style.section__item} htmlFor='confirmPassword'>
-            Confirm password:
-            <input
-              onChange={this.handleChange}
-              value={confirmPassword}
-              type='text'
-              name='confirmPassword'
-              id='confirmPassword'
-            />
-          </label>
+          <ModalRow onChange={this.handleChange} value={name} name='name' title='Name:' />
+          <ModalRow onChange={this.handleChange} value={lastName} name='lastName' title='Last name:' />
+          <ModalRow onChange={this.handleChange} value={email} name='email' title='Email:' />
+          <ModalRow
+            onChange={this.handleChange}
+            value={direction}
+            type='select'
+            name='direction'
+            title='Direction:'
+            options={DIRECTIONS_KEYS}
+          />
+          <ModalRow onChange={this.handleChange} value={sex} type='select' name='sex' title='Sex:' options={SEX_KEYS} />
+          <ModalRow
+            onChange={this.handleChange}
+            value={role}
+            type='select'
+            name='role'
+            title='Role:'
+            options={USER_ROLES}
+          />
+          <ModalRow onChange={this.handleChange} value={password} name='password' title='Password:' />
+          <ModalRow
+            onChange={this.handleChange}
+            value={confirmPassword}
+            name='confirmPassword'
+            title='Confirm password:'
+          />
         </div>
         <div className={style.section}>
-          <label className={style.section__item} htmlFor='birthDate'>
-            Date of Birth:
-            <input
-              onChange={this.handleChange}
-              value={birthDate}
-              placeholder='yyyy-mm-dd'
-              type='date'
-              name='birthDate'
-              id='birthDate'
-            />
-          </label>
-          <label className={style.section__item} htmlFor='address'>
-            Address:
-            <input onChange={this.handleChange} value={address} type='text' name='address' id='address' />
-          </label>
-          <label className={style.section__item} htmlFor='phone'>
-            Mobile phone:
-            <input onChange={this.handleChange} value={phone} type='text' name='phone' id='phone' />
-          </label>
-          <label className={style.section__item} htmlFor='skype'>
-            Skype:
-            <input onChange={this.handleChange} value={skype} type='text' name='skype' id='skype' />
-          </label>
-          <label className={style.section__item} htmlFor='startDate'>
-            Start date:
-            <input
-              onChange={this.handleChange}
-              value={startDate}
-              placeholder='yyyy-mm-dd'
-              type='date'
-              name='startDate'
-              id='startDate'
-            />
-          </label>
-          <label className={style.section__item} htmlFor='education'>
-            Education:
-            <input onChange={this.handleChange} value={education} type='text' name='education' id='education' />
-          </label>
-          <label className={style.section__item} htmlFor='universityAverageAcore'>
-            University average score:
-            <input
-              onChange={this.handleChange}
-              value={universityAverageAcore}
-              type='text'
-              name='universityAverageAcore'
-              id='universityAverageAcore'
-            />
-          </label>
-          <label className={style.section__item} htmlFor='mathScore'>
-            Math score:
-            <input onChange={this.handleChange} value={mathScore} type='text' name='mathScore' id='mathScore' />
-          </label>
+          <ModalRow
+            onChange={this.handleChange}
+            value={birthDate}
+            type='date'
+            name='birthDate'
+            title='Date of Birth:'
+          />
+          <ModalRow onChange={this.handleChange} value={address} name='address' title='Address:' />
+          <ModalRow onChange={this.handleChange} value={phone} name='phone' title='Mobile phone:' />
+          <ModalRow onChange={this.handleChange} value={skype} name='skype' title='Skype:' />
+          <ModalRow onChange={this.handleChange} value={startDate} type='date' name='startDate' title='Start date:' />
+          <ModalRow onChange={this.handleChange} value={education} name='education' title='Education:' />
+          <ModalRow
+            onChange={this.handleChange}
+            value={universityAverageAcore}
+            name='universityAverageAcore'
+            title='University average score:'
+          />
+          <ModalRow onChange={this.handleChange} value={mathScore} name='mathScore' title='Math score:' />
         </div>
         <div className={style.section__buttons}>
           <Button />

@@ -18,6 +18,7 @@ export class LoginForm extends React.Component {
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
+    this.validateField(name, value);
   };
 
   handleSubmit = (e) => {

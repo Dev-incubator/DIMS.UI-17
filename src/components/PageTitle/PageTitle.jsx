@@ -23,10 +23,11 @@ PageTitle.propTypes = {
   buttonTitle: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   isBackButton: PropTypes.bool,
-  popupPath: PropTypes.string.isRequired,
+  popupPath: PropTypes.string,
 };
 
 PageTitle.defaultProps = {
   onClick: noop,
   isBackButton: false,
+  popupPath: '',
 };

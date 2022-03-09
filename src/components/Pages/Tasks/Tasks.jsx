@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
@@ -13,8 +13,13 @@ export class Tasks extends React.Component {
   }
 
   async componentDidMount() {
-    const { match } = this.props;
-    const { id } = match.params;
+    const {
+      params: {
+        match: {
+          params: { id },
+        },
+      },
+    } = this.props;
     if (id) {
       await this.getProgress(id);
       this.setState({
@@ -43,7 +48,7 @@ export class Tasks extends React.Component {
 }
 
 Tasks.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
+  params: propTypes.shape({
+    match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }),
   }).isRequired,
 };

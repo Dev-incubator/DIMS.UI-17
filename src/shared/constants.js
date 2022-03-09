@@ -1,8 +1,11 @@
-export const sex = {
+export const SEX_KEYS = {
   man: 'Male',
   woman: 'Women',
 };
-
+export const DIRECTIONS_KEYS = {
+  java: 'Java',
+  frontend: 'Frontend',
+};
 export const TITLES_PAGES = {
   members: 'Members',
   allTasks: 'All Tasks',
@@ -71,9 +74,9 @@ export const TABLE_TITLES = {
 };
 
 export const USER_ROLES = {
-  admin: 'admin',
-  mentor: 'mentor',
-  member: 'member',
+  admin: 'Admin',
+  mentor: 'Mentor',
+  member: 'Member',
 };
 
 export const PAGES_KEYS = {

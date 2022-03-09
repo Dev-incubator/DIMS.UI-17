@@ -1,5 +1,4 @@
 import React from 'react';
-import propTypes from 'prop-types';
 import { Route } from 'react-router-dom';
 import { getFakeUsers } from '../../../mockApi/getData';
 import { PageTitle } from '../../PageTitle/PageTitle';
@@ -40,9 +39,3 @@ export class Members extends React.Component {
     );
   }
 }
-
-Members.propTypes = {
-  match: propTypes.shape({
-    params: propTypes.shape({}),
-  }).isRequired,
-};

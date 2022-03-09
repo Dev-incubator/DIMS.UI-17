@@ -1,8 +1,10 @@
+import propTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import style from './Header.module.css';
 import logo from '../../../assets/img/logo.png';
+import { Logout } from '../../Pages/Logout/Logout';
 
-export function Header() {
+export function Header({ userEmail, handleLogout }) {
   return (
     <header className={style.header}>
       <div className={style.contentWrapper}>
@@ -27,7 +29,7 @@ export function Header() {
           <ul>
             <li>
               <NavLink to='/login' activeClassName='selected'>
-                Login
+                {userEmail ? <Logout handleLogout={handleLogout} /> : `Login`}
               </NavLink>
             </li>
           </ul>
@@ -36,3 +38,12 @@ export function Header() {
     </header>
   );
 }
+
+Header.propTypes = {
+  userEmail: propTypes.string,
+  handleLogout: propTypes.func.isRequired,
+};
+
+Header.defaultProps = {
+  userEmail: '',
+};
