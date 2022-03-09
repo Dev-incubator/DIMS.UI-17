@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import style from './Table.module.css';
 
-export function Table({ titles, items }) {
+export function Table({ titles, items, linkPath }) {
   return (
     <table className={style.table}>
       <thead>
@@ -21,7 +21,7 @@ export function Table({ titles, items }) {
             <tr key={item + index.toString()}>
               <td>{index}</td>
               <td>
-                <NavLink to={`track/${item.id}`}>{item.name}</NavLink>
+                <NavLink to={`${linkPath}/${item.id}`}>{item.name}</NavLink>
               </td>
               {keys.map((elem, indexElem) => (
                 <td key={item[elem] + indexElem.toString()}>{item[elem]}</td>
@@ -37,4 +37,9 @@ export function Table({ titles, items }) {
 Table.propTypes = {
   titles: PropTypes.objectOf(PropTypes.string).isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
+  linkPath: PropTypes.string,
+};
+
+Table.defaultProps = {
+  linkPath: '/',
 };

@@ -1,6 +1,3 @@
-export const baseURL = 'https://json-server-for-dims.herokuapp.com';
-export const baseLocalURL = 'http://localhost:3001';
-
 export const sex = {
   man: 'Male',
   woman: 'Women',
@@ -93,6 +90,7 @@ export const STATUS_KEYS = {
 
 export const LINKPATH_KEYS = {
   track: 'track',
+  progress: 'progress',
 };
 
 export const MODALTITLE_KEYS = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, PAGES_KEYS } from '../../../shared/constants';
+import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, PAGES_KEYS, LINKPATH_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getAllFakeTasks } from '../../../mockApi/getData';
@@ -29,7 +29,7 @@ export class AllTasks extends React.Component {
     return (
       <>
         <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} isBackButton />
-        <Table titles={tableTitles} items={tasks} />
+        <Table titles={tableTitles} items={tasks} linkPath={LINKPATH_KEYS.progress} />
       </>
     );
   }
