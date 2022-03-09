@@ -24,7 +24,8 @@
     "cm": "cz",
     "prepare": "husky install",
     "preversion": "yarn install --frozen-lockfile && yarn lint && yarn test:ci",
-    "postpublish": "git push && git push --tags"
+    "postpublish": "git push && git push --tags",
+    "server": "npx json-server --watch public/bd.json --port=3001"
   },
   "eslintConfig": {
     "plugins": [
@@ -99,6 +100,7 @@
     "@testing-library/react": "12.1.2",
     "@testing-library/user-event": "13.5.0",
     "eslint": "8.8.0",
+    "firebase": "^9.6.6",
     "node-sass": "7.0.1",
     "prop-types": "15.8.1",
     "react": "17.0.2",
@@ -117,6 +119,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-prettier": "4.0.0",
     "husky": "7.0.4",
+    "json-server": "^0.17.0",
     "lint-staged": "12.3.3",
     "prettier": "2.5.1"
   },

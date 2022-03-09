@@ -1,17 +1,23 @@
 import PropTypes from 'prop-types';
 import noop from '../../../shared/noop';
+import style from './Button.module.css';
 
-export const Button = ({ children, onClick, ...restProps }) => (
-  <button type='button' onClick={onClick} {...restProps}>
-    {children}
-  </button>
-);
+export function Button({ title, onClick, stylingType, ...restProps }) {
+  return (
+    <button className={style[stylingType]} type='button' onClick={onClick} {...restProps}>
+      {title}
+    </button>
+  );
+}
 
 Button.propTypes = {
+  title: PropTypes.node,
   onClick: PropTypes.func,
-  children: PropTypes.node,
+  stylingType: PropTypes.string,
 };
+
 Button.defaultProps = {
   onClick: noop,
-  children: null,
+  title: 'Save',
+  stylingType: 'typePrimary',
 };

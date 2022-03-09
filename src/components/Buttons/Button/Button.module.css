@@ -1,0 +1,23 @@
+button {
+  font-size: 16px;
+  color: var(--color-primary);
+  font-weight: 400;
+  border-radius: 4px;
+  width: 90px;
+  height: 40px;
+}
+.typePrimary {
+  background-color: var(--bg-color-primary-button);
+}
+.typeSecondary {
+  background-color: var(--bg-color-secondery-button);
+}
+.typeEdit {
+  background-color: var(--bg-color-edit-button);
+}
+.typeDelete {
+  background-color: var(--bg-color-delete-button);
+}
+.typeSave {
+  background-color: var(--bg-color-save-button);
+}

@@ -1,5 +1,42 @@
 @import-normalize;
 
+:root {
+  --bg-color-primary-button: #0275d8;
+  --bg-color-secondery-button: #fff;
+  --bg-color-edit-button: #f0ad4e;
+  --bg-color-delete-button: #d9534f;
+  --bg-color-save-button: #28a745;
+  --color-primary: #fff;
+  --bg-color-secondery: #e5e5e5;
+
+  --width-content: 800px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+li {
+  list-style-type: none;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  text-align: center;
+}
+table {
+  width: 100%;
+}
+thead {
+  background-color: var(--bg-color-secondery);
+}
+tbody {
+  background-color: var(--color-primary);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',

@@ -1,19 +1,21 @@
-import { useEffect } from 'react';
-import { appTitle } from '../config';
-import logo from '../icons/logo.svg';
-import classes from './App.module.css';
+import { Switch, Route } from 'react-router-dom';
+import { Home } from '../components/Home/Home';
+import { Members } from '../components/Pages/Members/Members';
+import { Tasks } from '../components/Pages/Tasks/Tasks';
+import { Progress } from '../components/Pages/Progress/Progress';
+import style from './App.module.css';
 
 export const App = () => {
-  useEffect(() => {
-    document.title = appTitle;
-  }, []);
-
   return (
-    <div className={classes.App}>
-      <header className={classes.Header}>
-        <img src={logo} className={classes.Logo} alt='logo' />
-        <h1 className={classes.Text}>Learn React with Dev Incubator</h1>
-      </header>
+    <div className={style.content}>
+      <Switch>
+        <Route exact path='/'>
+          <Home />
+        </Route>
+        <Route path='/members' component={Members} />
+        <Route path='/progress/:id' component={Progress} />
+        <Route path='/tasks/:id' component={Tasks} />
+      </Switch>
     </div>
   );
 };
