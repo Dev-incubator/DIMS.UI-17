@@ -20,12 +20,11 @@ export function PageTitle({ title, buttonTitle, onClick, isBackButton, popupPath
 PageTitle.propTypes = {
   title: PropTypes.string.isRequired,
   buttonTitle: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
+  onClick: PropTypes.func.isRequired,
   isBackButton: PropTypes.bool,
   popupPath: PropTypes.string.isRequired,
 };
 
 PageTitle.defaultProps = {
-  onClick: () => console.log('Control button'),
   isBackButton: false,
 };

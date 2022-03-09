@@ -11,19 +11,27 @@ export class Progress extends React.Component {
     this.state = {
       progress: [],
     };
+    this.isComponentMounted = false;
   }
 
   async componentDidMount() {
     const { match } = this.props;
     const { id } = match.params;
+    this.isComponentMounted = true;
     if (id) {
       await this.getProgress(id);
     }
   }
 
+  componentWillUnmount() {
+    this.isComponentMounted = false;
+  }
+
   async getProgress(id) {
-    const progress = await getTracks(id);
-    this.setState({ progress });
+    if (this.isComponentMounted) {
+      const progress = await getTracks(id);
+      this.setState({ progress });
+    }
   }
 
   render() {

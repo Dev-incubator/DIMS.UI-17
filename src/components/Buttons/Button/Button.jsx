@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import { goBack } from '../../../shared/scripts';
+import noop from '../../../shared/noop';
 import style from './Button.module.css';
 
 export function Button({ title, onClick, stylingType, isBackButton, ...restProps }) {
@@ -10,7 +10,7 @@ export function Button({ title, onClick, stylingType, isBackButton, ...restProps
     <button
       className={style[stylingType]}
       type='button'
-      onClick={isBackButton ? goBack(history) : onClick}
+      onClick={isBackButton ? () => history.goBack() : onClick}
       {...restProps}
     >
       <span>{title}</span>
@@ -26,7 +26,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  onClick: () => console.log('Control'),
+  onClick: noop,
   title: 'Save',
   stylingType: 'typePrimary',
   isBackButton: false,

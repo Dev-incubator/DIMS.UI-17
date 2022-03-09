@@ -2,8 +2,8 @@ import { ButtonsTrack } from '../components/Buttons/ButtonsTrack/ButtonsTrack';
 import { ButtonsAdmin } from '../components/Buttons/ButtonsAdmin/ButtonsAdmin';
 import { ButtonsStatusUpdate } from '../components/Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 
-export async function filterMembers(items) {
-  const users = await items;
+export function filterMembers(items) {
+  const users = items;
 
   return users.map((item) => ({
     ...item,
@@ -13,8 +13,7 @@ export async function filterMembers(items) {
 }
 
 export async function filterProgress(items, isTrackPage) {
-  const traks = await items;
-  const allTraks = traks.map((item) => {
+  const allTraks = items.map((item) => {
     const row = item.track.map((track) => {
       return {
         id: item.id,
@@ -32,25 +31,21 @@ export async function filterProgress(items, isTrackPage) {
 }
 
 export async function filterAllTasks(items) {
-  const tasks = await items;
-
-  return tasks.map((item) => ({
+  return items.map((item) => ({
     ...item,
     actions: <ButtonsTrack />,
   }));
 }
 
 export async function filterCurrentTasks(items) {
-  const tasks = await items;
-
-  return tasks.map((item) => ({
+  return items.map((item) => ({
     ...item,
     actions: <ButtonsStatusUpdate />,
   }));
 }
 
-export async function getFakeTasksItems(tasks) {
-  const items = await tasks;
+export function getFakeTasksItems(tasks) {
+  const items = tasks;
 
   return items.map((item) => [item.id, item.name, item.startDate, item.deadlineDate, item.status]);
 }

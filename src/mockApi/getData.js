@@ -1,5 +1,6 @@
-import { baseURL } from '../shared/constants';
 import { filterCurrentTasks, filterProgress, filterAllTasks, filterMembers } from '../shared/helpers';
+
+const baseURL = process.env.REACT_APP_BASE_URL;
 
 export async function getFakeUsers() {
   const response = await fetch(`${baseURL}/users`);
@@ -32,8 +33,7 @@ export async function getMemberTasks(id) {
 }
 
 export async function getTracks(userId, isTrackPage) {
-  const memberId = await userId;
-  const response = await fetch(`${baseURL}/users/?id=${memberId}`);
+  const response = await fetch(`${baseURL}/users/?id=${userId}`);
   const user = await response.json();
   const [{ tasksId }] = user;
 

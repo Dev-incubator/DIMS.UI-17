@@ -3,13 +3,11 @@ import { NavLink } from 'react-router-dom';
 import style from './Table.module.css';
 
 export function Table({ titles, items }) {
-  const titlesTable = Object.values(titles);
-
   return (
     <table className={style.table}>
       <thead>
         <tr>
-          {titlesTable.map((item) => (
+          {Object.values(titles).map((item) => (
             <th key={item}>{item}</th>
           ))}
         </tr>
