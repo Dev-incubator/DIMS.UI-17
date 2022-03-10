@@ -4,6 +4,7 @@ import { BUTTONS_TYPES, BUTTONS_NAMES, DIRECTIONS_KEYS, SEX_KEYS, USER_ROLES } f
 import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateMemberModal.module.css';
+import { createUser } from '../../../../services/users-services';
 
 export class CreateMemberModal extends React.Component {
   constructor(props) {
@@ -20,6 +21,10 @@ export class CreateMemberModal extends React.Component {
     e.preventDefault();
     const { name } = this.state;
     console.log(name);
+  };
+
+  handleCreateUser = () => {
+    createUser(this.state);
   };
 
   render() {
@@ -95,7 +100,7 @@ export class CreateMemberModal extends React.Component {
           <ModalRow onChange={this.handleChange} value={mathScore} name='mathScore' title='Math score:' />
         </div>
         <div className={style.section__buttons}>
-          <Button />
+          <Button onClick={this.handleCreateUser} />
           <Button isBackButton stylingType={BUTTONS_TYPES.typeSecondary} title={BUTTONS_NAMES.backToList} />
         </div>
       </form>

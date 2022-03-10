@@ -14,27 +14,29 @@ export class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
+      role: '',
       isAuth: false,
-      userEmail: '',
     };
   }
 
-  setAuth = (userEmail) => {
-    if (userEmail) {
-      this.setState({ userEmail, isAuth: true });
+  setAuth = (role, name) => {
+    console.log(role, name);
+    if (role) {
+      this.setState({ name, role, isAuth: true });
     }
   };
 
   logout = () => {
-    this.setState({ userEmail: '', isAuth: false });
+    this.setState({ name: '', isAuth: false });
   };
 
   render() {
-    const { isAuth, userEmail } = this.state;
+    const { isAuth, name, role } = this.state;
 
     return (
       <>
-        <Header userEmail={userEmail} handleLogout={this.logout} />
+        <Header isAuth={isAuth} userName={name} role={role} handleLogout={this.logout} />
         <main>
           <Switch>
             <Route exact path='/' component={Home} />
@@ -55,11 +57,7 @@ export class App extends React.Component {
               path='/tasks/track/:id'
               render={(params) => (!isAuth ? <Redirect to='/login' /> : <Track params={params} />)}
             />
-            <Route
-              exact
-              path='/login'
-              render={() => <Login handleAuth={this.setAuth} isAuth={isAuth} userEmail={userEmail} />}
-            />
+            <Route exact path='/login' render={() => <Login handleAuth={this.setAuth} isAuth={isAuth} />} />
           </Switch>
         </main>
         <Footer />

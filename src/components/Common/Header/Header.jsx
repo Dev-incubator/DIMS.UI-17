@@ -4,7 +4,7 @@ import style from './Header.module.css';
 import logo from '../../../assets/img/logo.png';
 import { Logout } from '../../Pages/Logout/Logout';
 
-export function Header({ userEmail, handleLogout }) {
+export function Header({ userName, handleLogout, role }) {
   return (
     <header className={style.header}>
       <div className={style.contentWrapper}>
@@ -29,7 +29,7 @@ export function Header({ userEmail, handleLogout }) {
           <ul>
             <li>
               <NavLink to='/login' activeClassName='selected'>
-                {userEmail ? <Logout handleLogout={handleLogout} /> : `Login`}
+                {userName ? <Logout userName={userName} role={role} handleLogout={handleLogout} /> : `Login`}
               </NavLink>
             </li>
           </ul>
@@ -40,10 +40,12 @@ export function Header({ userEmail, handleLogout }) {
 }
 
 Header.propTypes = {
-  userEmail: propTypes.string,
+  userName: propTypes.string,
   handleLogout: propTypes.func.isRequired,
+  role: propTypes.string,
 };
 
 Header.defaultProps = {
-  userEmail: '',
+  userName: '',
+  role: '',
 };
