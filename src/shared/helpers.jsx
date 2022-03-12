@@ -1,4 +1,4 @@
-import { ButtonsTrack } from '../components/Buttons/ButtonsTrack/ButtonsTrack';
+// import { ButtonsTask } from '../components/Buttons/ButtonsTask/ButtonsTask';
 import { ButtonsStatusUpdate } from '../components/Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 
 export function filterMembers(items) {
@@ -23,13 +23,12 @@ export async function filterProgress(items, isTrackPage) {
   });
   const rows = allTraks.flat();
 
-  return isTrackPage ? rows.map((item) => ({ ...item, actions: <ButtonsTrack id={item.id} /> })) : rows;
+  return isTrackPage ? rows.map((item) => ({ ...item, actions: <ButtonsStatusUpdate id={item.id} /> })) : rows;
 }
 
-export async function filterAllTasks(items) {
+export function filterAllTasks(items) {
   return items.map((item) => ({
     ...item,
-    actions: <ButtonsTrack />,
   }));
 }
 

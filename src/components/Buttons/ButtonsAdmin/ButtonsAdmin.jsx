@@ -62,7 +62,7 @@ export class ButtonsAdminMemberPage extends React.Component {
         <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={this.toggleModalDelete} />
         {isDeleteModalOpen && (
           <Modal title='Delete member' isModalOpen={isDeleteModalOpen} handleToggleModal={this.toggleModalDelete}>
-            <DeleteModal item='member' handleDeleteUser={this.deleteUser} handleToggleModal={this.toggleModalDelete} />
+            <DeleteModal item='member' handleDelete={this.deleteUser} handleToggleModal={this.toggleModalDelete} />
           </Modal>
         )}
         {isEditModalOpen && (

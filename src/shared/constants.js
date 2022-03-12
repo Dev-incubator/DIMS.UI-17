@@ -31,7 +31,7 @@ export const TABLE_TITLES = {
   allTasks: {
     id: '#',
     name: 'Task name',
-    direction: 'Direction',
+    description: 'Description',
     startDate: 'Start date',
     deadlineDate: 'Deadline',
     actions: 'Actions',
@@ -89,10 +89,12 @@ export const STATUS_KEYS = {
 export const LINKPATH_KEYS = {
   track: 'track',
   progress: 'progress',
+  tasks: 'tasks',
 };
 
 export const MODALTITLE_KEYS = {
   createMember: 'Create member',
+  createTask: 'Create task',
 };
 
 export const USER_FIELDS_KEYS = [
@@ -112,4 +114,11 @@ export const USER_FIELDS_KEYS = [
   { name: 'education', title: 'Education:', type: 'text', required: true },
   { name: 'universityAverageAcore', title: 'University average score:', type: 'text', required: true },
   { name: 'mathScore', title: 'Math score:', type: 'text', required: true },
+];
+
+export const TASK_FIELDS_KEYS = [
+  { name: 'name', title: 'Name:', type: 'text', required: true },
+  { name: 'description', title: 'Description:', type: 'text', required: false },
+  { name: 'startDate', title: 'Start date:', type: 'date', required: true },
+  { name: 'deadlineDate', title: 'Deadline:', type: 'date', required: true },
 ];

@@ -1,0 +1,9 @@
+.section__fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.section__buttons {
+  display: flex;
+  justify-content: center;
+}

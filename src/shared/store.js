@@ -1,11 +1,9 @@
-import { createTask } from './helpers';
-
 export const initialStateTasks = {
-  tasks: [],
-  pageTitle: '',
-  buttonTitle: '',
-  buttonClick: createTask,
-  tableTitles: {},
+  name: '',
+  description: '',
+  startDate: '',
+  deadlineDate: '',
+  status: '',
 };
 
 export const initialStateCreatMember = {

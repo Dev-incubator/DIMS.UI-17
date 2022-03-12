@@ -1,24 +1,22 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { initialStateCreatMember } from '../../../../shared/store';
-import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../../shared/constants';
+import { initialStateTasks } from '../../../../shared/store';
+import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../../shared/constants';
 import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
-import style from './CreateMemberModal.module.css';
-import { createUser } from '../../../../services/auth-services';
-import { getAllUsers } from '../../../../services/users-services ';
+import style from './CreateTaskModal.module.css';
 import noop from '../../../../shared/noop';
+import { createTask, getAllTasks } from '../../../../services/tasks-services';
 
-export class CreateMemberModal extends React.Component {
+export class CreateTaskModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = initialStateCreatMember;
+    this.state = initialStateTasks;
   }
 
   async componentDidMount() {
-    const { userData } = this.props;
-    console.log(userData);
-    this.setState(userData);
+    const { taskData } = this.props;
+    this.setState(taskData);
   }
 
   handleChange = ({ target }) => {
@@ -28,12 +26,12 @@ export class CreateMemberModal extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { handleSetUsers, handleToggleModal } = this.props;
-    const isRegistered = await createUser(this.state);
-    if (isRegistered) {
+    const { handleSetTasks, handleToggleModal } = this.props;
+    const isAdded = await createTask(this.state);
+    if (isAdded) {
       handleToggleModal();
-      const updatedUsers = await getAllUsers();
-      handleSetUsers(updatedUsers);
+      const updatedTasks = await getAllTasks();
+      handleSetTasks(updatedTasks);
     }
   };
 
@@ -43,7 +41,7 @@ export class CreateMemberModal extends React.Component {
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
         <div className={style.section__fields}>
-          {USER_FIELDS_KEYS.map((item) => {
+          {TASK_FIELDS_KEYS.map((item) => {
             const { name, title, type, options, required } = item;
             const { state } = this;
 
@@ -76,15 +74,15 @@ export class CreateMemberModal extends React.Component {
   }
 }
 
-CreateMemberModal.propTypes = {
-  handleSetUsers: propTypes.func,
+CreateTaskModal.propTypes = {
+  handleSetTasks: propTypes.func,
   handleToggleModal: propTypes.func.isRequired,
-  userData: propTypes.shape({}),
+  taskData: propTypes.shape({}),
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
 };
 
-CreateMemberModal.defaultProps = {
-  userData: {},
-  handleSetUsers: noop,
+CreateTaskModal.defaultProps = {
+  taskData: {},
+  handleSetTasks: noop,
   isReadOnlyMode: false,
 };
