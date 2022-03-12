@@ -24,6 +24,13 @@ export async function findUser(uid) {
   return false;
 }
 
+export async function getUserData(uid) {
+  const docRef = doc(db, 'users', uid);
+  const docSnap = await getDoc(docRef);
+
+  return docSnap.data();
+}
+
 async function registerUser({ email, password }) {
   console.log(email, password);
   const auth = getAuth();

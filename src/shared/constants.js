@@ -1,11 +1,6 @@
-export const SEX_KEYS = {
-  man: 'Male',
-  woman: 'Women',
-};
-export const DIRECTIONS_KEYS = {
-  java: 'Java',
-  frontend: 'Frontend',
-};
+export const SEX_OPTIONS_KEYS = ['Male', 'Women'];
+export const DIRECTIONS_OPTIONS_KEYS = ['Java', 'Frontend'];
+export const ROLE_OPTIONS_KEYS = ['Admin', 'Mentor', 'Member'];
 export const TITLES_PAGES = {
   members: 'Members',
   allTasks: 'All Tasks',
@@ -104,9 +99,9 @@ export const USER_FIELDS_KEYS = [
   { name: 'name', title: 'Name:', type: 'text', required: true },
   { name: 'lastName', title: 'Last name:', type: 'text', required: false },
   { name: 'email', title: 'Email:', type: 'text', required: true },
-  { name: 'direction', title: 'Direction:', type: 'select', options: DIRECTIONS_KEYS, required: false },
-  { name: 'sex', title: 'Sex:', type: 'select', options: SEX_KEYS, required: true },
-  { name: 'role', title: 'Role:', type: 'select', options: USER_ROLES, required: true },
+  { name: 'direction', title: 'Direction:', type: 'select', options: DIRECTIONS_OPTIONS_KEYS, required: false },
+  { name: 'sex', title: 'Sex:', type: 'select', options: SEX_OPTIONS_KEYS, required: true },
+  { name: 'role', title: 'Role:', type: 'select', options: ROLE_OPTIONS_KEYS, required: true },
   { name: 'password', title: 'Password:', type: 'password', required: true },
   { name: 'confirmPassword', title: 'Confirm password:', type: 'password', required: true },
   { name: 'birthDate', title: 'Date of Birth:', type: 'date', required: true },

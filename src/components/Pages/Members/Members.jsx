@@ -5,6 +5,7 @@ import { Table } from '../../Table/Table';
 import { Modal } from '../../Common/Modal/Modal';
 import { CreateMemberModal } from '../../Common/Modal/CreateMemberModal/CreateMemberModal';
 import { getAllUsers } from '../../../services/users-services ';
+import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
 
 export class Members extends React.Component {
   constructor(props) {
@@ -34,7 +35,12 @@ export class Members extends React.Component {
     return (
       <>
         <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModal} />
-        <Table titles={TABLE_TITLES.members} items={users} linkPath={LINKPATH_KEYS.track} />
+        <Table
+          titles={TABLE_TITLES.members}
+          items={users}
+          linkPath={LINKPATH_KEYS.track}
+          action={<ButtonsAdminMemberPage handleSetUsers={this.setUsers} />}
+        />
         {isModalOpen && (
           <Modal title={MODALTITLE_KEYS.createMember} isModalOpen={isModalOpen} handleToggleModal={this.toggleModal}>
             <CreateMemberModal handleToggleModal={this.toggleModal} handleSetUsers={this.setUsers} />

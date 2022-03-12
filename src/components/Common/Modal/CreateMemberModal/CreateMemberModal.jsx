@@ -7,11 +7,18 @@ import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateMemberModal.module.css';
 import { createUser } from '../../../../services/auth-services';
 import { getAllUsers } from '../../../../services/users-services ';
+import noop from '../../../../shared/noop';
 
 export class CreateMemberModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialStateCreatMember;
+  }
+
+  async componentDidMount() {
+    const { userData } = this.props;
+    console.log(userData);
+    this.setState(userData);
   }
 
   handleChange = ({ target }) => {
@@ -31,7 +38,7 @@ export class CreateMemberModal extends React.Component {
   };
 
   render() {
-    const { handleToggleModal } = this.props;
+    const { handleToggleModal, isReadOnlyMode } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
@@ -50,12 +57,14 @@ export class CreateMemberModal extends React.Component {
                 type={type}
                 title={title}
                 required={required}
+                isReadOnlyMode={isReadOnlyMode}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          <input type='submit' value='Save' />
+          {!isReadOnlyMode && <input type='submit' value='Save' />}
+
           <Button
             onClick={handleToggleModal}
             stylingType={BUTTONS_TYPES.typeSecondary}
@@ -68,6 +77,13 @@ export class CreateMemberModal extends React.Component {
 }
 
 CreateMemberModal.propTypes = {
-  handleSetUsers: propTypes.func.isRequired,
+  handleSetUsers: propTypes.func,
   handleToggleModal: propTypes.func.isRequired,
+  userData: propTypes.shape({}),
+  isReadOnlyMode: propTypes.bool.isRequired,
+};
+
+CreateMemberModal.defaultProps = {
+  userData: {},
+  handleSetUsers: noop,
 };
