@@ -1,40 +1,27 @@
 import { collection, getDocs, getDoc, doc, setDoc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../firebase';
+import { filterMembers } from '../shared/helpers';
 
 export async function getAllUsers() {
-  //   const docRef = doc(db, 'users', 'SosgXD0H05f72k94B6x4RmpOK6F2');
-  //   const docSnap = await getDoc(docRef);
-
-  //   if (docSnap.exists()) {
-  //     console.log('Document data:', docSnap.data());
-  //   } else {
-  //     // doc.data() will be undefined in this case
-  //     console.log('No such document!');
-  //   }
-
   const querySnapshot = await getDocs(collection(db, 'users'));
-  querySnapshot.forEach((document) => {
-    // doc.data() is never undefined for query doc snapshots
-    console.log(document.id, ' => ', document.data());
-  });
+  const users = querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
+
+  return filterMembers(users);
 }
 
 export async function findUser(uid) {
-  console.log('find user', uid);
   const docRef = doc(db, 'users', uid);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
     console.log('Document data:', docSnap.data());
-  } else {
-    //    doc.data() will be undefined in this case
-    console.log('No such document!');
+    const { role, name } = docSnap.data();
+
+    return { role, name };
   }
 
-  const { role, name } = docSnap.data();
-
-  return { role, name };
+  return false;
 }
 
 async function registerUser({ email, password }) {
@@ -54,7 +41,10 @@ export async function createUser(userData) {
   if (uid) {
     console.log('Получили Uid', uid);
     await setDoc(doc(db, 'users', uid), userData);
-  } else {
-    console.log('Не получили Uid', uid);
+
+    return true;
   }
+  console.log('Не получили Uid', uid);
+
+  return false;
 }

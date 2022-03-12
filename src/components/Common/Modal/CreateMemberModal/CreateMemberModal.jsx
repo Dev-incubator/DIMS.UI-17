@@ -1,10 +1,12 @@
 import React from 'react';
+import propTypes from 'prop-types';
 import { initialStateCreatMember } from '../../../../shared/store';
 import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../../shared/constants';
 import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateMemberModal.module.css';
-import { createUser } from '../../../../services/users-services';
+import { createUser } from '../../../../services/auth-services';
+import { getAllUsers } from '../../../../services/users-services ';
 
 export class CreateMemberModal extends React.Component {
   constructor(props) {
@@ -17,23 +19,29 @@ export class CreateMemberModal extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    const { name } = this.state;
-    console.log(name);
-  };
-
-  handleCreateUser = () => {
-    createUser(this.state);
+    const { handleSetUsers } = this.props;
+    const isRegistered = await createUser(this.state);
+    if (isRegistered) {
+      const {
+        params: { history },
+      } = this.props;
+      history.goBack();
+      const updatedUsers = await getAllUsers();
+      handleSetUsers(updatedUsers);
+    }
   };
 
   render() {
+    const { handleToggleModal } = this.props;
+
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
         <div className={style.section__fields}>
           {USER_FIELDS_KEYS.map((item) => {
-            const { name, title, type, options } = item;
-            const { ...state } = this.state;
+            const { name, title, type, options, required } = item;
+            const { state } = this;
 
             return (
               <ModalRow
@@ -44,15 +52,28 @@ export class CreateMemberModal extends React.Component {
                 options={options}
                 type={type}
                 title={title}
+                required={required}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          <Button onClick={this.handleCreateUser} />
-          <Button isBackButton stylingType={BUTTONS_TYPES.typeSecondary} title={BUTTONS_NAMES.backToList} />
+          <input type='submit' value='Save' />
+          <Button
+            onClick={handleToggleModal}
+            stylingType={BUTTONS_TYPES.typeSecondary}
+            title={BUTTONS_NAMES.backToList}
+          />
         </div>
       </form>
     );
   }
 }
+
+CreateMemberModal.propTypes = {
+  params: propTypes.shape({
+    history: propTypes.shape({ goBack: propTypes.func.isRequired }),
+  }).isRequired,
+  handleSetUsers: propTypes.func.isRequired,
+  handleToggleModal: propTypes.func.isRequired,
+};

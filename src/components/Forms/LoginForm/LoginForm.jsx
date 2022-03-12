@@ -59,6 +59,7 @@ export class LoginForm extends React.Component {
   render() {
     const { email, password, formErrors, formValid } = this.state;
     const { email: emailErrors, password: passworErrors } = formErrors;
+    const { error } = this.props;
 
     return (
       <>
@@ -91,6 +92,8 @@ export class LoginForm extends React.Component {
             />
             <p className={style.errorTitle}>{passworErrors.length ? 'password is invalid' : ''}</p>
           </label>
+          <p className={style.errorTitle}>{error ? 'User not found' : ''}</p>
+
           <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
             Sign in
           </button>
@@ -102,4 +105,5 @@ export class LoginForm extends React.Component {
 
 LoginForm.propTypes = {
   handleClick: PropTypes.func.isRequired,
+  error: PropTypes.string.isRequired,
 };

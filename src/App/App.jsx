@@ -57,7 +57,7 @@ export class App extends React.Component {
               path='/tasks/track/:id'
               render={(params) => (!isAuth ? <Redirect to='/login' /> : <Track params={params} />)}
             />
-            <Route exact path='/login' render={() => <Login handleAuth={this.setAuth} isAuth={isAuth} />} />
+            <Route exact path='/login' render={() => <Login handleSetAuth={this.setAuth} isAuth={isAuth} />} />
           </Switch>
         </main>
         <Footer />

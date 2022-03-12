@@ -1,14 +1,12 @@
+import { ButtonsAdminMemberPage } from '../components/Buttons/ButtonsAdmin/ButtonsAdmin';
 import { ButtonsTrack } from '../components/Buttons/ButtonsTrack/ButtonsTrack';
-import { ButtonsAdmin } from '../components/Buttons/ButtonsAdmin/ButtonsAdmin';
 import { ButtonsStatusUpdate } from '../components/Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 
 export function filterMembers(items) {
-  const users = items;
-
-  return users.map((item) => ({
+  return items.map((item) => ({
     ...item,
     name: `${item.name} ${item.lastName}`,
-    actions: <ButtonsAdmin id={item.id} />,
+    actions: <ButtonsAdminMemberPage id={item.id} />,
   }));
 }
 
