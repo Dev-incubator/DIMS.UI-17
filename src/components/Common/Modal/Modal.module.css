@@ -21,11 +21,11 @@
 .content {
   padding: 1rem;
   background-color: var(--color-primary);
-  transition: scale(0.5);
+  transform: scale(0.5);
   transition: var(--transition);
 }
 .content_active {
-  transition: scale(1);
+  transform: scale(1);
 }
 
 .title {

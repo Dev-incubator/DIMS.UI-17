@@ -26,8 +26,6 @@ export class Members extends React.Component {
 
   toggleModal = () => {
     this.setState((prevState) => ({ isModalOpen: !prevState.isModalOpen }));
-    const { isModalOpen } = this.state;
-    console.log(isModalOpen);
   };
 
   render() {
@@ -37,10 +35,11 @@ export class Members extends React.Component {
       <>
         <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModal} />
         <Table titles={TABLE_TITLES.members} items={users} linkPath={LINKPATH_KEYS.track} />
-
-        <Modal title={MODALTITLE_KEYS.createMember} isModalOpen={isModalOpen} handleToggleModal={this.toggleModal}>
-          <CreateMemberModal handleToggleModal={this.toggleModal} handleSetUsers={this.setUsers} />
-        </Modal>
+        {isModalOpen && (
+          <Modal title={MODALTITLE_KEYS.createMember} isModalOpen={isModalOpen} handleToggleModal={this.toggleModal}>
+            <CreateMemberModal handleToggleModal={this.toggleModal} handleSetUsers={this.setUsers} />
+          </Modal>
+        )}
       </>
     );
   }

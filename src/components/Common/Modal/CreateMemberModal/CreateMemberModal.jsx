@@ -21,13 +21,10 @@ export class CreateMemberModal extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { handleSetUsers } = this.props;
+    const { handleSetUsers, handleToggleModal } = this.props;
     const isRegistered = await createUser(this.state);
     if (isRegistered) {
-      const {
-        params: { history },
-      } = this.props;
-      history.goBack();
+      handleToggleModal();
       const updatedUsers = await getAllUsers();
       handleSetUsers(updatedUsers);
     }
@@ -71,9 +68,6 @@ export class CreateMemberModal extends React.Component {
 }
 
 CreateMemberModal.propTypes = {
-  params: propTypes.shape({
-    history: propTypes.shape({ goBack: propTypes.func.isRequired }),
-  }).isRequired,
   handleSetUsers: propTypes.func.isRequired,
   handleToggleModal: propTypes.func.isRequired,
 };

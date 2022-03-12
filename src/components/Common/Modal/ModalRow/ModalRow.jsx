@@ -27,12 +27,11 @@ ModalRow.propTypes = {
   type: PropTypes.string,
   value: PropTypes.string,
   options: PropTypes.shape({}),
-  required: PropTypes.oneOfType(PropTypes.string, PropTypes.bool),
+  required: PropTypes.bool.isRequired,
 };
 ModalRow.defaultProps = {
   type: 'text',
   title: 'name',
   value: '',
   options: {},
-  required: '',
 };
