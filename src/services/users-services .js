@@ -1,4 +1,4 @@
-import { collection, getDocs, getDoc, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../firebase';
 import { filterMembers } from '../shared/helpers';
@@ -54,4 +54,11 @@ export async function createUser(userData) {
   console.log('Не получили Uid', uid);
 
   return false;
+}
+
+export async function editUser(id, data) {
+  const washingtonRef = doc(db, 'users', id);
+  await updateDoc(washingtonRef, data);
+
+  return true;
 }

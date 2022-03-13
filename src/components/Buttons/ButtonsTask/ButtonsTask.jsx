@@ -7,6 +7,7 @@ import { getAllTasks } from '../../../services/tasks-services';
 import { CreateTaskModal } from '../../Common/Modal/CreateTaskModal/CreateTaskModal';
 import { DeleteModal } from '../../Common/Modal/DeleteModal/DeleteModal';
 import { Modal } from '../../Common/Modal/Modal';
+import { getAllUsers } from '../../../services/users-services ';
 
 export class ButtonsTask extends React.Component {
   constructor(props) {
@@ -15,7 +16,13 @@ export class ButtonsTask extends React.Component {
       isDeleteModalOpen: false,
       isEditModalOpen: false,
       taskData: {},
+      allUsers: [],
     };
+  }
+
+  async componentDidMount() {
+    const allUsers = await getAllUsers();
+    this.setState({ allUsers });
   }
 
   async getTasksData() {
@@ -46,7 +53,8 @@ export class ButtonsTask extends React.Component {
   };
 
   render() {
-    const { isDeleteModalOpen, isEditModalOpen, taskData } = this.state;
+    const { isDeleteModalOpen, isEditModalOpen, taskData, allUsers } = this.state;
+    const { id, handleSetTasks } = this.props;
 
     return (
       <>
@@ -60,7 +68,14 @@ export class ButtonsTask extends React.Component {
         )}
         {isEditModalOpen && (
           <Modal title='Task data' isModalOpen={isEditModalOpen} handleToggleModal={this.toggleModalEdit}>
-            <CreateTaskModal taskData={taskData} handleToggleModal={this.toggleModalEdit} />
+            <CreateTaskModal
+              isEditMode
+              users={allUsers}
+              taskData={taskData}
+              id={id}
+              handleToggleModal={this.toggleModalEdit}
+              handleSetTasks={handleSetTasks}
+            />
           </Modal>
         )}
       </>

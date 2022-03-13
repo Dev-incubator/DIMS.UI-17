@@ -21,8 +21,14 @@ export class Members extends React.Component {
     this.setUsers(users);
   }
 
+  componentDidUpdate(prevState, prevProps) {
+    console.log('prevState', prevState);
+    console.log('prevProps', prevProps);
+  }
+
   setUsers = (users) => {
     this.setState({ users });
+    console.log('set');
   };
 
   toggleModal = () => {

@@ -46,7 +46,7 @@ export class ButtonsAdminMemberPage extends React.Component {
   };
 
   render() {
-    const { id } = this.props;
+    const { id, handleSetUsers } = this.props;
     const { isDeleteModalOpen, isEditModalOpen, userData } = this.state;
 
     return (
@@ -67,7 +67,13 @@ export class ButtonsAdminMemberPage extends React.Component {
         )}
         {isEditModalOpen && (
           <Modal title='User data' isModalOpen={isEditModalOpen} handleToggleModal={this.toggleModalEdit}>
-            <CreateMemberModal userData={userData} handleToggleModal={this.toggleModalEdit} />
+            <CreateMemberModal
+              isEditMode
+              id={id}
+              userData={userData}
+              handleToggleModal={this.toggleModalEdit}
+              handleSetUsers={handleSetUsers}
+            />
           </Modal>
         )}
       </>

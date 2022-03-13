@@ -4,6 +4,7 @@ export const initialStateTasks = {
   startDate: '',
   deadlineDate: '',
   status: '',
+  subscribers: [],
 };
 
 export const initialStateCreatMember = {

@@ -6,15 +6,16 @@ import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateTaskModal.module.css';
 import noop from '../../../../shared/noop';
-import { createTask, getAllTasks } from '../../../../services/tasks-services';
+import { createTask, getAllTasks, updateTask } from '../../../../services/tasks-services';
 
 export class CreateTaskModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialStateTasks;
+    this.myRef = [];
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { taskData } = this.props;
     this.setState(taskData);
   }
@@ -26,8 +27,12 @@ export class CreateTaskModal extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { handleSetTasks, handleToggleModal } = this.props;
-    const isAdded = await createTask(this.state);
+    const selectedUsers = this.myRef.filter((item) => item.checked).map((item) => item.name);
+    const { handleSetTasks, handleToggleModal, isEditMode, id } = this.props;
+    console.log(id);
+    const isAdded = isEditMode
+      ? await updateTask(id, { ...this.state, subscribers: selectedUsers })
+      : await createTask({ ...this.state, subscribers: selectedUsers });
     if (isAdded) {
       handleToggleModal();
       const updatedTasks = await getAllTasks();
@@ -36,7 +41,8 @@ export class CreateTaskModal extends React.Component {
   };
 
   render() {
-    const { handleToggleModal, isReadOnlyMode } = this.props;
+    const { handleToggleModal, isReadOnlyMode, users, taskData, isEditMode } = this.props;
+    const { subscribers } = taskData;
 
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
@@ -60,6 +66,22 @@ export class CreateTaskModal extends React.Component {
             );
           })}
         </div>
+        <div className={style.userContainer}>
+          {users.map((user, index) => (
+            <label className={style.users} key={user.id} htmlFor={user.id}>
+              {user.name}
+              <input
+                ref={(ref) => {
+                  this.myRef[index] = ref;
+                }}
+                type='checkbox'
+                name={user.id}
+                id={user.id}
+                defaultChecked={isEditMode ? subscribers.includes(user.id) : false}
+              />
+            </label>
+          ))}
+        </div>
         <div className={style.section__buttons}>
           {!isReadOnlyMode && <input type='submit' value='Save' />}
 
@@ -77,12 +99,20 @@ export class CreateTaskModal extends React.Component {
 CreateTaskModal.propTypes = {
   handleSetTasks: propTypes.func,
   handleToggleModal: propTypes.func.isRequired,
-  taskData: propTypes.shape({}),
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
+  users: propTypes.arrayOf(propTypes.object).isRequired,
+  taskData: propTypes.oneOfType([
+    propTypes.shape({}),
+    propTypes.shape({ id: propTypes.string, subscribers: propTypes.arrayOf(propTypes.string) }),
+  ]),
+  isEditMode: propTypes.bool,
+  id: propTypes.string,
 };
 
 CreateTaskModal.defaultProps = {
   taskData: {},
   handleSetTasks: noop,
   isReadOnlyMode: false,
+  isEditMode: false,
+  id: '0',
 };

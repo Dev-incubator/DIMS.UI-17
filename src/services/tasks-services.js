@@ -1,4 +1,4 @@
-import { collection, getDocs, addDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export async function getAllTasks() {
@@ -8,9 +8,14 @@ export async function getAllTasks() {
 }
 
 export async function createTask(taskData) {
-  console.log('res---', taskData);
   const response = await addDoc(collection(db, 'tasks'), taskData);
 
   return response;
-  // return res;
+}
+
+export async function updateTask(id, taskData) {
+  const washingtonRef = doc(db, 'tasks', id);
+  await updateDoc(washingtonRef, taskData);
+
+  return true;
 }

@@ -6,7 +6,7 @@ import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateMemberModal.module.css';
 import { createUser } from '../../../../services/auth-services';
-import { getAllUsers } from '../../../../services/users-services ';
+import { editUser, getAllUsers } from '../../../../services/users-services ';
 import noop from '../../../../shared/noop';
 
 export class CreateMemberModal extends React.Component {
@@ -28,9 +28,10 @@ export class CreateMemberModal extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { handleSetUsers, handleToggleModal } = this.props;
-    const isRegistered = await createUser(this.state);
-    if (isRegistered) {
+    const { handleSetUsers, handleToggleModal, isEditMode, id } = this.props;
+    console.log(handleSetUsers);
+    const isAdded = isEditMode ? await editUser(id, this.state) : await createUser(this.state);
+    if (isAdded) {
       handleToggleModal();
       const updatedUsers = await getAllUsers();
       handleSetUsers(updatedUsers);
@@ -81,10 +82,14 @@ CreateMemberModal.propTypes = {
   handleToggleModal: propTypes.func.isRequired,
   userData: propTypes.shape({}),
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
+  id: propTypes.string,
+  isEditMode: propTypes.bool,
 };
 
 CreateMemberModal.defaultProps = {
   userData: {},
   handleSetUsers: noop,
   isReadOnlyMode: false,
+  id: '0',
+  isEditMode: false,
 };
