@@ -1,15 +1,17 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS } from '../../../shared/constants';
+import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/constants';
+import { getMemberTasks } from '../../../services/tasks-services';
 import { PageTitle } from '../../PageTitle/PageTitle';
-import { Table } from '../../Table/Table';
-import { getMemberTasks } from '../../../mockApi/getData';
-import { initialStateTasks } from '../../../shared/store';
+import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
+import { TableCurrentTasks } from '../../Table/TableCurrentTasks';
 
 export class Tasks extends React.Component {
   constructor(props) {
     super(props);
-    this.state = initialStateTasks;
+    this.state = {
+      tasks: [],
+    };
   }
 
   async componentDidMount() {
@@ -21,27 +23,45 @@ export class Tasks extends React.Component {
       },
     } = this.props;
     if (id) {
-      await this.getProgress(id);
-      this.setState({
-        pageTitle: TITLES_PAGES.currentTasks,
-        buttonTitle: BUTTONS_NAMES.backToList,
-        tableTitles: TABLE_TITLES.currentTasks,
-      });
+      const tasks = await getMemberTasks(id);
+      this.setState({ tasks });
     }
   }
 
-  async getProgress(id) {
-    const tasks = await getMemberTasks(id);
-    this.setState({ tasks });
-  }
+  updateState = (newTaskStatus, taskId) => {
+    this.setState((prevState) => {
+      const tasks = prevState.tasks.map((item) => (item.id === taskId ? { ...item, statuses: newTaskStatus } : item));
+
+      return { tasks };
+    });
+  };
 
   render() {
-    const { tasks, pageTitle, buttonTitle, buttonClick, tableTitles } = this.state;
+    const { tasks } = this.state;
+    const {
+      params: {
+        match: {
+          params: { id },
+        },
+      },
+    } = this.props;
 
     return (
       <>
-        <PageTitle title={pageTitle} buttonTitle={buttonTitle} onClick={buttonClick} isBackButton />
-        <Table titles={tableTitles} items={tasks} linkPath={LINKPATH_KEYS.track} />
+        <PageTitle
+          title={TITLES_PAGES.currentTasks}
+          buttonTitle={BUTTONS_NAMES.backToList}
+          onClick={(params) => {
+            console.log(params);
+          }}
+          isBackButton
+        />
+        <TableCurrentTasks
+          titles={TABLE_TITLES.currentTasks}
+          items={tasks}
+          userId={id}
+          action={<ButtonsStatusUpdate updateState={this.updateState} userId={id} />}
+        />
       </>
     );
   }

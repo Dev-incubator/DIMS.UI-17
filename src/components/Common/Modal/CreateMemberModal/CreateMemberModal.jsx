@@ -17,7 +17,6 @@ export class CreateMemberModal extends React.Component {
 
   async componentDidMount() {
     const { userData } = this.props;
-    console.log(userData);
     this.setState(userData);
   }
 

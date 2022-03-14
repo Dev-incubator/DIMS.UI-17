@@ -3,7 +3,7 @@ export const initialStateTasks = {
   description: '',
   startDate: '',
   deadlineDate: '',
-  status: '',
+  statuses: [],
   subscribers: [],
 };
 

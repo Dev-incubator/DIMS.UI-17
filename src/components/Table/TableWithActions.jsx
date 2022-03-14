@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import style from './Table.module.css';
 
-export function TableMembers({ titles, items, linkPath, action }) {
+export function TableWithActions({ titles, items, linkPath, action }) {
   return (
     <table className={style.table}>
       <thead>
@@ -38,13 +38,13 @@ export function TableMembers({ titles, items, linkPath, action }) {
   );
 }
 
-TableMembers.propTypes = {
+TableWithActions.propTypes = {
   titles: PropTypes.objectOf(PropTypes.string).isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   linkPath: PropTypes.string,
   action: PropTypes.node.isRequired,
 };
 
-TableMembers.defaultProps = {
+TableWithActions.defaultProps = {
   linkPath: '/',
 };

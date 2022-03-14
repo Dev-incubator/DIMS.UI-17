@@ -6,7 +6,7 @@ import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateTaskModal.module.css';
 import noop from '../../../../shared/noop';
-import { createTask, getAllTasks, updateTask } from '../../../../services/tasks-services';
+import { createTask, getAllTasks, getTaskData, updateTask } from '../../../../services/tasks-services';
 
 export class CreateTaskModal extends React.Component {
   constructor(props) {
@@ -27,12 +27,19 @@ export class CreateTaskModal extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const selectedUsers = this.myRef.filter((item) => item.checked).map((item) => item.name);
     const { handleSetTasks, handleToggleModal, isEditMode, id } = this.props;
-    console.log(id);
+    const { statuses } = isEditMode ? await getTaskData(id) : [];
+    const selectedUsers = this.myRef
+      .filter((item) => item.checked)
+      .map((item) =>
+        isEditMode
+          ? statuses.find((elem) => elem.id === item.name) || { id: item.name, status: 'Active' }
+          : { id: item.name, status: 'Active' },
+      );
+    const subscribers = selectedUsers.map((item) => item.id);
     const isAdded = isEditMode
-      ? await updateTask(id, { ...this.state, subscribers: selectedUsers })
-      : await createTask({ ...this.state, subscribers: selectedUsers });
+      ? await updateTask(id, { ...this.state, statuses: [...selectedUsers], subscribers })
+      : await createTask({ ...this.state, statuses: [...selectedUsers], subscribers });
     if (isAdded) {
       handleToggleModal();
       const updatedTasks = await getAllTasks();
@@ -42,7 +49,7 @@ export class CreateTaskModal extends React.Component {
 
   render() {
     const { handleToggleModal, isReadOnlyMode, users, taskData, isEditMode } = this.props;
-    const { subscribers } = taskData;
+    const subscribers = Object.keys(taskData).length === 0 ? [] : taskData.statuses.map((item) => item.id);
 
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
@@ -103,7 +110,7 @@ CreateTaskModal.propTypes = {
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([
     propTypes.shape({}),
-    propTypes.shape({ id: propTypes.string, subscribers: propTypes.arrayOf(propTypes.string) }),
+    propTypes.shape({ id: propTypes.string, statuses: propTypes.arrayOf(propTypes.string) }),
   ]),
   isEditMode: propTypes.bool,
   id: propTypes.string,

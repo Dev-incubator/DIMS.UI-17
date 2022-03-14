@@ -17,6 +17,7 @@ export const BUTTONS_NAMES = {
   backToList: 'Back To List',
   fail: 'Fail',
   success: 'Success',
+  active: 'Active',
 };
 
 export const BUTTONS_TYPES = {
