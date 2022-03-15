@@ -48,3 +48,13 @@ export function getFakeTasksItems(tasks) {
 export function createTask() {
   console.log('show modal');
 }
+
+export function generateId() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let ID = '';
+  for (let i = 0; i < 12; i += 1) {
+    ID += characters.charAt(Math.floor(Math.random() * 36));
+  }
+
+  return ID;
+}

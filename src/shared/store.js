@@ -25,3 +25,11 @@ export const initialStateCreatMember = {
   universityAverageAcore: '',
   mathScore: '',
 };
+
+export const initialStateTrack = {
+  id: '',
+  name: '',
+  date: '',
+  node: '',
+  userId: '',
+};

@@ -30,7 +30,7 @@ export class Login extends React.Component {
       } = userData;
       const { role, name } = await findUser(uid);
       if (role || name) {
-        handleSetAuth(role, name);
+        handleSetAuth(role, name, uid);
       } else {
         this.setState({ error: 'user not found' });
       }

@@ -78,7 +78,7 @@ export const USER_ROLES = {
 export const PAGES_KEYS = {
   tasks: 'tasks',
   progress: 'progress',
-  track: 'track',
+  track: 'tracks',
 };
 
 export const STATUS_KEYS = {
@@ -96,6 +96,7 @@ export const LINKPATH_KEYS = {
 export const MODALTITLE_KEYS = {
   createMember: 'Create member',
   createTask: 'Create task',
+  createTrack: 'Create track',
 };
 
 export const USER_FIELDS_KEYS = [
@@ -122,4 +123,9 @@ export const TASK_FIELDS_KEYS = [
   { name: 'description', title: 'Description:', type: 'text', required: false },
   { name: 'startDate', title: 'Start date:', type: 'date', required: true },
   { name: 'deadlineDate', title: 'Deadline:', type: 'date', required: true },
+];
+export const TRACK_FIELDS_KEYS = [
+  { name: 'name', title: 'Name:', type: 'select', required: true },
+  { name: 'date', title: 'Date:', type: 'date', required: true },
+  { name: 'node', title: 'Node:', type: 'text', required: true },
 ];

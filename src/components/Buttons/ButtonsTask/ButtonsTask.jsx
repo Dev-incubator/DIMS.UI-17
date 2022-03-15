@@ -33,7 +33,7 @@ export class ButtonsTask extends React.Component {
 
   deleteTask = async () => {
     const { id, handleSetTasks } = this.props;
-    removeTask(id);
+    await removeTask(id);
     const tasks = await getAllTasks();
     handleSetTasks(tasks);
     this.toggleModalDelete();

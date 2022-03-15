@@ -1,4 +1,4 @@
-import { collection, getDocs, addDoc, doc, updateDoc, query, where, getDoc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, query, where, getDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export async function getAllTasks() {
@@ -43,4 +43,27 @@ export async function changeTaskStatus(taskId, userId, newStatus) {
   await updateDoc(taskRef, { ...data, statuses: updateStatus });
 
   return updateStatus;
+}
+
+export async function getTracks(taskId, userId) {
+  const data = await getTaskData(taskId);
+  const { tracks } = data;
+  const userTracks = tracks.filter((item) => item.userId === userId);
+
+  return userTracks;
+}
+
+export async function createTrack(taskId, userId, data) {
+  const taskRef = doc(db, 'tasks', taskId);
+  await updateDoc(taskRef, {
+    tracks: arrayUnion({ ...data, userId }),
+  });
+}
+
+export async function removeTrack(taskId, trackId) {
+  const data = await getTaskData(taskId);
+  const { tracks } = data;
+  const updatedTracks = tracks.filter((track) => track.id !== trackId);
+  const taskRef = doc(db, 'tasks', taskId);
+  await updateDoc(taskRef, { ...data, tracks: updatedTracks });
 }

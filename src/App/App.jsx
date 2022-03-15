@@ -8,7 +8,7 @@ import { Progress } from '../components/Pages/Progress/Progress';
 import { Header } from '../components/Common/Header/Header';
 import { Footer } from '../components/Common/Footer/Footer';
 import { Login } from '../components/Pages/Login/Login';
-import { Track } from '../components/Pages/Track/Track';
+import { Tracks } from '../components/Pages/Tracks/Tracks';
 
 export class App extends React.Component {
   constructor(props) {
@@ -16,14 +16,15 @@ export class App extends React.Component {
     this.state = {
       name: '',
       role: '',
+      uid: '',
       isAuth: false,
     };
   }
 
-  setAuth = (role, name) => {
-    console.log(role, name);
+  setAuth = (role, name, uid) => {
+    console.log(role, name, uid);
     if (role) {
-      this.setState({ name, role, isAuth: true });
+      this.setState({ name, role, uid, isAuth: true });
     }
   };
 
@@ -32,7 +33,7 @@ export class App extends React.Component {
   };
 
   render() {
-    const { isAuth, name, role } = this.state;
+    const { isAuth, name, role, uid } = this.state;
 
     return (
       <>
@@ -54,8 +55,8 @@ export class App extends React.Component {
             />
             <Route
               exact
-              path='/tasks/track/:id'
-              render={(params) => (!isAuth ? <Redirect to='/login' /> : <Track params={params} />)}
+              path='/tasks/:id/tracks'
+              render={(params) => (!isAuth ? <Redirect to='/login' /> : <Tracks params={params} userId={uid} />)}
             />
             <Route exact path='/login' render={() => <Login handleSetAuth={this.setAuth} isAuth={isAuth} />} />
           </Switch>
