@@ -43,7 +43,7 @@ export class CreateTrackModal extends React.Component {
   };
 
   render() {
-    const { handleToggleModal, isReadOnlyMode, userTasks, tracks } = this.props;
+    const { handleToggleModal, isReadOnlyMode, userTasks } = this.props;
     const options = userTasks.map((task) => task.name);
 
     return (
@@ -51,7 +51,6 @@ export class CreateTrackModal extends React.Component {
         <div className={style.section__fields}>
           {TRACK_FIELDS_KEYS.map((item) => {
             const { name, title, type, required } = item;
-            console.log(tracks);
             const { state } = this;
 
             return (
