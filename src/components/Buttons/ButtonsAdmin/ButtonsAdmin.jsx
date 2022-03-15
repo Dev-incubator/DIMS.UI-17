@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { removeUserData } from '../../../services/auth-services';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
 import { DeleteModal } from '../../Common/Modal/DeleteModal/DeleteModal';
 import { Modal } from '../../Common/Modal/Modal';
-import { getAllUsers, getUserData } from '../../../services/users-services ';
+import { getAllUsers, getUserData, removeUserData } from '../../../services/users-services ';
 import { CreateMemberModal } from '../../Common/Modal/CreateMemberModal/CreateMemberModal';
 
 export class ButtonsAdminMemberPage extends React.Component {
@@ -25,28 +24,29 @@ export class ButtonsAdminMemberPage extends React.Component {
     this.setState({ userData });
   }
 
-  deleteUser = async () => {
-    const { id, handleSetUsers } = this.props;
+  deleteUserHandler = async () => {
+    const { id, setUsersHandler } = this.props;
     removeUserData(id);
     const users = await getAllUsers();
-    handleSetUsers(users);
+    await setUsersHandler(users);
+    this.toggleModalDeleteHandler();
   };
 
-  toggleModalEdit = () => {
+  toggleModalEditHandler = () => {
     this.setState((prevState) => ({ isEditModalOpen: !prevState.isEditModalOpen }));
   };
 
-  toggleModalDelete = () => {
+  toggleModalDeleteHandler = () => {
     this.setState((prevState) => ({ isDeleteModalOpen: !prevState.isDeleteModalOpen }));
   };
 
-  showUserData = async () => {
+  showUserDataHandler = async () => {
     await this.getUserData();
-    this.toggleModalEdit();
+    this.toggleModalEditHandler();
   };
 
   render() {
-    const { id, handleSetUsers } = this.props;
+    const { id, setUsersHandler } = this.props;
     const { isDeleteModalOpen, isEditModalOpen, userData } = this.state;
 
     return (
@@ -58,21 +58,33 @@ export class ButtonsAdminMemberPage extends React.Component {
           <Button title={BUTTONS_NAMES.progress} />
         </NavLink>
 
-        <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={this.showUserData} />
-        <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={this.toggleModalDelete} />
+        <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={this.showUserDataHandler} />
+        <Button
+          title={BUTTONS_NAMES.delete}
+          stylingType={BUTTONS_TYPES.typeDelete}
+          onClick={this.toggleModalDeleteHandler}
+        />
         {isDeleteModalOpen && (
-          <Modal title='Delete member' isModalOpen={isDeleteModalOpen} handleToggleModal={this.toggleModalDelete}>
-            <DeleteModal item='member' handleDelete={this.deleteUser} handleToggleModal={this.toggleModalDelete} />
+          <Modal
+            title='Delete member'
+            isModalOpen={isDeleteModalOpen}
+            toggleModalHandler={this.toggleModalDeleteHandler}
+          >
+            <DeleteModal
+              item='member'
+              deleteHandler={this.deleteUserHandler}
+              toggleModalHandler={this.toggleModalDeleteHandler}
+            />
           </Modal>
         )}
         {isEditModalOpen && (
-          <Modal title='User data' isModalOpen={isEditModalOpen} handleToggleModal={this.toggleModalEdit}>
+          <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
             <CreateMemberModal
               isEditMode
               id={id}
               userData={userData}
-              handleToggleModal={this.toggleModalEdit}
-              handleSetUsers={handleSetUsers}
+              toggleModalHandler={this.toggleModalEditHandler}
+              setUsersHandler={setUsersHandler}
             />
           </Modal>
         )}
@@ -83,7 +95,7 @@ export class ButtonsAdminMemberPage extends React.Component {
 
 ButtonsAdminMemberPage.propTypes = {
   id: PropTypes.string,
-  handleSetUsers: PropTypes.func.isRequired,
+  setUsersHandler: PropTypes.func.isRequired,
 };
 
 ButtonsAdminMemberPage.defaultProps = {

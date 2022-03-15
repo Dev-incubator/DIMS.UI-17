@@ -1,11 +1,11 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { initialStateTrack } from '../../../../shared/store';
+import { initialStateTrack } from '../../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../../shared/constants';
 import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateTrackModal.module.css';
-import { createTrack, getTracks } from '../../../../services/tasks-services';
+import { createTrack, getTracks } from '../../../../services/tracks-services';
 import { generateId } from '../../../../shared/helpers';
 
 export class CreateTrackModal extends React.Component {
@@ -32,18 +32,18 @@ export class CreateTrackModal extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { userId, userTasks, handleToggleModal, taskId, handleSetTracks } = this.props;
+    const { userId, userTasks, toggleModalHandler, taskId, setTracksHandler } = this.props;
     const { name } = this.state;
     const selectedTask = userTasks.filter((task) => task.name === name);
     const id = generateId();
     await createTrack(selectedTask[0].id, userId, { ...this.state, id });
     const updatedTracks = await getTracks(taskId, userId);
-    handleToggleModal();
-    handleSetTracks(updatedTracks);
+    toggleModalHandler();
+    setTracksHandler(updatedTracks);
   };
 
   render() {
-    const { handleToggleModal, isReadOnlyMode, userTasks } = this.props;
+    const { toggleModalHandler, isReadOnlyMode, userTasks } = this.props;
     const options = userTasks.map((task) => task.name);
 
     return (
@@ -72,7 +72,7 @@ export class CreateTrackModal extends React.Component {
           {!isReadOnlyMode && <input type='submit' value='Save' />}
 
           <Button
-            onClick={handleToggleModal}
+            onClick={toggleModalHandler}
             stylingType={BUTTONS_TYPES.typeSecondary}
             title={BUTTONS_NAMES.backToList}
           />
@@ -83,8 +83,8 @@ export class CreateTrackModal extends React.Component {
 }
 
 CreateTrackModal.propTypes = {
-  handleSetTracks: propTypes.func.isRequired,
-  handleToggleModal: propTypes.func.isRequired,
+  setTracksHandler: propTypes.func.isRequired,
+  toggleModalHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   userId: propTypes.string,
   taskId: propTypes.string,

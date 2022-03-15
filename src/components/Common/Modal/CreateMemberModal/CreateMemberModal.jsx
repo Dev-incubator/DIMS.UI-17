@@ -1,6 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { initialStateCreatMember } from '../../../../shared/store';
+import { initialStateCreatMember } from '../../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../../shared/constants';
 import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
@@ -27,18 +27,17 @@ export class CreateMemberModal extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { handleSetUsers, handleToggleModal, isEditMode, id } = this.props;
-    console.log(handleSetUsers);
+    const { setUsersHandler, toggleModalHandler, isEditMode, id } = this.props;
     const isAdded = isEditMode ? await editUser(id, this.state) : await createUser(this.state);
     if (isAdded) {
-      handleToggleModal();
+      toggleModalHandler();
       const updatedUsers = await getAllUsers();
-      handleSetUsers(updatedUsers);
+      setUsersHandler(updatedUsers);
     }
   };
 
   render() {
-    const { handleToggleModal, isReadOnlyMode } = this.props;
+    const { toggleModalHandler, isReadOnlyMode } = this.props;
 
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
@@ -66,7 +65,7 @@ export class CreateMemberModal extends React.Component {
           {!isReadOnlyMode && <input type='submit' value='Save' />}
 
           <Button
-            onClick={handleToggleModal}
+            onClick={toggleModalHandler}
             stylingType={BUTTONS_TYPES.typeSecondary}
             title={BUTTONS_NAMES.backToList}
           />
@@ -77,8 +76,8 @@ export class CreateMemberModal extends React.Component {
 }
 
 CreateMemberModal.propTypes = {
-  handleSetUsers: propTypes.func,
-  handleToggleModal: propTypes.func.isRequired,
+  setUsersHandler: propTypes.func,
+  toggleModalHandler: propTypes.func.isRequired,
   userData: propTypes.shape({}),
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   id: propTypes.string,
@@ -87,7 +86,7 @@ CreateMemberModal.propTypes = {
 
 CreateMemberModal.defaultProps = {
   userData: {},
-  handleSetUsers: noop,
+  setUsersHandler: noop,
   isReadOnlyMode: false,
   id: '0',
   isEditMode: false,

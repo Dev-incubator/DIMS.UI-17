@@ -38,7 +38,6 @@ Table.propTypes = {
   titles: PropTypes.objectOf(PropTypes.string).isRequired,
   items: PropTypes.arrayOf(PropTypes.object).isRequired,
   linkPath: PropTypes.string,
-  action: PropTypes.node.isRequired,
 };
 
 Table.defaultProps = {

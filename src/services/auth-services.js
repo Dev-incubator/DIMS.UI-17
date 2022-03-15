@@ -1,4 +1,4 @@
-import { getDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../firebase';
 
@@ -13,10 +13,6 @@ export async function findUser(uid) {
   }
 
   return false;
-}
-
-export async function removeUserData(uid) {
-  await deleteDoc(doc(db, 'users', uid));
 }
 
 async function registerUser({ email, password }) {

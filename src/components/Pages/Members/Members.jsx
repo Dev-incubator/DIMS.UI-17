@@ -18,14 +18,14 @@ export class Members extends React.Component {
 
   async componentDidMount() {
     const users = await getAllUsers();
-    this.setUsers(users);
+    this.setUsersHandler(users);
   }
 
-  setUsers = (users) => {
+  setUsersHandler = (users) => {
     this.setState({ users });
   };
 
-  toggleModal = () => {
+  toggleModalHandler = () => {
     this.setState((prevState) => ({ isModalOpen: !prevState.isModalOpen }));
   };
 
@@ -34,16 +34,20 @@ export class Members extends React.Component {
 
     return (
       <>
-        <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModal} />
+        <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModalHandler} />
         <TableWithActions
           titles={TABLE_TITLES.members}
           items={users}
           linkPath={LINKPATH_KEYS.track}
-          action={<ButtonsAdminMemberPage handleSetUsers={this.setUsers} />}
+          action={<ButtonsAdminMemberPage setUsersHandler={this.setUsersHandler} />}
         />
         {isModalOpen && (
-          <Modal title={MODALTITLE_KEYS.createMember} isModalOpen={isModalOpen} handleToggleModal={this.toggleModal}>
-            <CreateMemberModal handleToggleModal={this.toggleModal} handleSetUsers={this.setUsers} />
+          <Modal
+            title={MODALTITLE_KEYS.createMember}
+            isModalOpen={isModalOpen}
+            toggleModalHandler={this.toggleModalHandler}
+          >
+            <CreateMemberModal toggleModalHandler={this.toggleModalHandler} setUsersHandler={this.setUsersHandler} />
           </Modal>
         )}
       </>

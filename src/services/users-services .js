@@ -1,4 +1,4 @@
-import { collection, getDocs, getDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { db } from '../firebase';
 import { filterMembers } from '../shared/helpers';
@@ -15,7 +15,6 @@ export async function findUser(uid) {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log('Document data:', docSnap.data());
     const { role, name } = docSnap.data();
 
     return { role, name };
@@ -32,7 +31,6 @@ export async function getUserData(uid) {
 }
 
 async function registerUser({ email, password }) {
-  console.log(email, password);
   const auth = getAuth();
   const user = await createUserWithEmailAndPassword(auth, email, password);
   const {
@@ -43,15 +41,12 @@ async function registerUser({ email, password }) {
 }
 
 export async function createUser(userData) {
-  console.log(userData);
   const uid = await registerUser(userData);
   if (uid) {
-    console.log('Получили Uid', uid);
     await setDoc(doc(db, 'users', uid), userData);
 
     return true;
   }
-  console.log('Не получили Uid', uid);
 
   return false;
 }
@@ -61,4 +56,8 @@ export async function editUser(id, data) {
   await updateDoc(washingtonRef, data);
 
   return true;
+}
+
+export async function removeUserData(uid) {
+  await deleteDoc(doc(db, 'users', uid));
 }

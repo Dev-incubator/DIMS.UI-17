@@ -48,7 +48,7 @@ export class Login extends React.Component {
     const { isAuth } = this.props;
     const { error } = this.state;
 
-    return isAuth ? <Home /> : <LoginForm error={error} handleClick={this.handleLogin} />;
+    return isAuth ? <Home /> : <LoginForm error={error} handleLogin={this.handleLogin} />;
   }
 }
 

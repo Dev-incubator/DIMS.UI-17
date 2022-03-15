@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES } from '../../../shared/constants';
-import { getUserTracks } from '../../../services/tasks-services';
+import { getUserTracks } from '../../../services/tracks-services';
 
 export class Progress extends React.Component {
   constructor(props) {

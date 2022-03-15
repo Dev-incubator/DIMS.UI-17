@@ -2,8 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
-import { getTaskData, removeTask } from '../../../services/other-services';
-import { getAllTasks } from '../../../services/tasks-services';
+import { getTaskData, removeTask, getAllTasks } from '../../../services/tasks-services';
 import { CreateTaskModal } from '../../Common/Modal/CreateTaskModal/CreateTaskModal';
 import { DeleteModal } from '../../Common/Modal/DeleteModal/DeleteModal';
 import { Modal } from '../../Common/Modal/Modal';
@@ -31,50 +30,58 @@ export class ButtonsTask extends React.Component {
     this.setState({ taskData });
   }
 
-  deleteTask = async () => {
-    const { id, handleSetTasks } = this.props;
+  deleteTaskHandler = async () => {
+    const { id, setTasksHandler } = this.props;
     await removeTask(id);
     const tasks = await getAllTasks();
-    handleSetTasks(tasks);
-    this.toggleModalDelete();
+    setTasksHandler(tasks);
+    this.toggleModalDeleteHandler();
   };
 
-  toggleModalEdit = () => {
+  toggleModalEditHandler = () => {
     this.setState((prevState) => ({ isEditModalOpen: !prevState.isEditModalOpen }));
   };
 
-  toggleModalDelete = () => {
+  toggleModalDeleteHandler = () => {
     this.setState((prevState) => ({ isDeleteModalOpen: !prevState.isDeleteModalOpen }));
   };
 
-  showTaskData = async () => {
+  showTaskDataHandler = async () => {
     await this.getTasksData();
-    this.toggleModalEdit();
+    this.toggleModalEditHandler();
   };
 
   render() {
     const { isDeleteModalOpen, isEditModalOpen, taskData, allUsers } = this.state;
-    const { id, handleSetTasks } = this.props;
+    const { id, setTasksHandler } = this.props;
 
     return (
       <>
-        <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={this.showTaskData} />
-        <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={this.toggleModalDelete} />
+        <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={this.showTaskDataHandler} />
+        <Button
+          title={BUTTONS_NAMES.delete}
+          stylingType={BUTTONS_TYPES.typeDelete}
+          onClick={this.toggleModalDeleteHandler}
+        />
 
         {isDeleteModalOpen && (
-          <Modal title='Delete task' isModalOpen={isDeleteModalOpen} handleToggleModal={this.toggleModalDelete}>
-            <DeleteModal item='task' handleDelete={this.deleteTask} handleToggleModal={this.toggleModalDelete} />
+          <Modal title='Delete task' isModalOpen={isDeleteModalOpen} toggleModalHandler={this.toggleModalDeleteHandler}>
+            <DeleteModal
+              item='task'
+              deleteHandler={this.deleteTaskHandler}
+              toggleModalHandler={this.toggleModalDeleteHandler}
+            />
           </Modal>
         )}
         {isEditModalOpen && (
-          <Modal title='Task data' isModalOpen={isEditModalOpen} handleToggleModal={this.toggleModalEdit}>
+          <Modal title='Task data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
             <CreateTaskModal
               isEditMode
               users={allUsers}
               taskData={taskData}
               id={id}
-              handleToggleModal={this.toggleModalEdit}
-              handleSetTasks={handleSetTasks}
+              toggleModalHandler={this.toggleModalEditHandler}
+              setTasksHandler={setTasksHandler}
             />
           </Modal>
         )}
@@ -85,5 +92,5 @@ export class ButtonsTask extends React.Component {
 
 ButtonsTask.propTypes = {
   id: PropTypes.string.isRequired,
-  handleSetTasks: PropTypes.func.isRequired,
+  setTasksHandler: PropTypes.func.isRequired,
 };

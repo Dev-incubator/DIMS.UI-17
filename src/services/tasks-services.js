@@ -1,4 +1,4 @@
-import { collection, getDocs, addDoc, doc, updateDoc, query, where, getDoc, arrayUnion } from 'firebase/firestore';
+import { collection, getDocs, addDoc, doc, updateDoc, query, where, getDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 
 export async function getAllTasks() {
@@ -11,6 +11,10 @@ export async function createTask(taskData) {
   const response = await addDoc(collection(db, 'tasks'), taskData);
 
   return response;
+}
+
+export async function removeTask(uid) {
+  await deleteDoc(doc(db, 'tasks', uid));
 }
 
 export async function updateTask(id, taskData) {
@@ -43,39 +47,4 @@ export async function changeTaskStatus(taskId, userId, newStatus) {
   await updateDoc(taskRef, { ...data, statuses: updateStatus });
 
   return updateStatus;
-}
-
-export async function getTracks(taskId, userId) {
-  const data = await getTaskData(taskId);
-  const { tracks } = data;
-  const userTracks = tracks ? tracks.filter((item) => item.userId === userId) : [];
-
-  return userTracks;
-}
-
-export async function createTrack(taskId, userId, data) {
-  const taskRef = doc(db, 'tasks', taskId);
-  await updateDoc(taskRef, {
-    tracks: arrayUnion({ ...data, userId }),
-  });
-}
-
-export async function removeTrack(taskId, trackId) {
-  const data = await getTaskData(taskId);
-  const { tracks } = data;
-  const updatedTracks = tracks.filter((track) => track.id !== trackId);
-  const taskRef = doc(db, 'tasks', taskId);
-  await updateDoc(taskRef, { ...data, tracks: updatedTracks });
-}
-
-export async function getUserTracks(userId) {
-  const tasksRef = collection(db, 'tasks');
-  const tasksQuery = query(tasksRef, where('subscribers', 'array-contains', userId));
-  const querySnapshot = await getDocs(tasksQuery);
-  const tracks = querySnapshot.docs
-    .map((item) => item.data().tracks)
-    .flat()
-    .filter((track) => track.userId === userId);
-
-  return tracks;
 }

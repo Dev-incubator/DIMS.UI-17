@@ -17,11 +17,11 @@ export class ButtonsStatusUpdate extends React.Component {
     this.setState({ status });
   }
 
-  changeStatus = async (newStatus) => {
-    const { taskId, userId, updateState } = this.props;
-    const updateStatuses = await changeTaskStatus(taskId, userId, newStatus);
+  changeStatusHandler = async (newStatus) => {
+    const { taskId, userId, updateStateHandler } = this.props;
+    const updatedStatuses = await changeTaskStatus(taskId, userId, newStatus);
     this.setState({ status: newStatus });
-    updateState(updateStatuses, taskId);
+    updateStateHandler(updatedStatuses, taskId);
   };
 
   render() {
@@ -34,7 +34,7 @@ export class ButtonsStatusUpdate extends React.Component {
             title={BUTTONS_NAMES.success}
             stylingType={BUTTONS_TYPES.typeSave}
             onClick={() => {
-              this.changeStatus(BUTTONS_NAMES.success);
+              this.changeStatusHandler(BUTTONS_NAMES.success);
             }}
           />
         ) : (
@@ -42,7 +42,7 @@ export class ButtonsStatusUpdate extends React.Component {
             title={BUTTONS_NAMES.active}
             stylingType={BUTTONS_TYPES.typePrimary}
             onClick={() => {
-              this.changeStatus(BUTTONS_NAMES.active);
+              this.changeStatusHandler(BUTTONS_NAMES.active);
             }}
           />
         )}
@@ -51,7 +51,7 @@ export class ButtonsStatusUpdate extends React.Component {
           title={BUTTONS_NAMES.fail}
           stylingType={BUTTONS_TYPES.typeDelete}
           onClick={() => {
-            this.changeStatus(BUTTONS_NAMES.fail);
+            this.changeStatusHandler(BUTTONS_NAMES.fail);
           }}
         />
       </>
@@ -63,7 +63,7 @@ ButtonsStatusUpdate.propTypes = {
   taskId: PropTypes.string,
   userId: PropTypes.string,
   status: PropTypes.string,
-  updateState: PropTypes.func.isRequired,
+  updateStateHandler: PropTypes.func.isRequired,
 };
 
 ButtonsStatusUpdate.defaultProps = {

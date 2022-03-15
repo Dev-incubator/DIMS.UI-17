@@ -4,7 +4,8 @@ import { TITLES_PAGES, BUTTONS_NAMES, TABLE_TITLES, MODALTITLE_KEYS } from '../.
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Modal } from '../../Common/Modal/Modal';
 import { CreateTrackModal } from '../../Common/Modal/CreateTrackModal/CreateTrackModal';
-import { getMemberTasks, getTracks } from '../../../services/tasks-services';
+import { getMemberTasks } from '../../../services/tasks-services';
+import { getTracks } from '../../../services/tracks-services';
 import { ButtonsTrack } from '../../Buttons/ButtonsTrack/ButtonsTrack';
 import { TableWithActions } from '../../Table/TableWithActions';
 
@@ -32,18 +33,16 @@ export class Tracks extends React.Component {
     this.setState({ tracks, userTasks });
   }
 
-  setTracks = (tracks) => {
+  setTracksHandler = (tracks) => {
     this.setState({ tracks });
   };
 
-  toggleModal = () => {
+  toggleModalHandler = () => {
     this.setState((prevState) => ({ isModalOpen: !prevState.isModalOpen }));
   };
 
   render() {
     const { isModalOpen, tracks, userTasks } = this.state;
-    console.log('tracks--------', tracks);
-    console.log('userTasks--------', userTasks);
     const {
       params: {
         match: {
@@ -55,14 +54,14 @@ export class Tracks extends React.Component {
 
     return (
       <>
-        <PageTitle title={TITLES_PAGES.track} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModal} />
+        <PageTitle title={TITLES_PAGES.track} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModalHandler} />
         <TableWithActions
           titles={TABLE_TITLES.track}
           items={tracks}
           action={
             <ButtonsTrack
               trackId={tracks.id}
-              handleSetTracks={this.setTracks}
+              setTracksHandler={this.setTracksHandler}
               userId={userId}
               taskId={id}
               tracks={tracks}
@@ -71,13 +70,17 @@ export class Tracks extends React.Component {
           }
         />
         {isModalOpen && (
-          <Modal title={MODALTITLE_KEYS.createTrack} isModalOpen={isModalOpen} handleToggleModal={this.toggleModal}>
+          <Modal
+            title={MODALTITLE_KEYS.createTrack}
+            isModalOpen={isModalOpen}
+            toggleModalHandler={this.toggleModalHandler}
+          >
             <CreateTrackModal
               taskId={id}
               userId={userId}
               tracks={tracks}
-              handleToggleModal={this.toggleModal}
-              handleSetTracks={this.setTracks}
+              toggleModalHandler={this.toggleModalHandler}
+              setTracksHandler={this.setTracksHandler}
               userTasks={userTasks}
             />
           </Modal>

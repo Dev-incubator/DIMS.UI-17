@@ -24,11 +24,11 @@ export class AllTasks extends React.Component {
     this.setState({ tasks, users });
   }
 
-  setTasks = (tasks) => {
+  setTasksHandler = (tasks) => {
     this.setState({ tasks });
   };
 
-  toggleModal = () => {
+  toggleModalHandler = () => {
     this.setState((prevState) => ({ isModalOpen: !prevState.isModalOpen }));
   };
 
@@ -37,16 +37,24 @@ export class AllTasks extends React.Component {
 
     return (
       <>
-        <PageTitle title={TITLES_PAGES.allTasks} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModal} />
+        <PageTitle title={TITLES_PAGES.allTasks} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModalHandler} />
         <TableAllTasks
           titles={TABLE_TITLES.allTasks}
           items={tasks}
           linkPath={LINKPATH_KEYS.tasks}
-          action={<ButtonsTask handleSetTasks={this.setTasks} />}
+          action={<ButtonsTask setTasksHandler={this.setTasksHandler} />}
         />
         {isModalOpen && (
-          <Modal title={MODALTITLE_KEYS.createTask} isModalOpen={isModalOpen} handleToggleModal={this.toggleModal}>
-            <CreateTaskModal users={users} handleToggleModal={this.toggleModal} handleSetTasks={this.setTasks} />
+          <Modal
+            title={MODALTITLE_KEYS.createTask}
+            isModalOpen={isModalOpen}
+            toggleModalHandler={this.toggleModalHandler}
+          >
+            <CreateTaskModal
+              users={users}
+              toggleModalHandler={this.toggleModalHandler}
+              setTasksHandler={this.setTasksHandler}
+            />
           </Modal>
         )}
       </>

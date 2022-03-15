@@ -1,6 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { initialStateTasks } from '../../../../shared/store';
+import { initialStateTasks } from '../../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../../shared/constants';
 import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
@@ -27,7 +27,7 @@ export class CreateTaskModal extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { handleSetTasks, handleToggleModal, isEditMode, id } = this.props;
+    const { setTasksHandler, toggleModalHandler, isEditMode, id } = this.props;
     const { statuses } = isEditMode ? await getTaskData(id) : [];
     const selectedUsers = this.myRef
       .filter((item) => item.checked)
@@ -41,14 +41,14 @@ export class CreateTaskModal extends React.Component {
       ? await updateTask(id, { ...this.state, statuses: [...selectedUsers], subscribers })
       : await createTask({ ...this.state, statuses: [...selectedUsers], subscribers });
     if (isAdded) {
-      handleToggleModal();
+      toggleModalHandler();
       const updatedTasks = await getAllTasks();
-      handleSetTasks(updatedTasks);
+      setTasksHandler(updatedTasks);
     }
   };
 
   render() {
-    const { handleToggleModal, isReadOnlyMode, users, taskData, isEditMode } = this.props;
+    const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
     const subscribers = Object.keys(taskData).length === 0 ? [] : taskData.statuses.map((item) => item.id);
 
     return (
@@ -93,7 +93,7 @@ export class CreateTaskModal extends React.Component {
           {!isReadOnlyMode && <input type='submit' value='Save' />}
 
           <Button
-            onClick={handleToggleModal}
+            onClick={toggleModalHandler}
             stylingType={BUTTONS_TYPES.typeSecondary}
             title={BUTTONS_NAMES.backToList}
           />
@@ -104,8 +104,8 @@ export class CreateTaskModal extends React.Component {
 }
 
 CreateTaskModal.propTypes = {
-  handleSetTasks: propTypes.func,
-  handleToggleModal: propTypes.func.isRequired,
+  setTasksHandler: propTypes.func,
+  toggleModalHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([
@@ -118,7 +118,7 @@ CreateTaskModal.propTypes = {
 
 CreateTaskModal.defaultProps = {
   taskData: {},
-  handleSetTasks: noop,
+  setTasksHandler: noop,
   isReadOnlyMode: false,
   isEditMode: false,
   id: '0',

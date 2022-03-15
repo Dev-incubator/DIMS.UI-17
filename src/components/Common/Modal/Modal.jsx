@@ -18,12 +18,12 @@ export class Modal extends React.Component {
   }
 
   render() {
-    const { title, handleToggleModal, isModalOpen, children } = this.props;
+    const { title, toggleModalHandler, isModalOpen, children } = this.props;
 
     return reactDom.createPortal(
       <div
         className={isModalOpen ? `${style.modal} ${style.modal_active}` : style.modal}
-        onClick={handleToggleModal}
+        onClick={toggleModalHandler}
         role='none'
       >
         <div
@@ -43,6 +43,6 @@ export class Modal extends React.Component {
 Modal.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
-  handleToggleModal: PropTypes.func.isRequired,
+  toggleModalHandler: PropTypes.func.isRequired,
   isModalOpen: PropTypes.bool.isRequired,
 };

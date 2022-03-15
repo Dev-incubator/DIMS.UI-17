@@ -5,6 +5,7 @@ import { getMemberTasks } from '../../../services/tasks-services';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 import { TableCurrentTasks } from '../../Table/TableCurrentTasks';
+import noop from '../../../shared/noop';
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ export class Tasks extends React.Component {
     }
   }
 
-  updateState = (newTaskStatus, taskId) => {
+  updateStateHandler = (newTaskStatus, taskId) => {
     this.setState((prevState) => {
       const tasks = prevState.tasks.map((item) => (item.id === taskId ? { ...item, statuses: newTaskStatus } : item));
 
@@ -51,16 +52,14 @@ export class Tasks extends React.Component {
         <PageTitle
           title={TITLES_PAGES.currentTasks}
           buttonTitle={BUTTONS_NAMES.backToList}
-          onClick={(params) => {
-            console.log(params);
-          }}
+          onClick={noop}
           isBackButton
         />
         <TableCurrentTasks
           titles={TABLE_TITLES.currentTasks}
           items={tasks}
           userId={id}
-          action={<ButtonsStatusUpdate updateState={this.updateState} userId={id} />}
+          action={<ButtonsStatusUpdate updateStateHandler={this.updateStateHandler} userId={id} />}
         />
       </>
     );

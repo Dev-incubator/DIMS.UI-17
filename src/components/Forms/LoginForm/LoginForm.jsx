@@ -24,8 +24,8 @@ export class LoginForm extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
-    const { handleClick } = this.props;
-    handleClick(email, password);
+    const { handleLogin } = this.props;
+    handleLogin(email, password);
   };
 
   handleFocus = ({ target }) => {
@@ -104,6 +104,6 @@ export class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  handleLogin: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
 };
