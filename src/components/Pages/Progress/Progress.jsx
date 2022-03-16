@@ -1,9 +1,9 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { getTracks } from '../../../mockApi/getData';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES } from '../../../shared/constants';
+import { getUserTracks } from '../../../services/tracks-services';
 
 export class Progress extends React.Component {
   constructor(props) {
@@ -11,32 +11,17 @@ export class Progress extends React.Component {
     this.state = {
       progress: [],
     };
-    this.isComponentMounted = false;
   }
 
   async componentDidMount() {
     const {
-      params: {
-        match: {
-          params: { id },
-        },
+      match: {
+        params: { id },
       },
     } = this.props;
-    this.isComponentMounted = true;
-    if (id) {
-      await this.getProgress(id);
-    }
-  }
 
-  componentWillUnmount() {
-    this.isComponentMounted = false;
-  }
-
-  async getProgress(id) {
-    if (this.isComponentMounted) {
-      const progress = await getTracks(id);
-      this.setState({ progress });
-    }
+    const progress = await getUserTracks(id);
+    this.setState({ progress });
   }
 
   render() {
@@ -52,7 +37,5 @@ export class Progress extends React.Component {
 }
 
 Progress.propTypes = {
-  params: propTypes.shape({
-    match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }),
-  }).isRequired,
+  match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
 };

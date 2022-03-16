@@ -1,9 +1,13 @@
 import React from 'react';
-import { initialStateCreatMember } from '../../../../shared/store';
+import propTypes from 'prop-types';
+import { initialStateCreatMember } from '../../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../../shared/constants';
 import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateMemberModal.module.css';
+import { createUser } from '../../../../services/auth-services';
+import { editUser, getAllUsers } from '../../../../services/users-services ';
+import noop from '../../../../shared/noop';
 
 export class CreateMemberModal extends React.Component {
   constructor(props) {
@@ -11,24 +15,36 @@ export class CreateMemberModal extends React.Component {
     this.state = initialStateCreatMember;
   }
 
+  async componentDidMount() {
+    const { userData } = this.props;
+    this.setState(userData);
+  }
+
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
-    const { name } = this.state;
-    console.log(name);
+    const { setUsersHandler, toggleModalHandler, isEditMode, id } = this.props;
+    const isAdded = isEditMode ? await editUser(id, this.state) : await createUser(this.state);
+    if (isAdded) {
+      toggleModalHandler();
+      const updatedUsers = await getAllUsers();
+      setUsersHandler(updatedUsers);
+    }
   };
 
   render() {
+    const { toggleModalHandler, isReadOnlyMode } = this.props;
+
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
         <div className={style.section__fields}>
           {USER_FIELDS_KEYS.map((item) => {
-            const { name, title, type, options } = item;
-            const { ...state } = this.state;
+            const { name, title, type, options, required } = item;
+            const { state } = this;
 
             return (
               <ModalRow
@@ -39,15 +55,39 @@ export class CreateMemberModal extends React.Component {
                 options={options}
                 type={type}
                 title={title}
+                required={required}
+                isReadOnlyMode={isReadOnlyMode}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          <Button onClick={this.handleCreateUser} />
-          <Button isBackButton stylingType={BUTTONS_TYPES.typeSecondary} title={BUTTONS_NAMES.backToList} />
+          {!isReadOnlyMode && <input type='submit' value='Save' />}
+
+          <Button
+            onClick={toggleModalHandler}
+            stylingType={BUTTONS_TYPES.typeSecondary}
+            title={BUTTONS_NAMES.backToList}
+          />
         </div>
       </form>
     );
   }
 }
+
+CreateMemberModal.propTypes = {
+  setUsersHandler: propTypes.func,
+  toggleModalHandler: propTypes.func.isRequired,
+  userData: propTypes.shape({}),
+  isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
+  id: propTypes.string,
+  isEditMode: propTypes.bool,
+};
+
+CreateMemberModal.defaultProps = {
+  userData: {},
+  setUsersHandler: noop,
+  isReadOnlyMode: false,
+  id: '0',
+  isEditMode: false,
+};

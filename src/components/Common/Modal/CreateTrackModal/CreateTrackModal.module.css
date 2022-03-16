@@ -1,0 +1,19 @@
+.section__fields {
+  display: flex;
+  flex-direction: column;
+}
+
+.section__buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.userContainer {
+  padding: 0.5rem;
+  border: 1px solid var(--text-color-primary);
+}
+
+.users {
+  display: flex;
+  align-items: center;
+}

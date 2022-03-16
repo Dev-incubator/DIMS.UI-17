@@ -1,49 +1,49 @@
 import propTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import style from './Header.module.css';
 import logo from '../../../assets/img/logo.png';
 import { Logout } from '../../Pages/Logout/Logout';
+import { LINKS_HEADER_MENU } from '../../../shared/constants';
 
-export function Header({ userEmail, handleLogout }) {
+export function Header({ userName, logoutHandler, role, isAuth }) {
   return (
     <header className={style.header}>
       <div className={style.contentWrapper}>
-        <NavLink to='/' activeClassName='selected'>
+        <Link to='/'>
           <img className={style.logo} src={logo} alt='logo' />
-        </NavLink>
+        </Link>
         <nav>
           <ul className={style.headerNav}>
-            <li className={style.navItem}>
-              <NavLink to='/members' activeClassName={style.selected}>
-                Members
+            {LINKS_HEADER_MENU.map((item) => (
+              <NavLink
+                key={item.name}
+                to={item.to}
+                className={style[item.className]}
+                activeClassName={style[item.activeClassName]}
+              >
+                {item.name}
               </NavLink>
-            </li>
-            <li className={style.navItem}>
-              <NavLink to='/tasks' activeClassName={style.selected}>
-                Tasks
-              </NavLink>
-            </li>
+            ))}
           </ul>
         </nav>
-        <nav className={style.login}>
-          <ul>
-            <li>
-              <NavLink to='/login' activeClassName='selected'>
-                {userEmail ? <Logout handleLogout={handleLogout} /> : `Login`}
-              </NavLink>
-            </li>
-          </ul>
-        </nav>
+        <div className={style.login}>
+          <Link to='/login'>
+            {isAuth ? <Logout userName={userName} role={role} logoutHandler={logoutHandler} /> : `Login`}
+          </Link>
+        </div>
       </div>
     </header>
   );
 }
 
 Header.propTypes = {
-  userEmail: propTypes.string,
-  handleLogout: propTypes.func.isRequired,
+  userName: propTypes.string,
+  logoutHandler: propTypes.func.isRequired,
+  role: propTypes.string,
+  isAuth: propTypes.bool.isRequired,
 };
 
 Header.defaultProps = {
-  userEmail: '',
+  userName: '',
+  role: '',
 };

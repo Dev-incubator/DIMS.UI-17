@@ -1,40 +1,55 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
-import { getFakeUsers } from '../../../mockApi/getData';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS, MODALTITLE_KEYS } from '../../../shared/constants';
-import { Table } from '../../Table/Table';
+import { TableWithActions } from '../../Table/TableWithActions';
 import { Modal } from '../../Common/Modal/Modal';
 import { CreateMemberModal } from '../../Common/Modal/CreateMemberModal/CreateMemberModal';
+import { getAllUsers } from '../../../services/users-services ';
+import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
 
 export class Members extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      members: [],
+      users: [],
+      isModalOpen: false,
     };
   }
 
   async componentDidMount() {
-    const members = await getFakeUsers();
-    this.setState({ members });
+    const users = await getAllUsers();
+    this.setUsersHandler(users);
   }
 
+  setUsersHandler = (users) => {
+    this.setState({ users });
+  };
+
+  toggleModalHandler = () => {
+    this.setState((prevState) => ({ isModalOpen: !prevState.isModalOpen }));
+  };
+
   render() {
-    const { members } = this.state;
+    const { users, isModalOpen } = this.state;
 
     return (
       <>
-        <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} popupPath='popup/createMember/' />
-        <Table titles={TABLE_TITLES.members} items={members} linkPath={LINKPATH_KEYS.track} />
-        <Route
-          path='/members/popup/createMember/'
-          render={() => (
-            <Modal title={MODALTITLE_KEYS.createMember}>
-              <CreateMemberModal />
-            </Modal>
-          )}
+        <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModalHandler} />
+        <TableWithActions
+          titles={TABLE_TITLES.members}
+          items={users}
+          linkPath={LINKPATH_KEYS.track}
+          action={<ButtonsAdminMemberPage setUsersHandler={this.setUsersHandler} />}
         />
+        {isModalOpen && (
+          <Modal
+            title={MODALTITLE_KEYS.createMember}
+            isModalOpen={isModalOpen}
+            toggleModalHandler={this.toggleModalHandler}
+          >
+            <CreateMemberModal toggleModalHandler={this.toggleModalHandler} setUsersHandler={this.setUsersHandler} />
+          </Modal>
+        )}
       </>
     );
   }

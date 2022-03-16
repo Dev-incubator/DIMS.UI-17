@@ -1,67 +1,44 @@
 import React from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { Home } from '../components/Pages/Home/Home';
-import { Members } from '../components/Pages/Members/Members';
-import { Tasks } from '../components/Pages/Tasks/Tasks';
-import { AllTasks } from '../components/Pages/Tasks/AllTasks';
-import { Progress } from '../components/Pages/Progress/Progress';
 import { Header } from '../components/Common/Header/Header';
 import { Footer } from '../components/Common/Footer/Footer';
 import { Login } from '../components/Pages/Login/Login';
-import { Track } from '../components/Pages/Track/Track';
+import { AdminRoutes } from '../Routes/AdminRoutes';
+import { MemberRoutes } from '../Routes/MemberRoutes';
+import { initialStateAuth } from '../shared/initialStates';
+import { USER_ROLES } from '../shared/constants';
 
 export class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isAuth: false,
-      userEmail: '',
-    };
+    this.state = initialStateAuth;
   }
 
-  setAuth = (userEmail) => {
-    if (userEmail) {
-      this.setState({ userEmail, isAuth: true });
+  setAuthHandler = (role, name, uid) => {
+    if (uid) {
+      this.setState({ name, role, uid, isAuth: true });
     }
   };
 
-  logout = () => {
-    this.setState({ userEmail: '', isAuth: false });
+  getRoute() {
+    const { role, uid, isAuth } = this.state;
+    if (!isAuth) {
+      return <Login setAuthHandler={this.setAuthHandler} isAuth={isAuth} />;
+    }
+
+    return role === USER_ROLES.admin ? <AdminRoutes userId={uid} /> : <MemberRoutes userId={uid} />;
+  }
+
+  logoutHandler = () => {
+    this.setState(initialStateAuth);
   };
 
   render() {
-    const { isAuth, userEmail } = this.state;
+    const { isAuth, name, role } = this.state;
 
     return (
       <>
-        <Header userEmail={userEmail} handleLogout={this.logout} />
-        <main>
-          <Switch>
-            <Route exact path='/' component={Home} />
-            <Route path='/members' render={() => (!isAuth ? <Redirect to='/login' /> : <Members />)} />
-            <Route
-              exact
-              path='/progress/:id'
-              render={(params) => (!isAuth ? <Redirect to='/login' /> : <Progress params={params} />)}
-            />
-            <Route exact path='/tasks' render={() => (!isAuth ? <Redirect to='/login' /> : <AllTasks />)} />
-            <Route
-              exact
-              path='/tasks/:id'
-              render={(params) => (!isAuth ? <Redirect to='/login' /> : <Tasks params={params} />)}
-            />
-            <Route
-              exact
-              path='/tasks/track/:id'
-              render={(params) => (!isAuth ? <Redirect to='/login' /> : <Track params={params} />)}
-            />
-            <Route
-              exact
-              path='/login'
-              render={() => <Login handleAuth={this.setAuth} isAuth={isAuth} userEmail={userEmail} />}
-            />
-          </Switch>
-        </main>
+        <Header isAuth={isAuth} userName={name} role={role} logoutHandler={this.logoutHandler} />
+        <main>{this.getRoute()}</main>
         <Footer />
       </>
     );
