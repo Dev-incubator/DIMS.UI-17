@@ -2,21 +2,21 @@ import propTypes from 'prop-types';
 import noop from '../../../shared/noop';
 import { Button } from '../../Buttons/Button/Button';
 
-export function Logout({ handleLogout, userName, role }) {
+export function Logout({ logoutHandler, userName, role }) {
   return (
     <>
       <span>{`${userName}: ${role}`} </span>
-      <Button type='button' title='Logout' onClick={handleLogout} />
+      <Button type='button' title='Logout' onClick={logoutHandler} />
     </>
   );
 }
 
 Logout.propTypes = {
-  handleLogout: propTypes.func,
+  logoutHandler: propTypes.func,
   userName: propTypes.string.isRequired,
   role: propTypes.string.isRequired,
 };
 
 Logout.defaultProps = {
-  handleLogout: noop,
+  logoutHandler: noop,
 };

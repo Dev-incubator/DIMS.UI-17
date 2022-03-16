@@ -14,3 +14,7 @@ export function generateId() {
 
   return ID;
 }
+
+export function stopPropagationHandler(e) {
+  e.stopPropagation();
+}

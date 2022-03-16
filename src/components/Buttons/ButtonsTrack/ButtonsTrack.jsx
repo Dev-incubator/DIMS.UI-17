@@ -33,8 +33,8 @@ export class ButtonsTrack extends React.Component {
   };
 
   render() {
-    const { isDeleteModalOpen, isEditModalOpen, setTracksHandler } = this.state;
-    const { tracks, id, userTasks } = this.props;
+    const { isDeleteModalOpen, isEditModalOpen } = this.state;
+    const { tracks, id, userTasks, setTracksHandler, taskId } = this.props;
 
     return (
       <>
@@ -62,6 +62,7 @@ export class ButtonsTrack extends React.Component {
           <Modal title='Track Data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
             <CreateTrackModal
               id={id}
+              taskId={taskId}
               tracks={tracks}
               setTracksHandler={setTracksHandler}
               isEditMode

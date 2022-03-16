@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import reactDom from 'react-dom';
 import style from './Modal.module.css';
+import { stopPropagationHandler } from '../../../shared/helpers';
 
 export class Modal extends React.Component {
   constructor(props) {
@@ -28,7 +29,7 @@ export class Modal extends React.Component {
       >
         <div
           className={isModalOpen ? `${style.content} ${style.content_active}` : style.content}
-          onClick={(e) => e.stopPropagation()}
+          onClick={stopPropagationHandler}
           role='none'
         >
           <h1 className={style.title}>{title}</h1>

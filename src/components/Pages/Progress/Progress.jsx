@@ -15,10 +15,8 @@ export class Progress extends React.Component {
 
   async componentDidMount() {
     const {
-      params: {
-        match: {
-          params: { id },
-        },
+      match: {
+        params: { id },
       },
     } = this.props;
 
@@ -39,7 +37,5 @@ export class Progress extends React.Component {
 }
 
 Progress.propTypes = {
-  params: propTypes.shape({
-    match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }),
-  }).isRequired,
+  match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
 };

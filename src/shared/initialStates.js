@@ -33,3 +33,10 @@ export const initialStateTrack = {
   node: '',
   userId: '',
 };
+
+export const initialStateAuth = {
+  name: '',
+  role: '',
+  uid: '',
+  isAuth: false,
+};

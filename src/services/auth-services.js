@@ -16,7 +16,6 @@ export async function findUser(uid) {
 }
 
 async function registerUser({ email, password }) {
-  console.log(email, password);
   const auth = getAuth();
   const user = await createUserWithEmailAndPassword(auth, email, password);
   const {
@@ -27,15 +26,12 @@ async function registerUser({ email, password }) {
 }
 
 export async function createUser(userData) {
-  console.log(userData);
   const uid = await registerUser(userData);
   if (uid) {
-    console.log('Получили Uid', uid);
     await setDoc(doc(db, 'users', uid), userData);
 
     return true;
   }
-  console.log('Не получили Uid', uid);
 
   return false;
 }

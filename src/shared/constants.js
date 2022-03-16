@@ -70,9 +70,9 @@ export const TABLE_TITLES = {
 };
 
 export const USER_ROLES = {
-  admin: 'Admin',
-  mentor: 'Mentor',
-  member: 'Member',
+  admin: 'admin',
+  mentor: 'mentor',
+  member: 'member',
 };
 
 export const PAGES_KEYS = {
@@ -124,8 +124,29 @@ export const TASK_FIELDS_KEYS = [
   { name: 'startDate', title: 'Start date:', type: 'date', required: true },
   { name: 'deadlineDate', title: 'Deadline:', type: 'date', required: true },
 ];
+
 export const TRACK_FIELDS_KEYS = [
   { name: 'name', title: 'Name:', type: 'select', required: true },
   { name: 'date', title: 'Date:', type: 'date', required: true },
   { name: 'node', title: 'Node:', type: 'text', required: true },
+];
+
+export const FOOTER_KEYS = {
+  copyRight: ' CopyRight: Evgeniy Moroz',
+  years: '2022',
+};
+
+export const LINKS_HEADER_MENU = [
+  {
+    className: 'navItem',
+    activeClassName: 'selected',
+    to: '/members',
+    name: 'Members',
+  },
+  {
+    className: 'navItem',
+    activeClassName: 'selected',
+    to: '/tasks',
+    name: 'Tasks',
+  },
 ];

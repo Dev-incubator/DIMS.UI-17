@@ -21,7 +21,7 @@ export class Login extends React.Component {
   }
 
   handleLogin = async (email, password) => {
-    const { handleSetAuth } = this.props;
+    const { setAuthHandler } = this.props;
     try {
       const auth = getAuth();
       const userData = await signInWithEmailAndPassword(auth, email, password);
@@ -30,7 +30,7 @@ export class Login extends React.Component {
       } = userData;
       const { role, name } = await findUser(uid);
       if (role || name) {
-        handleSetAuth(role, name, uid);
+        setAuthHandler(role, name, uid);
       } else {
         this.setState({ error: 'user not found' });
       }
@@ -53,6 +53,6 @@ export class Login extends React.Component {
 }
 
 Login.propTypes = {
-  handleSetAuth: propTypes.func.isRequired,
+  setAuthHandler: propTypes.func.isRequired,
   isAuth: propTypes.bool.isRequired,
 };
