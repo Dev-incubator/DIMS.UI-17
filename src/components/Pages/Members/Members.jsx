@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS, MODALTITLE_KEYS } from '../../../shared/constants';
-import { TableWithActions } from '../../Table/TableWithActions';
+import { TableMembers } from '../../Table/TableMembers';
 import { Modal } from '../../Common/Modal/Modal';
 import { CreateMemberModal } from '../../Common/Modal/CreateMemberModal/CreateMemberModal';
 import { getAllUsers } from '../../../services/users-services ';
@@ -35,7 +35,7 @@ export class Members extends React.Component {
     return (
       <>
         <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={this.toggleModalHandler} />
-        <TableWithActions
+        <TableMembers
           titles={TABLE_TITLES.members}
           items={users}
           linkPath={LINKPATH_KEYS.track}

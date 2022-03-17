@@ -7,6 +7,8 @@ import { DeleteModal } from '../../Common/Modal/DeleteModal/DeleteModal';
 import { Modal } from '../../Common/Modal/Modal';
 import { getAllUsers, getUserData, removeUserData } from '../../../services/users-services ';
 import { CreateMemberModal } from '../../Common/Modal/CreateMemberModal/CreateMemberModal';
+import noop from '../../../shared/noop';
+import style from './ButtonsAdmin.module.css';
 
 export class ButtonsAdminMemberPage extends React.Component {
   constructor(props) {
@@ -15,7 +17,15 @@ export class ButtonsAdminMemberPage extends React.Component {
       isDeleteModalOpen: false,
       isEditModalOpen: false,
       userData: {},
+      readMode: false,
     };
+  }
+
+  componentDidMount() {
+    const { readMode } = this.props;
+    if (readMode) {
+      this.setState({ readMode });
+    }
   }
 
   async getUserData() {
@@ -46,10 +56,28 @@ export class ButtonsAdminMemberPage extends React.Component {
   };
 
   render() {
-    const { id, setUsersHandler } = this.props;
-    const { isDeleteModalOpen, isEditModalOpen, userData } = this.state;
+    const { id, setUsersHandler, userName } = this.props;
+    const { isDeleteModalOpen, isEditModalOpen, userData, readMode } = this.state;
 
-    return (
+    return readMode ? (
+      <>
+        <div className={style.name} role='none' onClick={this.showUserDataHandler}>
+          {userName}
+        </div>
+        {isEditModalOpen && (
+          <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
+            <CreateMemberModal
+              isReadOnlyMode
+              isEditMode
+              id={id}
+              userData={userData}
+              toggleModalHandler={this.toggleModalEditHandler}
+              setUsersHandler={setUsersHandler}
+            />
+          </Modal>
+        )}
+      </>
+    ) : (
       <>
         <NavLink to={`/tasks/${id}`}>
           <Button title={BUTTONS_NAMES.tasks} />
@@ -95,9 +123,14 @@ export class ButtonsAdminMemberPage extends React.Component {
 
 ButtonsAdminMemberPage.propTypes = {
   id: PropTypes.string,
-  setUsersHandler: PropTypes.func.isRequired,
+  setUsersHandler: PropTypes.func,
+  readMode: PropTypes.bool,
+  userName: PropTypes.string,
 };
 
 ButtonsAdminMemberPage.defaultProps = {
   id: '0',
+  setUsersHandler: noop,
+  readMode: false,
+  userName: 'name',
 };
