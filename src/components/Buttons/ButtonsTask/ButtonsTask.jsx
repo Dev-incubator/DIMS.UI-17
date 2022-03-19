@@ -91,6 +91,9 @@ export class ButtonsTask extends React.Component {
 }
 
 ButtonsTask.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.string,
   setTasksHandler: PropTypes.func.isRequired,
+};
+ButtonsTask.defaultProps = {
+  id: '0',
 };

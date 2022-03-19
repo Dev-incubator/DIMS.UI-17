@@ -24,6 +24,20 @@ export const initialStateCreatMember = {
   education: '',
   universityAverageAcore: '',
   mathScore: '',
+  formErrors: {
+    name: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    birthDate: '',
+    address: '',
+    phone: '',
+    startDate: '',
+    education: '',
+    universityAverageAcore: '',
+    mathScore: '',
+  },
 };
 
 export const initialStateTrack = {

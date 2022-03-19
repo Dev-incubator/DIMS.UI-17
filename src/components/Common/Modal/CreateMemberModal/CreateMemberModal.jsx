@@ -8,6 +8,7 @@ import style from './CreateMemberModal.module.css';
 import { createUser } from '../../../../services/auth-services';
 import { editUser, getAllUsers } from '../../../../services/users-services ';
 import noop from '../../../../shared/noop';
+import { validateFormCreateUser } from '../../../../shared/helpers';
 
 export class CreateMemberModal extends React.Component {
   constructor(props) {
@@ -22,13 +23,32 @@ export class CreateMemberModal extends React.Component {
 
   handleChange = ({ target }) => {
     const { name, value } = target;
+    const { password } = this.state;
     this.setState({ [name]: value });
+
+    const { name: fildName, error } = validateFormCreateUser(name, value, password);
+    console.log(fildName, error);
+    this.setState((prevState) => {
+      return { ...prevState, formErrors: { ...prevState.formErrors, [fildName]: error } };
+    });
+    console.log(this.state);
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
     const { setUsersHandler, toggleModalHandler, isEditMode, id } = this.props;
-    const isAdded = isEditMode ? await editUser(id, this.state) : await createUser(this.state);
+    const { formErrors, ...data } = this.state;
+    const { password } = this.state;
+    console.log(formErrors);
+
+    Object.entries(formErrors).forEach(([name, value]) => {
+      const { name: fildName, error } = validateFormCreateUser(name, value, password);
+      this.setState((prevState) => {
+        return { ...prevState, formErrors: { ...prevState.formErrors, [fildName]: error } };
+      });
+    });
+
+    const isAdded = isEditMode ? await editUser(id, data) : await createUser(data);
     if (isAdded) {
       toggleModalHandler();
       const updatedUsers = await getAllUsers();
@@ -38,12 +58,13 @@ export class CreateMemberModal extends React.Component {
 
   render() {
     const { toggleModalHandler, isReadOnlyMode } = this.props;
+    const { formErrors } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
         <div className={style.section__fields}>
           {USER_FIELDS_KEYS.map((item) => {
-            const { name, title, type, options, required } = item;
+            const { name, title, type, options } = item;
             const { state } = this;
 
             return (
@@ -55,8 +76,8 @@ export class CreateMemberModal extends React.Component {
                 options={options}
                 type={type}
                 title={title}
-                required={required}
                 isReadOnlyMode={isReadOnlyMode}
+                errors={formErrors[name]}
               />
             );
           })}

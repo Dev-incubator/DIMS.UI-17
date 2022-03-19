@@ -26,6 +26,7 @@ async function registerUser({ email, password }) {
 }
 
 export async function createUser(userData) {
+  console.log(userData);
   const uid = await registerUser(userData);
   if (uid) {
     await setDoc(doc(db, 'users', uid), userData);

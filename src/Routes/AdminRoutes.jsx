@@ -5,6 +5,7 @@ import { Progress } from '../components/Pages/Progress/Progress';
 import { AllTasks } from '../components/Pages/Tasks/AllTasks';
 import { Tracks } from '../components/Pages/Tracks/Tracks';
 import { Members } from '../components/Pages/Members/Members';
+import { Tasks } from '../components/Pages/Tasks/Tasks';
 
 export function AdminRoutes({ userId }) {
   return (
@@ -13,7 +14,7 @@ export function AdminRoutes({ userId }) {
       <Route exact path='/progress/:id' component={Progress} />
       <Route exact path='/members' component={Members} />
       <Route exact path='/tasks' component={AllTasks} />
-      <Route exact path='/tasks/:id' component={AllTasks} />
+      <Route exact path='/tasks/:id' component={Tasks} />
       <Route exact path='/tasks/:id/tracks' render={(params) => <Tracks params={params} userId={userId} />} />
     </Switch>
   );

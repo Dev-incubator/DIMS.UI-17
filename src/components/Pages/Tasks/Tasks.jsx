@@ -17,10 +17,8 @@ export class Tasks extends React.Component {
 
   async componentDidMount() {
     const {
-      params: {
-        match: {
-          params: { id },
-        },
+      match: {
+        params: { id },
       },
     } = this.props;
     if (id) {
@@ -40,10 +38,8 @@ export class Tasks extends React.Component {
   render() {
     const { tasks } = this.state;
     const {
-      params: {
-        match: {
-          params: { id },
-        },
+      match: {
+        params: { id },
       },
     } = this.props;
 
@@ -67,7 +63,5 @@ export class Tasks extends React.Component {
 }
 
 Tasks.propTypes = {
-  params: propTypes.shape({
-    match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }),
-  }).isRequired,
+  match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
 };
