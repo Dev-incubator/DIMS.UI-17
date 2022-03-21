@@ -1,14 +1,14 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { initialStateTrack } from '../../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../../shared/constants';
-import { Button } from '../../../Buttons/Button/Button';
-import { ModalRow } from '../ModalRow/ModalRow';
-import style from './CreateTrackModal.module.css';
-import { createTrack, getTracks } from '../../../../services/tracks-services';
-import { generateId } from '../../../../shared/helpers';
+import { initialStateTrack } from '../../../shared/initialStates';
+import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../shared/constants';
+import { Button } from '../../Buttons/Button/Button';
+import style from './CreateTrackForm.module.css';
+import { createTrack, getTracks } from '../../../services/tracks-services';
+import { generateId } from '../../../shared/helpers';
+import { FormField } from '../FormField/FormField';
 
-export class CreateTrackModal extends React.Component {
+export class CreateTrackForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialStateTrack;
@@ -54,7 +54,7 @@ export class CreateTrackModal extends React.Component {
             const { state } = this;
 
             return (
-              <ModalRow
+              <FormField
                 key={item.name}
                 onChange={this.handleChange}
                 value={state[name]}
@@ -82,7 +82,7 @@ export class CreateTrackModal extends React.Component {
   }
 }
 
-CreateTrackModal.propTypes = {
+CreateTrackForm.propTypes = {
   setTracksHandler: propTypes.func.isRequired,
   toggleModalHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
@@ -94,7 +94,7 @@ CreateTrackModal.propTypes = {
   id: propTypes.string,
 };
 
-CreateTrackModal.defaultProps = {
+CreateTrackForm.defaultProps = {
   isReadOnlyMode: false,
   userId: '0',
   taskId: '0',

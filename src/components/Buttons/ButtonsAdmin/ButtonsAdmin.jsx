@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
-import { DeleteModal } from '../../Common/Modal/DeleteModal/DeleteModal';
+import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { Modal } from '../../Common/Modal/Modal';
 import { getAllUsers, getUserData, removeUserData } from '../../../services/users-services ';
-import { CreateMemberModal } from '../../Common/Modal/CreateMemberModal/CreateMemberModal';
 import noop from '../../../shared/noop';
 import style from './ButtonsAdmin.module.css';
+import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm';
 
 export class ButtonsAdminMemberPage extends React.Component {
   constructor(props) {
@@ -66,7 +66,7 @@ export class ButtonsAdminMemberPage extends React.Component {
         </div>
         {isEditModalOpen && (
           <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
-            <CreateMemberModal
+            <CreateMemberForm
               isReadOnlyMode
               isEditMode
               id={id}
@@ -98,7 +98,7 @@ export class ButtonsAdminMemberPage extends React.Component {
             isModalOpen={isDeleteModalOpen}
             toggleModalHandler={this.toggleModalDeleteHandler}
           >
-            <DeleteModal
+            <DeleteForm
               item='member'
               deleteHandler={this.deleteUserHandler}
               toggleModalHandler={this.toggleModalDeleteHandler}
@@ -107,7 +107,7 @@ export class ButtonsAdminMemberPage extends React.Component {
         )}
         {isEditModalOpen && (
           <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
-            <CreateMemberModal
+            <CreateMemberForm
               isEditMode
               id={id}
               userData={userData}

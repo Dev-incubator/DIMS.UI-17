@@ -1,15 +1,15 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { initialStateCreatMember } from '../../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../../shared/constants';
-import { Button } from '../../../Buttons/Button/Button';
-import { ModalRow } from '../ModalRow/ModalRow';
-import style from './CreateMemberModal.module.css';
-import { editUser, getAllUsers, createUser } from '../../../../services/users-services ';
-import noop from '../../../../shared/noop';
-import { validateFormCreateUser } from '../../../../shared/helpers';
+import { initialStateCreatMember } from '../../../shared/initialStates';
+import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/constants';
+import { Button } from '../../Buttons/Button/Button';
+import { FormField } from '../FormField/FormField';
+import style from './CreateMemberForm.module.css';
+import { editUser, getAllUsers, createUser } from '../../../services/users-services ';
+import noop from '../../../shared/noop';
+import { validateFormCreateUser } from '../../../shared/helpers';
 
-export class CreateMemberModal extends React.Component {
+export class CreateMemberForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialStateCreatMember;
@@ -67,7 +67,7 @@ export class CreateMemberModal extends React.Component {
             const { state } = this;
 
             return (
-              <ModalRow
+              <FormField
                 key={item.name}
                 onChange={this.handleChange}
                 value={state[name]}
@@ -95,7 +95,7 @@ export class CreateMemberModal extends React.Component {
   }
 }
 
-CreateMemberModal.propTypes = {
+CreateMemberForm.propTypes = {
   setUsersHandler: propTypes.func,
   toggleModalHandler: propTypes.func.isRequired,
   userData: propTypes.shape({}),
@@ -104,7 +104,7 @@ CreateMemberModal.propTypes = {
   isEditMode: propTypes.bool,
 };
 
-CreateMemberModal.defaultProps = {
+CreateMemberForm.defaultProps = {
   userData: {},
   setUsersHandler: noop,
   isReadOnlyMode: false,

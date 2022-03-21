@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
-import { DeleteModal } from '../../Common/Modal/DeleteModal/DeleteModal';
 import { Modal } from '../../Common/Modal/Modal';
-import { CreateTrackModal } from '../../Common/Modal/CreateTrackModal/CreateTrackModal';
 import { getTracks, removeTrack } from '../../../services/tracks-services';
+import { CreateTrackForm } from '../../Forms/CreateTrackForm/CreateTrackForm';
+import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 
 export class ButtonsTrack extends React.Component {
   constructor(props) {
@@ -51,7 +51,7 @@ export class ButtonsTrack extends React.Component {
             isModalOpen={isDeleteModalOpen}
             toggleModalHandler={this.toggleModalDeleteHandler}
           >
-            <DeleteModal
+            <DeleteForm
               item='track'
               deleteHandler={this.deleteTrackHandler}
               toggleModalHandler={this.toggleModalDeleteHandler}
@@ -60,7 +60,7 @@ export class ButtonsTrack extends React.Component {
         )}
         {isEditModalOpen && (
           <Modal title='Track Data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
-            <CreateTrackModal
+            <CreateTrackForm
               id={id}
               taskId={taskId}
               tracks={tracks}

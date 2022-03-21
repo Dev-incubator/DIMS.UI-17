@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
 import { getTaskData, removeTask, getAllTasks } from '../../../services/tasks-services';
-import { CreateTaskModal } from '../../Common/Modal/CreateTaskModal/CreateTaskModal';
-import { DeleteModal } from '../../Common/Modal/DeleteModal/DeleteModal';
+import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { Modal } from '../../Common/Modal/Modal';
 import { getAllUsers } from '../../../services/users-services ';
+import { CreateTaskForm } from '../../Forms/CreateTaskForm/CreateTaskForm';
 
 export class ButtonsTask extends React.Component {
   constructor(props) {
@@ -66,7 +66,7 @@ export class ButtonsTask extends React.Component {
 
         {isDeleteModalOpen && (
           <Modal title='Delete task' isModalOpen={isDeleteModalOpen} toggleModalHandler={this.toggleModalDeleteHandler}>
-            <DeleteModal
+            <DeleteForm
               item='task'
               deleteHandler={this.deleteTaskHandler}
               toggleModalHandler={this.toggleModalDeleteHandler}
@@ -75,7 +75,7 @@ export class ButtonsTask extends React.Component {
         )}
         {isEditModalOpen && (
           <Modal title='Task data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
-            <CreateTaskModal
+            <CreateTaskForm
               isEditMode
               users={allUsers}
               taskData={taskData}

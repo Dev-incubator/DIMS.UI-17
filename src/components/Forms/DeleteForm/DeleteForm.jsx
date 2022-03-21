@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../../shared/constants';
-import { Button } from '../../../Buttons/Button/Button';
-import style from './DeleteModal.module.css';
+import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
+import { Button } from '../../Buttons/Button/Button';
+import style from './DeleteForm.module.css';
 
-export function DeleteModal({ deleteHandler, toggleModalHandler, item }) {
+export function DeleteForm({ deleteHandler, toggleModalHandler, item }) {
   return (
     <div className={style.wrapper}>
       <h3>Are you sure you want to delete the current {item} ?</h3>
@@ -19,7 +19,7 @@ export function DeleteModal({ deleteHandler, toggleModalHandler, item }) {
   );
 }
 
-DeleteModal.propTypes = {
+DeleteForm.propTypes = {
   deleteHandler: PropTypes.func.isRequired,
   toggleModalHandler: PropTypes.func.isRequired,
   item: PropTypes.string.isRequired,

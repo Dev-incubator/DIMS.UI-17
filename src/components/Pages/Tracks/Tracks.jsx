@@ -3,11 +3,11 @@ import propTypes from 'prop-types';
 import { TITLES_PAGES, BUTTONS_NAMES, TABLE_TITLES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Modal } from '../../Common/Modal/Modal';
-import { CreateTrackModal } from '../../Common/Modal/CreateTrackModal/CreateTrackModal';
 import { getMemberTasks } from '../../../services/tasks-services';
 import { getTracks } from '../../../services/tracks-services';
 import { ButtonsTrack } from '../../Buttons/ButtonsTrack/ButtonsTrack';
 import { TableWithActions } from '../../Table/TableWithActions';
+import { CreateTrackForm } from '../../Forms/CreateTrackForm/CreateTrackForm';
 
 export class Tracks extends React.Component {
   constructor(props) {
@@ -75,7 +75,7 @@ export class Tracks extends React.Component {
             isModalOpen={isModalOpen}
             toggleModalHandler={this.toggleModalHandler}
           >
-            <CreateTrackModal
+            <CreateTrackForm
               taskId={id}
               userId={userId}
               tracks={tracks}

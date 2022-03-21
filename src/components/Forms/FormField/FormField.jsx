@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import style from './ModalRow.module.css';
+import style from './FormField.module.css';
 
-export function ModalRow({ onChange, value, name, title, type = 'text', options, isReadOnlyMode, errors }) {
+export function FormField({ onChange, value, name, title, type = 'text', options, isReadOnlyMode, errors }) {
   return (
     <div className={style.item}>
       <label className={style.field} htmlFor={name}>
@@ -23,7 +23,7 @@ export function ModalRow({ onChange, value, name, title, type = 'text', options,
   );
 }
 
-ModalRow.propTypes = {
+FormField.propTypes = {
   onChange: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
@@ -33,7 +33,7 @@ ModalRow.propTypes = {
   isReadOnlyMode: PropTypes.bool,
   errors: PropTypes.string,
 };
-ModalRow.defaultProps = {
+FormField.defaultProps = {
   type: 'text',
   title: 'name',
   options: '',

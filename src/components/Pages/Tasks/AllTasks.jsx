@@ -4,9 +4,9 @@ import { PageTitle } from '../../PageTitle/PageTitle';
 import { TableAllTasks } from '../../Table/TableAllTasks';
 import { getAllTasks } from '../../../services/tasks-services';
 import { Modal } from '../../Common/Modal/Modal';
-import { CreateTaskModal } from '../../Common/Modal/CreateTaskModal/CreateTaskModal';
 import { ButtonsTask } from '../../Buttons/ButtonsTask/ButtonsTask';
 import { getAllUsers } from '../../../services/users-services ';
+import { CreateTaskForm } from '../../Forms/CreateTaskForm/CreateTaskForm';
 
 export class AllTasks extends React.Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export class AllTasks extends React.Component {
             isModalOpen={isModalOpen}
             toggleModalHandler={this.toggleModalHandler}
           >
-            <CreateTaskModal
+            <CreateTaskForm
               users={users}
               toggleModalHandler={this.toggleModalHandler}
               setTasksHandler={this.setTasksHandler}

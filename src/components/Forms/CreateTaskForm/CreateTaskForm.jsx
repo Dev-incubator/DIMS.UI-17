@@ -1,14 +1,14 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { initialStateTasks } from '../../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../../shared/constants';
-import { Button } from '../../../Buttons/Button/Button';
-import { ModalRow } from '../ModalRow/ModalRow';
-import style from './CreateTaskModal.module.css';
-import noop from '../../../../shared/noop';
-import { createTask, getAllTasks, getTaskData, updateTask } from '../../../../services/tasks-services';
+import { initialStateTasks } from '../../../shared/initialStates';
+import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
+import { Button } from '../../Buttons/Button/Button';
+import style from './CreateTaskForm.module.css';
+import noop from '../../../shared/noop';
+import { createTask, getAllTasks, getTaskData, updateTask } from '../../../services/tasks-services';
+import { FormField } from '../FormField/FormField';
 
-export class CreateTaskModal extends React.Component {
+export class CreateTaskForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = initialStateTasks;
@@ -59,7 +59,7 @@ export class CreateTaskModal extends React.Component {
             const { state } = this;
 
             return (
-              <ModalRow
+              <FormField
                 key={item.name}
                 onChange={this.handleChange}
                 value={state[name]}
@@ -103,7 +103,7 @@ export class CreateTaskModal extends React.Component {
   }
 }
 
-CreateTaskModal.propTypes = {
+CreateTaskForm.propTypes = {
   setTasksHandler: propTypes.func,
   toggleModalHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
@@ -116,7 +116,7 @@ CreateTaskModal.propTypes = {
   id: propTypes.string,
 };
 
-CreateTaskModal.defaultProps = {
+CreateTaskForm.defaultProps = {
   taskData: {},
   setTasksHandler: noop,
   isReadOnlyMode: false,
