@@ -6,6 +6,8 @@ import { PageTitle } from '../../PageTitle/PageTitle';
 import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 import { TableCurrentTasks } from '../../Table/TableCurrentTasks';
 import noop from '../../../shared/noop';
+import { Error } from '../../Forms/Error/Error';
+import { Modal } from '../../Common/Modal/Modal';
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -21,9 +23,11 @@ export class Tasks extends React.Component {
         params: { id },
       },
     } = this.props;
-    if (id) {
-      const tasks = await getMemberTasks(id);
+    const tasks = await getMemberTasks(id);
+    if (tasks) {
       this.setState({ tasks });
+    } else {
+      this.toggleError();
     }
   }
 
@@ -35,8 +39,12 @@ export class Tasks extends React.Component {
     });
   };
 
+  toggleError = () => {
+    this.setState((prevState) => ({ ...prevState, error: !prevState.error }));
+  };
+
   render() {
-    const { tasks } = this.state;
+    const { tasks, error } = this.state;
     const {
       match: {
         params: { id },
@@ -55,8 +63,19 @@ export class Tasks extends React.Component {
           titles={TABLE_TITLES.currentTasks}
           items={tasks}
           userId={id}
-          action={<ButtonsStatusUpdate updateStateHandler={this.updateStateHandler} userId={id} />}
+          action={
+            <ButtonsStatusUpdate
+              toggleError={this.toggleError}
+              updateStateHandler={this.updateStateHandler}
+              userId={id}
+            />
+          }
         />
+        {error && (
+          <Modal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
+            <Error onClick={this.toggleError} />
+          </Modal>
+        )}
       </>
     );
   }

@@ -20,6 +20,7 @@ export const BUTTONS_NAMES = {
   fail: 'Fail',
   success: 'Success',
   active: 'Active',
+  ok: 'OK',
 };
 
 export const BUTTONS_TYPES = {

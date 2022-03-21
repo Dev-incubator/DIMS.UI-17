@@ -10,6 +10,9 @@ export class ButtonsStatusUpdate extends React.Component {
     this.state = {
       status: '',
     };
+    this.succesStatusHandler = this.changeStatusHandler.bind(this, BUTTONS_NAMES.success);
+    this.activeStatusHandler = this.changeStatusHandler.bind(this, BUTTONS_NAMES.active);
+    this.failStatusHandler = this.changeStatusHandler.bind(this, BUTTONS_NAMES.fail);
   }
 
   componentDidMount() {
@@ -18,10 +21,14 @@ export class ButtonsStatusUpdate extends React.Component {
   }
 
   changeStatusHandler = async (newStatus) => {
-    const { taskId, userId, updateStateHandler } = this.props;
+    const { taskId, userId, updateStateHandler, toggleError } = this.props;
     const updatedStatuses = await changeTaskStatus(taskId, userId, newStatus);
-    this.setState({ status: newStatus });
-    updateStateHandler(updatedStatuses, taskId);
+    if (updatedStatuses) {
+      this.setState({ status: newStatus });
+      updateStateHandler(updatedStatuses, taskId);
+    } else {
+      toggleError();
+    }
   };
 
   render() {
@@ -33,27 +40,24 @@ export class ButtonsStatusUpdate extends React.Component {
           <Button
             title={BUTTONS_NAMES.success}
             stylingType={BUTTONS_TYPES.typeSave}
-            onClick={this.changeStatusHandler(BUTTONS_NAMES.success)}
+            onClick={this.succesStatusHandler}
           />
         ) : (
           <Button
             title={BUTTONS_NAMES.active}
             stylingType={BUTTONS_TYPES.typePrimary}
-            onClick={this.changeStatusHandler(BUTTONS_NAMES.active)}
+            onClick={this.activeStatusHandler}
           />
         )}
 
-        <Button
-          title={BUTTONS_NAMES.fail}
-          stylingType={BUTTONS_TYPES.typeDelete}
-          onClick={this.changeStatusHandler(BUTTONS_NAMES.fail)}
-        />
+        <Button title={BUTTONS_NAMES.fail} stylingType={BUTTONS_TYPES.typeDelete} onClick={this.failStatusHandler} />
       </>
     );
   }
 }
 
 ButtonsStatusUpdate.propTypes = {
+  toggleError: PropTypes.func.isRequired,
   taskId: PropTypes.string,
   userId: PropTypes.string,
   status: PropTypes.string,

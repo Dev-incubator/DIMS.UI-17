@@ -6,6 +6,7 @@ import { Modal } from '../../Common/Modal/Modal';
 import { getAllUsers } from '../../../services/users-services ';
 import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
 import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm';
+import { Error } from '../../Forms/Error/Error';
 
 export class Members extends React.Component {
   constructor(props) {
@@ -13,12 +14,18 @@ export class Members extends React.Component {
     this.state = {
       users: [],
       isModalOpen: false,
+      error: false,
     };
   }
 
   async componentDidMount() {
     const users = await getAllUsers();
-    this.setUsersHandler(users);
+
+    if (users) {
+      this.setUsersHandler(users);
+    } else {
+      this.toggleError();
+    }
   }
 
   setUsersHandler = (users) => {
@@ -26,11 +33,15 @@ export class Members extends React.Component {
   };
 
   toggleModalHandler = () => {
-    this.setState((prevState) => ({ isModalOpen: !prevState.isModalOpen }));
+    this.setState((prevState) => ({ ...prevState, isModalOpen: !prevState.isModalOpen }));
+  };
+
+  toggleError = () => {
+    this.setState((prevState) => ({ ...prevState, error: !prevState.error }));
   };
 
   render() {
-    const { users, isModalOpen } = this.state;
+    const { users, isModalOpen, error } = this.state;
 
     return (
       <>
@@ -39,7 +50,7 @@ export class Members extends React.Component {
           titles={TABLE_TITLES.members}
           items={users}
           linkPath={LINKPATH_KEYS.track}
-          action={<ButtonsAdminMemberPage setUsersHandler={this.setUsersHandler} />}
+          action={<ButtonsAdminMemberPage toggleError={this.toggleError} setUsersHandler={this.setUsersHandler} />}
         />
         {isModalOpen && (
           <Modal
@@ -48,6 +59,11 @@ export class Members extends React.Component {
             toggleModalHandler={this.toggleModalHandler}
           >
             <CreateMemberForm toggleModalHandler={this.toggleModalHandler} setUsersHandler={this.setUsersHandler} />
+          </Modal>
+        )}
+        {error && (
+          <Modal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
+            <Error onClick={this.toggleError} />
           </Modal>
         )}
       </>

@@ -4,7 +4,7 @@ import { initialStateTrack } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTrackForm.module.css';
-import { createTrack, getTracks } from '../../../services/tracks-services';
+import { createTrack, getTracks, updateTracks } from '../../../services/tracks-services';
 import { generateId } from '../../../shared/helpers';
 import { FormField } from '../FormField/FormField';
 
@@ -18,6 +18,7 @@ export class CreateTrackForm extends React.Component {
     const { userTasks, isEditMode, tracks, id } = this.props;
     if (isEditMode) {
       const trackData = tracks.filter((track) => track.id === id);
+      console.log(trackData[0]);
       this.setState(trackData[0]);
     } else {
       const tasksNames = userTasks.map((task) => task.name) || [''];
@@ -32,11 +33,15 @@ export class CreateTrackForm extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { userId, userTasks, toggleModalHandler, taskId, setTracksHandler } = this.props;
+    const { userId, userTasks, toggleModalHandler, taskId, setTracksHandler, isEditMode } = this.props;
     const { name } = this.state;
     const selectedTask = userTasks.filter((task) => task.name === name);
-    const id = generateId();
-    await createTrack(selectedTask[0].id, userId, { ...this.state, id });
+    if (isEditMode) {
+      await updateTracks(this.state, taskId, userId);
+    } else {
+      const id = generateId();
+      await createTrack(selectedTask[0].id, userId, { ...this.state, id });
+    }
     const updatedTracks = await getTracks(taskId, userId);
     toggleModalHandler();
     setTracksHandler(updatedTracks);

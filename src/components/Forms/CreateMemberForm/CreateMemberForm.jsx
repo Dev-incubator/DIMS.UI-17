@@ -26,16 +26,14 @@ export class CreateMemberForm extends React.Component {
     this.setState({ [name]: value });
 
     const { name: fildName, error } = validateFormCreateUser(name, value, password);
-    console.log(fildName, error);
     this.setState((prevState) => {
       return { ...prevState, formErrors: { ...prevState.formErrors, [fildName]: error } };
     });
-    console.log(this.state);
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { setUsersHandler, toggleModalHandler, isEditMode, id } = this.props;
+    const { setUsersHandler, toggleModalHandler, isEditMode, id, toggleError } = this.props;
     const { formErrors, ...data } = this.state;
     const { password } = this.state;
     console.log(formErrors);
@@ -52,6 +50,8 @@ export class CreateMemberForm extends React.Component {
       toggleModalHandler();
       const updatedUsers = await getAllUsers();
       setUsersHandler(updatedUsers);
+    } else {
+      toggleError();
     }
   };
 
@@ -96,6 +96,7 @@ export class CreateMemberForm extends React.Component {
 }
 
 CreateMemberForm.propTypes = {
+  toggleError: propTypes.func,
   setUsersHandler: propTypes.func,
   toggleModalHandler: propTypes.func.isRequired,
   userData: propTypes.shape({}),
@@ -105,6 +106,7 @@ CreateMemberForm.propTypes = {
 };
 
 CreateMemberForm.defaultProps = {
+  toggleError: noop,
   userData: {},
   setUsersHandler: noop,
   isReadOnlyMode: false,

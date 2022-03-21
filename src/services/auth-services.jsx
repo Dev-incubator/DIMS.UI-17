@@ -16,19 +16,27 @@ export async function findUser(email, password) {
 
       return { role, name, uid };
     }
+
+    return false;
   } catch (error) {
     console.log(error);
-  }
 
-  return false;
+    return false;
+  }
 }
 
 export async function registerUser(email, password) {
-  const auth = getAuth();
-  const user = await createUserWithEmailAndPassword(auth, email, password);
-  const {
-    user: { uid },
-  } = user;
+  try {
+    const auth = getAuth();
+    const user = await createUserWithEmailAndPassword(auth, email, password);
+    const {
+      user: { uid },
+    } = user;
 
-  return uid;
+    return uid;
+  } catch (error) {
+    console.log(error);
+
+    return false;
+  }
 }

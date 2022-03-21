@@ -27,7 +27,7 @@ export class CreateTaskForm extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { setTasksHandler, toggleModalHandler, isEditMode, id } = this.props;
+    const { setTasksHandler, toggleModalHandler, isEditMode, id, toggleError } = this.props;
     const { statuses } = isEditMode ? await getTaskData(id) : [];
     const selectedUsers = this.myRef
       .filter((item) => item.checked)
@@ -44,6 +44,8 @@ export class CreateTaskForm extends React.Component {
       toggleModalHandler();
       const updatedTasks = await getAllTasks();
       setTasksHandler(updatedTasks);
+    } else {
+      toggleError();
     }
   };
 
@@ -104,6 +106,7 @@ export class CreateTaskForm extends React.Component {
 }
 
 CreateTaskForm.propTypes = {
+  toggleError: propTypes.func.isRequired,
   setTasksHandler: propTypes.func,
   toggleModalHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),

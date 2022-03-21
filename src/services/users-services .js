@@ -4,38 +4,72 @@ import { filterMembers } from '../shared/helpers';
 import { registerUser } from './auth-services';
 
 export async function getAllUsers() {
-  const querySnapshot = await getDocs(collection(db, 'users'));
-  const users = querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
+  try {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    const users = querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
 
-  return filterMembers(users);
+    return filterMembers(users);
+  } catch (error) {
+    console.log(error);
+
+    return false;
+  }
 }
 
 export async function getUserData(uid) {
-  const docRef = doc(db, 'users', uid);
-  const docSnap = await getDoc(docRef);
+  try {
+    const docRef = doc(db, 'users', uid);
+    const docSnap = await getDoc(docRef);
 
-  return docSnap.data();
+    return docSnap.data();
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function createUser(userData) {
   const { email, password } = userData;
-  const uid = await registerUser(email, password);
-  if (uid) {
-    await setDoc(doc(db, 'users', uid), userData);
+  try {
+    const uid = await registerUser(email, password);
+    if (uid) {
+      await setDoc(doc(db, 'users', uid), userData);
 
-    return true;
+      return true;
+    }
+
+    return false;
+  } catch (error) {
+    console.log(error);
+
+    return false;
   }
-
-  return false;
 }
 
 export async function editUser(id, data) {
-  const washingtonRef = doc(db, 'users', id);
-  await updateDoc(washingtonRef, data);
+  try {
+    const washingtonRef = doc(db, 'users', id);
+    await updateDoc(washingtonRef, data);
 
-  return true;
+    return true;
+  } catch (error) {
+    console.log(error);
+
+    return false;
+  }
 }
 
 export async function removeUserData(uid) {
-  await deleteDoc(doc(db, 'users', uid));
+  try {
+    await deleteDoc(doc(db, 'users', uid));
+    const userData = await getUserData(uid);
+    if (userData) {
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.log(error);
+
+    return false;
+  }
 }

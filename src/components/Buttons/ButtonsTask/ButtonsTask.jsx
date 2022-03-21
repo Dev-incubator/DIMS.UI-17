@@ -21,21 +21,33 @@ export class ButtonsTask extends React.Component {
 
   async componentDidMount() {
     const allUsers = await getAllUsers();
-    this.setState({ allUsers });
+    if (allUsers) {
+      this.setState({ allUsers });
+    } else {
+      this.toggleError();
+    }
   }
 
   async getTasksData() {
-    const { id } = this.props;
+    const { id, toggleError } = this.props;
     const taskData = await getTaskData(id);
-    this.setState({ taskData });
+    if (taskData) {
+      this.setState({ taskData });
+    } else {
+      toggleError();
+    }
   }
 
   deleteTaskHandler = async () => {
-    const { id, setTasksHandler } = this.props;
-    await removeTask(id);
-    const tasks = await getAllTasks();
-    setTasksHandler(tasks);
-    this.toggleModalDeleteHandler();
+    const { id, setTasksHandler, toggleError } = this.props;
+    const isDeleted = await removeTask(id);
+    if (isDeleted) {
+      const tasks = await getAllTasks();
+      setTasksHandler(tasks);
+      this.toggleModalDeleteHandler();
+    } else {
+      toggleError();
+    }
   };
 
   toggleModalEditHandler = () => {
@@ -53,7 +65,7 @@ export class ButtonsTask extends React.Component {
 
   render() {
     const { isDeleteModalOpen, isEditModalOpen, taskData, allUsers } = this.state;
-    const { id, setTasksHandler } = this.props;
+    const { id, setTasksHandler, toggleError } = this.props;
 
     return (
       <>
@@ -67,6 +79,7 @@ export class ButtonsTask extends React.Component {
         {isDeleteModalOpen && (
           <Modal title='Delete task' isModalOpen={isDeleteModalOpen} toggleModalHandler={this.toggleModalDeleteHandler}>
             <DeleteForm
+              toggleError={toggleError}
               item='task'
               deleteHandler={this.deleteTaskHandler}
               toggleModalHandler={this.toggleModalDeleteHandler}
@@ -76,6 +89,7 @@ export class ButtonsTask extends React.Component {
         {isEditModalOpen && (
           <Modal title='Task data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
             <CreateTaskForm
+              toggleError={toggleError}
               isEditMode
               users={allUsers}
               taskData={taskData}
@@ -91,6 +105,7 @@ export class ButtonsTask extends React.Component {
 }
 
 ButtonsTask.propTypes = {
+  toggleError: PropTypes.func.isRequired,
   id: PropTypes.string,
   setTasksHandler: PropTypes.func.isRequired,
 };

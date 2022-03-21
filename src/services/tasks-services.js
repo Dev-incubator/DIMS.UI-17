@@ -2,49 +2,81 @@ import { collection, getDocs, addDoc, doc, updateDoc, query, where, getDoc, dele
 import { db } from '../firebase';
 
 export async function getAllTasks() {
-  const querySnapshot = await getDocs(collection(db, 'tasks'));
+  try {
+    const querySnapshot = await getDocs(collection(db, 'tasks'));
 
-  return querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
+    return querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
+  } catch (error) {
+    console.log(error);
+
+    return false;
+  }
 }
 
 export async function createTask(taskData) {
-  const response = await addDoc(collection(db, 'tasks'), taskData);
+  try {
+    const response = await addDoc(collection(db, 'tasks'), taskData);
 
-  return response;
+    return response;
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function removeTask(uid) {
-  await deleteDoc(doc(db, 'tasks', uid));
+  try {
+    await deleteDoc(doc(db, 'tasks', uid));
+
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function updateTask(id, taskData) {
-  const taskRef = doc(db, 'tasks', id);
-  await updateDoc(taskRef, taskData);
+  try {
+    const taskRef = doc(db, 'tasks', id);
+    await updateDoc(taskRef, taskData);
 
-  return true;
+    return true;
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function getMemberTasks(id) {
-  const tasksRef = collection(db, 'tasks');
-  const memberTasks = query(tasksRef, where('subscribers', 'array-contains', id));
-  const querySnapshot = await getDocs(memberTasks);
+  try {
+    const tasksRef = collection(db, 'tasks');
+    const memberTasks = query(tasksRef, where('subscribers', 'array-contains', id));
+    const querySnapshot = await getDocs(memberTasks);
 
-  return querySnapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    return querySnapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function getTaskData(uid) {
-  const docRef = doc(db, 'tasks', uid);
-  const docSnap = await getDoc(docRef);
+  try {
+    const docRef = doc(db, 'tasks', uid);
+    const docSnap = await getDoc(docRef);
 
-  return docSnap.data();
+    return docSnap.data();
+  } catch (error) {
+    return false;
+  }
 }
 
 export async function changeTaskStatus(taskId, userId, newStatus) {
-  const data = await getTaskData(taskId);
-  const { statuses } = data;
-  const updateStatus = statuses.map((item) => (item.id === userId ? { ...item, status: newStatus } : item));
-  const taskRef = doc(db, 'tasks', taskId);
-  await updateDoc(taskRef, { ...data, statuses: updateStatus });
+  try {
+    const data = await getTaskData(taskId);
+    const { statuses } = data;
+    const updateStatus = statuses.map((item) => (item.id === userId ? { ...item, status: newStatus } : item));
+    const taskRef = doc(db, 'tasks', taskId);
+    await updateDoc(taskRef, { ...data, statuses: updateStatus });
 
-  return updateStatus;
+    return updateStatus;
+  } catch (error) {
+    return false;
+  }
 }

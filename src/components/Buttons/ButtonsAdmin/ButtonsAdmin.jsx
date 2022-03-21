@@ -17,29 +17,29 @@ export class ButtonsAdminMemberPage extends React.Component {
       isDeleteModalOpen: false,
       isEditModalOpen: false,
       userData: {},
-      readMode: false,
     };
   }
 
-  componentDidMount() {
-    const { readMode } = this.props;
-    if (readMode) {
-      this.setState({ readMode });
+  async getUserData() {
+    const { id, toggleError } = this.props;
+    const userData = await getUserData(id);
+    if (userData) {
+      this.setState({ userData });
+    } else {
+      toggleError();
     }
   }
 
-  async getUserData() {
-    const { id } = this.props;
-    const userData = await getUserData(id);
-    this.setState({ userData });
-  }
-
   deleteUserHandler = async () => {
-    const { id, setUsersHandler } = this.props;
-    removeUserData(id);
+    const { id, setUsersHandler, toggleError } = this.props;
+    const isDeleted = await removeUserData(id);
     const users = await getAllUsers();
-    await setUsersHandler(users);
-    this.toggleModalDeleteHandler();
+    if (isDeleted && users) {
+      await setUsersHandler(users);
+      this.toggleModalDeleteHandler();
+    } else {
+      toggleError();
+    }
   };
 
   toggleModalEditHandler = () => {
@@ -56,8 +56,8 @@ export class ButtonsAdminMemberPage extends React.Component {
   };
 
   render() {
-    const { id, setUsersHandler, userName } = this.props;
-    const { isDeleteModalOpen, isEditModalOpen, userData, readMode } = this.state;
+    const { id, setUsersHandler, userName, readMode, toggleError } = this.props;
+    const { isDeleteModalOpen, isEditModalOpen, userData } = this.state;
 
     return readMode ? (
       <>
@@ -67,6 +67,7 @@ export class ButtonsAdminMemberPage extends React.Component {
         {isEditModalOpen && (
           <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
             <CreateMemberForm
+              toggleError={toggleError}
               isReadOnlyMode
               isEditMode
               id={id}
@@ -99,6 +100,7 @@ export class ButtonsAdminMemberPage extends React.Component {
             toggleModalHandler={this.toggleModalDeleteHandler}
           >
             <DeleteForm
+              toggleError={toggleError}
               item='member'
               deleteHandler={this.deleteUserHandler}
               toggleModalHandler={this.toggleModalDeleteHandler}
@@ -108,6 +110,7 @@ export class ButtonsAdminMemberPage extends React.Component {
         {isEditModalOpen && (
           <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
             <CreateMemberForm
+              toggleError={toggleError}
               isEditMode
               id={id}
               userData={userData}
@@ -122,6 +125,7 @@ export class ButtonsAdminMemberPage extends React.Component {
 }
 
 ButtonsAdminMemberPage.propTypes = {
+  toggleError: PropTypes.func,
   id: PropTypes.string,
   setUsersHandler: PropTypes.func,
   readMode: PropTypes.bool,
@@ -129,6 +133,7 @@ ButtonsAdminMemberPage.propTypes = {
 };
 
 ButtonsAdminMemberPage.defaultProps = {
+  toggleError: noop,
   id: '0',
   setUsersHandler: noop,
   readMode: false,
