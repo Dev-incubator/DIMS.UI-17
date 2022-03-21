@@ -5,8 +5,7 @@ import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../../shar
 import { Button } from '../../../Buttons/Button/Button';
 import { ModalRow } from '../ModalRow/ModalRow';
 import style from './CreateMemberModal.module.css';
-import { createUser } from '../../../../services/auth-services';
-import { editUser, getAllUsers } from '../../../../services/users-services ';
+import { editUser, getAllUsers, createUser } from '../../../../services/users-services ';
 import noop from '../../../../shared/noop';
 import { validateFormCreateUser } from '../../../../shared/helpers';
 

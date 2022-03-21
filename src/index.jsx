@@ -5,11 +5,14 @@ import { BrowserRouter } from 'react-router-dom';
 import { App } from './App/App';
 import reportWebVitals from './reportWebVitals';
 import './firebase';
+import { AuthProvider } from './Hooks/useAuth';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),

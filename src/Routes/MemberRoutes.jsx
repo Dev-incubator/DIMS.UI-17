@@ -5,6 +5,8 @@ import { Tracks } from '../components/Pages/Tracks/Tracks';
 import { Tasks } from '../components/Pages/Tasks/Tasks';
 
 export function MemberRoutes({ userId }) {
+  console.log('Member routes');
+
   return (
     <Switch>
       <Route exact path='/' component={Home} />

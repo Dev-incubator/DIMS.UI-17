@@ -53,4 +53,5 @@ export const initialStateAuth = {
   role: '',
   uid: '',
   isAuth: false,
+  error: '',
 };

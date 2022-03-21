@@ -1,22 +1,17 @@
-import propTypes from 'prop-types';
-import noop from '../../../shared/noop';
+import { AuthContext } from '../../../Hooks/useAuth';
 import { Button } from '../../Buttons/Button/Button';
 
-export function Logout({ logoutHandler, userName, role }) {
+export function Logout() {
   return (
-    <>
-      <span>{`${userName}: ${role}`} </span>
-      <Button type='button' title='Logout' onClick={logoutHandler} />
-    </>
+    <AuthContext.Consumer>
+      {({ name, role, logoutHandler }) => {
+        return (
+          <>
+            <span>{`${name}: ${role}`} </span>
+            <Button type='button' title='Logout' onClick={logoutHandler} />
+          </>
+        );
+      }}
+    </AuthContext.Consumer>
   );
 }
-
-Logout.propTypes = {
-  logoutHandler: propTypes.func,
-  userName: propTypes.string.isRequired,
-  role: propTypes.string.isRequired,
-};
-
-Logout.defaultProps = {
-  logoutHandler: noop,
-};
