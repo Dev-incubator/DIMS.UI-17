@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer className={style.footer}>
       <p>
-        {FOOTER_KEYS.copyRight} {FOOTER_KEYS.years}
+        CopyRight: {FOOTER_KEYS.creator} {FOOTER_KEYS.years}
       </p>
     </footer>
   );

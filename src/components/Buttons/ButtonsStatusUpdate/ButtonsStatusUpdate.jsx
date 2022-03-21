@@ -33,26 +33,20 @@ export class ButtonsStatusUpdate extends React.Component {
           <Button
             title={BUTTONS_NAMES.success}
             stylingType={BUTTONS_TYPES.typeSave}
-            onClick={() => {
-              this.changeStatusHandler(BUTTONS_NAMES.success);
-            }}
+            onClick={this.changeStatusHandler(BUTTONS_NAMES.success)}
           />
         ) : (
           <Button
             title={BUTTONS_NAMES.active}
             stylingType={BUTTONS_TYPES.typePrimary}
-            onClick={() => {
-              this.changeStatusHandler(BUTTONS_NAMES.active);
-            }}
+            onClick={this.changeStatusHandler(BUTTONS_NAMES.active)}
           />
         )}
 
         <Button
           title={BUTTONS_NAMES.fail}
           stylingType={BUTTONS_TYPES.typeDelete}
-          onClick={() => {
-            this.changeStatusHandler(BUTTONS_NAMES.fail);
-          }}
+          onClick={this.changeStatusHandler(BUTTONS_NAMES.fail)}
         />
       </>
     );

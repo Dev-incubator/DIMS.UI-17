@@ -1,3 +1,5 @@
+import { getCurrentYear } from './helpers';
+
 export const SEX_OPTIONS_KEYS = ['Male', 'Women'];
 export const DIRECTIONS_OPTIONS_KEYS = ['Java', 'Frontend'];
 export const ROLE_OPTIONS_KEYS = ['Admin', 'Mentor', 'Member'];
@@ -132,8 +134,8 @@ export const TRACK_FIELDS_KEYS = [
 ];
 
 export const FOOTER_KEYS = {
-  copyRight: ' CopyRight: Evgeniy Moroz',
-  years: '2022',
+  creator: 'Evgeniy Moroz',
+  years: getCurrentYear(),
 };
 
 export const LINKS_HEADER_MENU = [
