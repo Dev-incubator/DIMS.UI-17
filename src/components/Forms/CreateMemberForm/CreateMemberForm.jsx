@@ -36,7 +36,6 @@ export class CreateMemberForm extends React.Component {
     const { setUsersHandler, toggleModalHandler, isEditMode, id, toggleError } = this.props;
     const { formErrors, ...data } = this.state;
     const { password } = this.state;
-    console.log(formErrors);
 
     Object.entries(formErrors).forEach(([name, value]) => {
       const { name: fildName, error } = validateFormCreateUser(name, value, password);
