@@ -1,3 +1,5 @@
+import { REGEXP_KEYS } from './rexExp';
+
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 export function filterMembers(items) {
@@ -30,10 +32,10 @@ export function validateFormCreateUser(name, value, password) {
       error = value.length < 3 ? 'short' : '';
       break;
     case 'email':
-      error = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i) ? '' : ' is invalid';
+      error = value.match(REGEXP_KEYS.email) ? '' : ' is invalid';
       break;
     case 'password':
-      error = value.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i) ? '' : ' min 8 characters 1 letter and 1 number ';
+      error = value.match(REGEXP_KEYS.password) ? '' : ' min 8 characters 1 letter and 1 number ';
       break;
     case 'confirmPassword':
       error = value === password ? '' : ' is invalid';
@@ -45,7 +47,7 @@ export function validateFormCreateUser(name, value, password) {
       error = value === '' ? 'required' : '';
       break;
     case 'phone':
-      error = value.match(/^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i) ? '' : 'is invalid';
+      error = value.match(REGEXP_KEYS.phone) ? '' : 'is invalid';
       break;
     case 'startDate':
       error = value === '' ? 'required' : '';
@@ -54,10 +56,10 @@ export function validateFormCreateUser(name, value, password) {
       error = value === '' ? 'required' : '';
       break;
     case 'universityAverageAcore':
-      error = value.match(/^[0-9,.]+$/i) ? '' : 'is invalid';
+      error = value.match(REGEXP_KEYS.numbers) ? '' : 'is invalid';
       break;
     case 'mathScore':
-      error = value.match(/^[0-9,.]+$/i) ? '' : 'is invalid';
+      error = value.match(REGEXP_KEYS.numbers) ? '' : 'is invalid';
       break;
 
     default:

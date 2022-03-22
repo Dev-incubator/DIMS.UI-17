@@ -16,33 +16,47 @@ export class CreateMemberForm extends React.Component {
   }
 
   async componentDidMount() {
-    const { userData } = this.props;
-    this.setState(userData);
+    const { userData, isEditMode } = this.props;
+
+    if (isEditMode) {
+      this.setState((prevState) => {
+        const { formErrors } = prevState;
+        const formErrorsForEditMode = formErrors.map((item) => ({ ...item, isValid: true }));
+
+        return { ...userData, formErrors: formErrorsForEditMode, isValid: true };
+      });
+    }
   }
 
   handleChange = ({ target }) => {
     const { name, value } = target;
-    const { password } = this.state;
-    this.setState({ [name]: value });
 
-    const { name: fildName, error } = validateFormCreateUser(name, value, password);
     this.setState((prevState) => {
-      return { ...prevState, formErrors: { ...prevState.formErrors, [fildName]: error } };
+      const { password, formErrors } = prevState;
+      const { name: fildName, error } = validateFormCreateUser(name, value, password);
+      const updatedErrors = formErrors.map((item) =>
+        item.name === fildName ? { ...item, error, isValid: !error.length } : item,
+      );
+
+      return {
+        ...prevState,
+        [name]: value,
+        formErrors: updatedErrors,
+      };
+    });
+
+    this.setState((prevState) => {
+      const { formErrors } = prevState;
+      const errors = formErrors.filter((item) => !item.isValid);
+
+      return errors.length ? { ...prevState, isValid: false } : { ...prevState, isValid: true };
     });
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
     const { setUsersHandler, toggleModalHandler, isEditMode, id, toggleError } = this.props;
-    const { formErrors, ...data } = this.state;
-    const { password } = this.state;
-
-    Object.entries(formErrors).forEach(([name, value]) => {
-      const { name: fildName, error } = validateFormCreateUser(name, value, password);
-      this.setState((prevState) => {
-        return { ...prevState, formErrors: { ...prevState.formErrors, [fildName]: error } };
-      });
-    });
+    const { formErrors, isValid, ...data } = this.state;
 
     const isAdded = isEditMode ? await editUser(id, data) : await createUser(data);
     if (isAdded) {
@@ -56,7 +70,7 @@ export class CreateMemberForm extends React.Component {
 
   render() {
     const { toggleModalHandler, isReadOnlyMode } = this.props;
-    const { formErrors } = this.state;
+    const { formErrors, isValid } = this.state;
 
     return (
       <form onSubmit={this.handleSubmit} className={style.wrapper}>
@@ -64,6 +78,7 @@ export class CreateMemberForm extends React.Component {
           {USER_FIELDS_KEYS.map((item) => {
             const { name, title, type, options } = item;
             const { state } = this;
+            const { error } = formErrors.find((field) => field.name === name) || '';
 
             return (
               <FormField
@@ -75,13 +90,13 @@ export class CreateMemberForm extends React.Component {
                 type={type}
                 title={title}
                 isReadOnlyMode={isReadOnlyMode}
-                errors={formErrors[name]}
+                errors={error}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <input type='submit' value='Save' />}
+          {!isReadOnlyMode && <input type='submit' value='Save' disabled={!isValid} />}
 
           <Button
             onClick={toggleModalHandler}
