@@ -1,3 +1,5 @@
+import { FORM_MEMBER_ERRORS } from './constants';
+
 export const initialStateTasks = {
   name: '',
   description: '',
@@ -24,20 +26,7 @@ export const initialStateCreatMember = {
   education: '',
   universityAverageAcore: '',
   mathScore: '',
-  formErrors: {
-    name: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    birthDate: '',
-    address: '',
-    phone: '',
-    startDate: '',
-    education: '',
-    universityAverageAcore: '',
-    mathScore: '',
-  },
+  formErrors: FORM_MEMBER_ERRORS,
 };
 
 export const initialStateTrack = {

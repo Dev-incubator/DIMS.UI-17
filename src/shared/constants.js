@@ -157,9 +157,18 @@ export const LINKS_HEADER_MENU = [
     access: 'member',
   },
 ];
-export const REGEXP_KEYS = {
-  email: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i,
-  password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
-  phone: /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i,
-  numbers: /^[0-9,.]+$/i,
-};
+
+export const FORM_MEMBER_ERRORS = [
+  { name: 'name', error: '', isValid: false },
+  { name: 'lastName', error: '', isValid: false },
+  { name: 'email', error: '', isValid: false },
+  { name: 'password', error: '', isValid: false },
+  { name: 'confirmPassword', error: '', isValid: false },
+  { name: 'birthDate', error: '', isValid: false },
+  { name: 'address', error: '', isValid: false },
+  { name: 'phone', error: '', isValid: false },
+  { name: 'startDate', error: '', isValid: false },
+  { name: 'education', error: '', isValid: false },
+  { name: 'universityAverageAcore', error: '', isValid: false },
+  { name: 'mathScore', error: '', isValid: false },
+];

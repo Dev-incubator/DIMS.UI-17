@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from './LoginForm.module.css';
-import { REGEXP_KEYS } from '../../../shared/constants';
+import { REGEXP_KEYS } from '../../../shared/rexExp';
 
 export class LoginForm extends React.Component {
   constructor(props) {
