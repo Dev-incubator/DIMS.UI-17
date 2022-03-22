@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import style from './LoginForm.module.css';
 import { REGEXP_KEYS } from '../../../shared/rexExp';
+import { Button } from '../../Buttons/Button/Button';
 
 export class LoginForm extends React.Component {
   constructor(props) {
@@ -60,7 +61,7 @@ export class LoginForm extends React.Component {
   render() {
     const { email, password, formErrors, formValid } = this.state;
     const { email: emailErrors, password: passworErrors } = formErrors;
-    const { error } = this.props;
+    const { error, handleSininWithGoogle } = this.props;
 
     return (
       <>
@@ -98,6 +99,7 @@ export class LoginForm extends React.Component {
           <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
             Sign in
           </button>
+          <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSininWithGoogle} />
         </form>
       </>
     );
@@ -105,6 +107,7 @@ export class LoginForm extends React.Component {
 }
 
 LoginForm.propTypes = {
+  handleSininWithGoogle: PropTypes.func.isRequired,
   handleLogin: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
 };

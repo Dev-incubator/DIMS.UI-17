@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
-import { findUser } from '../services/auth-services';
+import { singInEmailAndPassword, singInGoogle, logout } from '../services/auth-services';
 import { initialStateAuth } from '../shared/initialStates';
 
 export const AuthContext = createContext(null);
@@ -11,31 +11,35 @@ export class AuthProvider extends React.Component {
     this.state = {
       ...initialStateAuth,
       loginHandler: this.login,
+      handleSininWithGoogle: this.singInGoogle,
       logoutHandler: this.logout,
     };
   }
 
   setAuth = (name, role, uid) => {
-    this.setState((prevState) => ({ ...prevState, name, role, uid, isAuth: true }));
+    if (uid) {
+      this.setState((prevState) => ({ ...prevState, name, role, uid, isAuth: true }));
+    }
+    this.setState({ error: 'user not found' });
   };
 
-  logout = () => {
+  logout = async () => {
+    await logout();
     this.setState((prevState) => ({ ...prevState, ...initialStateAuth }));
   };
 
   login = async (email, password) => {
     this.resetError();
-    try {
-      const { role, name, uid } = await findUser(email, password);
-      if (uid) {
-        this.setAuth(name, role, uid);
-      } else {
-        this.setState({ error: 'user not found' });
-      }
-    } catch (err) {
-      console.log(err);
-      this.setState({ error: 'user not found' });
-    }
+    const { role, name, uid } = await singInEmailAndPassword(email, password);
+
+    this.setAuth(name, role, uid);
+  };
+
+  singInGoogle = async () => {
+    this.resetError();
+    const { role, name, uid } = await singInGoogle();
+
+    this.setAuth(name, role, uid);
   };
 
   resetError() {
