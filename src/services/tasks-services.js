@@ -7,7 +7,7 @@ export async function getAllTasks() {
 
     return querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return false;
   }
@@ -19,6 +19,8 @@ export async function createTask(taskData) {
 
     return response;
   } catch (error) {
+    console.error(error);
+
     return false;
   }
 }
@@ -29,6 +31,8 @@ export async function removeTask(uid) {
 
     return true;
   } catch (error) {
+    console.error(error);
+
     return false;
   }
 }
@@ -40,6 +44,8 @@ export async function updateTask(id, taskData) {
 
     return true;
   } catch (error) {
+    console.error(error);
+
     return false;
   }
 }
@@ -52,6 +58,8 @@ export async function getMemberTasks(id) {
 
     return querySnapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
   } catch (error) {
+    console.error(error);
+
     return false;
   }
 }
@@ -63,6 +71,8 @@ export async function getTaskData(uid) {
 
     return docSnap.data();
   } catch (error) {
+    console.error(error);
+
     return false;
   }
 }
@@ -77,6 +87,8 @@ export async function changeTaskStatus(taskId, userId, newStatus) {
 
     return updateStatus;
   } catch (error) {
+    console.error(error);
+
     return false;
   }
 }

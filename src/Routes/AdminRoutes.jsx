@@ -8,8 +8,6 @@ import { Members } from '../components/Pages/Members/Members';
 import { Tasks } from '../components/Pages/Tasks/Tasks';
 
 export function AdminRoutes({ userId }) {
-  console.log('admin routes');
-
   return (
     <Switch>
       <Route exact path='/' component={Home} />

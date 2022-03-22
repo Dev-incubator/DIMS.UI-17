@@ -19,7 +19,7 @@ export async function findUser(email, password) {
 
     return false;
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return false;
   }
@@ -35,7 +35,7 @@ export async function registerUser(email, password) {
 
     return uid;
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return false;
   }

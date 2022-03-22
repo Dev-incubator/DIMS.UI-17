@@ -17,9 +17,8 @@ export class CreateTrackForm extends React.Component {
   componentDidMount() {
     const { userTasks, isEditMode, tracks, id } = this.props;
     if (isEditMode) {
-      const trackData = tracks.filter((track) => track.id === id);
-      console.log(trackData[0]);
-      this.setState(trackData[0]);
+      const trackData = tracks.find((track) => track.id === id);
+      this.setState(trackData);
     } else {
       const tasksNames = userTasks.map((task) => task.name) || [''];
       this.setState({ name: tasksNames[0] });
@@ -35,12 +34,12 @@ export class CreateTrackForm extends React.Component {
     e.preventDefault();
     const { userId, userTasks, toggleModalHandler, taskId, setTracksHandler, isEditMode } = this.props;
     const { name } = this.state;
-    const selectedTask = userTasks.filter((task) => task.name === name);
+    const selectedTask = userTasks.find((task) => task.name === name);
     if (isEditMode) {
       await updateTracks(this.state, taskId, userId);
     } else {
       const id = generateId();
-      await createTrack(selectedTask[0].id, userId, { ...this.state, id });
+      await createTrack(selectedTask.id, userId, { ...this.state, id });
     }
     const updatedTracks = await getTracks(taskId, userId);
     toggleModalHandler();

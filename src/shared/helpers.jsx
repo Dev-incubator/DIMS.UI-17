@@ -1,3 +1,5 @@
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
 export function filterMembers(items) {
   return items.map((item) => ({
     ...item,
@@ -6,7 +8,6 @@ export function filterMembers(items) {
 }
 
 export function generateId() {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let ID = '';
   for (let i = 0; i < 12; i += 1) {
     ID += characters.charAt(Math.floor(Math.random() * 36));

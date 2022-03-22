@@ -5,9 +5,13 @@ export function Logout() {
   return (
     <AuthContext.Consumer>
       {({ name, role, logoutHandler }) => {
+        function showUser() {
+          return <span>{`${name}: ${role} `}</span>;
+        }
+
         return (
           <>
-            <span>{`${name}: ${role}`} </span>
+            {showUser()}
             <Button type='button' title='Logout' onClick={logoutHandler} />
           </>
         );

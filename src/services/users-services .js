@@ -10,7 +10,7 @@ export async function getAllUsers() {
 
     return filterMembers(users);
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return false;
   }
@@ -23,6 +23,8 @@ export async function getUserData(uid) {
 
     return docSnap.data();
   } catch (error) {
+    console.error(error);
+
     return false;
   }
 }
@@ -39,7 +41,7 @@ export async function createUser(userData) {
 
     return false;
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return false;
   }
@@ -47,12 +49,12 @@ export async function createUser(userData) {
 
 export async function editUser(id, data) {
   try {
-    const washingtonRef = doc(db, 'users', id);
-    await updateDoc(washingtonRef, data);
+    const usersRef = doc(db, 'users', id);
+    await updateDoc(usersRef, data);
 
     return true;
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return false;
   }
@@ -68,7 +70,7 @@ export async function removeUserData(uid) {
 
     return true;
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return false;
   }

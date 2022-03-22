@@ -9,18 +9,24 @@ import { Login } from '../components/Pages/Login/Login';
 export function App() {
   return (
     <>
-      <Header />
-      <main>
-        <AuthContext.Consumer>
-          {({ isAuth, role, uid }) => {
-            if (isAuth) {
-              return role === USER_ROLES.admin ? <AdminRoutes userId={uid} /> : <MemberRoutes userId={uid} />;
-            }
+      <AuthContext.Consumer>
+        {({ isAuth, role, uid }) => {
+          if (isAuth) {
+            return (
+              <>
+                <Header />
+                <main>{role === USER_ROLES.admin ? <AdminRoutes userId={uid} /> : <MemberRoutes userId={uid} />}</main>
+              </>
+            );
+          }
 
-            return <Login />;
-          }}
-        </AuthContext.Consumer>
-      </main>
+          return (
+            <main>
+              <Login />
+            </main>
+          );
+        }}
+      </AuthContext.Consumer>
       <Footer />
     </>
   );
