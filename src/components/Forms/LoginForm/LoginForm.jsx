@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import style from './LoginForm.module.css';
+import { REGEXP_KEYS } from '../../../shared/constants';
 
 export class LoginForm extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ export class LoginForm extends React.Component {
     let { emailValid, passwordValid } = this.state;
     switch (fieldName) {
       case 'email':
-        emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+        emailValid = value.match(REGEXP_KEYS.email);
         formErrors.email = emailValid ? '' : ' is invalid';
         break;
       case 'password':

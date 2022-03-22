@@ -2,7 +2,8 @@ import { getCurrentYear } from './helpers';
 
 export const SEX_OPTIONS_KEYS = ['Male', 'Women'];
 export const DIRECTIONS_OPTIONS_KEYS = ['Java', 'Frontend'];
-export const ROLE_OPTIONS_KEYS = ['Admin', 'Mentor', 'Member'];
+export const ROLE_OPTIONS_KEYS = ['admin', 'mentor', 'member'];
+
 export const TITLES_PAGES = {
   members: 'Members',
   allTasks: 'All Tasks',
@@ -10,6 +11,7 @@ export const TITLES_PAGES = {
   progress: 'Progress',
   track: 'Task track',
 };
+
 export const BUTTONS_NAMES = {
   create: 'Create',
   tasks: 'Tasks',
@@ -145,11 +147,19 @@ export const LINKS_HEADER_MENU = [
     activeClassName: 'selected',
     to: '/members',
     name: 'Members',
+    access: 'admin',
   },
   {
     className: 'navItem',
     activeClassName: 'selected',
     to: '/tasks',
     name: 'Tasks',
+    access: 'member',
   },
 ];
+export const REGEXP_KEYS = {
+  email: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i,
+  password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i,
+  phone: /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i,
+  numbers: /^[0-9,.]+$/i,
+};

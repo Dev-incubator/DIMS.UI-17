@@ -53,6 +53,8 @@ export async function getUserTracks(userId) {
 
     return tracks;
   } catch (error) {
+    console.error(error);
+
     return false;
   }
 }
