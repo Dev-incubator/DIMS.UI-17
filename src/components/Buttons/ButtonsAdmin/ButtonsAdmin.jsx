@@ -2,13 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Button } from '../Button/Button';
-import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
+import { BUTTONS_NAMES, BUTTONS_TYPES, USER_ROLES } from '../../../shared/constants';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { Modal } from '../../Common/Modal/Modal';
 import { getAllUsers, getUserData, removeUserData } from '../../../services/users-services ';
 import noop from '../../../shared/noop';
 import style from './ButtonsAdmin.module.css';
 import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm';
+import { AuthContext } from '../../../Hooks/useAuth';
 
 export class ButtonsAdminMemberPage extends React.Component {
   constructor(props) {
@@ -59,67 +60,81 @@ export class ButtonsAdminMemberPage extends React.Component {
     const { id, setUsersHandler, userName, readMode, toggleError } = this.props;
     const { isDeleteModalOpen, isEditModalOpen, userData } = this.state;
 
-    return readMode ? (
-      <>
-        <div className={style.name} role='none' onClick={this.showUserDataHandler}>
-          {userName}
-        </div>
-        {isEditModalOpen && (
-          <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
-            <CreateMemberForm
-              toggleError={toggleError}
-              isReadOnlyMode
-              isEditMode
-              id={id}
-              userData={userData}
-              toggleModalHandler={this.toggleModalEditHandler}
-              setUsersHandler={setUsersHandler}
-            />
-          </Modal>
-        )}
-      </>
-    ) : (
-      <>
-        <NavLink to={`/tasks/${id}`}>
-          <Button title={BUTTONS_NAMES.tasks} />
-        </NavLink>
-        <NavLink to={`/progress/${id}`}>
-          <Button title={BUTTONS_NAMES.progress} />
-        </NavLink>
+    return (
+      <AuthContext.Consumer>
+        {({ role }) => {
+          return readMode ? (
+            <>
+              <div className={style.name} role='none' onClick={this.showUserDataHandler}>
+                {userName}
+              </div>
+              {isEditModalOpen && (
+                <Modal title={userName} isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
+                  <CreateMemberForm
+                    toggleError={toggleError}
+                    isReadOnlyMode
+                    isEditMode
+                    id={id}
+                    userData={userData}
+                    toggleModalHandler={this.toggleModalEditHandler}
+                    setUsersHandler={setUsersHandler}
+                  />
+                </Modal>
+              )}
+            </>
+          ) : (
+            <>
+              <NavLink to={`/tasks/${id}`}>
+                <Button title={BUTTONS_NAMES.tasks} />
+              </NavLink>
+              <NavLink to={`/progress/${id}`}>
+                <Button title={BUTTONS_NAMES.progress} />
+              </NavLink>
+              {role === USER_ROLES.admin && (
+                <>
+                  <Button
+                    title={BUTTONS_NAMES.edit}
+                    stylingType={BUTTONS_TYPES.typeEdit}
+                    onClick={this.showUserDataHandler}
+                  />
+                  <Button
+                    title={BUTTONS_NAMES.delete}
+                    stylingType={BUTTONS_TYPES.typeDelete}
+                    onClick={this.toggleModalDeleteHandler}
+                  />
+                </>
+              )}
 
-        <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={this.showUserDataHandler} />
-        <Button
-          title={BUTTONS_NAMES.delete}
-          stylingType={BUTTONS_TYPES.typeDelete}
-          onClick={this.toggleModalDeleteHandler}
-        />
-        {isDeleteModalOpen && (
-          <Modal
-            title='Delete member'
-            isModalOpen={isDeleteModalOpen}
-            toggleModalHandler={this.toggleModalDeleteHandler}
-          >
-            <DeleteForm
-              toggleError={toggleError}
-              item='member'
-              deleteHandler={this.deleteUserHandler}
-              toggleModalHandler={this.toggleModalDeleteHandler}
-            />
-          </Modal>
-        )}
-        {isEditModalOpen && (
-          <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
-            <CreateMemberForm
-              toggleError={toggleError}
-              isEditMode
-              id={id}
-              userData={userData}
-              toggleModalHandler={this.toggleModalEditHandler}
-              setUsersHandler={setUsersHandler}
-            />
-          </Modal>
-        )}
-      </>
+              {isDeleteModalOpen && (
+                <Modal
+                  title='Delete member'
+                  isModalOpen={isDeleteModalOpen}
+                  toggleModalHandler={this.toggleModalDeleteHandler}
+                >
+                  <DeleteForm
+                    toggleError={toggleError}
+                    item='member'
+                    deleteHandler={this.deleteUserHandler}
+                    toggleModalHandler={this.toggleModalDeleteHandler}
+                  />
+                </Modal>
+              )}
+              {isEditModalOpen && (
+                <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
+                  <CreateMemberForm
+                    toggleError={toggleError}
+                    isEditMode
+                    id={id}
+                    userData={userData}
+                    toggleModalHandler={this.toggleModalEditHandler}
+                    setUsersHandler={setUsersHandler}
+                  />
+                </Modal>
+              )}
+            </>
+          );
+        }}
+      </AuthContext.Consumer>
     );
   }
 }

@@ -7,12 +7,14 @@ import { Tracks } from '../components/Pages/Tracks/Tracks';
 import { Members } from '../components/Pages/Members/Members';
 import { Tasks } from '../components/Pages/Tasks/Tasks';
 
-export function AdminRoutes({ userId }) {
+export function AdminRoutes({ userId, role }) {
   return (
     <Switch>
       <Route exact path='/' component={Home} />
       <Route exact path='/progress/:id' component={Progress} />
-      <Route exact path='/members' component={Members} />
+      <Route exact path='/members'>
+        <Members role={role} />
+      </Route>
       <Route exact path='/tasks' component={AllTasks} />
       <Route exact path='/tasks/:id' component={Tasks} />
       <Route exact path='/tasks/:id/tracks' render={(params) => <Tracks params={params} userId={userId} />} />
@@ -22,4 +24,5 @@ export function AdminRoutes({ userId }) {
 
 AdminRoutes.propTypes = {
   userId: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
 };

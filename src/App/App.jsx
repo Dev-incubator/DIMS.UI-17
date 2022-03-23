@@ -15,7 +15,9 @@ export function App() {
             return (
               <>
                 <Header />
-                <main>{role === USER_ROLES.admin ? <AdminRoutes userId={uid} /> : <MemberRoutes userId={uid} />}</main>
+                <main>
+                  {role === USER_ROLES.admin ? <AdminRoutes role={role} userId={uid} /> : <MemberRoutes userId={uid} />}
+                </main>
               </>
             );
           }

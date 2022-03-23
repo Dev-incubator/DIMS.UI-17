@@ -10,6 +10,7 @@ export const TITLES_PAGES = {
   currentTasks: 'Current Tasks',
   progress: 'Progress',
   track: 'Task track',
+  userTasks: 'Hi! There are your current tasks',
 };
 
 export const BUTTONS_NAMES = {
@@ -71,6 +72,13 @@ export const TABLE_TITLES = {
     name: 'Task name',
     node: 'Task note',
     date: 'Date',
+  },
+  userTasks: {
+    id: '#',
+    name: 'Task name',
+    startDate: 'Start date',
+    deadlineDate: 'Deadline',
+    status: 'Status',
   },
 };
 
