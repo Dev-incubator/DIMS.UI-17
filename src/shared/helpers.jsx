@@ -52,6 +52,15 @@ export function validateFormCreateUser(name, value, password) {
     case 'startDate':
       error = value === '' ? 'required' : '';
       break;
+    case 'node':
+      error = value === '' ? 'required' : '';
+      break;
+    case 'date':
+      error = value === '' ? 'required' : '';
+      break;
+    case 'deadlineDate':
+      error = value === '' ? 'required' : '';
+      break;
     case 'education':
       error = value === '' ? 'required' : '';
       break;

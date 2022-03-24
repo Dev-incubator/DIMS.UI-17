@@ -5,7 +5,7 @@ import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../shared
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTrackForm.module.css';
 import { createTrack, getTracks, updateTracks } from '../../../services/tracks-services';
-import { generateId } from '../../../shared/helpers';
+import { generateId, validateFormCreateUser } from '../../../shared/helpers';
 import { FormField } from '../FormField/FormField';
 
 export class CreateTrackForm extends React.Component {
@@ -18,7 +18,14 @@ export class CreateTrackForm extends React.Component {
     const { userTasks, isEditMode, tracks, id } = this.props;
     if (isEditMode) {
       const trackData = tracks.find((track) => track.id === id);
-      this.setState(trackData);
+      if (isEditMode) {
+        this.setState((prevState) => {
+          const { formErrors } = prevState;
+          const formErrorsForEditMode = formErrors.map((item) => ({ ...item, isValid: true }));
+
+          return { ...trackData, formErrors: formErrorsForEditMode, isValid: true };
+        });
+      }
     } else {
       const tasksNames = userTasks.map((task) => task.name) || [''];
       this.setState({ name: tasksNames[0] });
@@ -28,6 +35,27 @@ export class CreateTrackForm extends React.Component {
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({ [name]: value });
+
+    this.setState((prevState) => {
+      const { formErrors } = prevState;
+      const { name: fildName, error } = validateFormCreateUser(name, value);
+      const updatedErrors = formErrors.map((item) =>
+        item.name === fildName ? { ...item, error, isValid: !error.length } : item,
+      );
+
+      return {
+        ...prevState,
+        [name]: value,
+        formErrors: updatedErrors,
+      };
+    });
+
+    this.setState((prevState) => {
+      const { formErrors } = prevState;
+      const errors = formErrors.filter((item) => !item.isValid);
+
+      return errors.length ? { ...prevState, isValid: false } : { ...prevState, isValid: true };
+    });
   };
 
   handleSubmit = async (e) => {
@@ -48,6 +76,7 @@ export class CreateTrackForm extends React.Component {
 
   render() {
     const { toggleModalHandler, isReadOnlyMode, userTasks } = this.props;
+    const { formErrors, isValid } = this.state;
     const options = userTasks.map((task) => task.name);
 
     return (
@@ -56,6 +85,7 @@ export class CreateTrackForm extends React.Component {
           {TRACK_FIELDS_KEYS.map((item) => {
             const { name, title, type, required } = item;
             const { state } = this;
+            const { error } = formErrors.find((field) => field.name === name) || '';
 
             return (
               <FormField
@@ -68,12 +98,13 @@ export class CreateTrackForm extends React.Component {
                 title={title}
                 required={required}
                 isReadOnlyMode={isReadOnlyMode}
+                errors={error}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <input type='submit' value='Save' />}
+          {!isReadOnlyMode && <input type='submit' value='Save' disabled={!isValid} />}
 
           <Button
             onClick={toggleModalHandler}

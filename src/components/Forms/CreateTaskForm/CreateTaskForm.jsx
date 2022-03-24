@@ -7,6 +7,7 @@ import style from './CreateTaskForm.module.css';
 import noop from '../../../shared/noop';
 import { createTask, getAllTasks, getTaskData, updateTask } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
+import { validateFormCreateUser } from '../../../shared/helpers';
 
 export class CreateTaskForm extends React.Component {
   constructor(props) {
@@ -16,13 +17,51 @@ export class CreateTaskForm extends React.Component {
   }
 
   componentDidMount() {
-    const { taskData } = this.props;
-    this.setState(taskData);
+    const { taskData, isEditMode } = this.props;
+
+    if (isEditMode) {
+      this.setState((prevState) => {
+        const { formErrors } = prevState;
+        const formErrorsForEditMode = formErrors.map((item) => ({ ...item, isValid: true }));
+
+        return { ...taskData, formErrors: formErrorsForEditMode, isValid: true, isValidCheckBox: true };
+      });
+    }
   }
 
   handleChange = ({ target }) => {
     const { name, value } = target;
-    this.setState({ [name]: value });
+
+    this.setState((prevState) => {
+      const { formErrors } = prevState;
+      const { name: fildName, error } = validateFormCreateUser(name, value);
+      const updatedErrors = formErrors.map((item) =>
+        item.name === fildName ? { ...item, error, isValid: !error.length } : item,
+      );
+
+      return {
+        ...prevState,
+        [name]: value,
+        formErrors: updatedErrors,
+      };
+    });
+
+    this.setState((prevState) => {
+      const { formErrors } = prevState;
+      const errors = formErrors.filter((item) => !item.isValid);
+
+      return errors.length ? { ...prevState, isValid: false } : { ...prevState, isValid: true };
+    });
+  };
+
+  checkboxHandler = () => {
+    const selectedUsers = this.myRef.filter((item) => item.checked);
+
+    this.setState((prevState) => {
+      return selectedUsers.length
+        ? { ...prevState, checkboxError: '', isValidCheckBox: true }
+        : { ...prevState, checkboxError: 'require', isValidCheckBox: false };
+    });
   };
 
   handleSubmit = async (e) => {
@@ -51,6 +90,7 @@ export class CreateTaskForm extends React.Component {
 
   render() {
     const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
+    const { formErrors, isValid, checkboxError, isValidCheckBox } = this.state;
     const subscribers = Object.keys(taskData).length === 0 ? [] : taskData.statuses.map((item) => item.id);
 
     return (
@@ -59,6 +99,7 @@ export class CreateTaskForm extends React.Component {
           {TASK_FIELDS_KEYS.map((item) => {
             const { name, title, type, options, required } = item;
             const { state } = this;
+            const { error } = formErrors.find((field) => field.name === name) || '';
 
             return (
               <FormField
@@ -71,6 +112,7 @@ export class CreateTaskForm extends React.Component {
                 title={title}
                 required={required}
                 isReadOnlyMode={isReadOnlyMode}
+                errors={error}
               />
             );
           })}
@@ -87,12 +129,15 @@ export class CreateTaskForm extends React.Component {
                 name={user.id}
                 id={user.id}
                 defaultChecked={isEditMode ? subscribers.includes(user.id) : false}
+                onClick={this.checkboxHandler}
               />
             </label>
           ))}
         </div>
+        <p className={style.error}>{checkboxError}</p>
+
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <input type='submit' value='Save' />}
+          {!isReadOnlyMode && <input type='submit' value='Save' disabled={!isValid || !isValidCheckBox} />}
 
           <Button
             onClick={toggleModalHandler}

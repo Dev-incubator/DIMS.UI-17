@@ -180,3 +180,15 @@ export const FORM_MEMBER_ERRORS = [
   { name: 'universityAverageAcore', error: '', isValid: false },
   { name: 'mathScore', error: '', isValid: false },
 ];
+
+export const FORM_TASK_ERRORS = [
+  { name: 'name', error: '', isValid: false },
+  { name: 'description', error: '', isValid: false },
+  { name: 'startDate', error: '', isValid: false },
+  { name: 'deadlineDate', error: '', isValid: false },
+];
+
+export const FORM_TRACKS_ERRORS = [
+  { name: 'date', error: '', isValid: false },
+  { name: 'node', error: '', isValid: false },
+];
