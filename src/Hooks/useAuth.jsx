@@ -12,6 +12,7 @@ export class AuthProvider extends React.Component {
       ...initialStateAuth,
       loginHandler: this.login,
       logoutHandler: this.logout,
+      resetErrorHandler: this.resetError,
     };
   }
 
@@ -24,7 +25,6 @@ export class AuthProvider extends React.Component {
   };
 
   login = async (email, password) => {
-    this.resetError();
     try {
       const { role, name, uid } = await findUser(email, password);
       if (uid) {
@@ -33,7 +33,7 @@ export class AuthProvider extends React.Component {
         this.setState({ error: 'user not found' });
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       this.setState({ error: 'user not found' });
     }
   };

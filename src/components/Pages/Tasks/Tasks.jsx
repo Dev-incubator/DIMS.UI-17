@@ -46,6 +46,7 @@ export class Tasks extends React.Component {
   render() {
     const { tasks, error } = this.state;
     const {
+      history,
       match: {
         params: { id },
       },
@@ -57,6 +58,7 @@ export class Tasks extends React.Component {
           title={TITLES_PAGES.currentTasks}
           buttonTitle={BUTTONS_NAMES.backToList}
           onClick={noop}
+          history={history}
           isBackButton
         />
         <TableCurrentTasks
@@ -83,4 +85,5 @@ export class Tasks extends React.Component {
 
 Tasks.propTypes = {
   match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
+  history: propTypes.shape({}).isRequired,
 };

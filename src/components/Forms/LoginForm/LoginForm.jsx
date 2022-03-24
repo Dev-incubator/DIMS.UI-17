@@ -30,7 +30,9 @@ export class LoginForm extends React.Component {
   };
 
   handleFocus = ({ target }) => {
+    const { resetErrorHandler } = this.props;
     const { name, value } = target;
+    resetErrorHandler();
     this.validateField(name, value);
   };
 
@@ -107,4 +109,5 @@ export class LoginForm extends React.Component {
 LoginForm.propTypes = {
   handleLogin: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
+  resetErrorHandler: PropTypes.func.isRequired,
 };
