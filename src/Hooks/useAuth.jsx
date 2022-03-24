@@ -13,6 +13,7 @@ export class AuthProvider extends React.Component {
       loginHandler: this.login,
       handleSininWithGoogle: this.singInGoogle,
       logoutHandler: this.logout,
+      resetErrorHandler: this.resetError,
     };
   }
 
@@ -29,22 +30,20 @@ export class AuthProvider extends React.Component {
   };
 
   login = async (email, password) => {
-    this.resetError();
     const { role, name, uid } = await singInEmailAndPassword(email, password);
 
     this.setAuth(name, role, uid);
   };
 
   singInGoogle = async () => {
-    this.resetError();
     const { role, name, uid } = await singInGoogle();
 
     this.setAuth(name, role, uid);
   };
 
-  resetError() {
+  resetError = () => {
     this.setState({ error: '' });
-  }
+  };
 
   render() {
     const { children } = this.props;

@@ -26,6 +26,7 @@ export class Progress extends React.Component {
 
   render() {
     const { progress } = this.state;
+    const { history } = this.props;
 
     return (
       <div>
@@ -33,6 +34,7 @@ export class Progress extends React.Component {
           title={TITLES_PAGES.progress}
           buttonTitle={BUTTONS_NAMES.backToList}
           stylingType={BUTTONS_TYPES.typeSecondary}
+          history={history}
           isBackButton
         />
         <Table items={progress} titles={TABLE_TITLES.progress} />
@@ -43,4 +45,5 @@ export class Progress extends React.Component {
 
 Progress.propTypes = {
   match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
+  history: propTypes.shape({}).isRequired,
 };

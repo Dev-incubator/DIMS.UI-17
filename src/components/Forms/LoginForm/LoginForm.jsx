@@ -33,7 +33,9 @@ export class LoginForm extends React.Component {
 
   handleFocus = ({ target }) => {
     const { name, value } = target;
+    const { resetErrorHandler } = this.props;
     this.validateField(name, value);
+    resetErrorHandler();
   };
 
   validateField(fieldName, value) {
@@ -113,4 +115,5 @@ LoginForm.propTypes = {
   handleSininWithGoogle: PropTypes.func.isRequired,
   handleLogin: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
+  resetErrorHandler: PropTypes.func.isRequired,
 };
