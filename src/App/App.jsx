@@ -1,3 +1,4 @@
+import { Container } from 'react-bootstrap';
 import { Header } from '../components/Common/Header/Header';
 import { Footer } from '../components/Common/Footer/Footer';
 import { AdminRoutes } from '../Routes/AdminRoutes';
@@ -8,7 +9,7 @@ import { Login } from '../components/Pages/Login/Login';
 
 export function App() {
   return (
-    <>
+    <Container>
       <AuthContext.Consumer>
         {({ isAuth, role, uid }) => {
           if (isAuth) {
@@ -30,6 +31,6 @@ export function App() {
         }}
       </AuthContext.Consumer>
       <Footer />
-    </>
+    </Container>
   );
 }

@@ -27,11 +27,11 @@ export const BUTTONS_NAMES = {
 };
 
 export const BUTTONS_TYPES = {
-  typePrimary: 'typePrimary',
-  typeSecondary: 'typeSecondary',
-  typeEdit: 'typeEdit',
-  typeDelete: 'typeDelete',
-  typeSave: 'typeSave',
+  typePrimary: 'primary',
+  typeSecondary: 'secondary',
+  typeEdit: 'warning',
+  typeDelete: 'danger',
+  typeSave: 'success',
 };
 
 export const TABLE_TITLES = {

@@ -1,11 +1,12 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import style from './Table.module.css';
 
 export function TableWithActions({ titles, items, linkPath, action }) {
   return (
-    <table className={style.table}>
+    <Table className={style.table}>
       <thead>
         <tr>
           {Object.values(titles).map((item) => (
@@ -34,7 +35,7 @@ export function TableWithActions({ titles, items, linkPath, action }) {
           );
         })}
       </tbody>
-    </table>
+    </Table>
   );
 }
 

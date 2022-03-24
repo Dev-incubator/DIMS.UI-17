@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import style from './LoginForm.module.css';
 import { REGEXP_KEYS } from '../../../shared/rexExp';
@@ -64,44 +65,46 @@ export class LoginForm extends React.Component {
     const { error, handleSininWithGoogle } = this.props;
 
     return (
-      <>
-        <h1 className={style.title}>Sign in to CMS</h1>
-        <form action='' className={style.login}>
-          <label className={style.login__label} htmlFor='email'>
-            Email address
-            <input
-              className={emailErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
-              name='email'
-              onChange={this.handleChange}
-              onBlur={this.handleFocus}
-              value={email}
-              type='text'
-              id='email'
-            />
-            <p className={style.errorTitle}>{emailErrors.length ? 'login is invalid' : ''}</p>
-          </label>
-          <label className={style.login__label} htmlFor='password'>
-            Password
-            <input
-              className={passworErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
-              name='password'
-              value={password}
-              onChange={this.handleChange}
-              onBlur={this.handleFocus}
-              type='password'
-              id='password'
-              placeholder='password'
-            />
-            <p className={style.errorTitle}>{passworErrors.length ? 'password is invalid' : ''}</p>
-          </label>
-          <p className={style.errorTitle}>{error ? 'User not found' : ''}</p>
+      <Row sm='auto' className='justify-content-center'>
+        <Col>
+          <h1 className={style.title}>Sign in to CMS</h1>
+          <form action='' className={style.login}>
+            <label className={style.login__label} htmlFor='email'>
+              Email address
+              <input
+                className={emailErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
+                name='email'
+                onChange={this.handleChange}
+                onBlur={this.handleFocus}
+                value={email}
+                type='text'
+                id='email'
+              />
+              <p className={style.errorTitle}>{emailErrors.length ? 'login is invalid' : ''}</p>
+            </label>
+            <label className={style.login__label} htmlFor='password'>
+              Password
+              <input
+                className={passworErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
+                name='password'
+                value={password}
+                onChange={this.handleChange}
+                onBlur={this.handleFocus}
+                type='password'
+                id='password'
+                placeholder='password'
+              />
+              <p className={style.errorTitle}>{passworErrors.length ? 'password is invalid' : ''}</p>
+            </label>
+            <p className={style.errorTitle}>{error ? 'User not found' : ''}</p>
 
-          <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
-            Sign in
-          </button>
-          <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSininWithGoogle} />
-        </form>
-      </>
+            <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
+              Sign in
+            </button>
+            <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSininWithGoogle} />
+          </form>
+        </Col>
+      </Row>
     );
   }
 }

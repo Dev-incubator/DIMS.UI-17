@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
-import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES } from '../../../shared/constants';
+import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES, BUTTONS_TYPES } from '../../../shared/constants';
 import { getUserTracks } from '../../../services/tracks-services';
 
 export class Progress extends React.Component {
@@ -29,7 +29,12 @@ export class Progress extends React.Component {
 
     return (
       <div>
-        <PageTitle title={TITLES_PAGES.progress} buttonTitle={BUTTONS_NAMES.backToList} isBackButton />
+        <PageTitle
+          title={TITLES_PAGES.progress}
+          buttonTitle={BUTTONS_NAMES.backToList}
+          stylingType={BUTTONS_TYPES.typeSecondary}
+          isBackButton
+        />
         <Table items={progress} titles={TABLE_TITLES.progress} />
       </div>
     );

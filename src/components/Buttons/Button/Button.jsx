@@ -1,7 +1,8 @@
+import { Button as BootstrapButton } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import noop from '../../../shared/noop';
-import style from './Button.module.css';
+// import style from './Button.module.css';
 
 export function Button({ title, onClick, stylingType, isBackButton, ...restProps }) {
   const history = useHistory();
@@ -10,14 +11,14 @@ export function Button({ title, onClick, stylingType, isBackButton, ...restProps
   };
 
   return (
-    <button
-      className={style[stylingType]}
+    <BootstrapButton
+      variant={stylingType}
       type='button'
       onClick={isBackButton ? buttonBackHandler : onClick}
       {...restProps}
     >
       <span>{title}</span>
-    </button>
+    </BootstrapButton>
   );
 }
 
@@ -30,6 +31,6 @@ Button.propTypes = {
 
 Button.defaultProps = {
   onClick: noop,
-  stylingType: 'typePrimary',
+  stylingType: 'primary',
   isBackButton: false,
 };

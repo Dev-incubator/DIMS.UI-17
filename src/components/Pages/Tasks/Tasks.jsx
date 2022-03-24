@@ -1,6 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/constants';
+import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
 import { getMemberTasks } from '../../../services/tasks-services';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
@@ -57,6 +57,7 @@ export class Tasks extends React.Component {
           title={TITLES_PAGES.currentTasks}
           buttonTitle={BUTTONS_NAMES.backToList}
           onClick={noop}
+          stylingType={BUTTONS_TYPES.typeSecondary}
           isBackButton
         />
         <TableCurrentTasks

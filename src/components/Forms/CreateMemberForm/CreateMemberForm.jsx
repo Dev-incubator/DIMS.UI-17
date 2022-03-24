@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button as BootstrapButton } from 'react-bootstrap';
 import propTypes from 'prop-types';
 import { initialStateCreatMember } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/constants';
@@ -96,7 +97,7 @@ export class CreateMemberForm extends React.Component {
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <input type='submit' value='Save' disabled={!isValid} />}
+          {!isReadOnlyMode && <BootstrapButton as='input' type='submit' value='Save' disabled={!isValid} />}
 
           <Button
             onClick={toggleModalHandler}

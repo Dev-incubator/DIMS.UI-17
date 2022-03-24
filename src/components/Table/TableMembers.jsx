@@ -1,11 +1,12 @@
 import React from 'react';
+import { Table } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { ButtonsAdminMemberPage } from '../Buttons/ButtonsAdmin/ButtonsAdmin';
 import style from './Table.module.css';
 
 export function TableMembers({ titles, items, action }) {
   return (
-    <table className={style.table}>
+    <Table striped bordered hover className={style.table}>
       <thead>
         <tr>
           {Object.values(titles).map((item) => (
@@ -34,7 +35,7 @@ export function TableMembers({ titles, items, action }) {
           );
         })}
       </tbody>
-    </table>
+    </Table>
   );
 }
 
