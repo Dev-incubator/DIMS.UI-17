@@ -32,8 +32,8 @@ export class LoginForm extends React.Component {
   };
 
   handleFocus = ({ target }) => {
-    const { name, value } = target;
     const { resetErrorHandler } = this.props;
+    const { name, value } = target;
     this.validateField(name, value);
     resetErrorHandler();
   };
