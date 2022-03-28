@@ -4,7 +4,7 @@ import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
 import { getTaskData, removeTask, getAllTasks } from '../../../services/tasks-services';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
-import { Modal } from '../../Common/Modal/Modal';
+import { MyModal } from '../../Common/Modal/Modal';
 import { getAllUsers } from '../../../services/users-services ';
 import { CreateTaskForm } from '../../Forms/CreateTaskForm/CreateTaskForm';
 
@@ -77,17 +77,21 @@ export class ButtonsTask extends React.Component {
         />
 
         {isDeleteModalOpen && (
-          <Modal title='Delete task' isModalOpen={isDeleteModalOpen} toggleModalHandler={this.toggleModalDeleteHandler}>
+          <MyModal
+            title='Delete task'
+            isModalOpen={isDeleteModalOpen}
+            toggleModalHandler={this.toggleModalDeleteHandler}
+          >
             <DeleteForm
               toggleError={toggleError}
               item='task'
               deleteHandler={this.deleteTaskHandler}
               toggleModalHandler={this.toggleModalDeleteHandler}
             />
-          </Modal>
+          </MyModal>
         )}
         {isEditModalOpen && (
-          <Modal title='Task data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
+          <MyModal title='Task data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
             <CreateTaskForm
               toggleError={toggleError}
               isEditMode
@@ -97,7 +101,7 @@ export class ButtonsTask extends React.Component {
               toggleModalHandler={this.toggleModalEditHandler}
               setTasksHandler={setTasksHandler}
             />
-          </Modal>
+          </MyModal>
         )}
       </>
     );

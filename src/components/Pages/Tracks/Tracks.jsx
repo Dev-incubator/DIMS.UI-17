@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { TITLES_PAGES, BUTTONS_NAMES, TABLE_TITLES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
-import { Modal } from '../../Common/Modal/Modal';
+import { MyModal } from '../../Common/Modal/Modal';
 import { getMemberTasks } from '../../../services/tasks-services';
 import { getTracks } from '../../../services/tracks-services';
 import { ButtonsTrack } from '../../Buttons/ButtonsTrack/ButtonsTrack';
@@ -70,7 +70,7 @@ export class Tracks extends React.Component {
           }
         />
         {isModalOpen && (
-          <Modal
+          <MyModal
             title={MODALTITLE_KEYS.createTrack}
             isModalOpen={isModalOpen}
             toggleModalHandler={this.toggleModalHandler}
@@ -83,7 +83,7 @@ export class Tracks extends React.Component {
               setTracksHandler={this.setTracksHandler}
               userTasks={userTasks}
             />
-          </Modal>
+          </MyModal>
         )}
       </>
     );

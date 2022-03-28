@@ -104,7 +104,7 @@ export class CreateTrackForm extends React.Component {
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <input type='submit' value='Save' disabled={!isValid} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={!isValid} />}
 
           <Button
             onClick={toggleModalHandler}

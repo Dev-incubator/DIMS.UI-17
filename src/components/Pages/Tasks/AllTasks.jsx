@@ -3,7 +3,7 @@ import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS, MODALTITLE_KE
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TableAllTasks } from '../../Table/TableAllTasks';
 import { getAllTasks } from '../../../services/tasks-services';
-import { Modal } from '../../Common/Modal/Modal';
+import { MyModal } from '../../Common/Modal/Modal';
 import { ButtonsTask } from '../../Buttons/ButtonsTask/ButtonsTask';
 import { getAllUsers } from '../../../services/users-services ';
 import { CreateTaskForm } from '../../Forms/CreateTaskForm/CreateTaskForm';
@@ -54,7 +54,7 @@ export class AllTasks extends React.Component {
           action={<ButtonsTask toggleError={this.toggleError} setTasksHandler={this.setTasksHandler} />}
         />
         {isModalOpen && (
-          <Modal
+          <MyModal
             title={MODALTITLE_KEYS.createTask}
             isModalOpen={isModalOpen}
             toggleModalHandler={this.toggleModalHandler}
@@ -65,12 +65,12 @@ export class AllTasks extends React.Component {
               toggleModalHandler={this.toggleModalHandler}
               setTasksHandler={this.setTasksHandler}
             />
-          </Modal>
+          </MyModal>
         )}
         {error && (
-          <Modal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
+          <MyModal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
             <Error onClick={this.toggleError} />
-          </Modal>
+          </MyModal>
         )}
       </>
     );

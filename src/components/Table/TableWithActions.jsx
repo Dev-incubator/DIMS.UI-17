@@ -6,7 +6,7 @@ import style from './Table.module.css';
 
 export function TableWithActions({ titles, items, linkPath, action }) {
   return (
-    <Table className={style.table}>
+    <Table striped bordered hover className={style.table}>
       <thead>
         <tr>
           {Object.values(titles).map((item) => (

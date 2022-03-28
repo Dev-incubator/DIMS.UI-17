@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as BootstrapButton } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import propTypes from 'prop-types';
 import { initialStateCreatMember } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/constants';
@@ -74,7 +74,7 @@ export class CreateMemberForm extends React.Component {
     const { formErrors, isValid } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit} className={style.wrapper}>
+      <Form onSubmit={this.handleSubmit}>
         <div className={style.section__fields}>
           {USER_FIELDS_KEYS.map((item) => {
             const { name, title, type, options } = item;
@@ -97,7 +97,7 @@ export class CreateMemberForm extends React.Component {
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <BootstrapButton as='input' type='submit' value='Save' disabled={!isValid} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={!isValid} />}
 
           <Button
             onClick={toggleModalHandler}
@@ -105,7 +105,7 @@ export class CreateMemberForm extends React.Component {
             title={BUTTONS_NAMES.backToList}
           />
         </div>
-      </form>
+      </Form>
     );
   }
 }

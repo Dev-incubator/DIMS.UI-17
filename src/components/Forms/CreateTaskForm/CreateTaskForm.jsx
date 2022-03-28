@@ -1,5 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { Form } from 'react-bootstrap';
 import { initialStateTasks } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
@@ -94,7 +95,7 @@ export class CreateTaskForm extends React.Component {
     const subscribers = Object.keys(taskData).length === 0 ? [] : taskData.statuses.map((item) => item.id);
 
     return (
-      <form onSubmit={this.handleSubmit} className={style.wrapper}>
+      <Form onSubmit={this.handleSubmit} className={style.wrapper}>
         <div className={style.section__fields}>
           {TASK_FIELDS_KEYS.map((item) => {
             const { name, title, type, options, required } = item;
@@ -121,7 +122,7 @@ export class CreateTaskForm extends React.Component {
           {users.map((user, index) => (
             <label className={style.users} key={user.id} htmlFor={user.id}>
               {user.name}
-              <input
+              <Form.Check
                 ref={(ref) => {
                   this.myRef[index] = ref;
                 }}
@@ -137,7 +138,9 @@ export class CreateTaskForm extends React.Component {
         <p className={style.error}>{checkboxError}</p>
 
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <input type='submit' value='Save' disabled={!isValid || !isValidCheckBox} />}
+          {!isReadOnlyMode && (
+            <Button title='Save' onClick={this.handleSubmit} disabled={!isValid || !isValidCheckBox} />
+          )}
 
           <Button
             onClick={toggleModalHandler}
@@ -145,7 +148,7 @@ export class CreateTaskForm extends React.Component {
             title={BUTTONS_NAMES.backToList}
           />
         </div>
-      </form>
+      </Form>
     );
   }
 }

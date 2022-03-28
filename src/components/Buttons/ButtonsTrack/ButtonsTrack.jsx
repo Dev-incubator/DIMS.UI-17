@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
-import { Modal } from '../../Common/Modal/Modal';
+import { MyModal } from '../../Common/Modal/Modal';
 import { getTracks, removeTrack } from '../../../services/tracks-services';
 import { CreateTrackForm } from '../../Forms/CreateTrackForm/CreateTrackForm';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
@@ -46,7 +46,7 @@ export class ButtonsTrack extends React.Component {
         />
 
         {isDeleteModalOpen && (
-          <Modal
+          <MyModal
             title='Delete track'
             isModalOpen={isDeleteModalOpen}
             toggleModalHandler={this.toggleModalDeleteHandler}
@@ -56,10 +56,10 @@ export class ButtonsTrack extends React.Component {
               deleteHandler={this.deleteTrackHandler}
               toggleModalHandler={this.toggleModalDeleteHandler}
             />
-          </Modal>
+          </MyModal>
         )}
         {isEditModalOpen && (
-          <Modal title='Track Data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
+          <MyModal title='Track Data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
             <CreateTrackForm
               id={id}
               userId={userId}
@@ -70,7 +70,7 @@ export class ButtonsTrack extends React.Component {
               toggleModalHandler={this.toggleModalEditHandler}
               userTasks={userTasks}
             />
-          </Modal>
+          </MyModal>
         )}
       </>
     );

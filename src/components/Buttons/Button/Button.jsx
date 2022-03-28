@@ -1,5 +1,6 @@
 import { Button as BootstrapButton } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import style from './Button.module.css';
 import noop from '../../../shared/noop';
 
 export function Button({ title, onClick, stylingType, isBackButton, history, ...restProps }) {
@@ -10,6 +11,7 @@ export function Button({ title, onClick, stylingType, isBackButton, history, ...
 
   return (
     <BootstrapButton
+      className={style.button}
       variant={stylingType}
       type='button'
       onClick={isBackButton ? buttonBackHandler : onClick}

@@ -2,7 +2,7 @@ import React from 'react';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS, MODALTITLE_KEYS } from '../../../shared/constants';
 import { TableMembers } from '../../Table/TableMembers';
-import { Modal } from '../../Common/Modal/Modal';
+import { MyModal } from '../../Common/Modal/Modal';
 import { getAllUsers } from '../../../services/users-services ';
 import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
 import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm';
@@ -52,20 +52,16 @@ export class Members extends React.Component {
           linkPath={LINKPATH_KEYS.track}
           action={<ButtonsAdminMemberPage toggleError={this.toggleError} setUsersHandler={this.setUsersHandler} />}
         />
-        {isModalOpen && (
-          <Modal
-            title={MODALTITLE_KEYS.createMember}
-            isModalOpen={isModalOpen}
-            toggleModalHandler={this.toggleModalHandler}
-          >
-            <CreateMemberForm toggleModalHandler={this.toggleModalHandler} setUsersHandler={this.setUsersHandler} />
-          </Modal>
-        )}
-        {error && (
-          <Modal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
-            <Error onClick={this.toggleError} />
-          </Modal>
-        )}
+        <MyModal
+          title={MODALTITLE_KEYS.createMember}
+          isModalOpen={isModalOpen}
+          toggleModalHandler={this.toggleModalHandler}
+        >
+          <CreateMemberForm toggleModalHandler={this.toggleModalHandler} setUsersHandler={this.setUsersHandler} />
+        </MyModal>
+        <MyModal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
+          <Error onClick={this.toggleError} />
+        </MyModal>
       </>
     );
   }

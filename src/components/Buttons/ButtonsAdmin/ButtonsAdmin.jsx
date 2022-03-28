@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES, USER_ROLES } from '../../../shared/constants';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
-import { Modal } from '../../Common/Modal/Modal';
+import { MyModal } from '../../Common/Modal/Modal';
 import { getAllUsers, getUserData, removeUserData } from '../../../services/users-services ';
 import noop from '../../../shared/noop';
 import style from './ButtonsAdmin.module.css';
@@ -69,7 +69,11 @@ export class ButtonsAdminMemberPage extends React.Component {
                 {userName}
               </div>
               {isEditModalOpen && (
-                <Modal title={userName} isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
+                <MyModal
+                  title={userName}
+                  isModalOpen={isEditModalOpen}
+                  toggleModalHandler={this.toggleModalEditHandler}
+                >
                   <CreateMemberForm
                     toggleError={toggleError}
                     isReadOnlyMode
@@ -79,7 +83,7 @@ export class ButtonsAdminMemberPage extends React.Component {
                     toggleModalHandler={this.toggleModalEditHandler}
                     setUsersHandler={setUsersHandler}
                   />
-                </Modal>
+                </MyModal>
               )}
             </>
           ) : (
@@ -106,7 +110,7 @@ export class ButtonsAdminMemberPage extends React.Component {
               )}
 
               {isDeleteModalOpen && (
-                <Modal
+                <MyModal
                   title='Delete member'
                   isModalOpen={isDeleteModalOpen}
                   toggleModalHandler={this.toggleModalDeleteHandler}
@@ -117,10 +121,14 @@ export class ButtonsAdminMemberPage extends React.Component {
                     deleteHandler={this.deleteUserHandler}
                     toggleModalHandler={this.toggleModalDeleteHandler}
                   />
-                </Modal>
+                </MyModal>
               )}
               {isEditModalOpen && (
-                <Modal title='User data' isModalOpen={isEditModalOpen} toggleModalHandler={this.toggleModalEditHandler}>
+                <MyModal
+                  title='User data'
+                  isModalOpen={isEditModalOpen}
+                  toggleModalHandler={this.toggleModalEditHandler}
+                >
                   <CreateMemberForm
                     toggleError={toggleError}
                     isEditMode
@@ -129,7 +137,7 @@ export class ButtonsAdminMemberPage extends React.Component {
                     toggleModalHandler={this.toggleModalEditHandler}
                     setUsersHandler={setUsersHandler}
                   />
-                </Modal>
+                </MyModal>
               )}
             </>
           );
