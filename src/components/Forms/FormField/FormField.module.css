@@ -1,0 +1,15 @@
+.field {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+.item {
+  display: flex;
+  flex-direction: column;
+}
+.error {
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  color: var(--color-error);
+}

@@ -1,47 +1,78 @@
-import { ButtonsAdmin } from '../components/Buttons/ButtonsAdmin/ButtonsAdmin';
-import { ButtonsStatusUpdate } from '../components/Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
+import { REGEXP_KEYS } from './rexExp';
+
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 export function filterMembers(items) {
-  const users = items;
-
-  return users.map((item) => ({
+  return items.map((item) => ({
     ...item,
     name: `${item.name} ${item.lastName}`,
-    actions: <ButtonsAdmin id={item.id} />,
   }));
 }
 
-export function filterProgress(items) {
-  const traks = items;
-  const allTraks = traks.map((item) => {
-    const row = item.track.map((track) => {
-      return { id: item.id, name: item.name, node: track.node, date: track.date };
-    });
+export function generateId() {
+  let ID = '';
+  for (let i = 0; i < 12; i += 1) {
+    ID += characters.charAt(Math.floor(Math.random() * 36));
+  }
 
-    return row;
-  });
-  const rows = allTraks.flat();
-
-  return rows;
+  return ID;
 }
 
-export function filterCurrentTasks(items) {
-  const tasks = items;
-
-  return tasks.map((item) => ({
-    ...item,
-    actions: <ButtonsStatusUpdate />,
-  }));
+export function stopPropagationHandler(e) {
+  e.stopPropagation();
 }
 
-export function getFakeTasksItems(tasks) {
-  const items = tasks;
+export function validateFormCreateUser(name, value, password) {
+  let error = '';
+  switch (name) {
+    case 'name':
+      error = value.length < 3 ? 'short' : '';
+      break;
+    case 'lastName':
+      error = value.length < 3 ? 'short' : '';
+      break;
+    case 'email':
+      error = value.match(REGEXP_KEYS.email) ? '' : ' is invalid';
+      break;
+    case 'password':
+      error = value.match(REGEXP_KEYS.password) ? '' : ' min 8 characters 1 letter and 1 number ';
+      break;
+    case 'confirmPassword':
+      error = value === password ? '' : ' is invalid';
+      break;
+    case 'birthDate':
+      error = getAge(value) >= 18 ? '' : ' is invalid';
+      break;
+    case 'address':
+      error = value === '' ? 'required' : '';
+      break;
+    case 'phone':
+      error = value.match(REGEXP_KEYS.phone) ? '' : 'is invalid';
+      break;
+    case 'startDate':
+      error = value === '' ? 'required' : '';
+      break;
+    case 'education':
+      error = value === '' ? 'required' : '';
+      break;
+    case 'universityAverageAcore':
+      error = value.match(REGEXP_KEYS.numbers) ? '' : 'is invalid';
+      break;
+    case 'mathScore':
+      error = value.match(REGEXP_KEYS.numbers) ? '' : 'is invalid';
+      break;
 
-  return items.map((item) => [item.id, item.name, item.startDate, item.deadlineDate, item.status]);
+    default:
+      break;
+  }
+
+  return { name, error };
 }
 
-export function goBack(history) {
-  const stepBack = () => history.goBack();
+function getAge(birthDate) {
+  return Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
+}
 
-  return stepBack;
+export function getCurrentYear() {
+  return new Date().getFullYear();
 }

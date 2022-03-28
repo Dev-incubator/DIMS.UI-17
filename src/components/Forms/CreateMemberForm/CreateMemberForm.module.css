@@ -1,0 +1,10 @@
+.section__fields {
+  display: grid;
+  grid-template: repeat(8, auto) / auto auto;
+  grid-auto-flow: column;
+}
+
+.section__buttons {
+  display: flex;
+  justify-content: center;
+}

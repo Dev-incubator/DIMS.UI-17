@@ -1,9 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES } from '../../../shared/constants';
+import { getMemberTasks } from '../../../services/tasks-services';
 import { PageTitle } from '../../PageTitle/PageTitle';
-import { Table } from '../../Table/Table';
-import { getMemberTasks } from '../../../mockApi/getData';
+import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
+import { TableCurrentTasks } from '../../Table/TableCurrentTasks';
+import noop from '../../../shared/noop';
+import { Error } from '../../Forms/Error/Error';
+import { Modal } from '../../Common/Modal/Modal';
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -14,32 +18,72 @@ export class Tasks extends React.Component {
   }
 
   async componentDidMount() {
-    const { match } = this.props;
-    const id = match.params;
-    if (id) {
-      await this.getProgress(id);
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
+    const tasks = await getMemberTasks(id);
+    if (tasks) {
+      this.setState({ tasks });
+    } else {
+      this.toggleError();
     }
   }
 
-  async getProgress(id) {
-    const tasks = await getMemberTasks(id);
-    this.setState({ tasks });
-  }
+  updateStateHandler = (newTaskStatus, taskId) => {
+    this.setState((prevState) => {
+      const tasks = prevState.tasks.map((item) => (item.id === taskId ? { ...item, statuses: newTaskStatus } : item));
+
+      return { tasks };
+    });
+  };
+
+  toggleError = () => {
+    this.setState((prevState) => ({ ...prevState, error: !prevState.error }));
+  };
 
   render() {
-    const { tasks } = this.state;
+    const { tasks, error } = this.state;
+    const {
+      history,
+      match: {
+        params: { id },
+      },
+    } = this.props;
 
     return (
-      <div>
-        <PageTitle title={TITLES_PAGES.currentTasks} buttonTitle={BUTTONS_NAMES.backToList} isBackButton />
-        <Table titles={TABLE_TITLES.currentTasks} items={tasks} />
-      </div>
+      <>
+        <PageTitle
+          title={TITLES_PAGES.currentTasks}
+          buttonTitle={BUTTONS_NAMES.backToList}
+          onClick={noop}
+          history={history}
+          isBackButton
+        />
+        <TableCurrentTasks
+          titles={TABLE_TITLES.currentTasks}
+          items={tasks}
+          userId={id}
+          action={
+            <ButtonsStatusUpdate
+              toggleError={this.toggleError}
+              updateStateHandler={this.updateStateHandler}
+              userId={id}
+            />
+          }
+        />
+        {error && (
+          <Modal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
+            <Error onClick={this.toggleError} />
+          </Modal>
+        )}
+      </>
     );
   }
 }
 
 Tasks.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
-  }).isRequired,
+  match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
+  history: propTypes.shape({}).isRequired,
 };

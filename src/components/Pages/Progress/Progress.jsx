@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { getTraks } from '../../../mockApi/getData';
+import propTypes from 'prop-types';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES } from '../../../shared/constants';
+import { getUserTracks } from '../../../services/tracks-services';
 
 export class Progress extends React.Component {
   constructor(props) {
@@ -11,35 +11,31 @@ export class Progress extends React.Component {
     this.state = {
       progress: [],
     };
-    this.isComponentMounted = false;
   }
 
   async componentDidMount() {
-    this.isComponentMounted = true;
-    const { match } = this.props;
-    const { id } = match.params;
-    if (id) {
-      await this.getProgress(id);
-    }
-  }
+    const {
+      match: {
+        params: { id },
+      },
+    } = this.props;
 
-  componentWillUnmount() {
-    this.isComponentMounted = false;
-  }
-
-  async getProgress(id) {
-    const progress = await getTraks(id);
-    if (this.isComponentMounted) {
-      this.setState({ progress });
-    }
+    const progress = await getUserTracks(id);
+    this.setState({ progress });
   }
 
   render() {
     const { progress } = this.state;
+    const { history } = this.props;
 
     return (
       <div>
-        <PageTitle title={TITLES_PAGES.progress} buttonTitle={BUTTONS_NAMES.backToList} isBackButton />
+        <PageTitle
+          title={TITLES_PAGES.progress}
+          buttonTitle={BUTTONS_NAMES.backToList}
+          history={history}
+          isBackButton
+        />
         <Table items={progress} titles={TABLE_TITLES.progress} />
       </div>
     );
@@ -47,7 +43,6 @@ export class Progress extends React.Component {
 }
 
 Progress.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({ id: PropTypes.string.isRequired }),
-  }).isRequired,
+  match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
+  history: propTypes.shape({}).isRequired,
 };

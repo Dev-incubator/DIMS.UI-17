@@ -1,3 +1,4 @@
-.wrapper {
-    width: var(--width-content);
+.contentWrapper {
+  max-width: var(--width-content);
+  margin: 0 auto;
 }

@@ -1,24 +1,13 @@
-import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import style from './PageTitle.module.css';
 import { Button } from '../Buttons/Button/Button';
+import style from './PageTitle.module.css';
+import noop from '../../shared/noop';
 
-export function PageTitle({ title, buttonTitle, onClick, isBackButton }) {
-  const history = useHistory();
-
+export function PageTitle({ title, buttonTitle, onClick, isBackButton, history }) {
   return (
     <div className={style.title}>
       <h1>{title}</h1>
-      <Button
-        title={buttonTitle}
-        onClick={
-          isBackButton
-            ? () => {
-                history.goBack();
-              }
-            : onClick
-        }
-      />
+      <Button title={buttonTitle} isBackButton={isBackButton} onClick={onClick} history={history} />
     </div>
   );
 }
@@ -28,9 +17,11 @@ PageTitle.propTypes = {
   buttonTitle: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   isBackButton: PropTypes.bool,
+  history: PropTypes.shape({}),
 };
 
 PageTitle.defaultProps = {
-  onClick: () => console.log('Control button'),
+  onClick: noop,
   isBackButton: false,
+  history: {},
 };

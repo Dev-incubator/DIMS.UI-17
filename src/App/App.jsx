@@ -1,21 +1,33 @@
-import { Switch, Route } from 'react-router-dom';
-import { Home } from '../components/Home/Home';
-import { Members } from '../components/Pages/Members/Members';
-import { Tasks } from '../components/Pages/Tasks/Tasks';
-import { Progress } from '../components/Pages/Progress/Progress';
-import style from './App.module.css';
+import { Header } from '../components/Common/Header/Header';
+import { Footer } from '../components/Common/Footer/Footer';
+import { AdminRoutes } from '../Routes/AdminRoutes';
+import { MemberRoutes } from '../Routes/MemberRoutes';
+import { USER_ROLES } from '../shared/constants';
+import { AuthContext } from '../Hooks/useAuth';
+import { Login } from '../components/Pages/Login/Login';
 
-export const App = () => {
+export function App() {
   return (
-    <div className={style.content}>
-      <Switch>
-        <Route exact path='/'>
-          <Home />
-        </Route>
-        <Route path='/members' component={Members} />
-        <Route path='/progress/:id' component={Progress} />
-        <Route path='/tasks/:id' component={Tasks} />
-      </Switch>
-    </div>
+    <>
+      <AuthContext.Consumer>
+        {({ isAuth, role, uid }) => {
+          if (isAuth) {
+            return (
+              <>
+                <Header />
+                <main>{role === USER_ROLES.admin ? <AdminRoutes userId={uid} /> : <MemberRoutes userId={uid} />}</main>
+              </>
+            );
+          }
+
+          return (
+            <main>
+              <Login />
+            </main>
+          );
+        }}
+      </AuthContext.Consumer>
+      <Footer />
+    </>
   );
-};
+}
