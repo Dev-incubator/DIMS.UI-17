@@ -2,8 +2,8 @@ import React from 'react';
 import { Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import style from './LoginForm.module.css';
-import { REGEXP_KEYS } from '../../../shared/rexExp';
 import { Button } from '../../Buttons/Button/Button';
+import { regExpEmail } from '../../../shared/helpers';
 
 export class LoginForm extends React.Component {
   constructor(props) {
@@ -43,7 +43,7 @@ export class LoginForm extends React.Component {
     let { emailValid, passwordValid } = this.state;
     switch (fieldName) {
       case 'email':
-        emailValid = value.match(REGEXP_KEYS.email);
+        emailValid = value.match(regExpEmail);
         formErrors.email = emailValid ? '' : ' is invalid';
         break;
       case 'password':

@@ -1,8 +1,10 @@
-import { REGEXP_KEYS } from './rexExp';
-
+export const regExpEmail = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
+export const regExpPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i;
+const regExpPhone = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
+const regExpNumbers = /^[0-9,.]+$/i;
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-export function filterMembers(items) {
+export function createFullName(items) {
   return items.map((item) => ({
     ...item,
     name: `${item.name} ${item.lastName}`,
@@ -32,22 +34,22 @@ export function validateFormCreateUser(name, value, password) {
       error = value.length < 3 ? 'short' : '';
       break;
     case 'email':
-      error = value.match(REGEXP_KEYS.email) ? '' : ' is invalid';
+      error = value.match(regExpEmail) ? '' : 'is invalid';
       break;
     case 'password':
-      error = value.match(REGEXP_KEYS.password) ? '' : ' min 8 characters 1 letter and 1 number ';
+      error = value.match(regExpPassword) ? '' : 'min 8 characters 1 letter and 1 number';
       break;
     case 'confirmPassword':
-      error = value === password ? '' : ' is invalid';
+      error = value === password ? '' : 'is invalid';
       break;
     case 'birthDate':
-      error = getAge(value) >= 18 ? '' : ' is invalid';
+      error = getAge(value) >= 18 ? '' : 'is invalid';
       break;
     case 'address':
       error = value === '' ? 'required' : '';
       break;
     case 'phone':
-      error = value.match(REGEXP_KEYS.phone) ? '' : 'is invalid';
+      error = value.match(regExpPhone) ? '' : 'is invalid';
       break;
     case 'startDate':
       error = value === '' ? 'required' : '';
@@ -65,10 +67,10 @@ export function validateFormCreateUser(name, value, password) {
       error = value === '' ? 'required' : '';
       break;
     case 'universityAverageAcore':
-      error = value.match(REGEXP_KEYS.numbers) ? '' : 'is invalid';
+      error = value.match(regExpNumbers) ? '' : 'is invalid';
       break;
     case 'mathScore':
-      error = value.match(REGEXP_KEYS.numbers) ? '' : 'is invalid';
+      error = value.match(regExpNumbers) ? '' : 'is invalid';
       break;
 
     default:
@@ -78,7 +80,7 @@ export function validateFormCreateUser(name, value, password) {
   return { name, error };
 }
 
-function getAge(birthDate) {
+export function getAge(birthDate) {
   return Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
 }
 
