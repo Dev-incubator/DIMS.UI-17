@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import style from './Button.module.css';
 import noop from '../../../shared/noop';
 
-export function Button({ title, onClick, stylingType, isBackButton, history, ...restProps }) {
+export function Button({ title, onClick, stylingType, isBackButton, history, buttonType, ...restProps }) {
   const buttonBackHandler = () => {
     const { goBack } = history;
     goBack();
@@ -13,7 +13,7 @@ export function Button({ title, onClick, stylingType, isBackButton, history, ...
     <BootstrapButton
       className={style.button}
       variant={stylingType}
-      type='button'
+      type={buttonType}
       onClick={isBackButton ? buttonBackHandler : onClick}
       {...restProps}
     >
@@ -28,6 +28,7 @@ Button.propTypes = {
   stylingType: PropTypes.string,
   isBackButton: PropTypes.bool,
   history: PropTypes.shape({ goBack: PropTypes.func }),
+  buttonType: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -35,4 +36,5 @@ Button.defaultProps = {
   stylingType: 'primary',
   isBackButton: false,
   history: {},
+  buttonType: 'button',
 };

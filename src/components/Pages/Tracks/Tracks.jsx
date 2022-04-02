@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { TITLES_PAGES, BUTTONS_NAMES, TABLE_TITLES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
-import { MyModal } from '../../Common/Modal/Modal';
+import { ModalWindow } from '../../Common/Modal/Modal';
 import { getMemberTasks } from '../../../services/tasks-services';
 import { getTracks } from '../../../services/tracks-services';
 import { ButtonsTrack } from '../../Buttons/ButtonsTrack/ButtonsTrack';
@@ -69,22 +69,20 @@ export class Tracks extends React.Component {
             />
           }
         />
-        {isModalOpen && (
-          <MyModal
-            title={MODALTITLE_KEYS.createTrack}
-            isModalOpen={isModalOpen}
+        <ModalWindow
+          title={MODALTITLE_KEYS.createTrack}
+          isModalOpen={isModalOpen}
+          toggleModalHandler={this.toggleModalHandler}
+        >
+          <CreateTrackForm
+            taskId={id}
+            userId={userId}
+            tracks={tracks}
             toggleModalHandler={this.toggleModalHandler}
-          >
-            <CreateTrackForm
-              taskId={id}
-              userId={userId}
-              tracks={tracks}
-              toggleModalHandler={this.toggleModalHandler}
-              setTracksHandler={this.setTracksHandler}
-              userTasks={userTasks}
-            />
-          </MyModal>
-        )}
+            setTracksHandler={this.setTracksHandler}
+            userTasks={userTasks}
+          />
+        </ModalWindow>
       </>
     );
   }

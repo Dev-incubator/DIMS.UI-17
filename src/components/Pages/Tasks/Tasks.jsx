@@ -7,7 +7,7 @@ import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsSt
 import { TableCurrentTasks } from '../../Table/TableCurrentTasks';
 import noop from '../../../shared/noop';
 import { Error } from '../../Forms/Error/Error';
-import { MyModal } from '../../Common/Modal/Modal';
+import { ModalWindow } from '../../Common/Modal/Modal';
 
 export class Tasks extends React.Component {
   constructor(props) {
@@ -74,11 +74,9 @@ export class Tasks extends React.Component {
             />
           }
         />
-        {error && (
-          <MyModal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
-            <Error onClick={this.toggleError} />
-          </MyModal>
-        )}
+        <ModalWindow title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
+          <Error onClick={this.toggleError} />
+        </ModalWindow>
       </>
     );
   }

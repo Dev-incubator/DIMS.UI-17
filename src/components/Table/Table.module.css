@@ -11,3 +11,9 @@ td:last-of-type button {
   margin: 0.2rem;
   max-width: 100px;
 }
+
+.link {
+  color: var(--text-color-primary);
+  text-decoration: underline;
+  cursor: pointer;
+}

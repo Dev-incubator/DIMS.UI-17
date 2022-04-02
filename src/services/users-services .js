@@ -1,6 +1,5 @@
 import { collection, getDocs, getDoc, doc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { createFullName } from '../shared/helpers';
 import { registerUser } from './auth-services';
 
 export async function getAllUsers() {
@@ -8,7 +7,7 @@ export async function getAllUsers() {
     const querySnapshot = await getDocs(collection(db, 'users'));
     const users = querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
 
-    return createFullName(users);
+    return users;
   } catch (error) {
     console.error(error);
 

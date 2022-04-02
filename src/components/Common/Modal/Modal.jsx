@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Modal } from 'react-bootstrap';
 
-export function MyModal({ title, toggleModalHandler, isModalOpen, children }) {
+export function ModalWindow({ title, toggleModalHandler, isModalOpen, children }) {
   return (
     <Modal show={isModalOpen} onHide={toggleModalHandler} centered>
       <Modal.Header closeButton>
@@ -12,9 +12,12 @@ export function MyModal({ title, toggleModalHandler, isModalOpen, children }) {
   );
 }
 
-MyModal.propTypes = {
+ModalWindow.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   toggleModalHandler: PropTypes.func.isRequired,
-  isModalOpen: PropTypes.bool.isRequired,
+  isModalOpen: PropTypes.bool,
+};
+ModalWindow.defaultProps = {
+  isModalOpen: false,
 };

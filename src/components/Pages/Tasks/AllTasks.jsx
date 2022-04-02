@@ -3,7 +3,7 @@ import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS, MODALTITLE_KE
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TableAllTasks } from '../../Table/TableAllTasks';
 import { getAllTasks } from '../../../services/tasks-services';
-import { MyModal } from '../../Common/Modal/Modal';
+import { ModalWindow } from '../../Common/Modal/Modal';
 import { ButtonsTask } from '../../Buttons/ButtonsTask/ButtonsTask';
 import { getAllUsers } from '../../../services/users-services ';
 import { CreateTaskForm } from '../../Forms/CreateTaskForm/CreateTaskForm';
@@ -53,25 +53,21 @@ export class AllTasks extends React.Component {
           linkPath={LINKPATH_KEYS.tasks}
           action={<ButtonsTask toggleError={this.toggleError} setTasksHandler={this.setTasksHandler} />}
         />
-        {isModalOpen && (
-          <MyModal
-            title={MODALTITLE_KEYS.createTask}
-            isModalOpen={isModalOpen}
+        <ModalWindow
+          title={MODALTITLE_KEYS.createTask}
+          isModalOpen={isModalOpen}
+          toggleModalHandler={this.toggleModalHandler}
+        >
+          <CreateTaskForm
+            toggleError={this.toggleError}
+            users={users}
             toggleModalHandler={this.toggleModalHandler}
-          >
-            <CreateTaskForm
-              toggleError={this.toggleError}
-              users={users}
-              toggleModalHandler={this.toggleModalHandler}
-              setTasksHandler={this.setTasksHandler}
-            />
-          </MyModal>
-        )}
-        {error && (
-          <MyModal title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
-            <Error onClick={this.toggleError} />
-          </MyModal>
-        )}
+            setTasksHandler={this.setTasksHandler}
+          />
+        </ModalWindow>
+        <ModalWindow title='Error' isModalOpen={error} toggleModalHandler={this.toggleError}>
+          <Error onClick={this.toggleError} />
+        </ModalWindow>
       </>
     );
   }

@@ -6,8 +6,6 @@ import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/
 import { Button } from '../../Buttons/Button/Button';
 import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
-import { editUser, getAllUsers, createUser } from '../../../services/users-services ';
-import noop from '../../../shared/noop';
 import { validateFormCreateUser } from '../../../shared/helpers';
 
 export class CreateMemberForm extends React.Component {
@@ -56,16 +54,12 @@ export class CreateMemberForm extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { setUsersHandler, toggleModalHandler, isEditMode, id, toggleError } = this.props;
+    const { isEditMode, createUserHandler, editUserDataHandler } = this.props;
     const { formErrors, isValid, ...data } = this.state;
-
-    const isAdded = isEditMode ? await editUser(id, data) : await createUser(data);
-    if (isAdded) {
-      toggleModalHandler();
-      const updatedUsers = await getAllUsers();
-      setUsersHandler(updatedUsers);
+    if (isEditMode) {
+      await editUserDataHandler(data);
     } else {
-      toggleError();
+      await createUserHandler(data);
     }
   };
 
@@ -111,20 +105,16 @@ export class CreateMemberForm extends React.Component {
 }
 
 CreateMemberForm.propTypes = {
-  toggleError: propTypes.func,
-  setUsersHandler: propTypes.func,
   toggleModalHandler: propTypes.func.isRequired,
+  editUserDataHandler: propTypes.func.isRequired,
+  createUserHandler: propTypes.func.isRequired,
   userData: propTypes.shape({}),
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
-  id: propTypes.string,
   isEditMode: propTypes.bool,
 };
 
 CreateMemberForm.defaultProps = {
-  toggleError: noop,
   userData: {},
-  setUsersHandler: noop,
   isReadOnlyMode: false,
-  id: '0',
   isEditMode: false,
 };
