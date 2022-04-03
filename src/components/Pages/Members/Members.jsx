@@ -16,7 +16,7 @@ export class Members extends React.PureComponent {
     super(props);
     this.state = {
       users: [],
-      userData: {},
+      userData: null,
       isUserModalOpen: false,
       isDeleteModalOpen: false,
       selectedUserId: null,
@@ -155,7 +155,7 @@ export class Members extends React.PureComponent {
 
             return (
               <MembersTableRow
-                key={user.name}
+                key={user.name + index.toString()}
                 user={user}
                 index={index}
                 showReadOnlyModal={showReadOnlyModal}

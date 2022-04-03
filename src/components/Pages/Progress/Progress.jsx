@@ -1,11 +1,13 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { Table } from 'react-bootstrap';
 import { PageTitle } from '../../PageTitle/PageTitle';
-import { Table } from '../../Table/Table';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES, BUTTONS_TYPES } from '../../../shared/constants';
 import { getUserTracks } from '../../../services/tracks-services';
+import { TableHead } from '../../Table/TableHead';
+import { ProgressTableRow } from '../../Table/ProgressTableRow';
 
-export class Progress extends React.Component {
+export class Progress extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,7 +39,12 @@ export class Progress extends React.Component {
           history={history}
           isBackButton
         />
-        <Table items={progress} titles={TABLE_TITLES.progress} />
+        <Table striped bordered hover>
+          <TableHead titles={TABLE_TITLES.progress} />
+          {progress.map((item, index) => {
+            return <ProgressTableRow key={item.name + index.toString()} progress={item} index={index} />;
+          })}
+        </Table>
       </div>
     );
   }
