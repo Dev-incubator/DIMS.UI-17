@@ -5,8 +5,7 @@ import { initialStateTasks } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
-import noop from '../../../shared/noop';
-import { createTask, getAllTasks, getTaskData, updateTask } from '../../../services/tasks-services';
+import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
 import { validateFormCreateUser } from '../../../shared/helpers';
 
@@ -67,7 +66,7 @@ export class CreateTaskForm extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { setTasksHandler, toggleModalHandler, isEditMode, id, toggleError } = this.props;
+    const { isEditMode, id, createTaskHandler, updateTaskHandler } = this.props;
     const { statuses } = isEditMode ? await getTaskData(id) : [];
     const selectedUsers = this.myRef
       .filter((item) => item.checked)
@@ -77,15 +76,11 @@ export class CreateTaskForm extends React.Component {
           : { id: item.name, status: 'Active' },
       );
     const subscribers = selectedUsers.map((item) => item.id);
-    const isAdded = isEditMode
-      ? await updateTask(id, { ...this.state, statuses: [...selectedUsers], subscribers })
-      : await createTask({ ...this.state, statuses: [...selectedUsers], subscribers });
-    if (isAdded) {
-      toggleModalHandler();
-      const updatedTasks = await getAllTasks();
-      setTasksHandler(updatedTasks);
+
+    if (isEditMode) {
+      updateTaskHandler({ ...this.state, statuses: [...selectedUsers], subscribers });
     } else {
-      toggleError();
+      createTaskHandler({ ...this.state, statuses: [...selectedUsers], subscribers });
     }
   };
 
@@ -154,9 +149,9 @@ export class CreateTaskForm extends React.Component {
 }
 
 CreateTaskForm.propTypes = {
-  toggleError: propTypes.func.isRequired,
-  setTasksHandler: propTypes.func,
   toggleModalHandler: propTypes.func.isRequired,
+  createTaskHandler: propTypes.func.isRequired,
+  updateTaskHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([
@@ -169,7 +164,6 @@ CreateTaskForm.propTypes = {
 
 CreateTaskForm.defaultProps = {
   taskData: {},
-  setTasksHandler: noop,
   isReadOnlyMode: false,
   isEditMode: false,
   id: '0',
