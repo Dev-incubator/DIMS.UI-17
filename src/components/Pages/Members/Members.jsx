@@ -145,7 +145,7 @@ export class Members extends React.PureComponent {
         />
 
         <Table striped bordered hover>
-          <TableHead titles={TABLE_TITLES.members} />
+          <TableHead items={TABLE_TITLES.members} />
           {users.map((user, index) => {
             const showReadOnlyModal = async () => {
               await this.selectUserHandler(user.id);
@@ -156,9 +156,13 @@ export class Members extends React.PureComponent {
             return (
               <MembersTableRow
                 key={user.name + index.toString()}
-                user={user}
                 index={index}
-                showReadOnlyModal={showReadOnlyModal}
+                name={user.name}
+                lastName={user.lastName}
+                direction={user.direction}
+                education={user.education}
+                startDate={user.startDate}
+                birthDate={user.birthDate}
                 action={
                   <ButtonsAdminMemberPage
                     selectUserHandler={this.selectUserHandler}
@@ -168,6 +172,7 @@ export class Members extends React.PureComponent {
                     id={user.id}
                   />
                 }
+                showReadOnlyModal={showReadOnlyModal}
               />
             );
           })}

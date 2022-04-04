@@ -142,13 +142,16 @@ export class AllTasks extends React.PureComponent {
         />
 
         <Table striped bordered hover>
-          <TableHead titles={TABLE_TITLES.allTasks} />
+          <TableHead items={TABLE_TITLES.allTasks} />
           {tasks.map((item, index) => {
             return (
               <AllTasksTableRow
                 key={item.name + index.toString()}
-                task={item}
                 index={index}
+                name={item.name}
+                description={item.description}
+                startDate={item.startDate}
+                deadlineDate={item.deadlineDate}
                 id={item.id}
                 linkPath={LINKPATH_KEYS.tasks}
                 action={

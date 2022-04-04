@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 
-export function TableHead({ titles }) {
+export function TableHead({ items }) {
   return (
     <thead>
       <tr>
-        {Object.values(titles).map((item) => (
+        {items.map((item) => (
           <th key={item}>{item}</th>
         ))}
       </tr>
@@ -13,5 +13,5 @@ export function TableHead({ titles }) {
 }
 
 TableHead.propTypes = {
-  titles: PropTypes.objectOf(PropTypes.string).isRequired,
+  items: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

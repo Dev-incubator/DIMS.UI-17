@@ -40,9 +40,17 @@ export class Progress extends React.PureComponent {
           isBackButton
         />
         <Table striped bordered hover>
-          <TableHead titles={TABLE_TITLES.progress} />
+          <TableHead items={TABLE_TITLES.progress} />
           {progress.map((item, index) => {
-            return <ProgressTableRow key={item.name + index.toString()} progress={item} index={index} />;
+            return (
+              <ProgressTableRow
+                key={item.name + index.toString()}
+                index={index}
+                name={item.name}
+                node={item.node}
+                date={item.date}
+              />
+            );
           })}
         </Table>
       </div>
