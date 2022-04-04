@@ -46,13 +46,7 @@ export const TABLE_TITLES = {
   members: ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Actions'],
   currentTasks: ['#', 'Task name', 'Start date', 'Deadline', 'Status', 'Actions'],
   progress: ['#', 'Task name', 'Task note', 'Date'],
-  userTasks: {
-    id: '#',
-    name: 'Task name',
-    startDate: 'Start date',
-    deadlineDate: 'Deadline',
-    status: 'Status',
-  },
+  userTasks: ['#', 'Task name', 'Start date', 'Deadline', 'Status'],
 };
 
 export const USER_ROLES = {

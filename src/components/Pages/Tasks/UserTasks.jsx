@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Table } from 'react-bootstrap';
 import { TITLES_PAGES, TABLE_TITLES, LINKPATH_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
-import { TableUserTasks } from '../../Table/TableUserTasks';
+import { TableHead } from '../../Table/TableHead';
 import { getMemberTasks } from '../../../services/tasks-services';
+import { UserTasksTableRow } from '../../Table/UserTasksTableRow';
 
 export class UserTasks extends React.Component {
   constructor(props) {
@@ -29,7 +31,23 @@ export class UserTasks extends React.Component {
     return (
       <>
         <PageTitle title={TITLES_PAGES.userTasks} isContainsButton={false} />
-        <TableUserTasks titles={TABLE_TITLES.userTasks} items={tasks} linkPath={LINKPATH_KEYS.tasks} />
+        <Table striped bordered hover>
+          <TableHead items={TABLE_TITLES.userTasks} />
+          {tasks.map((item, index) => {
+            return (
+              <UserTasksTableRow
+                key={item.name + index.toString()}
+                index={index}
+                id={item.id}
+                name={item.name}
+                startDate={item.startDate}
+                deadlineDate={item.deadlineDate}
+                status={item.status}
+                linkPath={LINKPATH_KEYS.tasks}
+              />
+            );
+          })}
+        </Table>
       </>
     );
   }
