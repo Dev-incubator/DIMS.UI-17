@@ -4,7 +4,6 @@ import { initialStateTrack } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTrackForm.module.css';
-import { createTrack, getTracks, updateTracks } from '../../../services/tracks-services';
 import { generateId, validateFormCreateUser } from '../../../shared/helpers';
 import { FormField } from '../FormField/FormField';
 
@@ -15,9 +14,9 @@ export class CreateTrackForm extends React.Component {
   }
 
   componentDidMount() {
-    const { userTasks, isEditMode, tracks, id } = this.props;
+    const { userTasks, isEditMode, tracks, trackId } = this.props;
     if (isEditMode) {
-      const trackData = tracks.find((track) => track.id === id);
+      const trackData = tracks.find((track) => track.id === trackId);
       if (isEditMode) {
         this.setState((prevState) => {
           const { formErrors } = prevState;
@@ -60,18 +59,20 @@ export class CreateTrackForm extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { userId, userTasks, toggleModalHandler, taskId, setTracksHandler, isEditMode } = this.props;
+    const { userTasks, isEditMode, createTrackHandler, updatedTrackHandler } = this.props;
     const { name } = this.state;
     const selectedTask = userTasks.find((task) => task.name === name);
     if (isEditMode) {
-      await updateTracks(this.state, taskId, userId);
+      // await updateTracks(this.state, taskId, userId);
+      await updatedTrackHandler(this.state);
     } else {
       const id = generateId();
-      await createTrack(selectedTask.id, userId, { ...this.state, id });
+      await createTrackHandler(selectedTask.id, { ...this.state, id });
+      // await createTrack(selectedTask.id, userId, { ...this.state, id });
     }
-    const updatedTracks = await getTracks(taskId, userId);
-    toggleModalHandler();
-    setTracksHandler(updatedTracks);
+    // const updatedTracks = await getTracks(taskId, userId);
+    // toggleModalHandler();
+    // setTracksHandler(updatedTracks);
   };
 
   render() {
@@ -118,22 +119,19 @@ export class CreateTrackForm extends React.Component {
 }
 
 CreateTrackForm.propTypes = {
-  setTracksHandler: propTypes.func.isRequired,
+  createTrackHandler: propTypes.func.isRequired,
+  updatedTrackHandler: propTypes.func.isRequired,
   toggleModalHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
-  userId: propTypes.string,
-  taskId: propTypes.string,
   userTasks: propTypes.arrayOf(propTypes.shape({})),
   isEditMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   tracks: propTypes.arrayOf(propTypes.object).isRequired,
-  id: propTypes.string,
+  trackId: propTypes.string,
 };
 
 CreateTrackForm.defaultProps = {
   isReadOnlyMode: false,
-  userId: '0',
-  taskId: '0',
   userTasks: [],
   isEditMode: false,
-  id: '0',
+  trackId: '0',
 };

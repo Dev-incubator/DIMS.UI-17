@@ -35,13 +35,7 @@ export const BUTTONS_TYPES = {
 };
 
 export const TABLE_TITLES = {
-  track: {
-    id: '#',
-    name: 'Task',
-    node: 'Node',
-    date: 'Date',
-    actions: 'Actions',
-  },
+  track: ['#', 'Task', 'Node', 'Date', 'Actions'],
   allTasks: ['#', 'Task name', 'Description', 'Start date', 'Deadline', 'Actions'],
   members: ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Actions'],
   currentTasks: ['#', 'Task name', 'Start date', 'Deadline', 'Status', 'Actions'],
