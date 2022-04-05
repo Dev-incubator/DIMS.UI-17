@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import style from './LoginForm.module.css';
 import { Button } from '../../Buttons/Button/Button';
-import { regExpEmail } from '../../../shared/helpers';
+import { regExpEmail } from '../../../shared/regulars';
 
 export class LoginForm extends React.PureComponent {
   constructor(props) {

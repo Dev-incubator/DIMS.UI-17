@@ -22,7 +22,7 @@ export async function singInEmailAndPassword(email, password) {
   } catch (error) {
     console.log(error);
 
-    return false;
+    return undefined;
   }
 }
 
@@ -36,7 +36,7 @@ export async function singInGoogle() {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }
 
@@ -44,17 +44,13 @@ async function findUser(uid) {
   try {
     const docRef = doc(db, 'users', uid);
     const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const { role, name } = docSnap.data();
+    const { role, name } = docSnap.data();
 
-      return { role, name, uid };
-    }
-
-    return false;
+    return { role, name, uid };
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }
 
@@ -77,6 +73,6 @@ export async function registerUser(email, password) {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }

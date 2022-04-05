@@ -154,10 +154,7 @@ CreateTaskForm.propTypes = {
   updateTaskHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   users: propTypes.arrayOf(propTypes.object).isRequired,
-  taskData: propTypes.oneOfType([
-    propTypes.string,
-    propTypes.shape({ id: propTypes.string, statuses: propTypes.arrayOf(propTypes.string) }),
-  ]),
+  taskData: propTypes.oneOfType([propTypes.string, propTypes.object]),
   isEditMode: propTypes.bool,
   id: propTypes.string,
 };

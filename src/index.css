@@ -41,25 +41,6 @@ ul {
 li {
   list-style-type: none;
 }
-/* table,
-th,
-td {
-  border: 1px solid var(--text-color-primary);
-  border-collapse: collapse;
-  text-align: center;
-}
-table {
-  width: 100%;
-}
-table > a {
-  color: var(--text-color-primary);
-}
-thead {
-  background-color: var(--bg-color-secondery);
-}
-tbody {
-  background-color: var(--color-primary);
-} */
 #root {
   font-family: 'Roboto Serif', sans-serif;
 }

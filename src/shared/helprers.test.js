@@ -1,36 +1,4 @@
-import { createFullName, generateId, getAge, validateFormCreateUser } from './helpers';
-
-const data = [
-  {
-    address: 'Волгоградская 1/3, кв. 35',
-    birthDate: '1994-03-22',
-    direction: 'Frontend',
-    education: '1',
-    email: 'vasya@gmail.com',
-    id: '2b6bpYzRzUTFp6MWKEnyJmCToXx2',
-    lastName: 'Ivanov',
-    mathScore: '1',
-    name: 'Vasya',
-  },
-  {
-    address: 'Волгоградская 1/3, кв. 35',
-    birthDate: '1994-03-22',
-    direction: 'Frontend',
-    education: '1',
-    email: 'vasya@gmail.com',
-    id: '2b6bpYzRzUTFp6MWKEnyJmCToXx2',
-    lastName: 'Petrov',
-    mathScore: '1',
-    name: 'Tolya',
-  },
-];
-
-it('create full name works', () => {
-  expect(createFullName(data)).toContainEqual(
-    expect.objectContaining({ name: 'Vasya Ivanov' }),
-    expect.objectContaining({ name: 'Tolya Petrov' }),
-  );
-});
+import { generateId, getAge, validateFormCreateUser } from './helpers';
 
 it('ID generation check', () => {
   expect(generateId()).toMatch(/[0-9 A-Z]{12}/);

@@ -87,7 +87,6 @@ export class Members extends React.PureComponent {
   editUserDataHandler = async (userData) => {
     const { users, selectedUserId } = this.state;
     const updatedUsers = users.map((item) => (item.id === selectedUserId ? { id: selectedUserId, ...userData } : item));
-
     await editUser(selectedUserId, userData);
     this.setState({ users: updatedUsers });
   };

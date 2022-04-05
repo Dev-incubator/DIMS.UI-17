@@ -1,27 +1,17 @@
-export const regExpEmail = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i;
-export const regExpPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/i;
-const regExpPhone = /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/i;
-const regExpNumbers = /^[0-9,.]+$/i;
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+import { regExpEmail, regExpNumbers, regExpPassword, regExpPhone } from './regulars';
 
-export function createFullName(items) {
-  return items.map((item) => ({
-    ...item,
-    name: `${item.name} ${item.lastName}`,
-  }));
-}
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const iDLength = 12;
+const characterLength = 36;
+const secondsInYear = 3.15576e10;
 
 export function generateId() {
-  let ID = '';
-  for (let i = 0; i < 12; i += 1) {
-    ID += characters.charAt(Math.floor(Math.random() * 36));
+  let id = '';
+  for (let i = 0; i < iDLength; i += 1) {
+    id += characters.charAt(Math.floor(Math.random() * characterLength));
   }
 
-  return ID;
-}
-
-export function stopPropagationHandler(e) {
-  e.stopPropagation();
+  return id;
 }
 
 export function validateFormCreateUser(name, value, password) {
@@ -81,7 +71,7 @@ export function validateFormCreateUser(name, value, password) {
 }
 
 export function getAge(birthDate) {
-  return Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e10);
+  return Math.floor((new Date() - new Date(birthDate).getTime()) / secondsInYear);
 }
 
 export function getCurrentYear() {
@@ -114,8 +104,8 @@ export function compareObjects(obj1, obj2) {
       result = false;
     }
 
-    if (typeof obj1[key] === 'function' || typeof obj2[key] === 'function') {
-      if (obj1[key].toString() !== obj2[key].toString()) {
+    if (isFunction(obj1[key], obj2[key])) {
+      if (obj1[key].tostring() !== obj2[key].tostring()) {
         result = false;
       }
     }
@@ -126,4 +116,8 @@ export function compareObjects(obj1, obj2) {
   });
 
   return result;
+}
+
+function isFunction(field1, field2) {
+  return field1 === 'function' || field2 === 'function' || false;
 }

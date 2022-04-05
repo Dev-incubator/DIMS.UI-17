@@ -1,4 +1,5 @@
 import { Container } from 'react-bootstrap';
+import { ErrorBoundary } from '../Hooks/ErrorBoundary';
 import { Header } from '../components/Common/Header/Header';
 import { Footer } from '../components/Common/Footer/Footer';
 import { AdminRoutes } from '../Routes/AdminRoutes';
@@ -16,13 +17,15 @@ export function App() {
             return (
               <>
                 <Header />
-                <main>
-                  {role === USER_ROLES.member ? (
-                    <MemberRoutes userId={uid} />
-                  ) : (
-                    <AdminRoutes role={role} userId={uid} />
-                  )}
-                </main>
+                <ErrorBoundary>
+                  <main>
+                    {role === USER_ROLES.member ? (
+                      <MemberRoutes userId={uid} />
+                    ) : (
+                      <AdminRoutes role={role} userId={uid} />
+                    )}
+                  </main>
+                </ErrorBoundary>
               </>
             );
           }
