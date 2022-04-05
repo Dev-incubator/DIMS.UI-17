@@ -7,7 +7,7 @@ import { TableHead } from '../../Table/TableHead';
 import { getMemberTasks } from '../../../services/tasks-services';
 import { UserTasksTableRow } from '../../Table/UserTasksTableRow';
 
-export class UserTasks extends React.Component {
+export class UserTasks extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

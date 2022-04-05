@@ -18,7 +18,7 @@ export class AllTasks extends React.PureComponent {
     this.state = {
       tasks: [],
       users: [],
-      taskData: {},
+      taskData: null,
       selectedTaskId: null,
       isTaskModalOpen: false,
       isDeleteModalOpen: false,

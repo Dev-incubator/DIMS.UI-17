@@ -16,8 +16,5 @@ ModalWindow.propTypes = {
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
   toggleModalHandler: PropTypes.func.isRequired,
-  isModalOpen: PropTypes.bool,
-};
-ModalWindow.defaultProps = {
-  isModalOpen: false,
+  isModalOpen: PropTypes.bool.isRequired,
 };

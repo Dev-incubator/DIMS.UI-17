@@ -9,7 +9,7 @@ import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
 import { validateFormCreateUser } from '../../../shared/helpers';
 
-export class CreateTaskForm extends React.Component {
+export class CreateTaskForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = initialStateTasks;
@@ -87,7 +87,7 @@ export class CreateTaskForm extends React.Component {
   render() {
     const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
     const { formErrors, isValid, checkboxError, isValidCheckBox } = this.state;
-    const subscribers = Object.keys(taskData).length === 0 ? [] : taskData.statuses.map((item) => item.id);
+    const subscribers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
       <Form onSubmit={this.handleSubmit} className={style.wrapper}>
@@ -155,7 +155,7 @@ CreateTaskForm.propTypes = {
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([
-    propTypes.shape({}),
+    propTypes.string,
     propTypes.shape({ id: propTypes.string, statuses: propTypes.arrayOf(propTypes.string) }),
   ]),
   isEditMode: propTypes.bool,
@@ -163,7 +163,7 @@ CreateTaskForm.propTypes = {
 };
 
 CreateTaskForm.defaultProps = {
-  taskData: {},
+  taskData: null,
   isReadOnlyMode: false,
   isEditMode: false,
   id: '0',

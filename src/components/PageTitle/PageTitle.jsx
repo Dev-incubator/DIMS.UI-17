@@ -27,7 +27,7 @@ PageTitle.propTypes = {
   isBackButton: PropTypes.bool,
   isContainsButton: PropTypes.bool,
   stylingType: PropTypes.string,
-  history: PropTypes.shape({}),
+  history: PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.number, PropTypes.string]),
 };
 
 PageTitle.defaultProps = {
@@ -36,5 +36,5 @@ PageTitle.defaultProps = {
   buttonTitle: '',
   isContainsButton: true,
   stylingType: 'primary',
-  history: {},
+  history: null,
 };

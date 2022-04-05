@@ -5,7 +5,7 @@ import style from './LoginForm.module.css';
 import { Button } from '../../Buttons/Button/Button';
 import { regExpEmail } from '../../../shared/helpers';
 
-export class LoginForm extends React.Component {
+export class LoginForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {

@@ -8,7 +8,7 @@ import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
 import { validateFormCreateUser } from '../../../shared/helpers';
 
-export class CreateMemberForm extends React.Component {
+export class CreateMemberForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = initialStateCreatMember;
@@ -108,13 +108,13 @@ CreateMemberForm.propTypes = {
   toggleModalHandler: propTypes.func.isRequired,
   editUserDataHandler: propTypes.func.isRequired,
   createUserHandler: propTypes.func.isRequired,
-  userData: propTypes.shape({}),
+  userData: propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.array]),
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   isEditMode: propTypes.bool,
 };
 
 CreateMemberForm.defaultProps = {
-  userData: {},
+  userData: null,
   isReadOnlyMode: false,
   isEditMode: false,
 };

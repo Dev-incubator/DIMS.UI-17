@@ -7,7 +7,7 @@ import style from './CreateTrackForm.module.css';
 import { generateId, validateFormCreateUser } from '../../../shared/helpers';
 import { FormField } from '../FormField/FormField';
 
-export class CreateTrackForm extends React.Component {
+export class CreateTrackForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = initialStateTrack;
@@ -63,16 +63,11 @@ export class CreateTrackForm extends React.Component {
     const { name } = this.state;
     const selectedTask = userTasks.find((task) => task.name === name);
     if (isEditMode) {
-      // await updateTracks(this.state, taskId, userId);
       await updatedTrackHandler(this.state);
     } else {
       const id = generateId();
       await createTrackHandler(selectedTask.id, { ...this.state, id });
-      // await createTrack(selectedTask.id, userId, { ...this.state, id });
     }
-    // const updatedTracks = await getTracks(taskId, userId);
-    // toggleModalHandler();
-    // setTracksHandler(updatedTracks);
   };
 
   render() {
@@ -123,7 +118,7 @@ CreateTrackForm.propTypes = {
   updatedTrackHandler: propTypes.func.isRequired,
   toggleModalHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
-  userTasks: propTypes.arrayOf(propTypes.shape({})),
+  userTasks: propTypes.arrayOf(propTypes.oneOfType([propTypes.string, propTypes.object, propTypes.array])),
   isEditMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   tracks: propTypes.arrayOf(propTypes.object).isRequired,
   trackId: propTypes.string,

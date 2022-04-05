@@ -111,5 +111,5 @@ export class Tasks extends React.PureComponent {
 
 Tasks.propTypes = {
   match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
-  history: propTypes.shape({}).isRequired,
+  history: propTypes.oneOfType([propTypes.func, propTypes.object, propTypes.number]).isRequired,
 };

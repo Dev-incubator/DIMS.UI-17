@@ -13,14 +13,14 @@ import { TableHead } from '../../Table/TableHead';
 import { TrackTableRow } from '../../Table/TrackTableRow';
 import { compareObjects } from '../../../shared/helpers';
 
-export class Tracks extends React.Component {
+export class Tracks extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       tracks: [],
       userTasks: [],
-      taskId: '',
-      userId: '',
+      taskId: null,
+      userId: null,
       selectedTrack: null,
       selectedTask: null,
       isTrackModalOpen: false,
