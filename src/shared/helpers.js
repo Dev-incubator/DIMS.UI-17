@@ -3,7 +3,6 @@ import { regExpEmail, regExpNumbers, regExpPassword, regExpPhone } from './regul
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const iDLength = 12;
 const characterLength = 36;
-const secondsInYear = 3.15576e10;
 
 export function generateId() {
   let id = '';
@@ -14,12 +13,10 @@ export function generateId() {
   return id;
 }
 
-export function validateFormCreateUser(name, value, password) {
+export function validateFormField(name, value, password) {
   let error = '';
   switch (name) {
     case 'name':
-      error = value.length < 3 ? 'short' : '';
-      break;
     case 'lastName':
       error = value.length < 3 ? 'short' : '';
       break;
@@ -35,30 +32,18 @@ export function validateFormCreateUser(name, value, password) {
     case 'birthDate':
       error = getAge(value) >= 18 ? '' : 'is invalid';
       break;
-    case 'address':
-      error = value === '' ? 'required' : '';
-      break;
     case 'phone':
       error = value.match(regExpPhone) ? '' : 'is invalid';
       break;
     case 'startDate':
-      error = value === '' ? 'required' : '';
-      break;
     case 'node':
-      error = value === '' ? 'required' : '';
-      break;
     case 'date':
-      error = value === '' ? 'required' : '';
-      break;
     case 'deadlineDate':
-      error = value === '' ? 'required' : '';
-      break;
     case 'education':
+    case 'address':
       error = value === '' ? 'required' : '';
       break;
     case 'universityAverageAcore':
-      error = value.match(regExpNumbers) ? '' : 'is invalid';
-      break;
     case 'mathScore':
       error = value.match(regExpNumbers) ? '' : 'is invalid';
       break;
@@ -70,8 +55,16 @@ export function validateFormCreateUser(name, value, password) {
   return { name, error };
 }
 
-export function getAge(birthDate) {
-  return Math.floor((new Date() - new Date(birthDate).getTime()) / secondsInYear);
+export function getAge(dateString) {
+  const today = new Date();
+  const birthDate = new Date(dateString.split('-').join(','));
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const month = today.getMonth() - birthDate.getMonth();
+  if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+    age -= 1;
+  }
+
+  return age;
 }
 
 export function getCurrentYear() {
@@ -104,7 +97,7 @@ export function compareObjects(obj1, obj2) {
       result = false;
     }
 
-    if (isFunction(obj1[key], obj2[key])) {
+    if (isFunction(obj1[key]) || isFunction(obj2[key])) {
       if (obj1[key].tostring() !== obj2[key].tostring()) {
         result = false;
       }
@@ -118,6 +111,6 @@ export function compareObjects(obj1, obj2) {
   return result;
 }
 
-function isFunction(field1, field2) {
-  return field1 === 'function' || field2 === 'function' || false;
+function isFunction(value) {
+  return value === 'function';
 }

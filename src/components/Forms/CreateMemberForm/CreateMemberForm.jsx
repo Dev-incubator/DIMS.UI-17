@@ -6,7 +6,7 @@ import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/
 import { Button } from '../../Buttons/Button/Button';
 import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
-import { validateFormCreateUser } from '../../../shared/helpers';
+import { validateFormField } from '../../../shared/helpers';
 
 export class CreateMemberForm extends React.PureComponent {
   constructor(props) {
@@ -32,7 +32,7 @@ export class CreateMemberForm extends React.PureComponent {
 
     this.setState((prevState) => {
       const { password, formErrors } = prevState;
-      const { name: fildName, error } = validateFormCreateUser(name, value, password);
+      const { name: fildName, error } = validateFormField(name, value, password);
       const updatedErrors = formErrors.map((item) =>
         item.name === fildName ? { ...item, error, isValid: !error.length } : item,
       );

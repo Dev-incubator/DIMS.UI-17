@@ -7,7 +7,7 @@ import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
 import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
-import { validateFormCreateUser } from '../../../shared/helpers';
+import { validateFormField } from '../../../shared/helpers';
 
 export class CreateTaskForm extends React.PureComponent {
   constructor(props) {
@@ -34,7 +34,7 @@ export class CreateTaskForm extends React.PureComponent {
 
     this.setState((prevState) => {
       const { formErrors } = prevState;
-      const { name: fildName, error } = validateFormCreateUser(name, value);
+      const { name: fildName, error } = validateFormField(name, value);
       const updatedErrors = formErrors.map((item) =>
         item.name === fildName ? { ...item, error, isValid: !error.length } : item,
       );
