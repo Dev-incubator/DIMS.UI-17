@@ -1,11 +1,10 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { Table } from 'react-bootstrap';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES, BUTTONS_TYPES } from '../../../shared/constants';
 import { getUserTracks } from '../../../services/tracks-services';
-import { TableHead } from '../../Table/TableHead';
 import { ProgressTableRow } from '../../Table/ProgressTableRow';
+import { Table } from '../../Table/Table';
 
 export class Progress extends React.PureComponent {
   constructor(props) {
@@ -29,6 +28,17 @@ export class Progress extends React.PureComponent {
   render() {
     const { progress } = this.state;
     const { history } = this.props;
+    const items = progress.map((item, index) => {
+      return (
+        <ProgressTableRow
+          key={item.name + index.toString()}
+          index={index}
+          name={item.name}
+          node={item.node}
+          date={item.date}
+        />
+      );
+    });
 
     return (
       <div>
@@ -39,20 +49,7 @@ export class Progress extends React.PureComponent {
           history={history}
           isBackButton
         />
-        <Table striped bordered hover>
-          <TableHead items={TABLE_TITLES.progress} />
-          {progress.map((item, index) => {
-            return (
-              <ProgressTableRow
-                key={item.name + index.toString()}
-                index={index}
-                name={item.name}
-                node={item.node}
-                date={item.date}
-              />
-            );
-          })}
-        </Table>
+        <Table title={TABLE_TITLES.progress} items={items} />
       </div>
     );
   }

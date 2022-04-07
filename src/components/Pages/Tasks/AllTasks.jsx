@@ -1,5 +1,4 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS, MODALTITLE_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { createTask, getAllTasks, removeTask, updateTask, getTaskData } from '../../../services/tasks-services';
@@ -7,7 +6,7 @@ import { ModalWindow } from '../../Common/Modal/Modal';
 import { ButtonsTask } from '../../Buttons/ButtonsTask/ButtonsTask';
 import { getAllUsers } from '../../../services/users-services ';
 import { CreateTaskForm } from '../../Forms/CreateTaskForm/CreateTaskForm';
-import { TableHead } from '../../Table/TableHead';
+import { Table } from '../../Table/Table';
 import { AllTasksTableRow } from '../../Table/AllTasksTableRow';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
@@ -132,6 +131,32 @@ export class AllTasks extends React.PureComponent {
 
   render() {
     const { tasks, users, isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode, taskData } = this.state;
+    const items = tasks.map((item, index) => {
+      return (
+        <AllTasksTableRow
+          key={item.name + index.toString()}
+          index={index}
+          name={item.name}
+          description={item.description}
+          startDate={item.startDate}
+          deadlineDate={item.deadlineDate}
+          id={item.id}
+          linkPath={LINKPATH_KEYS.tasks}
+          action={
+            <ButtonsTask
+              selectTaskHandler={this.selectTaskHandler}
+              toggleModalDeleteHandler={this.toggleModalDeleteHandler}
+              toggleError={this.toggleError}
+              setTasksHandler={this.setTasksHandler}
+              showTaskDataHandler={this.showTaskDataHandler}
+              selectUserHandler={this.selectTaskHandler}
+              toggleTaskModalHandler={this.toggleTaskModalHandler}
+              id={item.id}
+            />
+          }
+        />
+      );
+    });
 
     return (
       <>
@@ -141,35 +166,7 @@ export class AllTasks extends React.PureComponent {
           onClick={this.toggleTaskModalHandler}
         />
 
-        <Table striped bordered hover>
-          <TableHead items={TABLE_TITLES.allTasks} />
-          {tasks.map((item, index) => {
-            return (
-              <AllTasksTableRow
-                key={item.name + index.toString()}
-                index={index}
-                name={item.name}
-                description={item.description}
-                startDate={item.startDate}
-                deadlineDate={item.deadlineDate}
-                id={item.id}
-                linkPath={LINKPATH_KEYS.tasks}
-                action={
-                  <ButtonsTask
-                    selectTaskHandler={this.selectTaskHandler}
-                    toggleModalDeleteHandler={this.toggleModalDeleteHandler}
-                    toggleError={this.toggleError}
-                    setTasksHandler={this.setTasksHandler}
-                    showTaskDataHandler={this.showTaskDataHandler}
-                    selectUserHandler={this.selectTaskHandler}
-                    toggleTaskModalHandler={this.toggleTaskModalHandler}
-                    id={item.id}
-                  />
-                }
-              />
-            );
-          })}
-        </Table>
+        <Table title={TABLE_TITLES.allTasks} items={items} />
 
         {isTaskModalOpen ? (
           <ModalWindow

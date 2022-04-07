@@ -1,6 +1,5 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { Table } from 'react-bootstrap';
 import { TITLES_PAGES, BUTTONS_NAMES, TABLE_TITLES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { createTrack, getTracks, removeTrack, updateTracks } from '../../../services/tracks-services';
 import { PageTitle } from '../../PageTitle/PageTitle';
@@ -9,7 +8,7 @@ import { getMemberTasks } from '../../../services/tasks-services';
 import { ButtonsTrack } from '../../Buttons/ButtonsTrack/ButtonsTrack';
 import { CreateTrackForm } from '../../Forms/CreateTrackForm/CreateTrackForm';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
-import { TableHead } from '../../Table/TableHead';
+import { Table } from '../../Table/Table';
 import { TrackTableRow } from '../../Table/TrackTableRow';
 import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
 
@@ -140,6 +139,31 @@ export class Tracks extends React.PureComponent {
   render() {
     const { isTrackModalOpen, tracks, userTasks, taskId, isDeleteModalOpen, userId, isEditMode, selectedTrack } =
       this.state;
+    const items = tracks.map((item, index) => {
+      return (
+        <TrackTableRow
+          key={item.name + index.toString()}
+          index={index}
+          name={item.name}
+          node={item.node}
+          date={item.date}
+          actions={
+            <ButtonsTrack
+              trackId={item.id}
+              setTracksHandler={this.setTracksHandler}
+              userId={userId}
+              taskId={taskId}
+              tracks={tracks}
+              userTasks={userTasks}
+              selectTrackHandler={this.selectTrackHandler}
+              toggleModalDeleteHandler={this.toggleModalDeleteHandler}
+              turnOnEditModeHandler={this.turnOnEditModeHandler}
+              toggleTrackModalHandler={this.toggleTrackModalHandler}
+            />
+          }
+        />
+      );
+    });
 
     return (
       <>
@@ -149,34 +173,7 @@ export class Tracks extends React.PureComponent {
           onClick={this.toggleTrackModalHandler}
         />
 
-        <Table striped bordered hover>
-          <TableHead items={TABLE_TITLES.track} />
-          {tracks.map((item, index) => {
-            return (
-              <TrackTableRow
-                key={item.name + index.toString()}
-                index={index}
-                name={item.name}
-                node={item.node}
-                date={item.date}
-                actions={
-                  <ButtonsTrack
-                    trackId={item.id}
-                    setTracksHandler={this.setTracksHandler}
-                    userId={userId}
-                    taskId={taskId}
-                    tracks={tracks}
-                    userTasks={userTasks}
-                    selectTrackHandler={this.selectTrackHandler}
-                    toggleModalDeleteHandler={this.toggleModalDeleteHandler}
-                    turnOnEditModeHandler={this.turnOnEditModeHandler}
-                    toggleTrackModalHandler={this.toggleTrackModalHandler}
-                  />
-                }
-              />
-            );
-          })}
-        </Table>
+        <Table title={TABLE_TITLES.track} items={items} />
 
         {isTrackModalOpen ? (
           <ModalWindow

@@ -1,11 +1,10 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { Table } from 'react-bootstrap';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
 import { changeTaskStatus, getMemberTasks } from '../../../services/tasks-services';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
-import { TableHead } from '../../Table/TableHead';
+import { Table } from '../../Table/Table';
 import { TasksTableRow } from '../../Table/TasksTableRow';
 import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
 
@@ -55,6 +54,40 @@ export class Tasks extends React.PureComponent {
   render() {
     const { tasks, userId } = this.state;
     const { history } = this.props;
+    const items = tasks.map((item, index) => {
+      const statusIndex = item.statuses.findIndex((elem) => elem.id === userId);
+
+      const succesStatusHandler = () => {
+        this.succesStatusHandler(item.id, userId);
+      };
+      const activeStatusHandler = () => {
+        this.activeStatusHandler(item.id, userId);
+      };
+      const failStatusHandler = () => {
+        this.failStatusHandler(item.id, userId);
+      };
+
+      return (
+        <TasksTableRow
+          key={item.name + index.toString()}
+          index={index}
+          name={item.name}
+          startDate={item.startDate}
+          deadlineDate={item.deadlineDate}
+          status={item.statuses[statusIndex].status}
+          actions={
+            <ButtonsStatusUpdate
+              userId={userId}
+              status={item.statuses[statusIndex].status}
+              taskId={item.id}
+              succesStatusHandler={succesStatusHandler}
+              activeStatusHandler={activeStatusHandler}
+              failStatusHandler={failStatusHandler}
+            />
+          }
+        />
+      );
+    });
 
     return (
       <>
@@ -66,44 +99,7 @@ export class Tasks extends React.PureComponent {
           isBackButton
         />
 
-        <Table striped bordered hover>
-          <TableHead items={TABLE_TITLES.currentTasks} />
-
-          {tasks.map((item, index) => {
-            const statusIndex = item.statuses.findIndex((elem) => elem.id === userId);
-
-            const succesStatusHandler = () => {
-              this.succesStatusHandler(item.id, userId);
-            };
-            const activeStatusHandler = () => {
-              this.activeStatusHandler(item.id, userId);
-            };
-            const failStatusHandler = () => {
-              this.failStatusHandler(item.id, userId);
-            };
-
-            return (
-              <TasksTableRow
-                key={item.name + index.toString()}
-                index={index}
-                name={item.name}
-                startDate={item.startDate}
-                deadlineDate={item.deadlineDate}
-                status={item.statuses[statusIndex].status}
-                actions={
-                  <ButtonsStatusUpdate
-                    userId={userId}
-                    status={item.statuses[statusIndex].status}
-                    taskId={item.id}
-                    succesStatusHandler={succesStatusHandler}
-                    activeStatusHandler={activeStatusHandler}
-                    failStatusHandler={failStatusHandler}
-                  />
-                }
-              />
-            );
-          })}
-        </Table>
+        <Table title={TABLE_TITLES.currentTasks} items={items} />
       </>
     );
   }

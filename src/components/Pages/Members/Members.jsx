@@ -1,5 +1,4 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
@@ -8,8 +7,8 @@ import { getAllUsers, removeUserData, getUserData, createUser, editUser } from '
 import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
 import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
-import { TableHead } from '../../Table/TableHead';
 import { MembersTableRow } from '../../Table/MembersTableRow';
+import { Table } from '../../Table/Table';
 
 export class Members extends React.PureComponent {
   constructor(props) {
@@ -134,6 +133,36 @@ export class Members extends React.PureComponent {
   render() {
     const { users, isUserModalOpen, isDeleteModalOpen, userData, isEditMode, selectedUserId, isReadOnlyMode } =
       this.state;
+    const items = users.map((user, index) => {
+      const showReadOnlyModal = async () => {
+        await this.selectUserHandler(user.id);
+        await this.showUserDataHandler(true);
+        this.toggleUserModalHandler();
+      };
+
+      return (
+        <MembersTableRow
+          key={user.name + index.toString()}
+          index={index}
+          name={user.name}
+          lastName={user.lastName}
+          direction={user.direction}
+          education={user.education}
+          startDate={user.startDate}
+          birthDate={user.birthDate}
+          action={
+            <ButtonsAdminMemberPage
+              selectUserHandler={this.selectUserHandler}
+              showUserDataHandler={this.showUserDataHandler}
+              toggleModalDeleteHandler={this.toggleModalDeleteHandler}
+              toggleUserModalHandler={this.toggleUserModalHandler}
+              id={user.id}
+            />
+          }
+          showReadOnlyModal={showReadOnlyModal}
+        />
+      );
+    });
 
     return (
       <>
@@ -143,39 +172,7 @@ export class Members extends React.PureComponent {
           onClick={this.toggleUserModalHandler}
         />
 
-        <Table striped bordered hover>
-          <TableHead items={TABLE_TITLES.members} />
-          {users.map((user, index) => {
-            const showReadOnlyModal = async () => {
-              await this.selectUserHandler(user.id);
-              await this.showUserDataHandler(true);
-              this.toggleUserModalHandler();
-            };
-
-            return (
-              <MembersTableRow
-                key={user.name + index.toString()}
-                index={index}
-                name={user.name}
-                lastName={user.lastName}
-                direction={user.direction}
-                education={user.education}
-                startDate={user.startDate}
-                birthDate={user.birthDate}
-                action={
-                  <ButtonsAdminMemberPage
-                    selectUserHandler={this.selectUserHandler}
-                    showUserDataHandler={this.showUserDataHandler}
-                    toggleModalDeleteHandler={this.toggleModalDeleteHandler}
-                    toggleUserModalHandler={this.toggleUserModalHandler}
-                    id={user.id}
-                  />
-                }
-                showReadOnlyModal={showReadOnlyModal}
-              />
-            );
-          })}
-        </Table>
+        <Table title={TABLE_TITLES.members} items={items} />
 
         {isUserModalOpen ? (
           <ModalWindow
