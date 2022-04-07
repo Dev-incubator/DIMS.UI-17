@@ -44,7 +44,7 @@ export class UserTasks extends React.PureComponent {
     return (
       <>
         <PageTitle title={TITLES_PAGES.userTasks} isContainsButton={false} />
-        <Table titles={TABLE_TITLES.userTasks} items={items} />
+        <Table title={TABLE_TITLES.userTasks} items={items} />
       </>
     );
   }
