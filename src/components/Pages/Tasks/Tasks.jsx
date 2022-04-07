@@ -7,7 +7,7 @@ import { PageTitle } from '../../PageTitle/PageTitle';
 import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 import { TableHead } from '../../Table/TableHead';
 import { TasksTableRow } from '../../Table/TasksTableRow';
-import { compareObjects } from '../../../shared/helpers';
+import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
 
 export class Tasks extends React.PureComponent {
   constructor(props) {

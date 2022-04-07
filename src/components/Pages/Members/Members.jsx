@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
-import { compareObjects } from '../../../shared/helpers';
+import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
 import { ModalWindow } from '../../Common/Modal/Modal';
 import { getAllUsers, removeUserData, getUserData, createUser, editUser } from '../../../services/users-services ';
 import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';

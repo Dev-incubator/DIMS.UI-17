@@ -10,7 +10,7 @@ import { CreateTaskForm } from '../../Forms/CreateTaskForm/CreateTaskForm';
 import { TableHead } from '../../Table/TableHead';
 import { AllTasksTableRow } from '../../Table/AllTasksTableRow';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
-import { compareObjects } from '../../../shared/helpers';
+import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
 
 export class AllTasks extends React.PureComponent {
   constructor(props) {

@@ -1,4 +1,4 @@
-import { getCurrentYear } from './helpers';
+import { getCurrentYear } from './helpers/getCurrentYear/getCurrentYear';
 
 export const SEX_OPTIONS_KEYS = ['Male', 'Women'];
 export const DIRECTIONS_OPTIONS_KEYS = ['Java', 'Frontend'];

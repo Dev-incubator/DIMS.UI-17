@@ -7,7 +7,7 @@ import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
 import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
-import { validateFormField } from '../../../shared/helpers';
+import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
 
 export class CreateTaskForm extends React.PureComponent {
   constructor(props) {

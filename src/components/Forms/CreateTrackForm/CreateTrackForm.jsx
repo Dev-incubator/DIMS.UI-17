@@ -4,7 +4,8 @@ import { initialStateTrack } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTrackForm.module.css';
-import { generateId, validateFormField } from '../../../shared/helpers';
+import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
+import { generateId } from '../../../shared/helpers/generateId/generateId';
 import { FormField } from '../FormField/FormField';
 
 export class CreateTrackForm extends React.PureComponent {

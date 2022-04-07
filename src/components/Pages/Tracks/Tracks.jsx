@@ -11,7 +11,7 @@ import { CreateTrackForm } from '../../Forms/CreateTrackForm/CreateTrackForm';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { TableHead } from '../../Table/TableHead';
 import { TrackTableRow } from '../../Table/TrackTableRow';
-import { compareObjects } from '../../../shared/helpers';
+import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
 
 export class Tracks extends React.PureComponent {
   constructor(props) {

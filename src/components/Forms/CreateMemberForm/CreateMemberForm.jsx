@@ -6,7 +6,7 @@ import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/
 import { Button } from '../../Buttons/Button/Button';
 import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
-import { validateFormField } from '../../../shared/helpers';
+import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
 
 export class CreateMemberForm extends React.PureComponent {
   constructor(props) {
