@@ -68,7 +68,7 @@ export class CreateMemberForm extends React.PureComponent {
     const { formErrors, isValid } = this.state;
 
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form>
         <div className={style.section__fields}>
           {USER_FIELDS_KEYS.map((item) => {
             const { name, title, type, options } = item;

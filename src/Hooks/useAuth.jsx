@@ -11,7 +11,7 @@ export class AuthProvider extends React.Component {
     this.state = {
       ...initialStateAuth,
       loginHandler: this.login,
-      handleSininWithGoogle: this.singInGoogle,
+      handleSinginWithGoogle: this.singInGoogle,
       logoutHandler: this.logout,
       resetErrorHandler: this.resetError,
     };

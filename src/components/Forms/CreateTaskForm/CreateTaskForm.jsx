@@ -90,7 +90,7 @@ export class CreateTaskForm extends React.PureComponent {
     const subscribers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
-      <Form onSubmit={this.handleSubmit} className={style.wrapper}>
+      <Form className={style.wrapper}>
         <div className={style.section__fields}>
           {TASK_FIELDS_KEYS.map((item) => {
             const { name, title, type, options, required } = item;
@@ -156,12 +156,12 @@ CreateTaskForm.propTypes = {
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([propTypes.string, propTypes.object]),
   isEditMode: propTypes.bool,
-  id: propTypes.string,
+  id: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };
 
 CreateTaskForm.defaultProps = {
   taskData: null,
   isReadOnlyMode: false,
   isEditMode: false,
-  id: '0',
+  id: null,
 };

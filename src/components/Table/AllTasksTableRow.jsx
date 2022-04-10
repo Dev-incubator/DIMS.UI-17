@@ -26,10 +26,10 @@ AllTasksTableRow.propTypes = {
   startDate: PropTypes.string.isRequired,
   deadlineDate: PropTypes.string.isRequired,
   action: PropTypes.node.isRequired,
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   linkPath: PropTypes.string.isRequired,
 };
 
 AllTasksTableRow.defaultProps = {
-  id: '0',
+  id: null,
 };

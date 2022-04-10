@@ -1,10 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { TITLES_PAGES, TABLE_TITLES, LINKPATH_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { getMemberTasks } from '../../../services/tasks-services';
 import { UserTasksTableRow } from '../../Table/UserTasksTableRow';
+import { AuthContext } from '../../../Hooks/useAuth';
 
 export class UserTasks extends React.PureComponent {
   constructor(props) {
@@ -15,11 +15,11 @@ export class UserTasks extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { userId } = this.props;
-    const response = await getMemberTasks(userId);
+    const { uid } = this.context;
+    const response = await getMemberTasks(uid);
     const tasks = response.map((item) => ({
       ...item,
-      status: item.statuses.find((user) => user.id === userId).status,
+      status: item.statuses.find((user) => user.id === uid).status,
     }));
     this.setState({ tasks });
   }
@@ -50,6 +50,4 @@ export class UserTasks extends React.PureComponent {
   }
 }
 
-UserTasks.propTypes = {
-  userId: PropTypes.string.isRequired,
-};
+UserTasks.contextType = AuthContext;

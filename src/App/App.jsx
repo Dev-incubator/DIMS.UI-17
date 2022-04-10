@@ -12,19 +12,13 @@ export function App() {
   return (
     <Container>
       <AuthContext.Consumer>
-        {({ isAuth, role, uid }) => {
+        {({ isAuth, role }) => {
           if (isAuth) {
             return (
               <>
                 <Header />
                 <ErrorBoundary>
-                  <main>
-                    {role === USER_ROLES.member ? (
-                      <MemberRoutes userId={uid} />
-                    ) : (
-                      <AdminRoutes role={role} userId={uid} />
-                    )}
-                  </main>
+                  <main>{role === USER_ROLES.member ? <MemberRoutes /> : <AdminRoutes />}</main>
                 </ErrorBoundary>
               </>
             );

@@ -11,6 +11,7 @@ import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { Table } from '../../Table/Table';
 import { TrackTableRow } from '../../Table/TrackTableRow';
 import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
+import { AuthContext } from '../../../Hooks/useAuth';
 
 export class Tracks extends React.PureComponent {
   constructor(props) {
@@ -29,15 +30,13 @@ export class Tracks extends React.PureComponent {
   }
 
   async componentDidMount() {
+    const { uid } = this.context;
     const {
-      params: {
-        match: {
-          params: { id },
-        },
+      match: {
+        params: { id },
       },
-      userId,
     } = this.props;
-    await this.getData(id, userId);
+    await this.getData(id, uid);
   }
 
   async componentDidUpdate(prevProps, prevState) {
@@ -214,9 +213,8 @@ export class Tracks extends React.PureComponent {
   }
 }
 
+Tracks.contextType = AuthContext;
+
 Tracks.propTypes = {
-  params: propTypes.shape({
-    match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }),
-  }).isRequired,
-  userId: propTypes.string.isRequired,
+  match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
 };

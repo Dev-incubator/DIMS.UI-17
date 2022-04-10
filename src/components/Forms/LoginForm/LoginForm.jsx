@@ -64,13 +64,13 @@ export class LoginForm extends React.PureComponent {
   render() {
     const { email, password, formErrors, formValid } = this.state;
     const { email: emailErrors, password: passworErrors } = formErrors;
-    const { error, handleSininWithGoogle } = this.props;
+    const { error, handleSinginWithGoogle } = this.props;
 
     return (
       <Row sm='auto' className='justify-content-center'>
         <Col>
           <h1 className={style.title}>Sign in to CMS</h1>
-          <form action='' className={style.login}>
+          <form className={style.login}>
             <label className={style.login__label} htmlFor='email'>
               Email address
               <input
@@ -103,7 +103,7 @@ export class LoginForm extends React.PureComponent {
             <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
               Sign in
             </button>
-            <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSininWithGoogle} />
+            <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSinginWithGoogle} />
           </form>
         </Col>
       </Row>
@@ -112,7 +112,7 @@ export class LoginForm extends React.PureComponent {
 }
 
 LoginForm.propTypes = {
-  handleSininWithGoogle: PropTypes.func.isRequired,
+  handleSinginWithGoogle: PropTypes.func.isRequired,
   handleLogin: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
   resetErrorHandler: PropTypes.func.isRequired,

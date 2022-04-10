@@ -1,6 +1,6 @@
 .section__fields {
   display: grid;
-  grid-template: repeat(8, minmax(100px, auto)) / minmax(200px, auto) minmax(200px, auto);
+  grid-template: repeat(8, minmax(6.25rem, auto)) / minmax(12.5rem, auto) minmax(12.5rem, auto);
   grid-auto-flow: column;
   grid-gap: 0.5rem;
 }

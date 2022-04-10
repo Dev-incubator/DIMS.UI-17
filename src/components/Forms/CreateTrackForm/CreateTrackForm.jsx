@@ -77,7 +77,7 @@ export class CreateTrackForm extends React.PureComponent {
     const options = userTasks.map((task) => task.name);
 
     return (
-      <form onSubmit={this.handleSubmit} className={style.wrapper}>
+      <form className={style.wrapper}>
         <div className={style.section__fields}>
           {TRACK_FIELDS_KEYS.map((item) => {
             const { name, title, type, required } = item;
@@ -122,12 +122,12 @@ CreateTrackForm.propTypes = {
   userTasks: propTypes.arrayOf(propTypes.oneOfType([propTypes.string, propTypes.object, propTypes.array])),
   isEditMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   tracks: propTypes.arrayOf(propTypes.object).isRequired,
-  trackId: propTypes.string,
+  trackId: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };
 
 CreateTrackForm.defaultProps = {
   isReadOnlyMode: false,
   userTasks: [],
   isEditMode: false,
-  trackId: '0',
+  trackId: null,
 };
