@@ -39,5 +39,5 @@ export function compareObjects(obj1, obj2) {
 }
 
 function isFunction(value) {
-  return value === 'function';
+  return typeof value === 'function';
 }

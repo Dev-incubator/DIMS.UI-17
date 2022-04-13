@@ -3,6 +3,7 @@ import { db } from '../firebase';
 import { registerUser } from './auth-services';
 
 export async function getAllUsers() {
+  console.log('getAllUsersgetAllUsersgetAllUsers');
   try {
     const querySnapshot = await getDocs(collection(db, 'users'));
     const users = querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
