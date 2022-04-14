@@ -1,6 +1,15 @@
+/* .table {
+  background-color: var(--bg-color-primary);
+} */
 .table a {
   color: var(--text-color-primary);
   text-decoration: underline;
+}
+.table {
+  color: var(--text-color-primary);
+}
+.table > tbody > tr > td {
+  color: var(--text-color-primary) !important;
 }
 td:last-of-type {
   display: grid;
@@ -13,7 +22,6 @@ td:last-of-type button {
 }
 
 .link {
-  color: var(--text-color-);
   text-decoration: underline;
   cursor: pointer;
 }

@@ -8,16 +8,19 @@ import { App } from './App/App';
 import reportWebVitals from './reportWebVitals';
 import './firebase';
 import { AuthProvider } from './Hooks/useAuth';
+import { SettingsProvider } from './Hooks/useSettings';
 import { store } from './store/store';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </AuthProvider>
+      <SettingsProvider>
+        <AuthProvider>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </AuthProvider>
+      </SettingsProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),

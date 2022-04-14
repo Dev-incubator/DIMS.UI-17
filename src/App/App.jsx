@@ -7,10 +7,11 @@ import { MemberRoutes } from '../Routes/MemberRoutes';
 import { USER_ROLES } from '../shared/constants';
 import { AuthContext } from '../Hooks/useAuth';
 import { Login } from '../components/Pages/Login/Login';
+import style from './App.module.css';
 
 export function App() {
   return (
-    <Container>
+    <Container className={style.container}>
       <AuthContext.Consumer>
         {({ isAuth, role }) => {
           if (isAuth) {

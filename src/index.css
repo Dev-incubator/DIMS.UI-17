@@ -7,7 +7,6 @@
   --bg-color-edit-button: #f0ad4e;
   --bg-color-delete-button: #d9534f;
   --bg-color-save-button: #28a745;
-  --bg-color-login-button: #2666cf;
   --color-primary: #fff;
   --color-active-link: #2666cf;
   --color-error: red;
@@ -15,8 +14,9 @@
 
   --text-color-primary: #000;
 
-  --bg-color-primary: #2c3333;
+  --bg-color-primary: #fff;
   --bg-color-secondery: #f5f2e7;
+  --bg-color-header: #24292f;
 
   --width-content: 800px;
 
@@ -26,6 +26,30 @@
   --fw-bold: 700;
 
   --transition: 0.3s all;
+}
+
+[data-theme='dark'] {
+  --bg-color-primary: #0d1117;
+  --bg-color-header: #161b22;
+  --text-color-primary: #fff;
+
+  --bg-color-primary-button: #4b515c;
+  --bg-color-edit-button: #b17cf6;
+  --bg-color-delete-button: #f76867;
+  --bg-color-save-button: #09b43a;
+  --bg-color-secondery-button: #272b33;
+
+}
+[data-theme='dark-dimmed'] {
+  --bg-color-primary: #22272e;
+  --bg-color-header: #2d333b;
+  --text-color-primary: #adadb7;
+
+  --bg-color-primary-button: #373e47;
+  --bg-color-edit-button: #b17cf6;
+  --bg-color-delete-button: #f76867;
+  --bg-color-save-button: #347d39;
+  --bg-color-secondery-button: #272b33;
 }
 * {
   box-sizing: border-box;

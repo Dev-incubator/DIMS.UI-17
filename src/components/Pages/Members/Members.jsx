@@ -124,7 +124,6 @@ class Members extends React.PureComponent {
   render() {
     const { isUserModalOpen, isDeleteModalOpen, userData, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
     const { users } = this.props;
-    console.log(users);
 
     const items = users.map((user, index) => {
       const showReadOnlyModal = async () => {

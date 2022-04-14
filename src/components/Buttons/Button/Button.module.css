@@ -1,4 +1,23 @@
-.button {
+.primary {
+  background-color: var(--bg-color-primary-button);
+}
+.success {
+  background-color: var(--bg-color-save-button);
+}
+.danger {
+  background-color: var(--bg-color-delete-button);
+}
+.warning {
+  background-color: var(--bg-color-edit-button);
+}
+.secondary {
+  background-color: var(--bg-color-secondery-button);
+}
+button {
+  font-size: 1.2rem;
   margin: 0.5rem;
   min-width: 100px;
+  color: var(--text-color-primary);
+  border-radius: 5px;
+  padding: .3rem 0;
 }
