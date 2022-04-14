@@ -20,12 +20,7 @@ export class CreateTaskForm extends React.PureComponent {
     const { taskData, isEditMode } = this.props;
 
     if (isEditMode) {
-      this.setState((prevState) => {
-        const { formErrors } = prevState;
-        const formErrorsForEditMode = formErrors.map((item) => ({ ...item, isValid: true }));
-
-        return { ...taskData, formErrors: formErrorsForEditMode, isValid: true, isValidCheckBox: true };
-      });
+      this.setState({ ...taskData });
     }
   }
 
@@ -35,9 +30,7 @@ export class CreateTaskForm extends React.PureComponent {
     this.setState((prevState) => {
       const { formErrors } = prevState;
       const { name: fildName, error } = validateFormField(name, value);
-      const updatedErrors = formErrors.map((item) =>
-        item.name === fildName ? { ...item, error, isValid: !error.length } : item,
-      );
+      const updatedErrors = formErrors.map((item) => (item.name === fildName ? { ...item, error } : item));
 
       return {
         ...prevState,
@@ -45,22 +38,20 @@ export class CreateTaskForm extends React.PureComponent {
         formErrors: updatedErrors,
       };
     });
-
-    this.setState((prevState) => {
-      const { formErrors } = prevState;
-      const errors = formErrors.filter((item) => !item.isValid);
-
-      return errors.length ? { ...prevState, isValid: false } : { ...prevState, isValid: true };
-    });
   };
 
   checkboxHandler = () => {
     const selectedUsers = this.myRef.filter((item) => item.checked);
 
     this.setState((prevState) => {
-      return selectedUsers.length
-        ? { ...prevState, checkboxError: '', isValidCheckBox: true }
-        : { ...prevState, checkboxError: 'require', isValidCheckBox: false };
+      const { formErrors } = prevState;
+
+      return {
+        ...prevState,
+        formErrors: formErrors.map((item) =>
+          item.name === 'checkbox' ? { ...item, error: selectedUsers.length ? '' : 'required' } : item,
+        ),
+      };
     });
   };
 
@@ -86,7 +77,9 @@ export class CreateTaskForm extends React.PureComponent {
 
   render() {
     const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
-    const { formErrors, isValid, checkboxError, isValidCheckBox } = this.state;
+    const { formErrors } = this.state;
+    const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
+    const isError = formErrors.filter((item) => item.error !== '');
     const subscribers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
@@ -133,9 +126,7 @@ export class CreateTaskForm extends React.PureComponent {
         <p className={style.error}>{checkboxError}</p>
 
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && (
-            <Button title='Save' onClick={this.handleSubmit} disabled={!isValid || !isValidCheckBox} />
-          )}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
 
           <Button
             onClick={toggleModalHandler}
