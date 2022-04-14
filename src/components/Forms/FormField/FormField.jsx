@@ -1,25 +1,31 @@
 import PropTypes from 'prop-types';
-import style from './FormField.module.css';
+import { Form } from 'react-bootstrap';
 
 export function FormField({ onChange, value, name, title, type = 'text', options, isReadOnlyMode, errors }) {
   return (
-    <div className={style.item}>
-      <label className={style.field} htmlFor={name}>
-        {title}
-        {type === 'select' ? (
-          <select name={name} onChange={onChange} value={value}>
-            {options.map((item) => (
-              <option key={item} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-        ) : (
-          <input onChange={onChange} value={value} type={type} name={name} id={name} readOnly={isReadOnlyMode} />
-        )}
-      </label>
-      <p className={style.error}>{errors}</p>
-    </div>
+    <Form.Group>
+      <Form.Label>{title}</Form.Label>
+      {type === 'select' ? (
+        <Form.Select name={name} onChange={onChange} value={value}>
+          {options.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </Form.Select>
+      ) : (
+        <Form.Control
+          onChange={onChange}
+          value={value}
+          type={type}
+          name={name}
+          id={name}
+          readOnly={isReadOnlyMode}
+          isInvalid={errors}
+        />
+      )}
+      <Form.Control.Feedback type='invalid'>{errors}</Form.Control.Feedback>
+    </Form.Group>
   );
 }
 

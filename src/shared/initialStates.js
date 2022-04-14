@@ -1,4 +1,4 @@
-import { FORM_MEMBER_ERRORS } from './constants';
+import { FORM_MEMBER_ERRORS, FORM_TASK_ERRORS, FORM_TRACKS_ERRORS } from './constants';
 
 export const initialStateTasks = {
   name: '',
@@ -7,6 +7,7 @@ export const initialStateTasks = {
   deadlineDate: '',
   statuses: [],
   subscribers: [],
+  formErrors: FORM_TASK_ERRORS,
 };
 
 export const initialStateCreatMember = {
@@ -35,6 +36,7 @@ export const initialStateTrack = {
   date: '',
   node: '',
   userId: '',
+  formErrors: FORM_TRACKS_ERRORS,
 };
 
 export const initialStateAuth = {

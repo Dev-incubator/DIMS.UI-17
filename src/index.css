@@ -7,9 +7,9 @@
   --bg-color-edit-button: #f0ad4e;
   --bg-color-delete-button: #d9534f;
   --bg-color-save-button: #28a745;
-  --bg-color-login-button: #2666CF;
+  --bg-color-login-button: #2666cf;
   --color-primary: #fff;
-  --color-active-link: #2666CF;
+  --color-active-link: #2666cf;
   --color-error: red;
   --color-modal: rgba(0, 0, 0, 0.4);
 
@@ -41,35 +41,15 @@ ul {
 li {
   list-style-type: none;
 }
-table,
-th,
-td {
-  border: 1px solid var(--text-color-primary);
-  border-collapse: collapse;
-  text-align: center;
-}
-table {
-  width: 100%;
-}
-table > a {
-  color: var(--text-color-primary);
-}
-thead {
-  background-color: var(--bg-color-secondery);
-}
-tbody {
-  background-color: var(--color-primary);
-}
 #root {
   font-family: 'Roboto Serif', sans-serif;
+}
+.container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
-.contentWrapper {
-  max-width: var(--width-content);
-  margin: 0 auto;
-}
+
 main {
   flex: 1;
   max-width: var(--width-content);

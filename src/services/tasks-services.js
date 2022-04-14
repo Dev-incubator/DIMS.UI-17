@@ -9,31 +9,23 @@ export async function getAllTasks() {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }
 
 export async function createTask(taskData) {
   try {
-    const response = await addDoc(collection(db, 'tasks'), taskData);
-
-    return response;
+    await addDoc(collection(db, 'tasks'), taskData);
   } catch (error) {
     console.error(error);
-
-    return false;
   }
 }
 
 export async function removeTask(uid) {
   try {
     await deleteDoc(doc(db, 'tasks', uid));
-
-    return true;
   } catch (error) {
     console.error(error);
-
-    return false;
   }
 }
 
@@ -41,12 +33,8 @@ export async function updateTask(id, taskData) {
   try {
     const taskRef = doc(db, 'tasks', id);
     await updateDoc(taskRef, taskData);
-
-    return true;
   } catch (error) {
     console.error(error);
-
-    return false;
   }
 }
 
@@ -60,7 +48,7 @@ export async function getMemberTasks(id) {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }
 
@@ -73,7 +61,7 @@ export async function getTaskData(uid) {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }
 
@@ -89,6 +77,6 @@ export async function changeTaskStatus(taskId, userId, newStatus) {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }

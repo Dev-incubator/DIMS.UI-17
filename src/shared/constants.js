@@ -1,4 +1,4 @@
-import { getCurrentYear } from './helpers';
+import { getCurrentYear } from './helpers/getCurrentYear/getCurrentYear';
 
 export const SEX_OPTIONS_KEYS = ['Male', 'Women'];
 export const DIRECTIONS_OPTIONS_KEYS = ['Java', 'Frontend'];
@@ -10,6 +10,7 @@ export const TITLES_PAGES = {
   currentTasks: 'Current Tasks',
   progress: 'Progress',
   track: 'Task track',
+  userTasks: 'Hi! There are your current tasks',
 };
 
 export const BUTTONS_NAMES = {
@@ -26,52 +27,20 @@ export const BUTTONS_NAMES = {
 };
 
 export const BUTTONS_TYPES = {
-  typePrimary: 'typePrimary',
-  typeSecondary: 'typeSecondary',
-  typeEdit: 'typeEdit',
-  typeDelete: 'typeDelete',
-  typeSave: 'typeSave',
+  typePrimary: 'primary',
+  typeSecondary: 'secondary',
+  typeEdit: 'warning',
+  typeDelete: 'danger',
+  typeSave: 'success',
 };
 
 export const TABLE_TITLES = {
-  allTasks: {
-    id: '#',
-    name: 'Task name',
-    description: 'Description',
-    startDate: 'Start date',
-    deadlineDate: 'Deadline',
-    actions: 'Actions',
-  },
-  track: {
-    id: '#',
-    name: 'Task',
-    node: 'Node',
-    date: 'Date',
-    actions: 'Actions',
-  },
-  members: {
-    id: '#',
-    name: 'Full name',
-    direction: 'Direction',
-    education: 'Education',
-    startDate: 'Start',
-    birthDate: 'Age',
-    actions: 'Actions',
-  },
-  currentTasks: {
-    id: '#',
-    name: 'Task name',
-    startDate: 'Start date',
-    deadlineDate: 'Deadline',
-    status: 'Status',
-    actions: 'Actions',
-  },
-  progress: {
-    id: '#',
-    name: 'Task name',
-    node: 'Task note',
-    date: 'Date',
-  },
+  track: ['#', 'Task', 'Node', 'Date', 'Actions'],
+  allTasks: ['#', 'Task name', 'Description', 'Start date', 'Deadline', 'Actions'],
+  members: ['#', 'Full name', 'Direction', 'Education', 'Start', 'Age', 'Actions'],
+  currentTasks: ['#', 'Task name', 'Start date', 'Deadline', 'Status', 'Actions'],
+  progress: ['#', 'Task name', 'Task note', 'Date'],
+  userTasks: ['#', 'Task name', 'Start date', 'Deadline', 'Status'],
 };
 
 export const USER_ROLES = {
@@ -171,4 +140,17 @@ export const FORM_MEMBER_ERRORS = [
   { name: 'education', error: '', isValid: false },
   { name: 'universityAverageAcore', error: '', isValid: false },
   { name: 'mathScore', error: '', isValid: false },
+];
+
+export const FORM_TASK_ERRORS = [
+  { name: 'name', error: null },
+  { name: 'description', error: null },
+  { name: 'startDate', error: null },
+  { name: 'deadlineDate', error: null },
+  { name: 'checkbox', error: null },
+];
+
+export const FORM_TRACKS_ERRORS = [
+  { name: 'date', error: null },
+  { name: 'node', error: null },
 ];

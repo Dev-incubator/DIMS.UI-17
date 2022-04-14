@@ -5,11 +5,16 @@ import { AuthContext } from '../../../Hooks/useAuth';
 export function Login() {
   return (
     <AuthContext.Consumer>
-      {({ isAuth, error, loginHandler, resetErrorHandler }) => {
+      {({ isAuth, error, loginHandler, handleSinginWithGoogle, resetErrorHandler }) => {
         return isAuth ? (
           <Home />
         ) : (
-          <LoginForm error={error} handleLogin={loginHandler} resetErrorHandler={resetErrorHandler} />
+          <LoginForm
+            error={error}
+            resetErrorHandler={resetErrorHandler}
+            handleLogin={loginHandler}
+            handleSinginWithGoogle={handleSinginWithGoogle}
+          />
         );
       }}
     </AuthContext.Consumer>

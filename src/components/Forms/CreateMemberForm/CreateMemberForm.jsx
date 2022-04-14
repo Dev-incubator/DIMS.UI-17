@@ -1,15 +1,14 @@
 import React from 'react';
+import { Form } from 'react-bootstrap';
 import propTypes from 'prop-types';
 import { initialStateCreatMember } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
-import { editUser, getAllUsers, createUser } from '../../../services/users-services ';
-import noop from '../../../shared/noop';
-import { validateFormCreateUser } from '../../../shared/helpers';
+import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
 
-export class CreateMemberForm extends React.Component {
+export class CreateMemberForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = initialStateCreatMember;
@@ -33,7 +32,7 @@ export class CreateMemberForm extends React.Component {
 
     this.setState((prevState) => {
       const { password, formErrors } = prevState;
-      const { name: fildName, error } = validateFormCreateUser(name, value, password);
+      const { name: fildName, error } = validateFormField(name, value, password);
       const updatedErrors = formErrors.map((item) =>
         item.name === fildName ? { ...item, error, isValid: !error.length } : item,
       );
@@ -55,16 +54,12 @@ export class CreateMemberForm extends React.Component {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { setUsersHandler, toggleModalHandler, isEditMode, id, toggleError } = this.props;
+    const { isEditMode, createUserHandler, editUserDataHandler } = this.props;
     const { formErrors, isValid, ...data } = this.state;
-
-    const isAdded = isEditMode ? await editUser(id, data) : await createUser(data);
-    if (isAdded) {
-      toggleModalHandler();
-      const updatedUsers = await getAllUsers();
-      setUsersHandler(updatedUsers);
+    if (isEditMode) {
+      await editUserDataHandler(data);
     } else {
-      toggleError();
+      await createUserHandler(data);
     }
   };
 
@@ -73,7 +68,7 @@ export class CreateMemberForm extends React.Component {
     const { formErrors, isValid } = this.state;
 
     return (
-      <form onSubmit={this.handleSubmit} className={style.wrapper}>
+      <Form>
         <div className={style.section__fields}>
           {USER_FIELDS_KEYS.map((item) => {
             const { name, title, type, options } = item;
@@ -96,7 +91,7 @@ export class CreateMemberForm extends React.Component {
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <input type='submit' value='Save' disabled={!isValid} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={!isValid} />}
 
           <Button
             onClick={toggleModalHandler}
@@ -104,26 +99,22 @@ export class CreateMemberForm extends React.Component {
             title={BUTTONS_NAMES.backToList}
           />
         </div>
-      </form>
+      </Form>
     );
   }
 }
 
 CreateMemberForm.propTypes = {
-  toggleError: propTypes.func,
-  setUsersHandler: propTypes.func,
   toggleModalHandler: propTypes.func.isRequired,
-  userData: propTypes.shape({}),
+  editUserDataHandler: propTypes.func.isRequired,
+  createUserHandler: propTypes.func.isRequired,
+  userData: propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.array]),
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
-  id: propTypes.string,
   isEditMode: propTypes.bool,
 };
 
 CreateMemberForm.defaultProps = {
-  toggleError: noop,
-  userData: {},
-  setUsersHandler: noop,
+  userData: null,
   isReadOnlyMode: false,
-  id: '0',
   isEditMode: false,
 };

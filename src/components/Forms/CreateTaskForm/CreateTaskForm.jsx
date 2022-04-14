@@ -1,14 +1,15 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { Form } from 'react-bootstrap';
 import { initialStateTasks } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
-import noop from '../../../shared/noop';
-import { createTask, getAllTasks, getTaskData, updateTask } from '../../../services/tasks-services';
+import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
+import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
 
-export class CreateTaskForm extends React.Component {
+export class CreateTaskForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = initialStateTasks;
@@ -16,18 +17,47 @@ export class CreateTaskForm extends React.Component {
   }
 
   componentDidMount() {
-    const { taskData } = this.props;
-    this.setState(taskData);
+    const { taskData, isEditMode } = this.props;
+
+    if (isEditMode) {
+      this.setState({ ...taskData });
+    }
   }
 
   handleChange = ({ target }) => {
     const { name, value } = target;
-    this.setState({ [name]: value });
+
+    this.setState((prevState) => {
+      const { formErrors } = prevState;
+      const { name: fildName, error } = validateFormField(name, value);
+      const updatedErrors = formErrors.map((item) => (item.name === fildName ? { ...item, error } : item));
+
+      return {
+        ...prevState,
+        [name]: value,
+        formErrors: updatedErrors,
+      };
+    });
+  };
+
+  checkboxHandler = () => {
+    const selectedUsers = this.myRef.filter((item) => item.checked);
+
+    this.setState((prevState) => {
+      const { formErrors } = prevState;
+
+      return {
+        ...prevState,
+        formErrors: formErrors.map((item) =>
+          item.name === 'checkbox' ? { ...item, error: selectedUsers.length ? '' : 'required' } : item,
+        ),
+      };
+    });
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { setTasksHandler, toggleModalHandler, isEditMode, id, toggleError } = this.props;
+    const { isEditMode, id, createTaskHandler, updateTaskHandler } = this.props;
     const { statuses } = isEditMode ? await getTaskData(id) : [];
     const selectedUsers = this.myRef
       .filter((item) => item.checked)
@@ -37,28 +67,28 @@ export class CreateTaskForm extends React.Component {
           : { id: item.name, status: 'Active' },
       );
     const subscribers = selectedUsers.map((item) => item.id);
-    const isAdded = isEditMode
-      ? await updateTask(id, { ...this.state, statuses: [...selectedUsers], subscribers })
-      : await createTask({ ...this.state, statuses: [...selectedUsers], subscribers });
-    if (isAdded) {
-      toggleModalHandler();
-      const updatedTasks = await getAllTasks();
-      setTasksHandler(updatedTasks);
+
+    if (isEditMode) {
+      updateTaskHandler({ ...this.state, statuses: [...selectedUsers], subscribers });
     } else {
-      toggleError();
+      createTaskHandler({ ...this.state, statuses: [...selectedUsers], subscribers });
     }
   };
 
   render() {
     const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
-    const subscribers = Object.keys(taskData).length === 0 ? [] : taskData.statuses.map((item) => item.id);
+    const { formErrors } = this.state;
+    const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
+    const isError = formErrors.filter((item) => item.error !== '');
+    const subscribers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
-      <form onSubmit={this.handleSubmit} className={style.wrapper}>
+      <Form className={style.wrapper}>
         <div className={style.section__fields}>
           {TASK_FIELDS_KEYS.map((item) => {
             const { name, title, type, options, required } = item;
             const { state } = this;
+            const { error } = formErrors.find((field) => field.name === name) || '';
 
             return (
               <FormField
@@ -71,6 +101,7 @@ export class CreateTaskForm extends React.Component {
                 title={title}
                 required={required}
                 isReadOnlyMode={isReadOnlyMode}
+                errors={error}
               />
             );
           })}
@@ -79,7 +110,7 @@ export class CreateTaskForm extends React.Component {
           {users.map((user, index) => (
             <label className={style.users} key={user.id} htmlFor={user.id}>
               {user.name}
-              <input
+              <Form.Check
                 ref={(ref) => {
                   this.myRef[index] = ref;
                 }}
@@ -87,12 +118,15 @@ export class CreateTaskForm extends React.Component {
                 name={user.id}
                 id={user.id}
                 defaultChecked={isEditMode ? subscribers.includes(user.id) : false}
+                onClick={this.checkboxHandler}
               />
             </label>
           ))}
         </div>
+        <p className={style.error}>{checkboxError}</p>
+
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <input type='submit' value='Save' />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
 
           <Button
             onClick={toggleModalHandler}
@@ -100,29 +134,25 @@ export class CreateTaskForm extends React.Component {
             title={BUTTONS_NAMES.backToList}
           />
         </div>
-      </form>
+      </Form>
     );
   }
 }
 
 CreateTaskForm.propTypes = {
-  toggleError: propTypes.func.isRequired,
-  setTasksHandler: propTypes.func,
   toggleModalHandler: propTypes.func.isRequired,
+  createTaskHandler: propTypes.func.isRequired,
+  updateTaskHandler: propTypes.func.isRequired,
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   users: propTypes.arrayOf(propTypes.object).isRequired,
-  taskData: propTypes.oneOfType([
-    propTypes.shape({}),
-    propTypes.shape({ id: propTypes.string, statuses: propTypes.arrayOf(propTypes.string) }),
-  ]),
+  taskData: propTypes.oneOfType([propTypes.string, propTypes.object]),
   isEditMode: propTypes.bool,
-  id: propTypes.string,
+  id: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };
 
 CreateTaskForm.defaultProps = {
-  taskData: {},
-  setTasksHandler: noop,
+  taskData: null,
   isReadOnlyMode: false,
   isEditMode: false,
-  id: '0',
+  id: null,
 };

@@ -1,33 +1,69 @@
 import { getDoc, doc } from 'firebase/firestore';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+} from 'firebase/auth';
 import { db } from '../firebase';
 
-export async function findUser(email, password) {
-  const auth = getAuth();
+const auth = getAuth();
+const provider = new GoogleAuthProvider();
+
+export async function singInEmailAndPassword(email, password) {
   try {
     const {
       user: { uid },
     } = await signInWithEmailAndPassword(auth, email, password);
 
-    const docRef = doc(db, 'users', uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      const { role, name } = docSnap.data();
+    return findUser(uid);
+  } catch (error) {
+    console.log(error);
 
-      return { role, name, uid };
-    }
+    return undefined;
+  }
+}
 
-    return false;
+export async function singInGoogle() {
+  try {
+    const {
+      user: { uid },
+    } = await signInWithPopup(auth, provider);
+
+    return findUser(uid);
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
+  }
+}
+
+async function findUser(uid) {
+  try {
+    const docRef = doc(db, 'users', uid);
+    const docSnap = await getDoc(docRef);
+    const { role, name } = docSnap.data();
+
+    return { role, name, uid };
+  } catch (error) {
+    console.error(error);
+
+    return undefined;
+  }
+}
+
+export async function logout() {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error(error);
   }
 }
 
 export async function registerUser(email, password) {
   try {
-    const auth = getAuth();
     const user = await createUserWithEmailAndPassword(auth, email, password);
     const {
       user: { uid },
@@ -37,6 +73,6 @@ export async function registerUser(email, password) {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }

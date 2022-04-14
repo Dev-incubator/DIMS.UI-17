@@ -12,7 +12,7 @@ export async function getTracks(taskId, userId) {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }
 
@@ -55,7 +55,7 @@ export async function getUserTracks(userId) {
   } catch (error) {
     console.error(error);
 
-    return false;
+    return undefined;
   }
 }
 

@@ -1,9 +1,11 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import style from './LoginForm.module.css';
-import { REGEXP_KEYS } from '../../../shared/rexExp';
+import { Button } from '../../Buttons/Button/Button';
+import { regExpEmail } from '../../../shared/regulars';
 
-export class LoginForm extends React.Component {
+export class LoginForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,8 +34,8 @@ export class LoginForm extends React.Component {
   handleFocus = ({ target }) => {
     const { resetErrorHandler } = this.props;
     const { name, value } = target;
-    resetErrorHandler();
     this.validateField(name, value);
+    resetErrorHandler();
   };
 
   validateField(fieldName, value) {
@@ -41,7 +43,7 @@ export class LoginForm extends React.Component {
     let { emailValid, passwordValid } = this.state;
     switch (fieldName) {
       case 'email':
-        emailValid = value.match(REGEXP_KEYS.email);
+        emailValid = value.match(regExpEmail);
         formErrors.email = emailValid ? '' : ' is invalid';
         break;
       case 'password':
@@ -62,51 +64,55 @@ export class LoginForm extends React.Component {
   render() {
     const { email, password, formErrors, formValid } = this.state;
     const { email: emailErrors, password: passworErrors } = formErrors;
-    const { error } = this.props;
+    const { error, handleSinginWithGoogle } = this.props;
 
     return (
-      <>
-        <h1 className={style.title}>Sign in to CMS</h1>
-        <form action='' className={style.login}>
-          <label className={style.login__label} htmlFor='email'>
-            Email address
-            <input
-              className={emailErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
-              name='email'
-              onChange={this.handleChange}
-              onBlur={this.handleFocus}
-              value={email}
-              type='text'
-              id='email'
-            />
-            <p className={style.errorTitle}>{emailErrors.length ? 'login is invalid' : ''}</p>
-          </label>
-          <label className={style.login__label} htmlFor='password'>
-            Password
-            <input
-              className={passworErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
-              name='password'
-              value={password}
-              onChange={this.handleChange}
-              onBlur={this.handleFocus}
-              type='password'
-              id='password'
-              placeholder='password'
-            />
-            <p className={style.errorTitle}>{passworErrors.length ? 'password is invalid' : ''}</p>
-          </label>
-          <p className={style.errorTitle}>{error ? 'User not found' : ''}</p>
+      <Row sm='auto' className='justify-content-center'>
+        <Col>
+          <h1 className={style.title}>Sign in to CMS</h1>
+          <form className={style.login}>
+            <label className={style.login__label} htmlFor='email'>
+              Email address
+              <input
+                className={emailErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
+                name='email'
+                onChange={this.handleChange}
+                onBlur={this.handleFocus}
+                value={email}
+                type='text'
+                id='email'
+              />
+              <p className={style.errorTitle}>{emailErrors.length ? 'login is invalid' : ''}</p>
+            </label>
+            <label className={style.login__label} htmlFor='password'>
+              Password
+              <input
+                className={passworErrors.length ? `${style.error} ${style.login__input}` : style.login__input}
+                name='password'
+                value={password}
+                onChange={this.handleChange}
+                onBlur={this.handleFocus}
+                type='password'
+                id='password'
+                placeholder='password'
+              />
+              <p className={style.errorTitle}>{passworErrors.length ? 'password is invalid' : ''}</p>
+            </label>
+            <p className={style.errorTitle}>{error ? 'User not found' : ''}</p>
 
-          <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
-            Sign in
-          </button>
-        </form>
-      </>
+            <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
+              Sign in
+            </button>
+            <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSinginWithGoogle} />
+          </form>
+        </Col>
+      </Row>
     );
   }
 }
 
 LoginForm.propTypes = {
+  handleSinginWithGoogle: PropTypes.func.isRequired,
   handleLogin: PropTypes.func.isRequired,
   error: PropTypes.string.isRequired,
   resetErrorHandler: PropTypes.func.isRequired,
