@@ -74,14 +74,9 @@ class Members extends React.PureComponent {
     this.setState({ selectedUserId });
   };
 
-  showUserDataHandler = async (isReadOnlyMode) => {
-    if (isReadOnlyMode) {
-      this.setState({ isEditMode: true, isReadOnlyMode: true });
-      await this.getUserData();
-    } else {
-      await this.getUserData();
-      this.setState({ isEditMode: true });
-    }
+  showUserDataHandler = async (isReadOnlyMode = false) => {
+    await this.getUserData();
+    this.setState({ isEditMode: true, isReadOnlyMode });
   };
 
   toggleUserModalHandler = () => {
