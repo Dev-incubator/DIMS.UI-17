@@ -143,13 +143,14 @@ export const FORM_MEMBER_ERRORS = [
 ];
 
 export const FORM_TASK_ERRORS = [
-  { name: 'name', error: '', isValid: false },
-  { name: 'description', error: '', isValid: false },
-  { name: 'startDate', error: '', isValid: false },
-  { name: 'deadlineDate', error: '', isValid: false },
+  { name: 'name', error: null },
+  { name: 'description', error: null },
+  { name: 'startDate', error: null },
+  { name: 'deadlineDate', error: null },
+  { name: 'checkbox', error: null },
 ];
 
 export const FORM_TRACKS_ERRORS = [
-  { name: 'date', error: '', isValid: false },
-  { name: 'node', error: '', isValid: false },
+  { name: 'date', error: null },
+  { name: 'node', error: null },
 ];
