@@ -1,7 +1,6 @@
 import React from 'react';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
-import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
 import { ModalWindow } from '../../Common/Modal/Modal';
 import { getAllUsers, removeUserData, getUserData, createUser, editUser } from '../../../services/users-services ';
 import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
@@ -29,28 +28,9 @@ export class Members extends React.PureComponent {
   }
 
   async componentDidUpdate(prevProps, prevState) {
-    const { users, selectedUserId } = this.state;
-
-    if (prevState.users.length > users.length && prevState.users.length) {
-      await this.getUsers();
-      this.toggleModalDeleteHandler();
-
-      return;
-    }
-    if (prevState.users.length < users.length && prevState.users.length) {
-      await this.getUsers();
-      this.toggleUserModalHandler();
-
-      return;
-    }
-    if (
-      !compareObjects(
-        prevState.users.find((item) => item.id === selectedUserId),
-        users.find((item) => item.id === selectedUserId),
-      )
-    ) {
-      await this.getUsers();
-      this.toggleUserModalHandler();
+    const { users } = this.state;
+    if (prevState.users !== users && prevState.users.length) {
+      this.toggleModal();
     }
   }
 
@@ -94,14 +74,9 @@ export class Members extends React.PureComponent {
     this.setState({ selectedUserId });
   };
 
-  showUserDataHandler = async (isReadOnlyMode) => {
-    if (isReadOnlyMode) {
-      this.setState({ isEditMode: true, isReadOnlyMode: true });
-      await this.getUserData();
-    } else {
-      await this.getUserData();
-      this.setState({ isEditMode: true });
-    }
+  showUserDataHandler = async (isReadOnlyMode = false) => {
+    await this.getUserData();
+    this.setState({ isEditMode: true, isReadOnlyMode });
   };
 
   toggleUserModalHandler = () => {
@@ -118,6 +93,15 @@ export class Members extends React.PureComponent {
           }
         : { ...prevState, isUserModalOpen: !prevState.isUserModalOpen };
     });
+  };
+
+  toggleModal = () => {
+    const { isUserModalOpen, isDeleteModalOpen } = this.state;
+    if (isUserModalOpen) {
+      this.toggleUserModalHandler();
+    } else if (isDeleteModalOpen) {
+      this.toggleModalDeleteHandler();
+    }
   };
 
   toggleModalDeleteHandler = () => {

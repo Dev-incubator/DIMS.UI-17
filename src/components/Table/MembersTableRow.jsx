@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { getFullName } from '../../shared/helpers/getFullName/getFullName';
 import style from './Table.module.css';
 
 export function MembersTableRow({
@@ -18,7 +19,7 @@ export function MembersTableRow({
         <td>{index}</td>
         <td>
           <div className={style.link} role='none' onClick={showReadOnlyModal}>
-            {`${name} ${lastName}`}
+            {getFullName(name, lastName)}
           </div>
         </td>
         <td>{direction}</td>
