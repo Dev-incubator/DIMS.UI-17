@@ -151,6 +151,6 @@ export const FORM_TASK_ERRORS = [
 ];
 
 export const FORM_TRACKS_ERRORS = [
-  { name: 'date', error: '', isValid: false },
-  { name: 'node', error: '', isValid: false },
+  { name: 'date', error: null },
+  { name: 'node', error: null },
 ];

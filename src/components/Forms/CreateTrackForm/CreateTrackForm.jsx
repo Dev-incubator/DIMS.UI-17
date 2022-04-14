@@ -19,12 +19,7 @@ export class CreateTrackForm extends React.PureComponent {
     if (isEditMode) {
       const trackData = tracks.find((track) => track.id === trackId);
       if (isEditMode) {
-        this.setState((prevState) => {
-          const { formErrors } = prevState;
-          const formErrorsForEditMode = formErrors.map((item) => ({ ...item, isValid: true }));
-
-          return { ...trackData, formErrors: formErrorsForEditMode, isValid: true };
-        });
+        this.setState({ ...trackData });
       }
     } else {
       const tasksNames = userTasks.map((task) => task.name) || [''];
@@ -39,22 +34,13 @@ export class CreateTrackForm extends React.PureComponent {
     this.setState((prevState) => {
       const { formErrors } = prevState;
       const { name: fildName, error } = validateFormField(name, value);
-      const updatedErrors = formErrors.map((item) =>
-        item.name === fildName ? { ...item, error, isValid: !error.length } : item,
-      );
+      const updatedErrors = formErrors.map((item) => (item.name === fildName ? { ...item, error } : item));
 
       return {
         ...prevState,
         [name]: value,
         formErrors: updatedErrors,
       };
-    });
-
-    this.setState((prevState) => {
-      const { formErrors } = prevState;
-      const errors = formErrors.filter((item) => !item.isValid);
-
-      return errors.length ? { ...prevState, isValid: false } : { ...prevState, isValid: true };
     });
   };
 
@@ -73,7 +59,8 @@ export class CreateTrackForm extends React.PureComponent {
 
   render() {
     const { toggleModalHandler, isReadOnlyMode, userTasks } = this.props;
-    const { formErrors, isValid } = this.state;
+    const { formErrors } = this.state;
+    const isError = formErrors.filter((item) => item.error !== '');
     const options = userTasks.map((task) => task.name);
 
     return (
@@ -101,7 +88,7 @@ export class CreateTrackForm extends React.PureComponent {
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={!isValid} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
 
           <Button
             onClick={toggleModalHandler}
