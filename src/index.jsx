@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
@@ -11,19 +10,18 @@ import { AuthProvider } from './Hooks/useAuth';
 import { SettingsProvider } from './Hooks/useSettings';
 import { store } from './store/store';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <SettingsProvider>
-        <AuthProvider>
-          <Provider store={store}>
-            <App />
-          </Provider>
-        </AuthProvider>
-      </SettingsProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root'),
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  <BrowserRouter>
+    <SettingsProvider>
+      <AuthProvider>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </AuthProvider>
+    </SettingsProvider>
+  </BrowserRouter>,
 );
 
 reportWebVitals();
