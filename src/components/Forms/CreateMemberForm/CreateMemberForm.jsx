@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import propTypes from 'prop-types';
 import { initialStateCreatMember } from '../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/constants';
+import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS, FORM_MEMBER_ERRORS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
@@ -11,14 +11,17 @@ import { validateFormField } from '../../../shared/helpers/validateFormField/val
 export class CreateMemberForm extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = initialStateCreatMember;
+    this.state = { ...initialStateCreatMember, formErrors: FORM_MEMBER_ERRORS };
   }
 
   async componentDidMount() {
     const { userData, isEditMode } = this.props;
 
     if (isEditMode) {
-      this.setState({ ...userData });
+      this.setState({
+        ...userData,
+        formErrors: FORM_MEMBER_ERRORS.map((item) => ({ ...item, error: '' })),
+      });
     }
   }
 
@@ -45,7 +48,12 @@ export class CreateMemberForm extends React.PureComponent {
     if (isEditMode) {
       await editUserDataHandler(data);
     } else {
-      await createUserHandler(data);
+      await createUserHandler({
+        ...data,
+        mathScore: Number(data.mathScore),
+        universityAverageScore: Number(data.universityAverageScore),
+        roles: [data.roles],
+      });
     }
   };
 
