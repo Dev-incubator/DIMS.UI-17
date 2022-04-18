@@ -44,9 +44,9 @@ async function findUser(uid) {
   try {
     const docRef = doc(db, 'users', uid);
     const docSnap = await getDoc(docRef);
-    const { role, name } = docSnap.data();
+    const { roles, firstName } = docSnap.data();
 
-    return { role, name, uid };
+    return { roles, firstName, userId: uid };
   } catch (error) {
     console.error(error);
 

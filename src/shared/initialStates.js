@@ -11,21 +11,21 @@ export const initialStateTasks = {
 };
 
 export const initialStateCreatMember = {
-  name: '',
+  firstName: '',
   lastName: '',
   email: '',
-  sex: 'male',
-  role: 'member',
+  sex: '',
+  roles: '',
   password: '',
-  confirmPassword: '',
-  direction: 'JAVA',
+  repeatPassword: '',
+  directionName: '',
   birthDate: '',
   address: '',
-  phone: '',
+  mobilePhone: '',
   skype: '',
   startDate: '',
   education: '',
-  universityAverageAcore: '',
+  universityAverageScore: '',
   mathScore: '',
   formErrors: FORM_MEMBER_ERRORS,
 };
@@ -44,5 +44,6 @@ export const initialStateAuth = {
   role: '',
   uid: '',
   isAuth: false,
+  apiMode: 'restAPI',
   error: '',
 };

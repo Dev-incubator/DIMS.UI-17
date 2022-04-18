@@ -1,7 +1,9 @@
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
-import { singInEmailAndPassword, singInGoogle, logout } from '../services/auth-services';
+import { singInGoogle } from '../services/auth-services';
 import { initialStateAuth } from '../shared/initialStates';
+import { authAPI, setAPIMode } from '../services/api/api';
+import { getRoles } from '../shared/helpers/getRole/getRole';
 
 export const AuthContext = createContext(null);
 
@@ -14,7 +16,17 @@ export class AuthProvider extends React.Component {
       handleSinginWithGoogle: this.singInGoogle,
       logoutHandler: this.logout,
       resetErrorHandler: this.resetError,
+      changeAPIModeHandler: this.changeAPIMode,
     };
+  }
+
+  componentDidMount() {
+    if (!localStorage.getItem('apiMode')) {
+      localStorage.setItem('apiMode', 'restAPI');
+    }
+    this.setState((prevState) => {
+      return { ...prevState, apiMode: localStorage.getItem('apiMode') };
+    });
   }
 
   setAuth = (name, role, uid) => {
@@ -25,14 +37,15 @@ export class AuthProvider extends React.Component {
   };
 
   logout = async () => {
-    await logout();
-    this.setState((prevState) => ({ ...prevState, ...initialStateAuth }));
+    await authAPI.logout();
+    this.setState((prevState) => ({ ...prevState, ...initialStateAuth, apiMode: localStorage.getItem('apiMode') }));
   };
 
   login = async (email, password) => {
-    const { role, name, uid } = await singInEmailAndPassword(email, password);
+    const { roles, firstName, userId } = await authAPI.login(email, password);
+    console.log(roles, firstName, userId);
 
-    this.setAuth(name, role, uid);
+    this.setAuth(firstName, getRoles(roles), userId);
   };
 
   singInGoogle = async () => {
@@ -43,6 +56,11 @@ export class AuthProvider extends React.Component {
 
   resetError = () => {
     this.setState({ error: '' });
+  };
+
+  changeAPIMode = (apiMode) => {
+    setAPIMode(apiMode);
+    this.setState((prevState) => ({ ...prevState, apiMode }));
   };
 
   render() {

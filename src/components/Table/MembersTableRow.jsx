@@ -4,9 +4,9 @@ import style from './Table.module.css';
 
 export function MembersTableRow({
   index,
-  name,
+  firstName,
   lastName,
-  direction,
+  directionName,
   education,
   startDate,
   birthDate,
@@ -19,10 +19,10 @@ export function MembersTableRow({
         <td>{index}</td>
         <td>
           <div className={style.link} role='none' onClick={showReadOnlyModal}>
-            {getFullName(name, lastName)}
+            {getFullName(firstName, lastName)}
           </div>
         </td>
-        <td>{direction}</td>
+        <td>{directionName}</td>
         <td>{education}</td>
         <td>{startDate}</td>
         <td>{birthDate}</td>
@@ -34,9 +34,9 @@ export function MembersTableRow({
 
 MembersTableRow.propTypes = {
   index: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
   lastName: PropTypes.string.isRequired,
-  direction: PropTypes.string.isRequired,
+  directionName: PropTypes.string.isRequired,
   education: PropTypes.string.isRequired,
   startDate: PropTypes.string.isRequired,
   birthDate: PropTypes.string.isRequired,

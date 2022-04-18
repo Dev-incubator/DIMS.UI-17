@@ -74,21 +74,21 @@ export const MODALTITLE_KEYS = {
 };
 
 export const USER_FIELDS_KEYS = [
-  { name: 'name', title: 'Name:', type: 'text' },
+  { name: 'firstName', title: 'Name:', type: 'text' },
   { name: 'lastName', title: 'Last name:', type: 'text' },
   { name: 'email', title: 'Email:', type: 'text' },
-  { name: 'direction', title: 'Direction:', type: 'select', options: DIRECTIONS_OPTIONS_KEYS },
+  { name: 'directionName', title: 'Direction:', type: 'select', options: DIRECTIONS_OPTIONS_KEYS },
   { name: 'sex', title: 'Sex:', type: 'select', options: SEX_OPTIONS_KEYS },
-  { name: 'role', title: 'Role:', type: 'select', options: ROLE_OPTIONS_KEYS },
+  { name: 'roles', title: 'Role:', type: 'select', options: ROLE_OPTIONS_KEYS },
   { name: 'password', title: 'Password:', type: 'password' },
-  { name: 'confirmPassword', title: 'Confirm password:', type: 'password' },
+  { name: 'repeatPassword', title: 'Confirm password:', type: 'password' },
   { name: 'birthDate', title: 'Date of Birth:', type: 'date' },
   { name: 'address', title: 'Address:', type: 'text' },
-  { name: 'phone', title: 'Mobile phone:', type: 'text' },
+  { name: 'mobilePhone', title: 'Mobile phone:', type: 'text' },
   { name: 'skype', title: 'Skype:', type: 'text' },
   { name: 'startDate', title: 'Start date:', type: 'date' },
   { name: 'education', title: 'Education:', type: 'text' },
-  { name: 'universityAverageAcore', title: 'University average score:', type: 'text' },
+  { name: 'universityAverageScore', title: 'University average score:', type: 'text' },
   { name: 'mathScore', title: 'Math score:', type: 'text' },
 ];
 
@@ -128,17 +128,17 @@ export const LINKS_HEADER_MENU = [
 ];
 
 export const FORM_MEMBER_ERRORS = [
-  { name: 'name', error: '', isValid: false },
+  { name: 'firstName', error: '', isValid: false },
   { name: 'lastName', error: '', isValid: false },
   { name: 'email', error: '', isValid: false },
   { name: 'password', error: '', isValid: false },
-  { name: 'confirmPassword', error: '', isValid: false },
+  { name: 'repeatPassword', error: '', isValid: false },
   { name: 'birthDate', error: '', isValid: false },
   { name: 'address', error: '', isValid: false },
-  { name: 'phone', error: '', isValid: false },
+  { name: 'mobilePhone', error: '', isValid: false },
   { name: 'startDate', error: '', isValid: false },
   { name: 'education', error: '', isValid: false },
-  { name: 'universityAverageAcore', error: '', isValid: false },
+  { name: 'universityAverageScore', error: '', isValid: false },
   { name: 'mathScore', error: '', isValid: false },
 ];
 

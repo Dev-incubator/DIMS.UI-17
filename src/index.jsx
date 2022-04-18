@@ -1,3 +1,4 @@
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -14,13 +15,15 @@ const root = createRoot(document.getElementById('root'));
 
 root.render(
   <BrowserRouter>
-    <SettingsProvider>
-      <AuthProvider>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </AuthProvider>
-    </SettingsProvider>
+    <React.StrictMode>
+      <SettingsProvider>
+        <AuthProvider>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </AuthProvider>
+      </SettingsProvider>
+    </React.StrictMode>
   </BrowserRouter>,
 );
 

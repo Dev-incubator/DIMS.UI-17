@@ -60,6 +60,7 @@ class Members extends React.PureComponent {
   };
 
   createUserHandler = async (userData) => {
+    console.log(userData);
     const { createUser } = this.props;
     await createUser(userData);
   };
@@ -131,9 +132,9 @@ class Members extends React.PureComponent {
         <MembersTableRow
           key={user.name + index.toString()}
           index={index}
-          name={user.name}
+          firstName={user.firstName}
           lastName={user.lastName}
-          direction={user.direction}
+          directionName={user.directionName}
           education={user.education}
           startDate={user.startDate}
           birthDate={user.birthDate}

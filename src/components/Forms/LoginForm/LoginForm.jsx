@@ -1,9 +1,10 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
-import PropTypes from 'prop-types';
 import style from './LoginForm.module.css';
 import { Button } from '../../Buttons/Button/Button';
 import { regExpEmail } from '../../../shared/regulars';
+import { AuthContext } from '../../../Hooks/useAuth';
+import { RadioButton } from '../../Common/RadioButton/RadioButton';
 
 export class LoginForm extends React.PureComponent {
   constructor(props) {
@@ -24,15 +25,21 @@ export class LoginForm extends React.PureComponent {
     this.validateField(name, value);
   };
 
+  setAPIMode = ({ target }) => {
+    const { value } = target;
+    const { changeAPIModeHandler } = this.context;
+    changeAPIModeHandler(value);
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
     const { email, password } = this.state;
-    const { handleLogin } = this.props;
-    handleLogin(email, password);
+    const { loginHandler } = this.context;
+    loginHandler(email, password);
   };
 
   handleFocus = ({ target }) => {
-    const { resetErrorHandler } = this.props;
+    const { resetErrorHandler } = this.context;
     const { name, value } = target;
     this.validateField(name, value);
     resetErrorHandler();
@@ -64,7 +71,7 @@ export class LoginForm extends React.PureComponent {
   render() {
     const { email, password, formErrors, formValid } = this.state;
     const { email: emailErrors, password: passworErrors } = formErrors;
-    const { error, handleSinginWithGoogle } = this.props;
+    const { error, handleSinginWithGoogle, apiMode } = this.context;
 
     return (
       <Row sm='auto' className={style.wrapper}>
@@ -99,7 +106,10 @@ export class LoginForm extends React.PureComponent {
               <p className={style.errorTitle}>{passworErrors.length ? 'password is invalid' : ''}</p>
             </label>
             <p className={style.errorTitle}>{error ? 'User not found' : ''}</p>
-
+            <div className={style.apiMode}>
+              <RadioButton onChange={this.setAPIMode} label='restAPI' value='restAPI' apiMode={apiMode} />
+              <RadioButton onChange={this.setAPIMode} label='firebase' value='firebase' apiMode={apiMode} />
+            </div>
             <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
               Sign in
             </button>
@@ -111,9 +121,4 @@ export class LoginForm extends React.PureComponent {
   }
 }
 
-LoginForm.propTypes = {
-  handleSinginWithGoogle: PropTypes.func.isRequired,
-  handleLogin: PropTypes.func.isRequired,
-  error: PropTypes.string.isRequired,
-  resetErrorHandler: PropTypes.func.isRequired,
-};
+LoginForm.contextType = AuthContext;

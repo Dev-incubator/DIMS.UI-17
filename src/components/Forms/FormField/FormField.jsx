@@ -6,7 +6,7 @@ export function FormField({ onChange, value, name, title, type = 'text', options
     <Form.Group>
       <Form.Label>{title}</Form.Label>
       {type === 'select' ? (
-        <Form.Select name={name} onChange={onChange} value={value}>
+        <Form.Select name={name} onChange={onChange} value={value} disabled={isReadOnlyMode}>
           {options.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -34,7 +34,7 @@ FormField.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
   options: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   isReadOnlyMode: PropTypes.bool,
   errors: PropTypes.string,
