@@ -128,18 +128,18 @@ export const LINKS_HEADER_MENU = [
 ];
 
 export const FORM_MEMBER_ERRORS = [
-  { name: 'firstName', error: '', isValid: false },
-  { name: 'lastName', error: '', isValid: false },
-  { name: 'email', error: '', isValid: false },
-  { name: 'password', error: '', isValid: false },
-  { name: 'repeatPassword', error: '', isValid: false },
-  { name: 'birthDate', error: '', isValid: false },
-  { name: 'address', error: '', isValid: false },
-  { name: 'mobilePhone', error: '', isValid: false },
-  { name: 'startDate', error: '', isValid: false },
-  { name: 'education', error: '', isValid: false },
-  { name: 'universityAverageScore', error: '', isValid: false },
-  { name: 'mathScore', error: '', isValid: false },
+  { name: 'firstName', error: null },
+  { name: 'lastName', error: null },
+  { name: 'email', error: null },
+  { name: 'password', error: null },
+  { name: 'repeatPassword', error: null },
+  { name: 'birthDate', error: null },
+  { name: 'address', error: null },
+  { name: 'mobilePhone', error: null },
+  { name: 'startDate', error: null },
+  { name: 'education', error: null },
+  { name: 'universityAverageScore', error: null },
+  { name: 'mathScore', error: null },
 ];
 
 export const FORM_TASK_ERRORS = [
