@@ -1,4 +1,5 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import {
@@ -206,10 +207,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsers: () => dispatch(getUsersThunk()),
-    removeUser: (userId) => dispatch(removeUserThunk(userId)),
-    editUser: (userId, userData) => dispatch(editUserThunk(userId, userData)),
-    createUser: (userData) => dispatch(createUserThunk(userData)),
+    getUsers: bindActionCreators(getUsersThunk, dispatch),
+    removeUser: bindActionCreators(removeUserThunk, dispatch),
+    editUser: bindActionCreators(editUserThunk, dispatch),
+    createUser: bindActionCreators(createUserThunk, dispatch),
   };
 };
 
