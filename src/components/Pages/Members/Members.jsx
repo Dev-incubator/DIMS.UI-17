@@ -207,12 +207,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getUsers: bindActionCreators(getUsersThunk, dispatch),
-    removeUser: bindActionCreators(removeUserThunk, dispatch),
-    editUser: bindActionCreators(editUserThunk, dispatch),
-    createUser: bindActionCreators(createUserThunk, dispatch),
-  };
+  return bindActionCreators(
+    { getUsers: getUsersThunk, removeUser: removeUserThunk, editUser: editUserThunk, createUser: createUserThunk },
+    dispatch,
+  );
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Members);

@@ -8,45 +8,38 @@ export class SettingsProvider extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      theme: {
-        isShowSettings: false,
-        toggleSettings: this.toggleSettings,
-        setLightTheme: this.toggleTheme.bind(this, 'light'),
-        setDarkTheme: this.toggleTheme.bind(this, 'dark'),
-        setDarkDimmedTheme: this.toggleTheme.bind(this, 'dark-dimmed'),
-      },
+      isShowSettings: false,
+      toggleSettings: this.toggleSettings,
+      setLightTheme: this.toggleTheme.bind(this, 'light'),
+      setDarkTheme: this.toggleTheme.bind(this, 'dark'),
+      setDarkDimmedTheme: this.toggleTheme.bind(this, 'dark-dimmed'),
     };
   }
 
   componentDidMount() {
-    this.setState((prevState) => ({ theme: { ...prevState.theme, theme: localStorage.getItem('theme') || 'light' } }));
+    this.setState((prevState) => ({ ...prevState, theme: localStorage.getItem('theme') || 'light' }));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      theme: { theme },
-    } = this.state;
-    if (prevState.theme.theme !== theme) {
+    const { theme } = this.state;
+    if (prevState.theme !== theme) {
       localStorage.setItem('theme', theme);
       body.setAttribute('data-theme', theme);
     }
   }
 
   toggleSettings = () => {
-    this.setState((prevState) => ({
-      theme: { ...prevState.theme, isShowSettings: !prevState.theme.isShowSettings },
-    }));
+    this.setState((prevState) => ({ ...prevState, isShowSettings: !prevState.isShowSettings }));
   };
 
   toggleTheme(theme) {
-    this.setState((prevState) => ({ theme: { ...prevState.theme, theme } }));
+    this.setState((prevState) => ({ ...prevState, theme }));
   }
 
   render() {
-    const { theme } = this.state;
     const { children } = this.props;
 
-    return <SettingsContext.Provider value={theme}>{children}</SettingsContext.Provider>;
+    return <SettingsContext.Provider value={this.state}>{children}</SettingsContext.Provider>;
   }
 }
 
