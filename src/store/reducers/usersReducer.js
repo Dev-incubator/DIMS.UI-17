@@ -1,5 +1,5 @@
 import { usersInitilState } from '../initialState';
-import { CREATE_USER, EDIT_USER, GET_USERS, REMOVE_USER } from '../actions/actions';
+import { CREATE_USER, EDIT_USER, GET_USERS, REMOVE_USER, SET_USER } from '../actions/actions';
 
 export const usersReducer = (state = usersInitilState, action = {}) => {
   switch (action.type) {
@@ -11,19 +11,24 @@ export const usersReducer = (state = usersInitilState, action = {}) => {
     case REMOVE_USER:
       return {
         ...state,
-        users: state.users.filter((item) => item.id !== action.payload.userId),
+        users: state.users.filter((item) => item.userId !== action.payload.userId),
       };
     case EDIT_USER:
       return {
         ...state,
         users: state.users.map((item) =>
-          item.id === action.payload.userId ? { id: action.payload.userId, ...action.payload.userData } : item,
+          item.userId === action.payload.userId ? { userId: action.payload.userId, ...action.payload.userData } : item,
         ),
       };
     case CREATE_USER:
       return {
         ...state,
         users: [...state.users, action.payload.userData],
+      };
+    case SET_USER:
+      return {
+        ...state,
+        userData: action.payload.userData,
       };
     default:
       return state;

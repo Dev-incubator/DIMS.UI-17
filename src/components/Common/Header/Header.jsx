@@ -16,8 +16,8 @@ export function Header() {
           <AuthContext.Consumer>
             {({ isAuth, role }) => {
               const links =
-                role === USER_ROLES.member
-                  ? LINKS_HEADER_MENU.filter((item) => item.access === USER_ROLES.member)
+                role === USER_ROLES.user
+                  ? LINKS_HEADER_MENU.filter((item) => item.access === USER_ROLES.user)
                   : LINKS_HEADER_MENU;
 
               return (

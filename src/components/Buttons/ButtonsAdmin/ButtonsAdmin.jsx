@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes, { oneOfType } from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES, USER_ROLES } from '../../../shared/constants';
@@ -51,9 +51,5 @@ ButtonsAdminMemberPage.propTypes = {
   showUserDataHandler: PropTypes.func.isRequired,
   toggleModalDeleteHandler: PropTypes.func.isRequired,
   toggleUserModalHandler: PropTypes.func.isRequired,
-  id: PropTypes.string,
-};
-
-ButtonsAdminMemberPage.defaultProps = {
-  id: '0',
+  id: oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };

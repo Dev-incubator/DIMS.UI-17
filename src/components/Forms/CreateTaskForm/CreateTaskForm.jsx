@@ -8,6 +8,7 @@ import style from './CreateTaskForm.module.css';
 import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
+import { getFullName } from '../../../shared/helpers/getFullName/getFullName';
 
 export class CreateTaskForm extends React.PureComponent {
   constructor(props) {
@@ -18,6 +19,7 @@ export class CreateTaskForm extends React.PureComponent {
 
   componentDidMount() {
     const { taskData, isEditMode } = this.props;
+    console.log(taskData);
 
     if (isEditMode) {
       this.setState({ ...taskData });
@@ -80,6 +82,7 @@ export class CreateTaskForm extends React.PureComponent {
     const { formErrors } = this.state;
     const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
     const isError = formErrors.filter((item) => item.error !== '');
+    console.log(isError);
     const subscribers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
@@ -108,16 +111,16 @@ export class CreateTaskForm extends React.PureComponent {
         </div>
         <div className={style.userContainer}>
           {users.map((user, index) => (
-            <label className={style.users} key={user.id} htmlFor={user.id}>
-              {user.name}
+            <label className={style.users} key={user.userId} htmlFor={user.userId}>
+              {getFullName(user.firstName, user.lastName)}
               <Form.Check
                 ref={(ref) => {
                   this.myRef[index] = ref;
                 }}
                 type='checkbox'
-                name={user.id}
-                id={user.id}
-                defaultChecked={isEditMode ? subscribers.includes(user.id) : false}
+                name={user.userId}
+                id={user.userId}
+                defaultChecked={isEditMode ? subscribers.includes(user.userId) : false}
                 onClick={this.checkboxHandler}
               />
             </label>

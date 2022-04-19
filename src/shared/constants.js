@@ -1,8 +1,8 @@
 import { getCurrentYear } from './helpers/getCurrentYear/getCurrentYear';
 
-export const SEX_OPTIONS_KEYS = ['Male', 'Women'];
-export const DIRECTIONS_OPTIONS_KEYS = ['Java', 'Frontend'];
-export const ROLE_OPTIONS_KEYS = ['admin', 'mentor', 'member'];
+export const SEX_OPTIONS_KEYS = ['male', 'female'];
+export const DIRECTIONS_OPTIONS_KEYS = ['React', '.Net', 'Angular', 'PHP', 'Java'];
+export const ROLE_OPTIONS_KEYS = ['admin', 'mentor', 'user'];
 
 export const TITLES_PAGES = {
   members: 'Members',
@@ -46,7 +46,7 @@ export const TABLE_TITLES = {
 export const USER_ROLES = {
   admin: 'admin',
   mentor: 'mentor',
-  member: 'member',
+  user: 'user',
 };
 
 export const PAGES_KEYS = {

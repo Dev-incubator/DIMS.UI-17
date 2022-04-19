@@ -7,6 +7,7 @@ import { Button } from '../../Buttons/Button/Button';
 import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
+import { typeСoercion } from '../../../shared/helpers/typeСoercion/typeСoercion';
 
 export class CreateMemberForm extends React.PureComponent {
   constructor(props) {
@@ -45,15 +46,11 @@ export class CreateMemberForm extends React.PureComponent {
     e.preventDefault();
     const { isEditMode, createUserHandler, editUserDataHandler } = this.props;
     const { formErrors, ...data } = this.state;
+
     if (isEditMode) {
-      await editUserDataHandler(data);
+      await editUserDataHandler(typeСoercion(data));
     } else {
-      await createUserHandler({
-        ...data,
-        mathScore: Number(data.mathScore),
-        universityAverageScore: Number(data.universityAverageScore),
-        roles: [data.roles],
-      });
+      await createUserHandler(typeСoercion(data));
     }
   };
 

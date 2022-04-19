@@ -1,5 +1,6 @@
 import * as axios from 'axios';
 import jwtDecode from 'jwt-decode';
+import { createUser, editUser, getAllUsers, getUserData, removeUserData } from '../users-services ';
 import { logout, singInEmailAndPassword } from '../auth-services';
 
 function getInstance() {
@@ -8,23 +9,60 @@ function getInstance() {
     headers: {
       accept: 'application/json',
       Authorization: `Bearer ${localStorage.getItem('token') || undefined}`,
+      'Content-Type': 'application/json',
     },
   });
 }
 
 export const usersAPI = {
   async getUsers() {
-    const response = await getInstance().get(`users`);
-    const { data } = await response;
-    console.log(data);
+    if (getAPIMode() === 'restAPI') {
+      const response = await getInstance().get(`users`);
+      const {
+        data: { data },
+      } = await response;
+
+      return data;
+    }
+
+    return getAllUsers();
   },
 
-  async getUserById(id) {
-    const response = await getInstance().get(`users/${id}`);
+  async getUserById(userId) {
+    if (getAPIMode() === 'restAPI') {
+      const response = await getInstance().get(`users/${userId}`);
 
-    const { data } = await response;
+      const { data } = await response;
 
-    return data;
+      return data;
+    }
+    const userData = await getUserData(userId);
+
+    return userData;
+  },
+
+  async createUser(userData) {
+    if (getAPIMode() === 'restAPI') {
+      await getInstance().post('users/', userData);
+    } else {
+      await createUser(userData);
+    }
+  },
+
+  async removeUser(userId) {
+    if (getAPIMode() === 'restAPI') {
+      await getInstance().delete(`users/${userId}`);
+    } else {
+      await removeUserData(userId);
+    }
+  },
+
+  async updateUser(userId, userData) {
+    if (getAPIMode() === 'restAPI') {
+      await getInstance().patch(`users/${userId}`, userData);
+    } else {
+      await editUser(userId, userData);
+    }
   },
 };
 
@@ -45,9 +83,9 @@ export const authAPI = {
 
         return undefined;
       }
+    } else {
+      return singInEmailAndPassword(email, password);
     }
-
-    return singInEmailAndPassword(email, password);
   },
 
   logout() {

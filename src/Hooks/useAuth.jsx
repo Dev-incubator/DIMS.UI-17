@@ -43,7 +43,6 @@ export class AuthProvider extends React.Component {
 
   login = async (email, password) => {
     const { roles, firstName, userId } = await authAPI.login(email, password);
-    console.log(roles, firstName, userId);
 
     this.setAuth(firstName, getRoles(roles), userId);
   };

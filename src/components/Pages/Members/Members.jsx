@@ -1,4 +1,5 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import propTypes from 'prop-types';
 import {
@@ -6,11 +7,11 @@ import {
   editUserThunk,
   getUsersThunk,
   removeUserThunk,
+  setUserDataThunk,
 } from '../../../store/actionCreators/usersActionCreators';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { ModalWindow } from '../../Common/Modal/Modal';
-import { getUserData } from '../../../services/users-services ';
 import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
 import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
@@ -21,7 +22,6 @@ class Members extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      userData: null,
       selectedUserId: null,
       isUserModalOpen: false,
       isDeleteModalOpen: false,
@@ -43,9 +43,8 @@ class Members extends React.PureComponent {
 
   async getUserData() {
     const { selectedUserId } = this.state;
-    const userData = await getUserData(selectedUserId);
-
-    this.setState({ userData });
+    const { setUserData } = this.props;
+    await setUserData(selectedUserId);
   }
 
   getUsers = async () => {
@@ -118,12 +117,12 @@ class Members extends React.PureComponent {
   };
 
   render() {
-    const { isUserModalOpen, isDeleteModalOpen, userData, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
-    const { users } = this.props;
+    const { isUserModalOpen, isDeleteModalOpen, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
+    const { users, userData } = this.props;
 
     const items = users.map((user, index) => {
       const showReadOnlyModal = async () => {
-        await this.selectUserHandler(user.id);
+        await this.selectUserHandler(user.userId);
         await this.showUserDataHandler(true);
         this.toggleUserModalHandler();
       };
@@ -144,7 +143,7 @@ class Members extends React.PureComponent {
               showUserDataHandler={this.showUserDataHandler}
               toggleModalDeleteHandler={this.toggleModalDeleteHandler}
               toggleUserModalHandler={this.toggleUserModalHandler}
-              id={user.id}
+              id={user.userId}
             />
           }
           showReadOnlyModal={showReadOnlyModal}
@@ -202,15 +201,17 @@ class Members extends React.PureComponent {
 const mapStateToProps = (state) => {
   return {
     users: state.users.users,
+    userData: state.users.userData,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsers: () => dispatch(getUsersThunk()),
-    removeUser: (userId) => dispatch(removeUserThunk(userId)),
-    editUser: (userId, userData) => dispatch(editUserThunk(userId, userData)),
-    createUser: (userData) => dispatch(createUserThunk(userData)),
+    getUsers: bindActionCreators(getUsersThunk, dispatch),
+    removeUser: bindActionCreators(removeUserThunk, dispatch),
+    editUser: bindActionCreators(editUserThunk, dispatch),
+    createUser: bindActionCreators(createUserThunk, dispatch),
+    setUserData: bindActionCreators(setUserDataThunk, dispatch),
   };
 };
 
@@ -221,9 +222,12 @@ Members.propTypes = {
   getUsers: propTypes.func.isRequired,
   editUser: propTypes.func.isRequired,
   createUser: propTypes.func.isRequired,
+  setUserData: propTypes.func.isRequired,
   users: propTypes.arrayOf(propTypes.object),
+  userData: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };
 
 Members.defaultProps = {
   users: [],
+  userData: null,
 };
