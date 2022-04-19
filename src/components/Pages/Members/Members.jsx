@@ -120,6 +120,7 @@ class Members extends React.PureComponent {
   render() {
     const { isUserModalOpen, isDeleteModalOpen, userData, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
     const { users } = this.props;
+    console.log(users);
 
     const items = users.map((user, index) => {
       const showReadOnlyModal = async () => {
@@ -221,9 +222,5 @@ Members.propTypes = {
   getUsers: propTypes.func.isRequired,
   editUser: propTypes.func.isRequired,
   createUser: propTypes.func.isRequired,
-  users: propTypes.arrayOf(propTypes.object),
-};
-
-Members.defaultProps = {
-  users: [],
+  users: propTypes.arrayOf(propTypes.object).isRequired,
 };

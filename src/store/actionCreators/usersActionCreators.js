@@ -8,6 +8,7 @@ const editUserData = (userId, userData) => ({ type: EDIT_USER, payload: { userId
 export function getUsersThunk() {
   return async (dispatch) => {
     const users = await getAllUsers();
+    console.log(users);
     dispatch(getUsers(users));
   };
 }

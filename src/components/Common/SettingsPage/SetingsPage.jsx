@@ -4,22 +4,11 @@ import { Button } from '../../Buttons/Button/Button';
 import style from './SetingsPage.module.css';
 
 export function SettingsPge() {
-  const { body } = document;
-  const setLightTheme = () => {
-    body.setAttribute('data-theme', 'light');
-  };
-  const setDarkTheme = () => {
-    body.setAttribute('data-theme', 'dark');
-  };
-  const setDarkDimmedTheme = () => {
-    body.setAttribute('data-theme', 'dark-dimmed');
-  };
-
   return (
     <SettingsContext.Consumer>
-      {({ isShowSettingsPage, toggleSettingsPageHandler }) => {
+      {({ isShowSettings, toggleSettings, setLightTheme, setDarkTheme, setDarkDimmedTheme }) => {
         return (
-          <Offcanvas show={isShowSettingsPage} onHide={toggleSettingsPageHandler} className={style.settings}>
+          <Offcanvas show={isShowSettings} onHide={toggleSettings} className={style.settings}>
             <Offcanvas.Header closeButton>
               <Offcanvas.Title>Settings</Offcanvas.Title>
             </Offcanvas.Header>
