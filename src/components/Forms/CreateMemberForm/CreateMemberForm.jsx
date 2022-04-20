@@ -46,7 +46,6 @@ export class CreateMemberForm extends React.PureComponent {
     e.preventDefault();
     const { isEditMode, createUserHandler, editUserDataHandler } = this.props;
     const { formErrors, ...data } = this.state;
-
     if (isEditMode) {
       await editUserDataHandler(typeСoercion(data));
     } else {

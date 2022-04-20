@@ -206,13 +206,16 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getUsers: bindActionCreators(getUsersThunk, dispatch),
-    removeUser: bindActionCreators(removeUserThunk, dispatch),
-    editUser: bindActionCreators(editUserThunk, dispatch),
-    createUser: bindActionCreators(createUserThunk, dispatch),
-    setUserData: bindActionCreators(setUserDataThunk, dispatch),
-  };
+  return bindActionCreators(
+    {
+      getUsers: getUsersThunk,
+      removeUser: removeUserThunk,
+      editUser: editUserThunk,
+      createUser: createUserThunk,
+      setUserData: setUserDataThunk,
+    },
+    dispatch,
+  );
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Members);
@@ -223,11 +226,10 @@ Members.propTypes = {
   editUser: propTypes.func.isRequired,
   createUser: propTypes.func.isRequired,
   setUserData: propTypes.func.isRequired,
-  users: propTypes.arrayOf(propTypes.object),
+  users: propTypes.arrayOf(propTypes.object).isRequired,
   userData: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };
 
 Members.defaultProps = {
-  users: [],
   userData: null,
 };

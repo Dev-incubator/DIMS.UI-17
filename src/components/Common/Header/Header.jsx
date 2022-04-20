@@ -11,7 +11,7 @@ import { SettingsPge } from '../SettingsPage/SetingsPage';
 export function Header() {
   return (
     <SettingsContext.Consumer>
-      {({ toggleSettingsPageHandler, isShowSettingsPage }) => {
+      {({ toggleSettings, isShowSettings }) => {
         return (
           <AuthContext.Consumer>
             {({ isAuth, role }) => {
@@ -43,9 +43,9 @@ export function Header() {
                       </nav>
                     </div>
                     <div className={style.rightContent}>
-                      <SettingsLogo className={style.settings} onClick={toggleSettingsPageHandler} />
+                      <SettingsLogo className={style.settings} onClick={toggleSettings} />
                       <Link to='/login'>{isAuth ? <Logout /> : `Login`}</Link>
-                      {isShowSettingsPage ? <SettingsPge /> : null}
+                      {isShowSettings ? <SettingsPge /> : null}
                     </div>
                   </div>
                 </header>
