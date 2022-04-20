@@ -1,4 +1,9 @@
-export const usersInitilState = {
+export const usersInitialState = {
   users: [],
   userData: null,
+};
+
+export const tasksInitialState = {
+  tasks: [],
+  taskData: null,
 };

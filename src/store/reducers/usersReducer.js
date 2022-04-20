@@ -1,7 +1,7 @@
-import { usersInitilState } from '../initialState';
+import { usersInitialState } from '../initialState';
 import { CREATE_USER, EDIT_USER, GET_USERS, REMOVE_USER, SET_USER } from '../actions/actions';
 
-export const usersReducer = (state = usersInitilState, action = {}) => {
+export const usersReducer = (state = usersInitialState, action = {}) => {
   switch (action.type) {
     case GET_USERS:
       return {

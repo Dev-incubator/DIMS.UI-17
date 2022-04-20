@@ -1,23 +1,28 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, LINKPATH_KEYS, MODALTITLE_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
-import { createTask, getAllTasks, removeTask, updateTask, getTaskData } from '../../../services/tasks-services';
 import { ModalWindow } from '../../Common/Modal/Modal';
 import { ButtonsTask } from '../../Buttons/ButtonsTask/ButtonsTask';
-import { getAllUsers } from '../../../services/users-services ';
 import { CreateTaskForm } from '../../Forms/CreateTaskForm/CreateTaskForm';
 import { Table } from '../../Table/Table';
 import { AllTasksTableRow } from '../../Table/AllTasksTableRow';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
-import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
+import {
+  createTaskThunk,
+  editTaskThunk,
+  getTasksThunk,
+  getTaskThunk,
+  removeTaskThunk,
+} from '../../../store/actionCreators/tasksActionCreators';
+import { getUsersThunk } from '../../../store/actionCreators/usersActionCreators';
 
-export class AllTasks extends React.PureComponent {
+class AllTasks extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [],
-      users: [],
-      taskData: null,
       selectedTaskId: null,
       isTaskModalOpen: false,
       isDeleteModalOpen: false,
@@ -29,70 +34,43 @@ export class AllTasks extends React.PureComponent {
     await this.getData();
   }
 
-  async componentDidUpdate(prevProps, prevState) {
-    const { tasks, selectedTaskId } = this.state;
+  async componentDidUpdate(prevProps) {
+    const { tasks } = this.props;
 
-    if (prevState.tasks.length > tasks.length && prevState.tasks.length) {
-      await this.getData();
-      this.toggleModalDeleteHandler();
-
-      return;
-    }
-    if (prevState.tasks.length < tasks.length && prevState.tasks.length) {
-      await this.getData();
-      this.toggleTaskModalHandler();
-
-      return;
-    }
-    if (
-      !compareObjects(
-        prevState.tasks.find((item) => item.id === selectedTaskId),
-        tasks.find((item) => item.id === selectedTaskId),
-      )
-    ) {
-      await this.getData();
-      this.toggleTaskModalHandler();
+    if (prevProps.tasks !== tasks) {
+      this.toggleModal();
     }
   }
 
   async getData() {
-    const tasks = await getAllTasks();
-    const users = await getAllUsers();
-    this.setState({ tasks, users });
+    const { getTasks, getUsers } = this.props;
+    await getTasks();
+    await getUsers();
   }
-
-  setTasksHandler = (tasks) => {
-    this.setState({ tasks });
-  };
 
   async getTaskData() {
     const { selectedTaskId } = this.state;
-    const taskData = await getTaskData(selectedTaskId);
-    this.setState({ taskData });
+    const { getTask } = this.props;
+    await getTask(selectedTaskId);
   }
 
   createTaskHandler = async (data) => {
-    const { tasks } = this.state;
-    const updatedTasks = [...tasks, data];
-
+    const { createTask } = this.props;
     await createTask(data);
-    this.setState({ tasks: updatedTasks });
   };
 
   updateTaskHandler = async (data) => {
-    const { selectedTaskId, tasks } = this.state;
-    const updatedTasks = tasks.map((item) => (item.id === selectedTaskId ? { ...data, id: selectedTaskId } : item));
+    const { selectedTaskId } = this.state;
+    const { editTasks } = this.props;
 
-    await updateTask(selectedTaskId, data);
-    this.setState({ tasks: updatedTasks });
+    await editTasks(selectedTaskId, data);
   };
 
   deleteTaskHandler = async () => {
-    const { selectedTaskId, tasks } = this.state;
-    const updatedTasks = tasks.filter((item) => item.id !== selectedTaskId);
+    const { selectedTaskId } = this.state;
+    const { removeTask } = this.props;
 
     await removeTask(selectedTaskId);
-    this.setState({ tasks: updatedTasks });
   };
 
   selectTaskHandler = (selectedTaskId) => {
@@ -129,8 +107,18 @@ export class AllTasks extends React.PureComponent {
     });
   };
 
+  toggleModal = () => {
+    const { isTaskModalOpen, isDeleteModalOpen } = this.state;
+    if (isTaskModalOpen) {
+      this.toggleTaskModalHandler();
+    } else if (isDeleteModalOpen) {
+      this.toggleModalDeleteHandler();
+    }
+  };
+
   render() {
-    const { tasks, users, isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode, taskData } = this.state;
+    const { isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode } = this.state;
+    const { tasks, users, taskData } = this.props;
     const items = tasks.map((item, index) => {
       return (
         <AllTasksTableRow
@@ -147,7 +135,6 @@ export class AllTasks extends React.PureComponent {
               selectTaskHandler={this.selectTaskHandler}
               toggleModalDeleteHandler={this.toggleModalDeleteHandler}
               toggleError={this.toggleError}
-              setTasksHandler={this.setTasksHandler}
               showTaskDataHandler={this.showTaskDataHandler}
               selectUserHandler={this.selectTaskHandler}
               toggleTaskModalHandler={this.toggleTaskModalHandler}
@@ -178,7 +165,6 @@ export class AllTasks extends React.PureComponent {
               toggleError={this.toggleError}
               users={users}
               toggleModalHandler={this.toggleTaskModalHandler}
-              setTasksHandler={this.setTasksHandler}
               isEditMode={isEditMode}
               taskData={taskData}
               id={selectedTaskId}
@@ -205,3 +191,43 @@ export class AllTasks extends React.PureComponent {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks.tasks,
+    users: state.users.users,
+    taskData: state.tasks.taskData,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {
+      getTasks: getTasksThunk,
+      getUsers: getUsersThunk,
+      removeTask: removeTaskThunk,
+      createTask: createTaskThunk,
+      editTasks: editTaskThunk,
+      getTask: getTaskThunk,
+    },
+    dispatch,
+  );
+};
+
+AllTasks.propTypes = {
+  getUsers: propTypes.func.isRequired,
+  getTasks: propTypes.func.isRequired,
+  removeTask: propTypes.func.isRequired,
+  createTask: propTypes.func.isRequired,
+  editTasks: propTypes.func.isRequired,
+  getTask: propTypes.func.isRequired,
+  tasks: propTypes.arrayOf(propTypes.object).isRequired,
+  users: propTypes.arrayOf(propTypes.object).isRequired,
+  taskData: propTypes.oneOfType([propTypes.object, propTypes.string]),
+};
+
+AllTasks.defaultProps = {
+  taskData: null,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllTasks);

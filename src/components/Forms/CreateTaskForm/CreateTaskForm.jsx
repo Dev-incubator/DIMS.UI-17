@@ -19,7 +19,6 @@ export class CreateTaskForm extends React.PureComponent {
 
   componentDidMount() {
     const { taskData, isEditMode } = this.props;
-    console.log(taskData);
 
     if (isEditMode) {
       this.setState({ ...taskData });
@@ -82,7 +81,6 @@ export class CreateTaskForm extends React.PureComponent {
     const { formErrors } = this.state;
     const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
     const isError = formErrors.filter((item) => item.error !== '');
-    console.log(isError);
     const subscribers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (

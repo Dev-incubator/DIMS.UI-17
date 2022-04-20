@@ -1,7 +1,7 @@
 import { Switch, Route } from 'react-router-dom';
 import { Home } from '../components/Pages/Home/Home';
 import { Progress } from '../components/Pages/Progress/Progress';
-import { AllTasks } from '../components/Pages/Tasks/AllTasks';
+import AllTasks from '../components/Pages/Tasks/AllTasks';
 import { Tracks } from '../components/Pages/Tracks/Tracks';
 import Members from '../components/Pages/Members/Members';
 import { Tasks } from '../components/Pages/Tasks/Tasks';
