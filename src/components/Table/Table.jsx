@@ -1,10 +1,11 @@
 import { Table as BootstrapTable } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { TableHead } from './TableHead';
+import style from './Table.module.css';
 
 export function Table({ title, items, striped = true, bordered = true, hover = true }) {
   return (
-    <BootstrapTable striped={striped} bordered={bordered} hover={hover}>
+    <BootstrapTable className={style.table} striped={striped} bordered={bordered} hover={hover}>
       <TableHead items={title} />
       {items.map((item) => item)}
     </BootstrapTable>

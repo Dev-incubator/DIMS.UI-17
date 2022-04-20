@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,16 +7,21 @@ import { App } from './App/App';
 import reportWebVitals from './reportWebVitals';
 import './firebase';
 import { AuthProvider } from './Hooks/useAuth';
+import { SettingsProvider } from './Hooks/useSettings';
+import { store } from './store/store';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  <BrowserRouter>
+    <SettingsProvider>
       <AuthProvider>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </AuthProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root'),
+    </SettingsProvider>
+  </BrowserRouter>,
 );
 
 reportWebVitals();

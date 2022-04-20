@@ -1,0 +1,28 @@
+.settings {
+  background-color: var(--bg-color-primary);
+  color: var(--text-color-primary);
+}
+
+.theme {
+  border: 1px var(--text-color-primary) solid;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+
+.dark {
+  background-color: black;
+  color: white;
+}
+.light {
+  background-color: white;
+  color: black;
+}
+.darkDimmed {
+  background-color: #21262d;
+  color: #acb8c4;
+}
+.buttonWrapper > button {
+min-width: 150px;
+padding: 0.5rem;
+font-size: 1.3rem;
+}

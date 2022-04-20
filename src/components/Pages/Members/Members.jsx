@@ -1,23 +1,31 @@
 import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
+import {
+  createUserThunk,
+  editUserThunk,
+  getUsersThunk,
+  removeUserThunk,
+} from '../../../store/actionCreators/usersActionCreators';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { ModalWindow } from '../../Common/Modal/Modal';
-import { getAllUsers, removeUserData, getUserData, createUser, editUser } from '../../../services/users-services ';
+import { getUserData } from '../../../services/users-services ';
 import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
 import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
 
-export class Members extends React.PureComponent {
+class Members extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
       userData: null,
+      selectedUserId: null,
       isUserModalOpen: false,
       isDeleteModalOpen: false,
-      selectedUserId: null,
       isEditMode: false,
       isReadOnlyMode: false,
     };
@@ -27,9 +35,9 @@ export class Members extends React.PureComponent {
     await this.getUsers();
   }
 
-  async componentDidUpdate(prevProps, prevState) {
-    const { users } = this.state;
-    if (prevState.users !== users && prevState.users.length) {
+  async componentDidUpdate(prevProps) {
+    const { users } = this.props;
+    if (prevProps.users !== users) {
       this.toggleModal();
     }
   }
@@ -42,35 +50,28 @@ export class Members extends React.PureComponent {
   }
 
   getUsers = async () => {
-    const users = await getAllUsers();
-
-    this.setState({ users });
+    const { getUsers } = this.props;
+    getUsers();
   };
 
   deleteUserHandler = async () => {
-    const { selectedUserId, users } = this.state;
-    const updatedUsers = users.filter((item) => item.id !== selectedUserId);
-
-    await removeUserData(selectedUserId);
-    this.setState({ users: updatedUsers });
+    const { selectedUserId } = this.state;
+    const { removeUser } = this.props;
+    await removeUser(selectedUserId);
   };
 
   createUserHandler = async (userData) => {
-    const { users } = this.state;
-    const updatedUsers = [...users, userData];
-
+    const { createUser } = this.props;
     await createUser(userData);
-    this.setState({ users: updatedUsers });
   };
 
   editUserDataHandler = async (userData) => {
-    const { users, selectedUserId } = this.state;
-    const updatedUsers = users.map((item) => (item.id === selectedUserId ? { id: selectedUserId, ...userData } : item));
-    await editUser(selectedUserId, userData);
-    this.setState({ users: updatedUsers });
+    const { selectedUserId } = this.state;
+    const { editUser } = this.props;
+    editUser(selectedUserId, userData);
   };
 
-  selectUserHandler = (selectedUserId) => {
+  selectUserHandler = async (selectedUserId) => {
     this.setState({ selectedUserId });
   };
 
@@ -83,25 +84,18 @@ export class Members extends React.PureComponent {
     this.setState((prevState) => {
       const { isUserModalOpen } = this.state;
 
-      return isUserModalOpen
-        ? {
-            ...prevState,
-            isUserModalOpen: !prevState.isUserModalOpen,
-            selectedUserId: null,
-            isEditMode: false,
-            isReadOnlyMode: false,
-          }
-        : { ...prevState, isUserModalOpen: !prevState.isUserModalOpen };
-    });
-  };
+      if (isUserModalOpen) {
+        return {
+          ...prevState,
+          isUserModalOpen: !prevState.isUserModalOpen,
+          selectedUserId: null,
+          isEditMode: false,
+          isReadOnlyMode: false,
+        };
+      }
 
-  toggleModal = () => {
-    const { isUserModalOpen, isDeleteModalOpen } = this.state;
-    if (isUserModalOpen) {
-      this.toggleUserModalHandler();
-    } else if (isDeleteModalOpen) {
-      this.toggleModalDeleteHandler();
-    }
+      return { ...prevState, isUserModalOpen: !prevState.isUserModalOpen };
+    });
   };
 
   toggleModalDeleteHandler = () => {
@@ -114,9 +108,20 @@ export class Members extends React.PureComponent {
     });
   };
 
+  toggleModal = () => {
+    const { isUserModalOpen, isDeleteModalOpen } = this.state;
+    if (isUserModalOpen) {
+      this.toggleUserModalHandler();
+    } else if (isDeleteModalOpen) {
+      this.toggleModalDeleteHandler();
+    }
+  };
+
   render() {
-    const { users, isUserModalOpen, isDeleteModalOpen, userData, isEditMode, selectedUserId, isReadOnlyMode } =
-      this.state;
+    const { isUserModalOpen, isDeleteModalOpen, userData, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
+    const { users } = this.props;
+    console.log(users);
+
     const items = users.map((user, index) => {
       const showReadOnlyModal = async () => {
         await this.selectUserHandler(user.id);
@@ -194,3 +199,26 @@ export class Members extends React.PureComponent {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    users: state.users.users,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    { getUsers: getUsersThunk, removeUser: removeUserThunk, editUser: editUserThunk, createUser: createUserThunk },
+    dispatch,
+  );
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Members);
+
+Members.propTypes = {
+  removeUser: propTypes.func.isRequired,
+  getUsers: propTypes.func.isRequired,
+  editUser: propTypes.func.isRequired,
+  createUser: propTypes.func.isRequired,
+  users: propTypes.arrayOf(propTypes.object).isRequired,
+};

@@ -18,12 +18,7 @@ export class CreateMemberForm extends React.PureComponent {
     const { userData, isEditMode } = this.props;
 
     if (isEditMode) {
-      this.setState((prevState) => {
-        const { formErrors } = prevState;
-        const formErrorsForEditMode = formErrors.map((item) => ({ ...item, isValid: true }));
-
-        return { ...userData, formErrors: formErrorsForEditMode, isValid: true };
-      });
+      this.setState({ ...userData });
     }
   }
 
@@ -33,9 +28,7 @@ export class CreateMemberForm extends React.PureComponent {
     this.setState((prevState) => {
       const { password, formErrors } = prevState;
       const { name: fildName, error } = validateFormField(name, value, password);
-      const updatedErrors = formErrors.map((item) =>
-        item.name === fildName ? { ...item, error, isValid: !error.length } : item,
-      );
+      const updatedErrors = formErrors.map((item) => (item.name === fildName ? { ...item, error } : item));
 
       return {
         ...prevState,
@@ -43,19 +36,12 @@ export class CreateMemberForm extends React.PureComponent {
         formErrors: updatedErrors,
       };
     });
-
-    this.setState((prevState) => {
-      const { formErrors } = prevState;
-      const errors = formErrors.filter((item) => !item.isValid);
-
-      return errors.length ? { ...prevState, isValid: false } : { ...prevState, isValid: true };
-    });
   };
 
   handleSubmit = async (e) => {
     e.preventDefault();
     const { isEditMode, createUserHandler, editUserDataHandler } = this.props;
-    const { formErrors, isValid, ...data } = this.state;
+    const { formErrors, ...data } = this.state;
     if (isEditMode) {
       await editUserDataHandler(data);
     } else {
@@ -65,7 +51,8 @@ export class CreateMemberForm extends React.PureComponent {
 
   render() {
     const { toggleModalHandler, isReadOnlyMode } = this.props;
-    const { formErrors, isValid } = this.state;
+    const { formErrors } = this.state;
+    const isError = formErrors.filter((item) => item.error !== '');
 
     return (
       <Form>
@@ -91,7 +78,7 @@ export class CreateMemberForm extends React.PureComponent {
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={!isValid} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
 
           <Button
             onClick={toggleModalHandler}

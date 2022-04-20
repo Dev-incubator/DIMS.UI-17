@@ -1,4 +1,3 @@
-import { Button as BootstrapButton } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import style from './Button.module.css';
 import noop from '../../../shared/noop';
@@ -10,15 +9,14 @@ export function Button({ title, onClick, stylingType, isBackButton, history, but
   };
 
   return (
-    <BootstrapButton
-      className={style.button}
-      variant={stylingType}
-      type={buttonType}
+    <button
+      className={style[stylingType]}
+      type='button'
       onClick={isBackButton ? buttonBackHandler : onClick}
       {...restProps}
     >
       <span>{title}</span>
-    </BootstrapButton>
+    </button>
   );
 }
 

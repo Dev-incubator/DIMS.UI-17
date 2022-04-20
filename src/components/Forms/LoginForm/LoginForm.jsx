@@ -67,7 +67,7 @@ export class LoginForm extends React.PureComponent {
     const { error, handleSinginWithGoogle } = this.props;
 
     return (
-      <Row sm='auto' className='justify-content-center'>
+      <Row sm='auto' className={style.wrapper}>
         <Col>
           <h1 className={style.title}>Sign in to CMS</h1>
           <form className={style.login}>
