@@ -42,13 +42,16 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
     case GET_USER_TASKS:
       return {
         ...state,
-        userTasks: action.payload.userTasks,
+        userTasks: action.payload.userTasks.map((item) => ({
+          ...item,
+          status: item.statuses.find((elem) => elem.id === action.payload.userId).status,
+        })),
       };
     case UPDATE_TASK_STATUS:
       return {
         ...state,
         userTasks: state.userTasks.map((item) =>
-          item.id === action.payload.taskId ? { ...item, statuses: action.payload.updatedStatuses } : item,
+          item.id === action.payload.taskId ? { ...item, status: action.payload.newStatus } : item,
         ),
       };
 

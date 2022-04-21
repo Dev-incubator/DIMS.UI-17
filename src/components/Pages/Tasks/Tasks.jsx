@@ -53,7 +53,7 @@ class Tasks extends React.PureComponent {
     const { userId } = this.state;
     const { history, userTasks } = this.props;
     const items = userTasks.map((item, index) => {
-      const statusIndex = item.statuses.findIndex((elem) => elem.id === userId);
+      // const statusIndex = item.statuses.findIndex((elem) => elem.id === userId);
 
       const succesStatusHandler = () => {
         this.succesStatusHandler(item.id, userId);
@@ -72,11 +72,11 @@ class Tasks extends React.PureComponent {
           name={item.name}
           startDate={item.startDate}
           deadlineDate={item.deadlineDate}
-          status={item.statuses[statusIndex].status}
+          status={item.status}
           actions={
             <ButtonsStatusUpdate
               userId={userId}
-              status={item.statuses[statusIndex].status || ''}
+              status={item.status}
               taskId={item.id}
               succesStatusHandler={succesStatusHandler}
               activeStatusHandler={activeStatusHandler}

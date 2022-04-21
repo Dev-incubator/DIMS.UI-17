@@ -23,10 +23,10 @@ const deleteTask = (taskId) => ({ type: REMOVE_TASK, payload: { taskId } });
 const createNewTask = (data) => ({ type: CREATE_TASK, payload: { data } });
 const editTask = (taskId, data) => ({ type: EDIT_TASK, payload: { taskId, data } });
 const getTask = (data) => ({ type: GET_TASK, payload: { data } });
-const getUserTasks = (userTasks) => ({ type: GET_USER_TASKS, payload: { userTasks } });
-const updateTaskStatuses = (taskId, updatedStatuses) => ({
+const getUserTasks = (userTasks, userId) => ({ type: GET_USER_TASKS, payload: { userTasks, userId } });
+const updateTaskStatuses = (taskId, newStatus) => ({
   type: UPDATE_TASK_STATUS,
-  payload: { taskId, updatedStatuses },
+  payload: { taskId, newStatus },
 });
 export const resetUserTasks = () => ({ type: RESET_USER_TASKS, payload: { userTasks: [] } });
 
@@ -68,13 +68,13 @@ export function getTaskThunk(taskId) {
 export function getUserTasksThunk(userId) {
   return async (dispatch) => {
     const userTasks = await getMemberTasks(userId);
-    dispatch(getUserTasks(userTasks));
+    dispatch(getUserTasks(userTasks, userId));
   };
 }
 
 export function updateTaskStatusThunk(taskId, userId, newStatus) {
   return async (dispatch) => {
-    const updatedStatuses = await changeTaskStatus(taskId, userId, newStatus);
-    dispatch(updateTaskStatuses(taskId, updatedStatuses));
+    await changeTaskStatus(taskId, userId, newStatus);
+    dispatch(updateTaskStatuses(taskId, newStatus));
   };
 }
