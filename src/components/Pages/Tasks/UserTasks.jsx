@@ -15,11 +15,11 @@ export class UserTasks extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { uid } = this.context;
-    const response = await getMemberTasks(uid);
+    const { userId } = this.context;
+    const response = await getMemberTasks(userId);
     const tasks = response.map((item) => ({
       ...item,
-      status: item.statuses.find((user) => user.id === uid).status,
+      status: item.statuses.find((user) => user.id === userId).status,
     }));
     this.setState({ tasks });
   }

@@ -6,4 +6,5 @@ export const usersInitialState = {
 export const tasksInitialState = {
   tasks: [],
   taskData: null,
+  userTasks: [],
 };

@@ -29,9 +29,9 @@ export class AuthProvider extends React.Component {
     });
   }
 
-  setAuth = (name, role, uid) => {
-    if (uid) {
-      this.setState((prevState) => ({ ...prevState, name, role, uid, isAuth: true }));
+  setAuth = (firstName, role, userId) => {
+    if (userId) {
+      this.setState((prevState) => ({ ...prevState, firstName, role, userId, isAuth: true }));
     }
     this.setState({ error: 'user not found' });
   };
@@ -48,9 +48,9 @@ export class AuthProvider extends React.Component {
   };
 
   singInGoogle = async () => {
-    const { role, name, uid } = await singInGoogle();
+    const { roles, firstName, userId } = await singInGoogle();
 
-    this.setAuth(name, role, uid);
+    this.setAuth(firstName, getRoles(roles), userId);
   };
 
   resetError = () => {

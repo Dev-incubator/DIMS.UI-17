@@ -39,9 +39,9 @@ export const initialStateTrack = {
 };
 
 export const initialStateAuth = {
-  name: '',
+  firstName: '',
   role: '',
-  uid: '',
+  userId: '',
   isAuth: false,
   apiMode: 'restAPI',
   error: '',

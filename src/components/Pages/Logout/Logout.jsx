@@ -4,9 +4,9 @@ import { Button } from '../../Buttons/Button/Button';
 export function Logout() {
   return (
     <AuthContext.Consumer>
-      {({ name, role, logoutHandler }) => {
+      {({ firstName, role, logoutHandler }) => {
         function showUser() {
-          return <span>{`${name}: ${role} `}</span>;
+          return <span>{`${firstName}: ${role} `}</span>;
         }
 
         return (
