@@ -47,13 +47,13 @@ export class CreateTrackForm extends React.PureComponent {
   handleSubmit = async (e) => {
     e.preventDefault();
     const { userTasks, isEditMode, createTrackHandler, updatedTrackHandler } = this.props;
-    const { name } = this.state;
+    const { name, formErrors, ...data } = this.state;
     const selectedTask = userTasks.find((task) => task.name === name);
     if (isEditMode) {
-      await updatedTrackHandler(this.state);
+      updatedTrackHandler({ name, ...data });
     } else {
       const id = generateId();
-      await createTrackHandler(selectedTask.id, { ...this.state, id });
+      createTrackHandler(selectedTask.id, { ...data, name, id });
     }
   };
 

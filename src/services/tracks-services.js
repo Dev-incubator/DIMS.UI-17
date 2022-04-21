@@ -16,11 +16,11 @@ export async function getTracks(taskId, userId) {
   }
 }
 
-export async function createTrack(taskId, userId, data) {
+export async function createTrack(taskId, data) {
   try {
     const taskRef = doc(db, 'tasks', taskId);
     await updateDoc(taskRef, {
-      tracks: arrayUnion({ ...data, userId }),
+      tracks: arrayUnion(data),
     });
   } catch (error) {
     console.error(error);

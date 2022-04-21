@@ -6,6 +6,7 @@ export const initialStateTasks = {
   startDate: '',
   deadlineDate: '',
   statuses: [],
+  tracks: [],
   subscribers: [],
   formErrors: FORM_TASK_ERRORS,
 };

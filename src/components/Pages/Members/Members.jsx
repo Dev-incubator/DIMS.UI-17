@@ -59,7 +59,6 @@ class Members extends React.PureComponent {
   };
 
   createUserHandler = async (userData) => {
-    console.log(userData);
     const { createUser } = this.props;
     await createUser(userData);
   };

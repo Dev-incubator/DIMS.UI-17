@@ -30,8 +30,8 @@ class Tasks extends React.PureComponent {
         params: { id },
       },
     } = this.props;
+    this.getUserTasks(id);
     this.setState({ userId: id });
-    await this.getUserTasks(id);
   }
 
   componentWillUnmount() {
@@ -39,7 +39,7 @@ class Tasks extends React.PureComponent {
     resetTasks();
   }
 
-  async getUserTasks(userId) {
+  getUserTasks(userId) {
     const { getUserTasks } = this.props;
     getUserTasks(userId);
   }
@@ -53,8 +53,6 @@ class Tasks extends React.PureComponent {
     const { userId } = this.state;
     const { history, userTasks } = this.props;
     const items = userTasks.map((item, index) => {
-      // const statusIndex = item.statuses.findIndex((elem) => elem.id === userId);
-
       const succesStatusHandler = () => {
         this.succesStatusHandler(item.id, userId);
       };

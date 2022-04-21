@@ -59,6 +59,7 @@ export class CreateTaskForm extends React.PureComponent {
   handleSubmit = async (e) => {
     e.preventDefault();
     const { isEditMode, id, createTaskHandler, updateTaskHandler } = this.props;
+    const { formErrors, ...data } = this.state;
     const { statuses } = isEditMode ? await getTaskData(id) : [];
     const selectedUsers = this.myRef
       .filter((item) => item.checked)
@@ -70,9 +71,9 @@ export class CreateTaskForm extends React.PureComponent {
     const subscribers = selectedUsers.map((item) => item.id);
 
     if (isEditMode) {
-      updateTaskHandler({ ...this.state, statuses: [...selectedUsers], subscribers });
+      updateTaskHandler({ ...data, statuses: [...selectedUsers], subscribers });
     } else {
-      createTaskHandler({ ...this.state, statuses: [...selectedUsers], subscribers });
+      createTaskHandler({ ...data, statuses: [...selectedUsers], subscribers });
     }
   };
 

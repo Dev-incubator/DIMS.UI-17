@@ -20,7 +20,7 @@ export async function singInEmailAndPassword(email, password) {
 
     return findUser(uid);
   } catch (error) {
-    console.log(error);
+    console.error(error);
 
     return undefined;
   }

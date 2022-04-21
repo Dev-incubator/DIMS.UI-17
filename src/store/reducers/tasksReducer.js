@@ -1,13 +1,16 @@
 import { tasksInitialState } from '../initialState';
 import {
   CREATE_TASK,
+  CREATE_TRACK,
   EDIT_TASK,
   GET_TASK,
   GET_TASKS,
   GET_USER_TASKS,
   REMOVE_TASK,
+  REMOVE_TRACK,
   RESET_USER_TASKS,
   UPDATE_TASK_STATUS,
+  UPDATE_TRACK,
 } from '../actions/actions';
 
 export const tasksReducer = (state = tasksInitialState, action = {}) => {
@@ -45,6 +48,7 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
         userTasks: action.payload.userTasks.map((item) => ({
           ...item,
           status: item.statuses.find((elem) => elem.id === action.payload.userId).status,
+          tracks: item.tracks.filter((elem) => elem.userId === action.payload.userId),
         })),
       };
     case UPDATE_TASK_STATUS:
@@ -54,11 +58,38 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
           item.id === action.payload.taskId ? { ...item, status: action.payload.newStatus } : item,
         ),
       };
-
     case RESET_USER_TASKS:
       return {
         ...state,
         userTasks: action.payload.userTasks,
+      };
+    case CREATE_TRACK:
+      return {
+        ...state,
+        userTasks: state.userTasks.map((item) =>
+          item.id === action.payload.taskId ? { ...item, tracks: [...item.tracks, action.payload.data] } : item,
+        ),
+      };
+    case REMOVE_TRACK:
+      return {
+        ...state,
+        userTasks: state.userTasks.map((item) =>
+          item.id === action.payload.taskId
+            ? { ...item, tracks: item.tracks.filter((track) => track.id !== action.payload.trackId) }
+            : item,
+        ),
+      };
+    case UPDATE_TRACK:
+      return {
+        ...state,
+        userTasks: state.userTasks.map((item) =>
+          item.id === action.payload.taskId
+            ? {
+                ...item,
+                tracks: item.tracks.map((track) => (track.id === action.payload.data.id ? action.payload.data : track)),
+              }
+            : item,
+        ),
       };
 
     default:
