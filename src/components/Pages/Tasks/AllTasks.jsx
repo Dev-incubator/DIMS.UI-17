@@ -128,7 +128,7 @@ class AllTasks extends React.PureComponent {
           description={item.description}
           startDate={item.startDate}
           deadlineDate={item.deadlineDate}
-          id={item.id}
+          id={item.taskId}
           linkPath={LINKPATH_KEYS.tasks}
           action={
             <ButtonsTask
@@ -138,7 +138,7 @@ class AllTasks extends React.PureComponent {
               showTaskDataHandler={this.showTaskDataHandler}
               selectUserHandler={this.selectTaskHandler}
               toggleTaskModalHandler={this.toggleTaskModalHandler}
-              id={item.id}
+              id={item.taskId}
             />
           }
         />

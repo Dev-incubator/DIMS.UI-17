@@ -8,19 +8,12 @@ import {
   RESET_USER_TASKS,
   UPDATE_TASK_STATUS,
 } from '../actions/actions';
-import {
-  getAllTasks,
-  removeTask,
-  createTask,
-  updateTask,
-  getTaskData,
-  getMemberTasks,
-  changeTaskStatus,
-} from '../../services/tasks-services';
+import { removeTask, createTask, updateTask, getMemberTasks, changeTaskStatus } from '../../services/tasks-services';
+import { tasksAPI } from '../../services/api/api';
 
 const getTasks = (tasks) => ({ type: GET_TASKS, payload: { tasks } });
 const deleteTask = (taskId) => ({ type: REMOVE_TASK, payload: { taskId } });
-const createNewTask = (data) => ({ type: CREATE_TASK, payload: { data } });
+const createNewTask = (taskId, data) => ({ type: CREATE_TASK, payload: { taskId, data } });
 const editTask = (taskId, data) => ({ type: EDIT_TASK, payload: { taskId, data } });
 const getTask = (data) => ({ type: GET_TASK, payload: { data } });
 const getUserTasks = (userTasks, userId) => ({ type: GET_USER_TASKS, payload: { userTasks, userId } });
@@ -32,7 +25,7 @@ export const resetUserTasks = () => ({ type: RESET_USER_TASKS, payload: { userTa
 
 export function getTasksThunk() {
   return async (dispatch) => {
-    const tasks = await getAllTasks();
+    const tasks = await tasksAPI.getAllTasks();
     dispatch(getTasks(tasks));
   };
 }
@@ -46,8 +39,8 @@ export function removeTaskThunk(taskId) {
 
 export function createTaskThunk(data) {
   return async (dispatch) => {
-    await createTask(data);
-    dispatch(createNewTask(data));
+    const taskId = await createTask(data);
+    dispatch(createNewTask(taskId, data));
   };
 }
 
@@ -60,7 +53,7 @@ export function editTaskThunk(taskId, data) {
 
 export function getTaskThunk(taskId) {
   return async (dispatch) => {
-    const taskData = await getTaskData(taskId);
+    const taskData = await tasksAPI.getTask(taskId);
     dispatch(getTask(taskData));
   };
 }

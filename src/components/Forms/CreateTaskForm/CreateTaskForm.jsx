@@ -68,12 +68,12 @@ export class CreateTaskForm extends React.PureComponent {
           ? statuses.find((elem) => elem.id === item.name) || { id: item.name, status: 'Active' }
           : { id: item.name, status: 'Active' },
       );
-    const subscribers = selectedUsers.map((item) => item.id);
+    const assignedUsers = selectedUsers.map((item) => item.id);
 
     if (isEditMode) {
-      updateTaskHandler({ ...data, statuses: [...selectedUsers], subscribers });
+      updateTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
     } else {
-      createTaskHandler({ ...data, statuses: [...selectedUsers], subscribers });
+      createTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
     }
   };
 
@@ -82,7 +82,7 @@ export class CreateTaskForm extends React.PureComponent {
     const { formErrors } = this.state;
     const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
     const isError = formErrors.filter((item) => item.error !== '');
-    const subscribers = !taskData ? [] : taskData.statuses.map((item) => item.id);
+    const assignedUsers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
       <Form className={style.wrapper}>
@@ -119,7 +119,7 @@ export class CreateTaskForm extends React.PureComponent {
                 type='checkbox'
                 name={user.userId}
                 id={user.userId}
-                defaultChecked={isEditMode ? subscribers.includes(user.userId) : false}
+                defaultChecked={isEditMode ? assignedUsers.includes(user.userId) : false}
                 onClick={this.checkboxHandler}
               />
             </label>
@@ -149,7 +149,7 @@ CreateTaskForm.propTypes = {
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([propTypes.string, propTypes.object]),
   isEditMode: propTypes.bool,
-  id: propTypes.oneOfType([propTypes.object, propTypes.string]),
+  id: propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.number]),
 };
 
 CreateTaskForm.defaultProps = {

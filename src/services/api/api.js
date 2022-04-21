@@ -1,6 +1,7 @@
 import * as axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { createUser, editUser, getAllUsers, getUserData, removeUserData } from '../users-services ';
+import { getAllTasks, getTaskData } from '../tasks-services';
 import { logout, singInEmailAndPassword } from '../auth-services';
 
 function getInstance() {
@@ -101,6 +102,38 @@ export const authAPI = {
     const { userId } = jwtDecode(token);
 
     return userId;
+  },
+};
+
+export const tasksAPI = {
+  async getAllTasks() {
+    if (getAPIMode() === 'restAPI') {
+      try {
+        const response = await getInstance().get(`tasks`);
+        const { data } = response;
+
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    const tasks = await getAllTasks();
+
+    return tasks;
+  },
+  async getTask(taskId) {
+    if (getAPIMode() === 'restAPI') {
+      try {
+        const response = await getInstance().get(`tasks/${taskId}`);
+
+        return response;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    const taskData = await getTaskData(taskId);
+
+    return taskData;
   },
 };
 

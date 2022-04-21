@@ -23,18 +23,18 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
     case REMOVE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter((item) => item.id !== action.payload.taskId),
+        tasks: state.tasks.filter((item) => item.taskId !== action.payload.taskId),
       };
     case CREATE_TASK:
       return {
         ...state,
-        tasks: [...state.tasks, action.payload.data],
+        tasks: [...state.tasks, { ...action.payload.data, taskId: action.payload.taskId }],
       };
     case EDIT_TASK:
       return {
         ...state,
         tasks: state.tasks.map((item) =>
-          item.id === action.payload.taskId ? { ...action.payload.data, id: action.payload.taskId } : item,
+          item.taskId === action.payload.taskId ? { ...action.payload.data, taskId: action.payload.taskId } : item,
         ),
       };
     case GET_TASK:
@@ -55,7 +55,7 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
       return {
         ...state,
         userTasks: state.userTasks.map((item) =>
-          item.id === action.payload.taskId ? { ...item, status: action.payload.newStatus } : item,
+          item.taskId === action.payload.taskId ? { ...item, status: action.payload.newStatus } : item,
         ),
       };
     case RESET_USER_TASKS:
@@ -67,14 +67,14 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
       return {
         ...state,
         userTasks: state.userTasks.map((item) =>
-          item.id === action.payload.taskId ? { ...item, tracks: [...item.tracks, action.payload.data] } : item,
+          item.taskId === action.payload.taskId ? { ...item, tracks: [...item.tracks, action.payload.data] } : item,
         ),
       };
     case REMOVE_TRACK:
       return {
         ...state,
         userTasks: state.userTasks.map((item) =>
-          item.id === action.payload.taskId
+          item.taskId === action.payload.taskId
             ? { ...item, tracks: item.tracks.filter((track) => track.id !== action.payload.trackId) }
             : item,
         ),
@@ -83,7 +83,7 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
       return {
         ...state,
         userTasks: state.userTasks.map((item) =>
-          item.id === action.payload.taskId
+          item.taskId === action.payload.taskId
             ? {
                 ...item,
                 tracks: item.tracks.map((track) => (track.id === action.payload.data.id ? action.payload.data : track)),

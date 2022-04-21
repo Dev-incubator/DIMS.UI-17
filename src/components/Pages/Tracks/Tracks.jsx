@@ -116,7 +116,7 @@ class Tracks extends React.PureComponent {
   render() {
     const { isTrackModalOpen, taskId, isDeleteModalOpen, userId, isEditMode, selectedTrack } = this.state;
     const { userTasks } = this.props;
-    const task = userTasks.find((item) => item.id === taskId);
+    const task = userTasks.find((item) => item.taskId === taskId);
     const items = taskId
       ? task.tracks.map((item, index) => {
           return (

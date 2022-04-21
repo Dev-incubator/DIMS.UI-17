@@ -5,7 +5,7 @@ export async function getAllTasks() {
   try {
     const querySnapshot = await getDocs(collection(db, 'tasks'));
 
-    return querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
+    return querySnapshot.docs.map((document) => ({ taskId: document.id, ...document.data() }));
   } catch (error) {
     console.error(error);
 
@@ -15,9 +15,13 @@ export async function getAllTasks() {
 
 export async function createTask(taskData) {
   try {
-    await addDoc(collection(db, 'tasks'), taskData);
+    const { id } = await addDoc(collection(db, 'tasks'), taskData);
+
+    return id;
   } catch (error) {
     console.error(error);
+
+    return undefined;
   }
 }
 
@@ -41,10 +45,10 @@ export async function updateTask(id, taskData) {
 export async function getMemberTasks(id) {
   try {
     const tasksRef = collection(db, 'tasks');
-    const memberTasks = query(tasksRef, where('subscribers', 'array-contains', id));
+    const memberTasks = query(tasksRef, where('assignedUsers', 'array-contains', id));
     const querySnapshot = await getDocs(memberTasks);
 
-    return querySnapshot.docs.map((item) => ({ id: item.id, ...item.data() }));
+    return querySnapshot.docs.map((item) => ({ taskId: item.id, ...item.data() }));
   } catch (error) {
     console.error(error);
 

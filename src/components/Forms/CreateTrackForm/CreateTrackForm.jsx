@@ -53,7 +53,7 @@ export class CreateTrackForm extends React.PureComponent {
       updatedTrackHandler({ name, ...data });
     } else {
       const id = generateId();
-      createTrackHandler(selectedTask.id, { ...data, name, id });
+      createTrackHandler(selectedTask.taskId, { ...data, name, id });
     }
   };
 

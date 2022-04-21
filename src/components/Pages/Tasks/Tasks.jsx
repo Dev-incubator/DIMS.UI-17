@@ -54,13 +54,13 @@ class Tasks extends React.PureComponent {
     const { history, userTasks } = this.props;
     const items = userTasks.map((item, index) => {
       const succesStatusHandler = () => {
-        this.succesStatusHandler(item.id, userId);
+        this.succesStatusHandler(item.taskId, userId);
       };
       const activeStatusHandler = () => {
-        this.activeStatusHandler(item.id, userId);
+        this.activeStatusHandler(item.taskId, userId);
       };
       const failStatusHandler = () => {
-        this.failStatusHandler(item.id, userId);
+        this.failStatusHandler(item.taskId, userId);
       };
 
       return (
@@ -75,7 +75,7 @@ class Tasks extends React.PureComponent {
             <ButtonsStatusUpdate
               userId={userId}
               status={item.status}
-              taskId={item.id}
+              taskId={item.taskId}
               succesStatusHandler={succesStatusHandler}
               activeStatusHandler={activeStatusHandler}
               failStatusHandler={failStatusHandler}
