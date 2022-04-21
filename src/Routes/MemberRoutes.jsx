@@ -1,7 +1,7 @@
 import { Switch, Route } from 'react-router-dom';
 import { Home } from '../components/Pages/Home/Home';
 import { Tracks } from '../components/Pages/Tracks/Tracks';
-import { UserTasks } from '../components/Pages/Tasks/UserTasks';
+import UserTasks from '../components/Pages/Tasks/UserTasks';
 
 export function MemberRoutes() {
   return (

@@ -123,7 +123,7 @@ export const LINKS_HEADER_MENU = [
     activeClassName: 'selected',
     to: '/tasks',
     name: 'Tasks',
-    access: 'member',
+    access: 'user',
   },
 ];
 

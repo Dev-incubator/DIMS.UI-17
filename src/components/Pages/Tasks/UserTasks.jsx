@@ -1,32 +1,29 @@
 import React from 'react';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getUserTasksThunk, resetUserTasks } from '../../../store/actionCreators/tasksActionCreators';
 import { TITLES_PAGES, TABLE_TITLES, LINKPATH_KEYS } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
-import { getMemberTasks } from '../../../services/tasks-services';
 import { UserTasksTableRow } from '../../Table/UserTasksTableRow';
 import { AuthContext } from '../../../Hooks/useAuth';
 
-export class UserTasks extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tasks: [],
-    };
-  }
-
+class UserTasks extends React.PureComponent {
   async componentDidMount() {
     const { userId } = this.context;
-    const response = await getMemberTasks(userId);
-    const tasks = response.map((item) => ({
-      ...item,
-      status: item.statuses.find((user) => user.id === userId).status,
-    }));
-    this.setState({ tasks });
+    const { getUserTasks } = this.props;
+    await getUserTasks(userId);
+  }
+
+  componentWillUnmount() {
+    const { resetTasks } = this.props;
+    resetTasks();
   }
 
   render() {
-    const { tasks } = this.state;
-    const items = tasks.map((item, index) => {
+    const { userTasks } = this.props;
+    const items = userTasks.map((item, index) => {
       return (
         <UserTasksTableRow
           key={item.name + index.toString()}
@@ -50,4 +47,28 @@ export class UserTasks extends React.PureComponent {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    userTasks: state.tasks.userTasks,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {
+      getUserTasks: getUserTasksThunk,
+      resetTasks: resetUserTasks,
+    },
+    dispatch,
+  );
+};
+
+UserTasks.propTypes = {
+  userTasks: propTypes.arrayOf(propTypes.object).isRequired,
+  getUserTasks: propTypes.func.isRequired,
+  resetTasks: propTypes.func.isRequired,
+};
+
 UserTasks.contextType = AuthContext;
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserTasks);

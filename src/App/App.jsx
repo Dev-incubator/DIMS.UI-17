@@ -19,7 +19,7 @@ export function App() {
               <>
                 <Header />
                 <ErrorBoundary>
-                  <main>{role === USER_ROLES.member ? <MemberRoutes /> : <AdminRoutes />}</main>
+                  <main>{role === USER_ROLES.user ? <MemberRoutes /> : <AdminRoutes />}</main>
                 </ErrorBoundary>
               </>
             );
