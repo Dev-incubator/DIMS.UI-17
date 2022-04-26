@@ -17,7 +17,6 @@ export async function getTracks(taskId, userId) {
 }
 
 export async function createTrack(taskId, data) {
-  console.log(taskId, data);
   try {
     const taskRef = doc(db, 'tasks', taskId);
     await updateDoc(taskRef, {

@@ -61,7 +61,6 @@ class Tracks extends React.PureComponent {
   };
 
   createTrackHandler = async (selectedTaskId, data) => {
-    console.log(selectedTaskId, data);
     const { createTrack } = this.props;
     const { userId } = this.state;
     await createTrack(selectedTaskId, { ...data, userId });

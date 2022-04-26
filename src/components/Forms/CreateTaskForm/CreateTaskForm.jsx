@@ -9,6 +9,7 @@ import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
 import { getFullName } from '../../../shared/helpers/getFullName/getFullName';
+import { isRestAPIMode } from '../../../services/api/api';
 
 export class CreateTaskForm extends React.PureComponent {
   constructor(props) {
@@ -68,7 +69,7 @@ export class CreateTaskForm extends React.PureComponent {
           ? statuses.find((elem) => elem.id === item.name) || { id: item.name, status: 'Active' }
           : { id: item.name, status: 'Active' },
       );
-    const assignedUsers = selectedUsers.map((item) => item.id);
+    const assignedUsers = selectedUsers.map((item) => (isRestAPIMode() ? Number(item.id) : item.id));
 
     if (isEditMode) {
       updateTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });

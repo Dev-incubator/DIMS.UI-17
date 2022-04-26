@@ -1,7 +1,7 @@
 import * as axios from 'axios';
 import jwtDecode from 'jwt-decode';
 import { createUser, editUser, getAllUsers, getUserData, removeUserData } from '../users-services ';
-import { getAllTasks, getTaskData } from '../tasks-services';
+import { createTask, getAllTasks, getTaskData } from '../tasks-services';
 import { logout, singInEmailAndPassword } from '../auth-services';
 
 function getInstance() {
@@ -17,7 +17,7 @@ function getInstance() {
 
 export const usersAPI = {
   async getUsers() {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       const response = await getInstance().get(`users`);
       const {
         data: { data },
@@ -30,7 +30,7 @@ export const usersAPI = {
   },
 
   async getUserById(userId) {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       const response = await getInstance().get(`users/${userId}`);
 
       const { data } = await response;
@@ -43,7 +43,7 @@ export const usersAPI = {
   },
 
   async createUser(userData) {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       await getInstance().post('users/', userData);
     } else {
       await createUser(userData);
@@ -51,7 +51,7 @@ export const usersAPI = {
   },
 
   async removeUser(userId) {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       await getInstance().delete(`users/${userId}`);
     } else {
       await removeUserData(userId);
@@ -59,7 +59,7 @@ export const usersAPI = {
   },
 
   async updateUser(userId, userData) {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       await getInstance().patch(`users/${userId}`, userData);
     } else {
       await editUser(userId, userData);
@@ -69,7 +69,7 @@ export const usersAPI = {
 
 export const authAPI = {
   async login(email, password) {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       try {
         const response = await getInstance().post('auth/login', { email, password });
         const {
@@ -90,7 +90,7 @@ export const authAPI = {
   },
 
   logout() {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       localStorage.removeItem('token');
     } else {
       logout();
@@ -107,7 +107,7 @@ export const authAPI = {
 
 export const tasksAPI = {
   async getAllTasks() {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       try {
         const response = await getInstance().get(`tasks`);
         const { data } = response;
@@ -121,12 +121,14 @@ export const tasksAPI = {
 
     return tasks;
   },
+
   async getTask(taskId) {
-    if (getAPIMode() === 'restAPI') {
+    if (isRestAPIMode()) {
       try {
         const response = await getInstance().get(`tasks/${taskId}`);
+        const { data } = response;
 
-        return response;
+        return data;
       } catch (error) {
         console.error(error);
       }
@@ -135,12 +137,28 @@ export const tasksAPI = {
 
     return taskData;
   },
+
+  async createTask(data) {
+    if (isRestAPIMode()) {
+      const { statuses, tracks, ...taskData } = data;
+      try {
+        const response = await getInstance().post(`tasks`, taskData);
+
+        return response;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    const taskId = await createTask(data);
+
+    return taskId;
+  },
 };
 
 export const setAPIMode = (apiMode) => {
   localStorage.setItem('apiMode', apiMode);
 };
 
-function getAPIMode() {
-  return localStorage.getItem('apiMode') || undefined;
+export function isRestAPIMode() {
+  return localStorage.getItem('apiMode') === 'restAPI';
 }
