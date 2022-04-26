@@ -9,6 +9,7 @@ import {
   removeUserThunk,
   setUserDataThunk,
 } from '../../../store/actionCreators/usersActionCreators';
+import { loading } from '../../../store/actionCreators/loadingActionCreators';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { ModalWindow } from '../../Common/Modal/Modal';
@@ -48,25 +49,33 @@ class Members extends React.PureComponent {
   }
 
   getUsers = async () => {
-    const { getUsers } = this.props;
-    getUsers();
+    const { getUsers, toggleLoading } = this.props;
+    toggleLoading(true);
+    await getUsers();
+    toggleLoading(false);
   };
 
   deleteUserHandler = async () => {
     const { selectedUserId } = this.state;
-    const { removeUser } = this.props;
+    const { removeUser, toggleLoading } = this.props;
+    toggleLoading(true);
     await removeUser(selectedUserId);
+    toggleLoading(false);
   };
 
   createUserHandler = async (userData) => {
-    const { createUser } = this.props;
+    const { createUser, toggleLoading } = this.props;
+    toggleLoading(true);
     await createUser(userData);
+    toggleLoading(false);
   };
 
   editUserDataHandler = async (userData) => {
     const { selectedUserId } = this.state;
-    const { editUser } = this.props;
+    const { editUser, toggleLoading } = this.props;
+    toggleLoading(true);
     editUser(selectedUserId, userData);
+    toggleLoading(false);
   };
 
   selectUserHandler = async (selectedUserId) => {
@@ -212,6 +221,7 @@ const mapDispatchToProps = (dispatch) => {
       editUser: editUserThunk,
       createUser: createUserThunk,
       setUserData: setUserDataThunk,
+      toggleLoading: loading,
     },
     dispatch,
   );
@@ -225,6 +235,7 @@ Members.propTypes = {
   editUser: propTypes.func.isRequired,
   createUser: propTypes.func.isRequired,
   setUserData: propTypes.func.isRequired,
+  toggleLoading: propTypes.func.isRequired,
   users: propTypes.arrayOf(propTypes.object).isRequired,
   userData: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };

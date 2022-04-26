@@ -17,3 +17,5 @@ export const RESET_TASK = 'RESET_TASK';
 export const CREATE_TRACK = 'CREATE_TRACK';
 export const REMOVE_TRACK = 'REMOVE_TRACK';
 export const UPDATE_TRACK = 'UPDATE_TRACK';
+
+export const LOADING = 'LOADING';

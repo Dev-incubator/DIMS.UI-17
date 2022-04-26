@@ -1,3 +1,6 @@
+import React from 'react';
+import propTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Container } from 'react-bootstrap';
 import { ErrorBoundary } from '../Hooks/ErrorBoundary';
 import { Header } from '../components/Common/Header/Header';
@@ -8,31 +11,52 @@ import { USER_ROLES } from '../shared/constants';
 import { AuthContext } from '../Hooks/useAuth';
 import { Login } from '../components/Pages/Login/Login';
 import style from './App.module.css';
+import { Loader } from '../components/Common/Loader/Loader';
 
-export function App() {
-  return (
-    <Container className={style.container}>
-      <AuthContext.Consumer>
-        {({ isAuth, role }) => {
-          if (isAuth) {
-            return (
-              <>
-                <Header />
-                <ErrorBoundary>
-                  <main>{role === USER_ROLES.user ? <MemberRoutes /> : <AdminRoutes />}</main>
-                </ErrorBoundary>
-              </>
-            );
-          }
+class App extends React.PureComponent {
+  render() {
+    const { loading } = this.props;
 
-          return (
-            <main>
-              <Login />
-            </main>
-          );
-        }}
-      </AuthContext.Consumer>
-      <Footer />
-    </Container>
-  );
+    return (
+      <>
+        {loading ? <Loader /> : null}
+
+        <Container className={style.container}>
+          <AuthContext.Consumer>
+            {({ isAuth, role }) => {
+              if (isAuth) {
+                return (
+                  <>
+                    <Header />
+                    <ErrorBoundary>
+                      <main>{role === USER_ROLES.user ? <MemberRoutes /> : <AdminRoutes />}</main>
+                    </ErrorBoundary>
+                  </>
+                );
+              }
+
+              return (
+                <main>
+                  <Login />
+                </main>
+              );
+            }}
+          </AuthContext.Consumer>
+          <Footer />
+        </Container>
+      </>
+    );
+  }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    loading: state.loading.loading,
+  };
+};
+
+App.propTypes = {
+  loading: propTypes.bool.isRequired,
+};
+
+export default connect(mapStateToProps, null)(App);

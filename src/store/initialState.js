@@ -8,3 +8,7 @@ export const tasksInitialState = {
   taskData: null,
   userTasks: [],
 };
+
+export const loaderInitialState = {
+  loading: false,
+};
