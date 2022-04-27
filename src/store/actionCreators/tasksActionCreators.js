@@ -5,7 +5,6 @@ import {
   GET_TASKS,
   GET_USER_TASKS,
   REMOVE_TASK,
-  RESET_USER_TASKS,
   UPDATE_TASK_STATUS,
 } from '../actions/actions';
 import { removeTask, updateTask, getMemberTasks, changeTaskStatus } from '../../services/tasks-services';
@@ -21,7 +20,6 @@ const updateTaskStatuses = (taskId, newStatus) => ({
   type: UPDATE_TASK_STATUS,
   payload: { taskId, newStatus },
 });
-export const resetUserTasks = () => ({ type: RESET_USER_TASKS, payload: { userTasks: [] } });
 
 export function getTasksThunk() {
   return async (dispatch) => {
@@ -56,7 +54,7 @@ export function editTaskThunk(taskId, data) {
 export function getTaskThunk(taskId) {
   return async (dispatch) => {
     const taskData = await tasksAPI.getTask(taskId);
-    dispatch(getTask(taskData));
+    dispatch(getTask({ taskId, ...taskData }));
   };
 }
 

@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getUserTasksThunk, resetUserTasks } from '../../../store/actionCreators/tasksActionCreators';
+import { getUserTasksThunk } from '../../../store/actionCreators/tasksActionCreators';
 import {
   createTrackThunk,
   removeTrackThunk,
@@ -43,14 +43,6 @@ class Tracks extends React.PureComponent {
     this.setState((prevState) => ({ ...prevState, taskId: id, userId }));
   }
 
-  async componentDidUpdate(prevProps) {
-    const { userTasks } = this.props;
-
-    if (prevProps.userTasks !== userTasks) {
-      this.toggleModal();
-    }
-  }
-
   async getData(userId) {
     const { getUserTasks } = this.props;
     await getUserTasks(userId);
@@ -64,6 +56,7 @@ class Tracks extends React.PureComponent {
     const { createTrack } = this.props;
     const { userId } = this.state;
     await createTrack(selectedTaskId, { ...data, userId });
+    this.toggleModal();
   };
 
   deleteTrackHandler = async () => {
@@ -71,12 +64,15 @@ class Tracks extends React.PureComponent {
     const { removeTrack } = this.props;
 
     await removeTrack(taskId, selectedTrack);
+    this.toggleModal();
   };
 
   updatedTrackHandler = async (data) => {
     const { taskId, userId } = this.state;
     const { updateTrack } = this.props;
+
     await updateTrack(data, taskId, userId);
+    this.toggleModal();
   };
 
   toggleTrackModalHandler = () => {
@@ -114,9 +110,9 @@ class Tracks extends React.PureComponent {
 
   render() {
     const { isTrackModalOpen, taskId, isDeleteModalOpen, userId, isEditMode, selectedTrack } = this.state;
-    const { userTasks } = this.props;
-    const task = userTasks.find((item) => item.taskId === taskId);
-    const items = taskId
+    const { tasks } = this.props;
+    const task = tasks.find((item) => item.taskId === taskId);
+    const items = task
       ? task.tracks.map((item, index) => {
           return (
             <TrackTableRow
@@ -131,7 +127,7 @@ class Tracks extends React.PureComponent {
                   userId={userId}
                   taskId={taskId}
                   tracks={task.tracks}
-                  userTasks={userTasks}
+                  userTasks={tasks}
                   selectTrackHandler={this.selectTrackHandler}
                   toggleModalDeleteHandler={this.toggleModalDeleteHandler}
                   turnOnEditModeHandler={this.turnOnEditModeHandler}
@@ -162,12 +158,12 @@ class Tracks extends React.PureComponent {
             <CreateTrackForm
               taskId={taskId}
               userId={userId}
-              tracks={task.tracks}
+              tracks={task?.tracks}
               trackId={selectedTrack}
               createTrackHandler={this.createTrackHandler}
               toggleModalHandler={this.toggleTrackModalHandler}
               updatedTrackHandler={this.updatedTrackHandler}
-              userTasks={userTasks}
+              userTasks={tasks}
               isEditMode={isEditMode}
             />
           </ModalWindow>
@@ -195,7 +191,7 @@ Tracks.contextType = AuthContext;
 
 const mapStateToProps = (state) => {
   return {
-    userTasks: state.tasks.userTasks,
+    tasks: state.tasks.tasks,
   };
 };
 
@@ -203,7 +199,6 @@ const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
     {
       getUserTasks: getUserTasksThunk,
-      resetTasks: resetUserTasks,
       createTrack: createTrackThunk,
       removeTrack: removeTrackThunk,
       updateTrack: updateTrackThunk,
@@ -217,7 +212,7 @@ Tracks.propTypes = {
   createTrack: propTypes.func.isRequired,
   removeTrack: propTypes.func.isRequired,
   updateTrack: propTypes.func.isRequired,
-  userTasks: propTypes.arrayOf(propTypes.object).isRequired,
+  tasks: propTypes.arrayOf(propTypes.object).isRequired,
   match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
 };
 

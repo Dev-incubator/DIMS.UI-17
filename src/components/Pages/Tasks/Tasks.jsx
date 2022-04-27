@@ -2,11 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import propTypes from 'prop-types';
-import {
-  getUserTasksThunk,
-  resetUserTasks,
-  updateTaskStatusThunk,
-} from '../../../store/actionCreators/tasksActionCreators';
+import { getUserTasksThunk, updateTaskStatusThunk } from '../../../store/actionCreators/tasksActionCreators';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
@@ -34,14 +30,9 @@ class Tasks extends React.PureComponent {
     this.setState({ userId: id });
   }
 
-  componentWillUnmount() {
-    const { resetTasks } = this.props;
-    resetTasks();
-  }
-
-  getUserTasks(userId) {
+  async getUserTasks(userId) {
     const { getUserTasks } = this.props;
-    getUserTasks(userId);
+    await getUserTasks(userId);
   }
 
   changeStatusHandler = async (newStatus, taskId, userId) => {
@@ -51,8 +42,8 @@ class Tasks extends React.PureComponent {
 
   render() {
     const { userId } = this.state;
-    const { history, userTasks } = this.props;
-    const items = userTasks.map((item, index) => {
+    const { history, tasks } = this.props;
+    const items = tasks.map((item, index) => {
       const succesStatusHandler = () => {
         this.succesStatusHandler(item.taskId, userId);
       };
@@ -103,7 +94,7 @@ class Tasks extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    userTasks: state.tasks.userTasks,
+    tasks: state.tasks.tasks,
   };
 };
 
@@ -112,7 +103,6 @@ const mapDispatchToProps = (dispatch) => {
     {
       getUserTasks: getUserTasksThunk,
       updateStatuses: updateTaskStatusThunk,
-      resetTasks: resetUserTasks,
     },
     dispatch,
   );
@@ -121,8 +111,7 @@ const mapDispatchToProps = (dispatch) => {
 Tasks.propTypes = {
   getUserTasks: propTypes.func.isRequired,
   updateStatuses: propTypes.func.isRequired,
-  resetTasks: propTypes.func.isRequired,
-  userTasks: propTypes.arrayOf(propTypes.object).isRequired,
+  tasks: propTypes.arrayOf(propTypes.object).isRequired,
   match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
   history: propTypes.oneOfType([propTypes.func, propTypes.object, propTypes.number]).isRequired,
 };

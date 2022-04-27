@@ -8,7 +8,6 @@ import {
   GET_USER_TASKS,
   REMOVE_TASK,
   REMOVE_TRACK,
-  RESET_USER_TASKS,
   UPDATE_TASK_STATUS,
   UPDATE_TRACK,
 } from '../actions/actions';
@@ -41,12 +40,12 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
     case GET_TASK:
       return {
         ...state,
-        taskData: action.payload.data,
+        tasks: state.tasks.map((task) => (task.taskId === action.payload.data.taskId ? action.payload.data : task)),
       };
     case GET_USER_TASKS:
       return {
         ...state,
-        userTasks: action.payload.userTasks.map((item) => ({
+        tasks: action.payload.userTasks.map((item) => ({
           ...item,
           status: item.statuses.find((elem) => elem.id === action.payload.userId).status,
           tracks: item.tracks.filter((elem) => elem.userId === action.payload.userId),
@@ -55,26 +54,21 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
     case UPDATE_TASK_STATUS:
       return {
         ...state,
-        userTasks: state.userTasks.map((item) =>
+        tasks: state.tasks.map((item) =>
           item.taskId === action.payload.taskId ? { ...item, status: action.payload.newStatus } : item,
         ),
-      };
-    case RESET_USER_TASKS:
-      return {
-        ...state,
-        userTasks: action.payload.userTasks,
       };
     case CREATE_TRACK:
       return {
         ...state,
-        userTasks: state.userTasks.map((item) =>
+        tasks: state.tasks.map((item) =>
           item.taskId === action.payload.taskId ? { ...item, tracks: [...item.tracks, action.payload.data] } : item,
         ),
       };
     case REMOVE_TRACK:
       return {
         ...state,
-        userTasks: state.userTasks.map((item) =>
+        tasks: state.tasks.map((item) =>
           item.taskId === action.payload.taskId
             ? { ...item, tracks: item.tracks.filter((track) => track.id !== action.payload.trackId) }
             : item,
@@ -83,7 +77,7 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
     case UPDATE_TRACK:
       return {
         ...state,
-        userTasks: state.userTasks.map((item) =>
+        tasks: state.tasks.map((item) =>
           item.taskId === action.payload.taskId
             ? {
                 ...item,

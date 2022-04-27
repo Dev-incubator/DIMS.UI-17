@@ -35,14 +35,6 @@ class AllTasks extends React.PureComponent {
     await this.getData();
   }
 
-  async componentDidUpdate(prevProps) {
-    const { tasks } = this.props;
-
-    if (prevProps.tasks !== tasks) {
-      this.toggleModal();
-    }
-  }
-
   async getData() {
     const { getTasks, getUsers, toggleLoading } = this.props;
     toggleLoading(true);
@@ -64,6 +56,7 @@ class AllTasks extends React.PureComponent {
     toggleLoading(true);
     await createTask(data);
     toggleLoading(false);
+    this.toggleModal();
   };
 
   updateTaskHandler = async (data) => {
@@ -72,6 +65,7 @@ class AllTasks extends React.PureComponent {
     toggleLoading(true);
     await editTasks(selectedTaskId, data);
     toggleLoading(false);
+    this.toggleModal();
   };
 
   deleteTaskHandler = async () => {
@@ -80,6 +74,7 @@ class AllTasks extends React.PureComponent {
     toggleLoading(true);
     await removeTask(selectedTaskId);
     toggleLoading(false);
+    this.toggleModal();
   };
 
   selectTaskHandler = (selectedTaskId) => {
@@ -127,7 +122,8 @@ class AllTasks extends React.PureComponent {
 
   render() {
     const { isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode } = this.state;
-    const { tasks, users, taskData } = this.props;
+    const { tasks, users } = this.props;
+    const taskData = tasks.find((item) => item.taskId === selectedTaskId);
     const items = tasks.map((item, index) => {
       return (
         <AllTasksTableRow
@@ -234,11 +230,6 @@ AllTasks.propTypes = {
   toggleLoading: propTypes.func.isRequired,
   tasks: propTypes.arrayOf(propTypes.object).isRequired,
   users: propTypes.arrayOf(propTypes.object).isRequired,
-  taskData: propTypes.oneOfType([propTypes.object, propTypes.string]),
-};
-
-AllTasks.defaultProps = {
-  taskData: null,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllTasks);
