@@ -35,13 +35,6 @@ class Members extends React.PureComponent {
     await this.getUsers();
   }
 
-  async componentDidUpdate(prevProps) {
-    const { users } = this.props;
-    if (prevProps.users !== users) {
-      this.toggleModal();
-    }
-  }
-
   async getUserData() {
     const { selectedUserId } = this.state;
     const { setUserData } = this.props;
@@ -61,6 +54,7 @@ class Members extends React.PureComponent {
     toggleLoading(true);
     await removeUser(selectedUserId);
     toggleLoading(false);
+    this.toggleModal();
   };
 
   createUserHandler = async (userData) => {
@@ -68,14 +62,16 @@ class Members extends React.PureComponent {
     toggleLoading(true);
     await createUser(userData);
     toggleLoading(false);
+    this.toggleModal();
   };
 
   editUserDataHandler = async (userData) => {
     const { selectedUserId } = this.state;
     const { editUser, toggleLoading } = this.props;
     toggleLoading(true);
-    editUser(selectedUserId, userData);
+    await editUser(selectedUserId, userData);
     toggleLoading(false);
+    this.toggleModal();
   };
 
   selectUserHandler = async (selectedUserId) => {
@@ -126,7 +122,8 @@ class Members extends React.PureComponent {
 
   render() {
     const { isUserModalOpen, isDeleteModalOpen, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
-    const { users, userData } = this.props;
+    const { users } = this.props;
+    const userData = users.find((user) => user.userId === selectedUserId);
 
     const items = users.map((user, index) => {
       const showReadOnlyModal = async () => {
@@ -237,9 +234,5 @@ Members.propTypes = {
   setUserData: propTypes.func.isRequired,
   toggleLoading: propTypes.func.isRequired,
   users: propTypes.arrayOf(propTypes.object).isRequired,
-  userData: propTypes.oneOfType([propTypes.object, propTypes.string]),
-};
-
-Members.defaultProps = {
-  userData: null,
+  // userData: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };

@@ -38,6 +38,6 @@ export function createUserThunk(userData) {
 export function setUserDataThunk(userId) {
   return async (dispatch) => {
     const userData = await usersAPI.getUserById(userId);
-    dispatch(setUserData(userData));
+    dispatch(setUserData({ userId, ...userData }));
   };
 }

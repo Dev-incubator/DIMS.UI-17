@@ -28,7 +28,9 @@ export const usersReducer = (state = usersInitialState, action = {}) => {
     case SET_USER:
       return {
         ...state,
-        userData: action.payload.userData,
+        users: state.users.map((item) =>
+          item.userId === action.payload.userData.userId ? action.payload.userData : item,
+        ),
       };
     default:
       return state;
