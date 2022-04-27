@@ -4,21 +4,27 @@ import { createUser, editUser, getAllUsers, getUserData, removeUserData } from '
 import { createTask, getAllTasks, getTaskData } from '../tasks-services';
 import { logout, singInEmailAndPassword } from '../auth-services';
 
-function getInstance() {
-  return axios.create({
-    baseURL: 'https://dims-core-api.herokuapp.com/api/',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${localStorage.getItem('token') || undefined}`,
-      'Content-Type': 'application/json',
-    },
-  });
+function getToken() {
+  return localStorage.getItem('token');
 }
+
+const instance = axios.create({
+  baseURL: 'https://dims-core-api.herokuapp.com/api/',
+  headers: {
+    accept: 'application/json',
+    'Content-Type': 'application/json',
+  },
+});
+
+instance.interceptors.request.use((req) => {
+  req.headers.Authorization = `Bearer ${getToken()}`;
+  return req;
+});
 
 export const usersAPI = {
   async getUsers() {
     if (isRestAPIMode()) {
-      const response = await getInstance().get(`users`);
+      const response = await instance.get(`users`);
       const {
         data: { data },
       } = await response;
@@ -31,7 +37,7 @@ export const usersAPI = {
 
   async getUserById(userId) {
     if (isRestAPIMode()) {
-      const response = await getInstance().get(`users/${userId}`);
+      const response = await instance.get(`users/${userId}`);
 
       const { data } = await response;
 
@@ -44,7 +50,7 @@ export const usersAPI = {
 
   async createUser(userData) {
     if (isRestAPIMode()) {
-      await getInstance().post('users/', userData);
+      await instance.post('users/', userData);
     } else {
       await createUser(userData);
     }
@@ -52,7 +58,7 @@ export const usersAPI = {
 
   async removeUser(userId) {
     if (isRestAPIMode()) {
-      await getInstance().delete(`users/${userId}`);
+      await instance.delete(`users/${userId}`);
     } else {
       await removeUserData(userId);
     }
@@ -60,7 +66,7 @@ export const usersAPI = {
 
   async updateUser(userId, userData) {
     if (isRestAPIMode()) {
-      await getInstance().patch(`users/${userId}`, userData);
+      await instance.patch(`users/${userId}`, userData);
     } else {
       await editUser(userId, userData);
     }
@@ -71,7 +77,7 @@ export const authAPI = {
   async login(email, password) {
     if (isRestAPIMode()) {
       try {
-        const response = await getInstance().post('auth/login', { email, password });
+        const response = await instance.post('auth/login', { email, password });
         const {
           data: { token },
         } = response;
@@ -109,7 +115,7 @@ export const tasksAPI = {
   async getAllTasks() {
     if (isRestAPIMode()) {
       try {
-        const response = await getInstance().get(`tasks`);
+        const response = await instance.get(`tasks`);
         const { data } = response;
 
         return data;
@@ -125,7 +131,7 @@ export const tasksAPI = {
   async getTask(taskId) {
     if (isRestAPIMode()) {
       try {
-        const response = await getInstance().get(`tasks/${taskId}`);
+        const response = await instance.get(`tasks/${taskId}`);
         const { data } = response;
 
         return data;
@@ -142,7 +148,7 @@ export const tasksAPI = {
     if (isRestAPIMode()) {
       const { statuses, tracks, ...taskData } = data;
       try {
-        const response = await getInstance().post(`tasks`, taskData);
+        const response = await instance.post(`tasks`, taskData);
 
         return response;
       } catch (error) {
