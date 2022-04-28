@@ -7,5 +7,5 @@ export const tasksInitialState = {
 };
 
 export const loaderInitialState = {
-  loading: false,
+  isFetching: false,
 };

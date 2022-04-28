@@ -15,11 +15,11 @@ import { Loader } from '../components/Common/Loader/Loader';
 
 class App extends React.PureComponent {
   render() {
-    const { loading } = this.props;
+    const { isFetching } = this.props;
 
     return (
       <>
-        {loading ? <Loader /> : null}
+        {isFetching ? <Loader /> : null}
 
         <Container className={style.container}>
           <AuthContext.Consumer>
@@ -51,12 +51,12 @@ class App extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.loading.loading,
+    isFetching: state.loading.isFetching,
   };
 };
 
 App.propTypes = {
-  loading: propTypes.bool.isRequired,
+  isFetching: propTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, null)(App);

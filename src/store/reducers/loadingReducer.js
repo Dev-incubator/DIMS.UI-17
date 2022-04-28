@@ -6,7 +6,7 @@ export const loadingReducer = (state = loaderInitialState, action = {}) => {
     case LOADING:
       return {
         ...state,
-        loading: action.payload,
+        isFetching: action.payload,
       };
     default:
       return state;

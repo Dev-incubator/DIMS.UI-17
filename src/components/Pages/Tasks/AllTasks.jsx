@@ -18,7 +18,6 @@ import {
   removeTaskThunk,
 } from '../../../store/actionCreators/tasksActionCreators';
 import { getUsersThunk } from '../../../store/actionCreators/usersActionCreators';
-import { loading } from '../../../store/actionCreators/loadingActionCreators';
 
 class AllTasks extends React.PureComponent {
   constructor(props) {
@@ -36,44 +35,39 @@ class AllTasks extends React.PureComponent {
   }
 
   async getData() {
-    const { getTasks, getUsers, toggleLoading } = this.props;
-    toggleLoading(true);
+    const { getTasks, getUsers } = this.props;
+
     await getTasks();
     await getUsers();
-    toggleLoading(false);
   }
 
   async getTaskData() {
     const { selectedTaskId } = this.state;
-    const { getTask, toggleLoading } = this.props;
-    toggleLoading(true);
+    const { getTask } = this.props;
+
     await getTask(selectedTaskId);
-    toggleLoading(true);
   }
 
   createTaskHandler = async (data) => {
-    const { createTask, toggleLoading } = this.props;
-    toggleLoading(true);
+    const { createTask } = this.props;
+
     await createTask(data);
-    toggleLoading(false);
     this.toggleModal();
   };
 
   updateTaskHandler = async (data) => {
     const { selectedTaskId } = this.state;
-    const { editTasks, toggleLoading } = this.props;
-    toggleLoading(true);
+    const { editTasks } = this.props;
+
     await editTasks(selectedTaskId, data);
-    toggleLoading(false);
     this.toggleModal();
   };
 
   deleteTaskHandler = async () => {
     const { selectedTaskId } = this.state;
-    const { removeTask, toggleLoading } = this.props;
-    toggleLoading(true);
+    const { removeTask } = this.props;
+
     await removeTask(selectedTaskId);
-    toggleLoading(false);
     this.toggleModal();
   };
 
@@ -214,7 +208,6 @@ const mapDispatchToProps = (dispatch) => {
       createTask: createTaskThunk,
       editTasks: editTaskThunk,
       getTask: getTaskThunk,
-      toggleLoading: loading,
     },
     dispatch,
   );
@@ -227,7 +220,6 @@ AllTasks.propTypes = {
   createTask: propTypes.func.isRequired,
   editTasks: propTypes.func.isRequired,
   getTask: propTypes.func.isRequired,
-  toggleLoading: propTypes.func.isRequired,
   tasks: propTypes.arrayOf(propTypes.object).isRequired,
   users: propTypes.arrayOf(propTypes.object).isRequired,
 };
