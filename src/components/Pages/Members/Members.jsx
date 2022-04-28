@@ -17,6 +17,7 @@ import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm'
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
+import { getAge } from '../../../shared/helpers/getAge/getAge';
 
 class Members extends React.PureComponent {
   constructor(props) {
@@ -136,7 +137,7 @@ class Members extends React.PureComponent {
           directionName={user.directionName}
           education={user.education}
           startDate={user.startDate}
-          birthDate={user.birthDate}
+          birthDate={getAge(user.birthDate)}
           action={
             <ButtonsAdminMemberPage
               selectUserHandler={this.selectUserHandler}

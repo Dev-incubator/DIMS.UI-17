@@ -34,7 +34,7 @@ FormField.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.string)]).isRequired,
   options: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   isReadOnlyMode: PropTypes.bool,
   errors: PropTypes.string,

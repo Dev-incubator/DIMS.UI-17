@@ -39,7 +39,7 @@ MembersTableRow.propTypes = {
   directionName: PropTypes.string.isRequired,
   education: PropTypes.string.isRequired,
   startDate: PropTypes.string.isRequired,
-  birthDate: PropTypes.string.isRequired,
+  birthDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   action: PropTypes.node.isRequired,
   showReadOnlyModal: PropTypes.func.isRequired,
 };
