@@ -5,7 +5,6 @@ import { initialStateTasks } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
-import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
 import { getFullName } from '../../../shared/helpers/getFullName/getFullName';
@@ -59,9 +58,9 @@ export class CreateTaskForm extends React.PureComponent {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { isEditMode, id, createTaskHandler, updateTaskHandler } = this.props;
+    const { isEditMode, createTaskHandler, updateTaskHandler, taskData } = this.props;
     const { formErrors, ...data } = this.state;
-    const { statuses } = isEditMode ? await getTaskData(id) : [];
+    const { statuses } = isEditMode ? taskData : [];
     const selectedUsers = this.myRef
       .filter((item) => item.checked)
       .map((item) =>
@@ -150,12 +149,10 @@ CreateTaskForm.propTypes = {
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([propTypes.string, propTypes.object]),
   isEditMode: propTypes.bool,
-  id: propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.number]),
 };
 
 CreateTaskForm.defaultProps = {
   taskData: null,
   isReadOnlyMode: false,
   isEditMode: false,
-  id: null,
 };
