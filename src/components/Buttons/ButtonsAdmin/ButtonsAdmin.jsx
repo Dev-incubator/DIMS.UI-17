@@ -11,14 +11,14 @@ export function ButtonsAdminMemberPage({
   toggleModalDeleteHandler,
   toggleUserModalHandler,
 }) {
-  const showDeleteModal = async () => {
-    await selectUserHandler(id);
+  const showDeleteModal = () => {
+    selectUserHandler(id);
     toggleModalDeleteHandler();
   };
 
-  const showEditModal = async () => {
-    await selectUserHandler(id);
-    await showUserDataHandler();
+  const showEditModal = () => {
+    selectUserHandler(id);
+    showUserDataHandler(id, false);
     toggleUserModalHandler();
   };
 
