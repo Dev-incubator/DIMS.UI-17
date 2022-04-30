@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App/App';
+import { App } from './App/App';
 import reportWebVitals from './reportWebVitals';
 import './firebase';
 import AuthProvider from './Hooks/useAuth';

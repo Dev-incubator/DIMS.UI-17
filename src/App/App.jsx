@@ -1,6 +1,4 @@
-import React from 'react';
-import propTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Container } from 'react-bootstrap';
 import { ErrorBoundary } from '../Hooks/ErrorBoundary';
 import { Header } from '../components/Common/Header/Header';
@@ -12,51 +10,38 @@ import { AuthContext } from '../Hooks/useAuth';
 import { Login } from '../components/Pages/Login/Login';
 import style from './App.module.css';
 import { Loader } from '../components/Common/Loader/Loader';
+import { getIsFetching } from '../store/selectors/selectors';
 
-class App extends React.PureComponent {
-  render() {
-    const { isFetching } = this.props;
+export function App() {
+  const isFetching = useSelector(getIsFetching);
 
-    return (
-      <>
-        {isFetching ? <Loader /> : null}
+  return (
+    <>
+      {isFetching ? <Loader /> : null}
 
-        <Container className={style.container}>
-          <AuthContext.Consumer>
-            {({ isAuth, role }) => {
-              if (isAuth) {
-                return (
-                  <>
-                    <Header />
-                    <ErrorBoundary>
-                      <main>{role === USER_ROLES.user ? <MemberRoutes /> : <AdminRoutes />}</main>
-                    </ErrorBoundary>
-                  </>
-                );
-              }
-
+      <Container className={style.container}>
+        <AuthContext.Consumer>
+          {({ isAuth, role }) => {
+            if (isAuth) {
               return (
-                <main>
-                  <Login />
-                </main>
+                <>
+                  <Header />
+                  <ErrorBoundary>
+                    <main>{role === USER_ROLES.user ? <MemberRoutes /> : <AdminRoutes />}</main>
+                  </ErrorBoundary>
+                </>
               );
-            }}
-          </AuthContext.Consumer>
-          <Footer />
-        </Container>
-      </>
-    );
-  }
+            }
+
+            return (
+              <main>
+                <Login />
+              </main>
+            );
+          }}
+        </AuthContext.Consumer>
+        <Footer />
+      </Container>
+    </>
+  );
 }
-
-const mapStateToProps = (state) => {
-  return {
-    isFetching: state.loading.isFetching,
-  };
-};
-
-App.propTypes = {
-  isFetching: propTypes.bool.isRequired,
-};
-
-export default connect(mapStateToProps, null)(App);

@@ -108,7 +108,7 @@ CreateTrackForm.propTypes = {
   isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   userTasks: propTypes.arrayOf(propTypes.oneOfType([propTypes.string, propTypes.object, propTypes.array])),
   isEditMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
-  tracks: propTypes.arrayOf(propTypes.object).isRequired,
+  tracks: propTypes.arrayOf(propTypes.object),
   trackId: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };
 
@@ -117,4 +117,5 @@ CreateTrackForm.defaultProps = {
   userTasks: [],
   isEditMode: false,
   trackId: null,
+  tracks: [],
 };
