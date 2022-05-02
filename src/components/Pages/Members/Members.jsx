@@ -130,7 +130,7 @@ class Members extends React.PureComponent {
 
       return (
         <MembersTableRow
-          key={user.name + index.toString()}
+          key={user.firstName + index.toString()}
           index={index}
           firstName={user.firstName}
           lastName={user.lastName}
