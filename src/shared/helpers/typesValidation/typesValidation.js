@@ -1,4 +1,4 @@
-export function typeСoercion(data) {
+export function typesValidation(data) {
   return {
     ...data,
     roles: typeof data.roles === 'string' ? [data.roles] : data.roles,
