@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, useMemo, useReducer, useState } from 'react';
+import { usersReducer } from '../../../store/reducers/usersReducer';
 import {
   createUserThunk,
   editUserThunk,
@@ -16,11 +16,12 @@ import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
 import { getAge } from '../../../shared/helpers/getAge/getAge';
-import { getAllUsers } from '../../../store/selectors/selectors';
+import { usersInitialState } from '../../../store/initialState';
+import { dispatchThunk } from '../../../store/helpers/dispatchThunk';
 
 export function Members() {
-  const users = useSelector(getAllUsers);
-  const dispatch = useDispatch();
+  const [{ users }, dispatch] = useReducer(usersReducer, usersInitialState);
+  const asyncDispatch = useMemo(() => dispatchThunk(dispatch), [dispatch]);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -28,8 +29,8 @@ export function Members() {
   const [isReadOnlyMode, setIsReadOnlyMode] = useState(false);
 
   useEffect(() => {
-    dispatch(getUsersThunk());
-  }, [dispatch]);
+    asyncDispatch(getUsersThunk());
+  }, [asyncDispatch]);
 
   const getUserData = (userId) => {
     dispatch(setUserDataThunk(userId));
@@ -87,6 +88,7 @@ export function Members() {
       toggleModalDeleteHandler();
     }
   };
+  console.log(users);
   const userData = users.find((user) => user.userId === selectedUserId);
   const items = users.map((user, index) => {
     const showReadOnlyModal = () => {
