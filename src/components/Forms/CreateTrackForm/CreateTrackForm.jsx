@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { initialStateTrack } from '../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../shared/constants';
+import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS, FORM_TRACKS_ERRORS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTrackForm.module.css';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
@@ -11,7 +11,7 @@ import { FormField } from '../FormField/FormField';
 export class CreateTrackForm extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = initialStateTrack;
+    this.state = { ...initialStateTrack, formErrors: FORM_TRACKS_ERRORS };
   }
 
   componentDidMount() {
@@ -19,7 +19,7 @@ export class CreateTrackForm extends React.PureComponent {
     if (isEditMode) {
       const trackData = tracks.find((track) => track.id === trackId);
       if (isEditMode) {
-        this.setState({ ...trackData });
+        this.setState({ ...trackData, formErrors: FORM_TRACKS_ERRORS.map((item) => ({ ...item, error: '' })) });
       }
     } else {
       const tasksNames = userTasks.map((task) => task.name) || [''];

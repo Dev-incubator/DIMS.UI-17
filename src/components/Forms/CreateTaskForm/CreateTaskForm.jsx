@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 import { initialStateTasks } from '../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
+import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS, FORM_TASK_ERRORS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
 import { FormField } from '../FormField/FormField';
@@ -13,7 +13,7 @@ import { isRestAPIMode } from '../../../services/api/api';
 export class CreateTaskForm extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = initialStateTasks;
+    this.state = { ...initialStateTasks, formErrors: FORM_TASK_ERRORS };
     this.myRef = [];
   }
 
@@ -21,7 +21,7 @@ export class CreateTaskForm extends React.PureComponent {
     const { taskData, isEditMode } = this.props;
 
     if (isEditMode) {
-      this.setState({ ...taskData });
+      this.setState({ ...taskData, formErrors: FORM_TASK_ERRORS.map((item) => ({ ...item, error: '' })) });
     }
   }
 
