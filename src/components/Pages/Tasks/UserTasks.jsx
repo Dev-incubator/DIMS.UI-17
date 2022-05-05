@@ -18,7 +18,6 @@ class UserTasks extends React.PureComponent {
 
   render() {
     const { tasks } = this.props;
-    console.log(tasks);
     const items = tasks.map((item, index) => {
       return (
         <UserTasksTableRow

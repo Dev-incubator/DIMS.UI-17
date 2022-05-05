@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useReducer, useState } from 'react';
-import { usersReducer } from '../../../store/reducers/usersReducer';
+import { useContext, useEffect, useMemo, useReducer, useState } from 'react';
+import { rootReducer } from '../../../store/reducers/rootReducer';
 import {
   createUserThunk,
   editUserThunk,
@@ -7,6 +7,8 @@ import {
   removeUserThunk,
   setUserDataThunk,
 } from '../../../store/actionCreators/usersActionCreators';
+import { StoreContext } from '../../../Hooks/useStore';
+import { rootReducerItinialState } from '../../../store/initialState';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { ModalWindow } from '../../Common/Modal/Modal';
@@ -16,12 +18,17 @@ import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
 import { getAge } from '../../../shared/helpers/getAge/getAge';
-import { usersInitialState } from '../../../store/initialState';
 import { dispatchThunk } from '../../../store/helpers/dispatchThunk';
 
 export function Members() {
-  const [{ users }, dispatch] = useReducer(usersReducer, usersInitialState);
+  const [
+    {
+      users: { users },
+    },
+    dispatch,
+  ] = useReducer(rootReducer, rootReducerItinialState);
   const asyncDispatch = useMemo(() => dispatchThunk(dispatch), [dispatch]);
+  const { toggleFetch } = useContext(StoreContext);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -32,22 +39,24 @@ export function Members() {
     asyncDispatch(getUsersThunk());
   }, [asyncDispatch]);
 
-  const getUserData = (userId) => {
-    dispatch(setUserDataThunk(userId));
+  const getUserData = async (userId) => {
+    toggleFetch(true);
+    await asyncDispatch(setUserDataThunk(userId));
+    toggleFetch(false);
   };
 
   const deleteUserHandler = () => {
-    dispatch(removeUserThunk(selectedUserId));
+    asyncDispatch(removeUserThunk(selectedUserId));
     toggleModal();
   };
 
   const createUserHandler = (userData) => {
-    dispatch(createUserThunk(userData));
+    asyncDispatch(createUserThunk(userData));
     toggleModal();
   };
 
   const editUserDataHandler = (userData) => {
-    dispatch(editUserThunk(selectedUserId, userData));
+    asyncDispatch(editUserThunk(selectedUserId, userData));
     toggleModal();
   };
 
@@ -55,8 +64,9 @@ export function Members() {
     setSelectedUserId(userId);
   };
 
-  const showUserDataHandler = (userId, readOnlyMode = false) => {
-    getUserData(userId);
+  const showUserDataHandler = async (userId, readOnlyMode = false) => {
+    console.log('1');
+    await getUserData(userId);
     setIsEditMode(true);
     setIsReadOnlyMode(readOnlyMode);
   };
@@ -88,7 +98,6 @@ export function Members() {
       toggleModalDeleteHandler();
     }
   };
-  console.log(users);
   const userData = users.find((user) => user.userId === selectedUserId);
   const items = users.map((user, index) => {
     const showReadOnlyModal = () => {

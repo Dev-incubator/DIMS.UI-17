@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import PropTypes, { oneOfType } from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Button } from '../Button/Button';
@@ -11,38 +12,33 @@ export function ButtonsAdminMemberPage({
   toggleModalDeleteHandler,
   toggleUserModalHandler,
 }) {
+  const { role } = useContext(AuthContext);
   const showDeleteModal = () => {
     selectUserHandler(id);
     toggleModalDeleteHandler();
   };
 
-  const showEditModal = () => {
+  const showEditModal = async () => {
     selectUserHandler(id);
-    showUserDataHandler(id, false);
+    await showUserDataHandler(id, false);
     toggleUserModalHandler();
   };
 
   return (
-    <AuthContext.Consumer>
-      {({ role }) => {
-        return (
-          <>
-            <NavLink to={`/tasks/${id}`}>
-              <Button title={BUTTONS_NAMES.tasks} />
-            </NavLink>
-            <NavLink to={`/progress/${id}`}>
-              <Button title={BUTTONS_NAMES.progress} />
-            </NavLink>
-            {role === USER_ROLES.admin && (
-              <>
-                <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
-                <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
-              </>
-            )}
-          </>
-        );
-      }}
-    </AuthContext.Consumer>
+    <>
+      <NavLink to={`/tasks/${id}`}>
+        <Button title={BUTTONS_NAMES.tasks} />
+      </NavLink>
+      <NavLink to={`/progress/${id}`}>
+        <Button title={BUTTONS_NAMES.progress} />
+      </NavLink>
+      {role === USER_ROLES.admin && (
+        <>
+          <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
+          <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
+        </>
+      )}
+    </>
   );
 }
 

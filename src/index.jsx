@@ -8,6 +8,7 @@ import { App } from './App/App';
 import reportWebVitals from './reportWebVitals';
 import './firebase';
 import AuthProvider from './Hooks/useAuth';
+import { StoreProvider } from './Hooks/useStore';
 import { SettingsProvider } from './Hooks/useSettings';
 import { store } from './store/store';
 
@@ -19,7 +20,9 @@ root.render(
       <Provider store={store}>
         <SettingsProvider>
           <AuthProvider>
-            <App />
+            <StoreProvider>
+              <App />
+            </StoreProvider>
           </AuthProvider>
         </SettingsProvider>
       </Provider>

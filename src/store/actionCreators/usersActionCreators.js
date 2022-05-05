@@ -46,9 +46,7 @@ export function createUserThunk(userData) {
 
 export function setUserDataThunk(userId) {
   return async (dispatch) => {
-    dispatch(loading(true));
     const userData = await usersAPI.getUserById(userId);
-    dispatch(loading(false));
     dispatch(setUserData({ userId, ...userData }));
   };
 }

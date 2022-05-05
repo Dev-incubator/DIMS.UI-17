@@ -1,6 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useContext } from 'react';
 import { Container } from 'react-bootstrap';
 import { ErrorBoundary } from '../Hooks/ErrorBoundary';
+import { StoreContext } from '../Hooks/useStore';
 import { Header } from '../components/Common/Header/Header';
 import { Footer } from '../components/Common/Footer/Footer';
 import { AdminRoutes } from '../Routes/AdminRoutes';
@@ -10,38 +11,27 @@ import { AuthContext } from '../Hooks/useAuth';
 import { Login } from '../components/Pages/Login/Login';
 import style from './App.module.css';
 import { Loader } from '../components/Common/Loader/Loader';
-import { getIsFetching } from '../store/selectors/selectors';
 
 export function App() {
-  const isFetching = useSelector(getIsFetching);
+  const { isAuth, role } = useContext(AuthContext);
+  const { isFetching } = useContext(StoreContext);
 
   return (
-    <>
+    <Container className={style.container}>
       {isFetching ? <Loader /> : null}
-
-      <Container className={style.container}>
-        <AuthContext.Consumer>
-          {({ isAuth, role }) => {
-            if (isAuth) {
-              return (
-                <>
-                  <Header />
-                  <ErrorBoundary>
-                    <main>{role === USER_ROLES.user ? <MemberRoutes /> : <AdminRoutes />}</main>
-                  </ErrorBoundary>
-                </>
-              );
-            }
-
-            return (
-              <main>
-                <Login />
-              </main>
-            );
-          }}
-        </AuthContext.Consumer>
-        <Footer />
-      </Container>
-    </>
+      {isAuth ? (
+        <>
+          <Header />
+          <ErrorBoundary>
+            <main>{role === USER_ROLES.user ? <MemberRoutes /> : <AdminRoutes />}</main>
+          </ErrorBoundary>
+        </>
+      ) : (
+        <main>
+          <Login />
+        </main>
+      )}
+      <Footer />
+    </Container>
   );
 }

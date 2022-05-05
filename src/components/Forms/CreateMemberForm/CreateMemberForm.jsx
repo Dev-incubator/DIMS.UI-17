@@ -15,7 +15,7 @@ export class CreateMemberForm extends React.PureComponent {
     this.state = { ...initialStateCreatMember, formErrors: FORM_MEMBER_ERRORS };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { userData, isEditMode } = this.props;
 
     if (isEditMode) {
