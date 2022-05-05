@@ -7,6 +7,7 @@ export function Logout() {
   function showUser() {
     return <span>{`${firstName}: ${role} `}</span>;
   }
+
   return (
     <>
       {showUser()}
