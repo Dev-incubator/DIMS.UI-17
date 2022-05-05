@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { Container } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { ErrorBoundary } from '../Hooks/ErrorBoundary';
 import { StoreContext } from '../Hooks/useStore';
 import { Header } from '../components/Common/Header/Header';
@@ -11,14 +12,16 @@ import { AuthContext } from '../Hooks/useAuth';
 import { Login } from '../components/Pages/Login/Login';
 import style from './App.module.css';
 import { Loader } from '../components/Common/Loader/Loader';
+import { getIsFetching } from '../store/selectors/selectors';
 
 export function App() {
   const { isAuth, role } = useContext(AuthContext);
   const { isFetching } = useContext(StoreContext);
+  const isFetchingRedux = useSelector(getIsFetching);
 
   return (
     <Container className={style.container}>
-      {isFetching ? <Loader /> : null}
+      {isFetching || isFetchingRedux ? <Loader /> : null}
       {isAuth ? (
         <>
           <Header />
