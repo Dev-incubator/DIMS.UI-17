@@ -94,11 +94,11 @@ export const authAPI = {
     }
   },
 
-  logout() {
+  async logout() {
     if (isRestAPIMode()) {
       localStorage.removeItem('token');
     } else {
-      logout();
+      await logout();
     }
   },
 
