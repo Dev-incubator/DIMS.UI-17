@@ -44,7 +44,7 @@ export function Header() {
                     </div>
                     <div className={style.rightContent}>
                       <SettingsLogo className={style.settings} onClick={toggleSettings} />
-                      <Link to='/login'>{isAuth ? <Logout /> : `Login`}</Link>
+                      {isAuth ? <Logout /> : `Login`}
                       {isShowSettings ? <SettingsPge /> : null}
                     </div>
                   </div>
