@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
+import style from './FormField.module.css';
 
 export function FormField({ onChange, value, name, title, type = 'text', options, isReadOnlyMode, errors }) {
   return (
     <Form.Group>
-      <Form.Label>{title}</Form.Label>
+      <Form.Label>
+        {title}
+        <span className={style.errors}>{errors}</span>
+      </Form.Label>
       {type === 'select' ? (
-        <Form.Select name={name} onChange={onChange} value={value} disabled={isReadOnlyMode}>
+        <Form.Select name={name} onChange={onChange} value={options[0]} disabled={isReadOnlyMode}>
           {options.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -24,7 +28,6 @@ export function FormField({ onChange, value, name, title, type = 'text', options
           isInvalid={errors}
         />
       )}
-      <Form.Control.Feedback type='invalid'>{errors}</Form.Control.Feedback>
     </Form.Group>
   );
 }

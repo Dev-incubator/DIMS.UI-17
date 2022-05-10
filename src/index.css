@@ -38,7 +38,6 @@
   --bg-color-delete-button: #f76867;
   --bg-color-save-button: #09b43a;
   --bg-color-secondery-button: #272b33;
-
 }
 [data-theme='dark-dimmed'] {
   --bg-color-primary: #22272e;
