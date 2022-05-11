@@ -62,9 +62,7 @@ export function editTaskThunk(taskId, data) {
 
 export function getTaskThunk(taskId) {
   return async (dispatch) => {
-    dispatch(loading(true));
     const taskData = await tasksAPI.getTask(taskId);
-    dispatch(loading(false));
     dispatch(getTask({ taskId, ...taskData }));
   };
 }

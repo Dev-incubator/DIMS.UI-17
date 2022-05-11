@@ -18,6 +18,7 @@ import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
 import { getAge } from '../../../shared/helpers/getAge/getAge';
+import { Loader } from '../../Common/Loader/Loader';
 
 class Members extends React.PureComponent {
   constructor(props) {
@@ -118,7 +119,7 @@ class Members extends React.PureComponent {
 
   render() {
     const { isUserModalOpen, isDeleteModalOpen, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
-    const { users } = this.props;
+    const { users, isFetching } = this.props;
     const userData = users.find((user) => user.userId === selectedUserId);
 
     const items = users.map((user, index) => {
@@ -152,7 +153,9 @@ class Members extends React.PureComponent {
       );
     });
 
-    return (
+    return isFetching ? (
+      <Loader />
+    ) : (
       <>
         <PageTitle
           title={TITLES_PAGES.members}
@@ -203,6 +206,7 @@ const mapStateToProps = (state) => {
   return {
     users: state.users.users,
     userData: state.users.userData,
+    isFetching: state.loading.isFetching,
   };
 };
 
@@ -228,4 +232,5 @@ Members.propTypes = {
   createUser: propTypes.func.isRequired,
   setUserData: propTypes.func.isRequired,
   users: propTypes.arrayOf(propTypes.object).isRequired,
+  isFetching: propTypes.bool.isRequired,
 };

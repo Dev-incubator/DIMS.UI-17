@@ -17,6 +17,7 @@ import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { Table } from '../../Table/Table';
 import { TrackTableRow } from '../../Table/TrackTableRow';
 import { AuthContext } from '../../../Hooks/useAuth';
+import { Loader } from '../../Common/Loader/Loader';
 
 class Tracks extends React.PureComponent {
   constructor(props) {
@@ -110,7 +111,7 @@ class Tracks extends React.PureComponent {
 
   render() {
     const { isTrackModalOpen, taskId, isDeleteModalOpen, userId, isEditMode, selectedTrack } = this.state;
-    const { tasks } = this.props;
+    const { tasks, isFetching } = this.props;
     const task = tasks.find((item) => item.taskId === taskId);
     const items = task
       ? task.tracks.map((item, index) => {
@@ -139,7 +140,9 @@ class Tracks extends React.PureComponent {
         })
       : [];
 
-    return (
+    return isFetching ? (
+      <Loader />
+    ) : (
       <>
         <PageTitle
           title={TITLES_PAGES.track}
@@ -192,6 +195,7 @@ Tracks.contextType = AuthContext;
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.tasks,
+    isFetching: state.loading.isFetching,
   };
 };
 
@@ -214,6 +218,7 @@ Tracks.propTypes = {
   updateTrack: propTypes.func.isRequired,
   tasks: propTypes.arrayOf(propTypes.object).isRequired,
   match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
+  isFetching: propTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tracks);

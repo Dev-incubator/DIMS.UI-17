@@ -8,6 +8,7 @@ import { PageTitle } from '../../PageTitle/PageTitle';
 import { Table } from '../../Table/Table';
 import { UserTasksTableRow } from '../../Table/UserTasksTableRow';
 import { AuthContext } from '../../../Hooks/useAuth';
+import { Loader } from '../../Common/Loader/Loader';
 
 class UserTasks extends React.PureComponent {
   async componentDidMount() {
@@ -17,7 +18,7 @@ class UserTasks extends React.PureComponent {
   }
 
   render() {
-    const { tasks } = this.props;
+    const { tasks, isFetching } = this.props;
     const items = tasks.map((item, index) => {
       return (
         <UserTasksTableRow
@@ -33,7 +34,9 @@ class UserTasks extends React.PureComponent {
       );
     });
 
-    return (
+    return isFetching ? (
+      <Loader />
+    ) : (
       <>
         <PageTitle title={TITLES_PAGES.userTasks} isContainsButton={false} />
         <Table title={TABLE_TITLES.userTasks} items={items} />
@@ -45,6 +48,7 @@ class UserTasks extends React.PureComponent {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.tasks,
+    isFetching: state.loading.isFetching,
   };
 };
 
@@ -60,6 +64,7 @@ const mapDispatchToProps = (dispatch) => {
 UserTasks.propTypes = {
   tasks: propTypes.arrayOf(propTypes.object).isRequired,
   getUserTasks: propTypes.func.isRequired,
+  isFetching: propTypes.bool.isRequired,
 };
 
 UserTasks.contextType = AuthContext;

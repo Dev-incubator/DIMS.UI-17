@@ -18,6 +18,7 @@ import {
   removeTaskThunk,
 } from '../../../store/actionCreators/tasksActionCreators';
 import { getUsersThunk } from '../../../store/actionCreators/usersActionCreators';
+import { Loader } from '../../Common/Loader/Loader';
 
 class AllTasks extends React.PureComponent {
   constructor(props) {
@@ -116,7 +117,7 @@ class AllTasks extends React.PureComponent {
 
   render() {
     const { isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode } = this.state;
-    const { tasks, users } = this.props;
+    const { tasks, users, isFetching } = this.props;
     const taskData = tasks.find((item) => item.taskId === selectedTaskId);
     const items = tasks.map((item, index) => {
       return (
@@ -144,7 +145,9 @@ class AllTasks extends React.PureComponent {
       );
     });
 
-    return (
+    return isFetching ? (
+      <Loader />
+    ) : (
       <>
         <PageTitle
           title={TITLES_PAGES.allTasks}
@@ -196,6 +199,7 @@ const mapStateToProps = (state) => {
     tasks: state.tasks.tasks,
     users: state.users.users,
     taskData: state.tasks.taskData,
+    isFetching: state.loading.isFetching,
   };
 };
 
@@ -222,6 +226,7 @@ AllTasks.propTypes = {
   getTask: propTypes.func.isRequired,
   tasks: propTypes.arrayOf(propTypes.object).isRequired,
   users: propTypes.arrayOf(propTypes.object).isRequired,
+  isFetching: propTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllTasks);
