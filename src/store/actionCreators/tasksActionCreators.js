@@ -26,8 +26,8 @@ export function getTasksThunk() {
   return async (dispatch) => {
     dispatch(loading(true));
     const tasks = await tasksAPI.getAllTasks();
-    dispatch(loading(false));
     dispatch(getTasks(tasks));
+    dispatch(loading(false));
   };
 }
 
@@ -35,8 +35,8 @@ export function removeTaskThunk(taskId) {
   return async (dispatch) => {
     dispatch(loading(true));
     await removeTask(taskId);
-    dispatch(loading(false));
     dispatch(deleteTask(taskId));
+    dispatch(loading(false));
   };
 }
 
@@ -46,8 +46,8 @@ export function createTaskThunk(data) {
     const taskId = await tasksAPI.createTask(data);
     dispatch(createNewTask(taskId, data));
     const tasks = await tasksAPI.getAllTasks();
-    dispatch(loading(false));
     dispatch(getTasks(tasks));
+    dispatch(loading(false));
   };
 }
 
@@ -55,8 +55,8 @@ export function editTaskThunk(taskId, data) {
   return async (dispatch) => {
     dispatch(loading(true));
     await updateTask(taskId, data);
-    dispatch(loading(false));
     dispatch(editTask(taskId, data));
+    dispatch(loading(false));
   };
 }
 
@@ -71,8 +71,8 @@ export function getUserTasksThunk(userId) {
   return async (dispatch) => {
     dispatch(loading(true));
     const userTasks = await getMemberTasks(userId);
-    dispatch(loading(false));
     dispatch(getUserTasks(userTasks, userId));
+    dispatch(loading(false));
   };
 }
 
@@ -80,7 +80,7 @@ export function updateTaskStatusThunk(taskId, userId, newStatus) {
   return async (dispatch) => {
     dispatch(loading(true));
     await changeTaskStatus(taskId, userId, newStatus);
-    dispatch(loading(false));
     dispatch(updateTaskStatuses(taskId, newStatus));
+    dispatch(loading(false));
   };
 }

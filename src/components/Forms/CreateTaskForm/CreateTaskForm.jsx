@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 import { initialStateTasks } from '../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS, FORM_TASK_ERRORS } from '../../../shared/constants';
+import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
 import { FormField } from '../FormField/FormField';
@@ -69,22 +69,20 @@ export class CreateTaskForm extends React.PureComponent {
           : { id: item.name, status: 'Active' },
       );
     const assignedUsers = selectedUsers.map((item) => (isRestAPIMode() ? Number(item.id) : item.id));
-
-    const isError = formErrors.filter((item) => item.error !== '');
-    console.log(isError);
-    if (isError.length) {
-      console.log('errr');
-      FORM_TASK_ERRORS.forEach((item) => {
+    const isError = formErrors
+      .map((item) => {
         const { name, error } = validateFormField(item.name, data[item.name]);
         this.setState((prevState) => ({
           ...prevState,
           formErrors: prevState.formErrors.map((field) => (field.name === name ? { ...field, error } : field)),
         }));
-      });
-    } else if (isEditMode) {
-      console.log('========');
+
+        return error;
+      })
+      .filter((error) => error);
+    if (isEditMode && !isError.length) {
       updateTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
-    } else {
+    } else if (!isError.length) {
       createTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
     }
   };

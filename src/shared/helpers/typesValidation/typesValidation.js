@@ -1,4 +1,4 @@
-export function typesValidation(data) {
+export function userTypesValidation(data) {
   return {
     ...data,
     roles: isString(data.roles) ? [data.roles] : data.roles,

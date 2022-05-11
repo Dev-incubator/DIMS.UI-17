@@ -11,8 +11,8 @@ export function getUsersThunk() {
   return async (dispatch) => {
     dispatch(loading(true));
     const users = await usersAPI.getUsers();
-    dispatch(loading(false));
     dispatch(getUsers(users));
+    dispatch(loading(false));
   };
 }
 
@@ -20,8 +20,8 @@ export function removeUserThunk(userId) {
   return async (dispatch) => {
     dispatch(loading(true));
     await usersAPI.removeUser(userId);
-    dispatch(loading(false));
     dispatch(removeUser(userId));
+    dispatch(loading(false));
   };
 }
 
@@ -29,8 +29,8 @@ export function editUserThunk(userId, userData) {
   return async (dispatch) => {
     dispatch(loading(true));
     await usersAPI.updateUser(userId, userData);
-    dispatch(loading(false));
     dispatch(editUserData(userId, userData));
+    dispatch(loading(false));
   };
 }
 
@@ -39,8 +39,8 @@ export function createUserThunk(userData) {
     dispatch(loading(true));
     await usersAPI.createUser(userData);
     const users = await usersAPI.getUsers();
-    dispatch(loading(false));
     dispatch(getUsers(users));
+    dispatch(loading(false));
   };
 }
 

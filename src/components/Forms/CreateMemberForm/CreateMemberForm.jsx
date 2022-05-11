@@ -7,7 +7,7 @@ import { Button } from '../../Buttons/Button/Button';
 import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
-import { typesValidation } from '../../../shared/helpers/typesValidation/typesValidation';
+import { userTypesValidation } from '../../../shared/helpers/typesValidation/typesValidation';
 
 export class CreateMemberForm extends React.PureComponent {
   constructor(props) {
@@ -57,9 +57,9 @@ export class CreateMemberForm extends React.PureComponent {
       })
       .filter((error) => error);
     if (isEditMode && !isError.length) {
-      await editUserDataHandler(typesValidation(data));
+      await editUserDataHandler(userTypesValidation(data));
     } else if (!isError.length) {
-      await createUserHandler(typesValidation(data));
+      await createUserHandler(userTypesValidation(data));
     }
   };
 
