@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 import propTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container } from 'react-bootstrap';
@@ -36,9 +37,10 @@ class App extends React.PureComponent {
               }
 
               return (
-                <main>
+                <>
+                  <Redirect to='/login' />
                   <Login />
-                </main>
+                </>
               );
             }}
           </AuthContext.Consumer>

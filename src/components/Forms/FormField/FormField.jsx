@@ -10,7 +10,7 @@ export function FormField({ onChange, value, name, title, type = 'text', options
         <span className={style.errors}>{errors}</span>
       </Form.Label>
       {type === 'select' ? (
-        <Form.Select name={name} onChange={onChange} value={options[0]} disabled={isReadOnlyMode}>
+        <Form.Select name={name} onChange={onChange} value={value} disabled={isReadOnlyMode}>
           {options.map((item) => (
             <option key={item} value={item}>
               {item}

@@ -46,7 +46,7 @@ class AuthProvider extends React.Component {
 
   logout = async () => {
     await authAPI.logout();
-    this.setState((prevState) => ({ ...prevState, ...initialStateAuth, apiMode: localStorage.getItem('apiMode') }));
+    this.setState({ ...initialStateAuth, apiMode: localStorage.getItem('apiMode') });
   };
 
   login = async (email, password) => {
