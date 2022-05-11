@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { Form } from 'react-bootstrap';
 import { initialStateTasks } from '../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
+import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS, FORM_TASK_ERRORS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
 import { FormField } from '../FormField/FormField';
@@ -70,7 +70,19 @@ export class CreateTaskForm extends React.PureComponent {
       );
     const assignedUsers = selectedUsers.map((item) => (isRestAPIMode() ? Number(item.id) : item.id));
 
-    if (isEditMode) {
+    const isError = formErrors.filter((item) => item.error !== '');
+    console.log(isError);
+    if (isError.length) {
+      console.log('errr');
+      FORM_TASK_ERRORS.forEach((item) => {
+        const { name, error } = validateFormField(item.name, data[item.name]);
+        this.setState((prevState) => ({
+          ...prevState,
+          formErrors: prevState.formErrors.map((field) => (field.name === name ? { ...field, error } : field)),
+        }));
+      });
+    } else if (isEditMode) {
+      console.log('========');
       updateTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
     } else {
       createTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
@@ -81,7 +93,7 @@ export class CreateTaskForm extends React.PureComponent {
     const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
     const { formErrors } = this.state;
     const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
-    const isError = formErrors.filter((item) => item.error !== '');
+    // const isError = formErrors.filter((item) => item.error !== '');
     const assignedUsers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
@@ -128,7 +140,7 @@ export class CreateTaskForm extends React.PureComponent {
         <p className={style.error}>{checkboxError}</p>
 
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} />}
 
           <Button
             onClick={toggleModalHandler}
