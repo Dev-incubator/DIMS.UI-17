@@ -1,12 +1,25 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import { Form } from 'react-bootstrap';
+import style from './FormField.module.css';
+import eye from '../../../assets/img/eye.png';
 
 export function FormField({ onChange, value, name, title, type = 'text', options, isReadOnlyMode, errors }) {
+  const inputRef = useRef(null);
+
+  const toggleShowPassword = () => {
+    const nodeType = inputRef.current.type;
+    inputRef.current.type = nodeType === 'text' ? 'password' : 'text';
+  };
+
   return (
     <Form.Group>
-      <Form.Label>{title}</Form.Label>
+      <Form.Label>
+        {title}
+        <span className={style.errors}>{errors}</span>
+      </Form.Label>
       {type === 'select' ? (
-        <Form.Select name={name} onChange={onChange} value={value}>
+        <Form.Select name={name} onChange={onChange} value={value} disabled={isReadOnlyMode}>
           {options.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -14,17 +27,24 @@ export function FormField({ onChange, value, name, title, type = 'text', options
           ))}
         </Form.Select>
       ) : (
-        <Form.Control
-          onChange={onChange}
-          value={value}
-          type={type}
-          name={name}
-          id={name}
-          readOnly={isReadOnlyMode}
-          isInvalid={errors}
-        />
+        <div className={style.inputWrapper}>
+          {type === 'password' && (
+            <img src={eye} alt='Show password' role='none' onClick={toggleShowPassword} className={style.showPass} />
+          )}
+
+          <Form.Control
+            onChange={onChange}
+            value={value}
+            type={type}
+            name={name}
+            id={name}
+            readOnly={isReadOnlyMode}
+            isInvalid={errors}
+            ref={inputRef}
+            className={style.formControl}
+          />
+        </div>
       )}
-      <Form.Control.Feedback type='invalid'>{errors}</Form.Control.Feedback>
     </Form.Group>
   );
 }
@@ -34,7 +54,7 @@ FormField.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
   type: PropTypes.string,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.string)]).isRequired,
   options: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
   isReadOnlyMode: PropTypes.bool,
   errors: PropTypes.string,

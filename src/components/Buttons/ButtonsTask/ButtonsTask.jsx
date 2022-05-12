@@ -29,12 +29,9 @@ export function ButtonsTask({
 }
 
 ButtonsTask.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   selectTaskHandler: PropTypes.func.isRequired,
   toggleModalDeleteHandler: PropTypes.func.isRequired,
   showTaskDataHandler: PropTypes.func.isRequired,
   toggleTaskModalHandler: PropTypes.func.isRequired,
-};
-ButtonsTask.defaultProps = {
-  id: '0',
 };

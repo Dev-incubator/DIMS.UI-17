@@ -1,0 +1,10 @@
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 99999999999;
+}
+.loader > span {
+  width: 5rem;
+  height: 5rem;
+}

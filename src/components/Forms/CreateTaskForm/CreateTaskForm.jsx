@@ -5,9 +5,10 @@ import { initialStateTasks } from '../../../shared/initialStates';
 import { BUTTONS_TYPES, BUTTONS_NAMES, TASK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTaskForm.module.css';
-import { getTaskData } from '../../../services/tasks-services';
 import { FormField } from '../FormField/FormField';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
+import { getFullName } from '../../../shared/helpers/getFullName/getFullName';
+import { isRestAPIMode } from '../../../services/api/api';
 
 export class CreateTaskForm extends React.PureComponent {
   constructor(props) {
@@ -57,8 +58,9 @@ export class CreateTaskForm extends React.PureComponent {
 
   handleSubmit = async (e) => {
     e.preventDefault();
-    const { isEditMode, id, createTaskHandler, updateTaskHandler } = this.props;
-    const { statuses } = isEditMode ? await getTaskData(id) : [];
+    const { isEditMode, createTaskHandler, updateTaskHandler, taskData } = this.props;
+    const { formErrors, ...data } = this.state;
+    const { statuses } = isEditMode ? taskData : [];
     const selectedUsers = this.myRef
       .filter((item) => item.checked)
       .map((item) =>
@@ -66,12 +68,22 @@ export class CreateTaskForm extends React.PureComponent {
           ? statuses.find((elem) => elem.id === item.name) || { id: item.name, status: 'Active' }
           : { id: item.name, status: 'Active' },
       );
-    const subscribers = selectedUsers.map((item) => item.id);
+    const assignedUsers = selectedUsers.map((item) => (isRestAPIMode() ? Number(item.id) : item.id));
+    const isError = formErrors
+      .map((item) => {
+        const { name, error } = validateFormField(item.name, data[item.name]);
+        this.setState((prevState) => ({
+          ...prevState,
+          formErrors: prevState.formErrors.map((field) => (field.name === name ? { ...field, error } : field)),
+        }));
 
-    if (isEditMode) {
-      updateTaskHandler({ ...this.state, statuses: [...selectedUsers], subscribers });
-    } else {
-      createTaskHandler({ ...this.state, statuses: [...selectedUsers], subscribers });
+        return error;
+      })
+      .filter((error) => error);
+    if (isEditMode && !isError.length) {
+      updateTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
+    } else if (!isError.length) {
+      createTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
     }
   };
 
@@ -79,8 +91,8 @@ export class CreateTaskForm extends React.PureComponent {
     const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
     const { formErrors } = this.state;
     const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
-    const isError = formErrors.filter((item) => item.error !== '');
-    const subscribers = !taskData ? [] : taskData.statuses.map((item) => item.id);
+    // const isError = formErrors.filter((item) => item.error !== '');
+    const assignedUsers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
       <Form className={style.wrapper}>
@@ -108,16 +120,16 @@ export class CreateTaskForm extends React.PureComponent {
         </div>
         <div className={style.userContainer}>
           {users.map((user, index) => (
-            <label className={style.users} key={user.id} htmlFor={user.id}>
-              {user.name}
+            <label className={style.users} key={user.userId} htmlFor={user.userId}>
+              {getFullName(user.firstName, user.lastName)}
               <Form.Check
                 ref={(ref) => {
                   this.myRef[index] = ref;
                 }}
                 type='checkbox'
-                name={user.id}
-                id={user.id}
-                defaultChecked={isEditMode ? subscribers.includes(user.id) : false}
+                name={user.userId}
+                id={user.userId}
+                defaultChecked={isEditMode ? assignedUsers.includes(user.userId) : false}
                 onClick={this.checkboxHandler}
               />
             </label>
@@ -126,7 +138,7 @@ export class CreateTaskForm extends React.PureComponent {
         <p className={style.error}>{checkboxError}</p>
 
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} />}
 
           <Button
             onClick={toggleModalHandler}
@@ -147,12 +159,10 @@ CreateTaskForm.propTypes = {
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([propTypes.string, propTypes.object]),
   isEditMode: propTypes.bool,
-  id: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };
 
 CreateTaskForm.defaultProps = {
   taskData: null,
   isReadOnlyMode: false,
   isEditMode: false,
-  id: null,
 };

@@ -1,24 +1,28 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { getUserTasksThunk } from '../../../store/actionCreators/tasksActionCreators';
+import {
+  createTrackThunk,
+  removeTrackThunk,
+  updateTrackThunk,
+} from '../../../store/actionCreators/tracksActionCreators';
 import { TITLES_PAGES, BUTTONS_NAMES, TABLE_TITLES, MODALTITLE_KEYS } from '../../../shared/constants';
-import { createTrack, getTracks, removeTrack, updateTracks } from '../../../services/tracks-services';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { ModalWindow } from '../../Common/Modal/Modal';
-import { getMemberTasks } from '../../../services/tasks-services';
 import { ButtonsTrack } from '../../Buttons/ButtonsTrack/ButtonsTrack';
 import { CreateTrackForm } from '../../Forms/CreateTrackForm/CreateTrackForm';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { Table } from '../../Table/Table';
 import { TrackTableRow } from '../../Table/TrackTableRow';
-import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
 import { AuthContext } from '../../../Hooks/useAuth';
+import { Loader } from '../../Common/Loader/Loader';
 
-export class Tracks extends React.PureComponent {
+class Tracks extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tracks: [],
-      userTasks: [],
       taskId: null,
       userId: null,
       selectedTrack: null,
@@ -30,89 +34,46 @@ export class Tracks extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { uid } = this.context;
+    const { userId } = this.context;
     const {
       match: {
         params: { id },
       },
     } = this.props;
-    await this.getData(id, uid);
+    await this.getData(userId);
+    this.setState((prevState) => ({ ...prevState, taskId: id, userId }));
   }
 
-  async componentDidUpdate(prevProps, prevState) {
-    const { tracks, taskId, userId, userTasks, selectedTask, selectedTrack } = this.state;
-
-    if (prevState.tracks.length > tracks.length && prevState.tracks.length) {
-      await this.getData(taskId, userId);
-      this.toggleModalDeleteHandler();
-
-      return;
-    }
-    if (
-      !compareObjects(
-        prevState.tracks.find((item) => item.id === selectedTrack),
-        tracks.find((item) => item.id === selectedTrack),
-      ) &&
-      selectedTrack
-    ) {
-      this.toggleTrackModalHandler();
-      await this.getData(taskId, userId);
-
-      return;
-    }
-    if (
-      !compareObjects(
-        prevState.userTasks.find((item) => item.id === selectedTask),
-        userTasks.find((item) => item.id === selectedTask),
-      ) &&
-      selectedTask
-    ) {
-      this.toggleTrackModalHandler();
-      await this.getData(taskId, userId);
-    }
+  async getData(userId) {
+    const { getUserTasks } = this.props;
+    await getUserTasks(userId);
   }
-
-  async getData(taskId, userId) {
-    const tracks = await getTracks(taskId, userId);
-    const userTasks = await getMemberTasks(userId);
-    this.setState({ tracks, userTasks, taskId, userId });
-  }
-
-  setTracksHandler = (tracks) => {
-    this.setState({ tracks });
-  };
 
   selectTrackHandler = (selectedTrack) => {
     this.setState({ selectedTrack });
   };
 
-  toggleModalDeleteHandler = () => {
-    this.setState((prevState) => ({ isDeleteModalOpen: !prevState.isDeleteModalOpen }));
-  };
-
   createTrackHandler = async (selectedTaskId, data) => {
-    const { userId, userTasks } = this.state;
-    const updatedTasks = userTasks.map((item) =>
-      item.id === selectedTaskId ? { ...item, statuses: [...item.statuses, data] } : item,
-    );
-    await createTrack(selectedTaskId, userId, { ...data });
-
-    this.setState({ userTasks: updatedTasks, selectedTask: selectedTaskId });
-  };
-
-  updatedTrackHandler = async (data) => {
-    const { taskId, userId, tracks } = this.state;
-    const updatedTrack = tracks.map((item) => (item.id === data.id ? data : item));
-    await updateTracks(data, taskId, userId);
-    this.setState({ tracks: updatedTrack });
+    const { createTrack } = this.props;
+    const { userId } = this.state;
+    await createTrack(selectedTaskId, { ...data, userId });
+    this.toggleModal();
   };
 
   deleteTrackHandler = async () => {
-    const { taskId, selectedTrack, tracks } = this.state;
-    const updatedTracks = tracks.filter((item) => item.id !== selectedTrack);
+    const { taskId, selectedTrack } = this.state;
+    const { removeTrack } = this.props;
 
     await removeTrack(taskId, selectedTrack);
-    this.setState({ tracks: updatedTracks });
+    this.toggleModal();
+  };
+
+  updatedTrackHandler = async (data) => {
+    const { taskId, userId } = this.state;
+    const { updateTrack } = this.props;
+
+    await updateTrack(data, taskId, userId);
+    this.toggleModal();
   };
 
   toggleTrackModalHandler = () => {
@@ -131,40 +92,57 @@ export class Tracks extends React.PureComponent {
     });
   };
 
+  toggleModalDeleteHandler = () => {
+    this.setState((prevState) => ({ isDeleteModalOpen: !prevState.isDeleteModalOpen }));
+  };
+
   turnOnEditModeHandler = () => {
     this.setState({ isEditMode: true });
   };
 
-  render() {
-    const { isTrackModalOpen, tracks, userTasks, taskId, isDeleteModalOpen, userId, isEditMode, selectedTrack } =
-      this.state;
-    const items = tracks.map((item, index) => {
-      return (
-        <TrackTableRow
-          key={item.name + index.toString()}
-          index={index}
-          name={item.name}
-          node={item.node}
-          date={item.date}
-          actions={
-            <ButtonsTrack
-              trackId={item.id}
-              setTracksHandler={this.setTracksHandler}
-              userId={userId}
-              taskId={taskId}
-              tracks={tracks}
-              userTasks={userTasks}
-              selectTrackHandler={this.selectTrackHandler}
-              toggleModalDeleteHandler={this.toggleModalDeleteHandler}
-              turnOnEditModeHandler={this.turnOnEditModeHandler}
-              toggleTrackModalHandler={this.toggleTrackModalHandler}
-            />
-          }
-        />
-      );
-    });
+  toggleModal = () => {
+    const { isTrackModalOpen, isDeleteModalOpen } = this.state;
+    if (isTrackModalOpen) {
+      this.toggleTrackModalHandler();
+    } else if (isDeleteModalOpen) {
+      this.toggleModalDeleteHandler();
+    }
+  };
 
-    return (
+  render() {
+    const { isTrackModalOpen, taskId, isDeleteModalOpen, userId, isEditMode, selectedTrack } = this.state;
+    const { tasks, isFetching } = this.props;
+    const task = tasks.find((item) => item.taskId === taskId);
+    const items = task
+      ? task.tracks.map((item, index) => {
+          return (
+            <TrackTableRow
+              key={item.name + index.toString()}
+              index={index}
+              name={item.name}
+              node={item.node}
+              date={item.date}
+              actions={
+                <ButtonsTrack
+                  trackId={item.id}
+                  userId={userId}
+                  taskId={taskId}
+                  tracks={task.tracks}
+                  userTasks={tasks}
+                  selectTrackHandler={this.selectTrackHandler}
+                  toggleModalDeleteHandler={this.toggleModalDeleteHandler}
+                  turnOnEditModeHandler={this.turnOnEditModeHandler}
+                  toggleTrackModalHandler={this.toggleTrackModalHandler}
+                />
+              }
+            />
+          );
+        })
+      : [];
+
+    return isFetching ? (
+      <Loader />
+    ) : (
       <>
         <PageTitle
           title={TITLES_PAGES.track}
@@ -183,13 +161,12 @@ export class Tracks extends React.PureComponent {
             <CreateTrackForm
               taskId={taskId}
               userId={userId}
-              tracks={tracks}
+              tracks={task?.tracks}
               trackId={selectedTrack}
               createTrackHandler={this.createTrackHandler}
               toggleModalHandler={this.toggleTrackModalHandler}
-              setTracksHandler={this.setTracksHandler}
               updatedTrackHandler={this.updatedTrackHandler}
-              userTasks={userTasks}
+              userTasks={tasks}
               isEditMode={isEditMode}
             />
           </ModalWindow>
@@ -215,6 +192,33 @@ export class Tracks extends React.PureComponent {
 
 Tracks.contextType = AuthContext;
 
-Tracks.propTypes = {
-  match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks.tasks,
+    isFetching: state.loading.isFetching,
+  };
 };
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {
+      getUserTasks: getUserTasksThunk,
+      createTrack: createTrackThunk,
+      removeTrack: removeTrackThunk,
+      updateTrack: updateTrackThunk,
+    },
+    dispatch,
+  );
+};
+
+Tracks.propTypes = {
+  getUserTasks: propTypes.func.isRequired,
+  createTrack: propTypes.func.isRequired,
+  removeTrack: propTypes.func.isRequired,
+  updateTrack: propTypes.func.isRequired,
+  tasks: propTypes.arrayOf(propTypes.object).isRequired,
+  match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
+  isFetching: propTypes.bool.isRequired,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tracks);

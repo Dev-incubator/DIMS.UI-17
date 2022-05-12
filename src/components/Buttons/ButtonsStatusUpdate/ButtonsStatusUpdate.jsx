@@ -11,7 +11,12 @@ export function ButtonsStatusUpdate({ status, succesStatusHandler, activeStatusH
         <Button title={BUTTONS_NAMES.active} stylingType={BUTTONS_TYPES.typePrimary} onClick={activeStatusHandler} />
       )}
 
-      <Button title={BUTTONS_NAMES.fail} stylingType={BUTTONS_TYPES.typeDelete} onClick={failStatusHandler} />
+      <Button
+        title={BUTTONS_NAMES.fail}
+        stylingType={BUTTONS_TYPES.typeDelete}
+        onClick={failStatusHandler}
+        disabled={status === STATUS_KEYS.fail}
+      />
     </>
   );
 }

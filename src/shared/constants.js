@@ -1,8 +1,8 @@
 import { getCurrentYear } from './helpers/getCurrentYear/getCurrentYear';
 
-export const SEX_OPTIONS_KEYS = ['Male', 'Women'];
-export const DIRECTIONS_OPTIONS_KEYS = ['Java', 'Frontend'];
-export const ROLE_OPTIONS_KEYS = ['admin', 'mentor', 'member'];
+export const SEX_OPTIONS_KEYS = ['male', 'female'];
+export const DIRECTIONS_OPTIONS_KEYS = ['React', '.Net', 'Angular', 'PHP', 'Java'];
+export const ROLE_OPTIONS_KEYS = ['admin', 'mentor', 'user'];
 
 export const TITLES_PAGES = {
   members: 'Members',
@@ -46,7 +46,7 @@ export const TABLE_TITLES = {
 export const USER_ROLES = {
   admin: 'admin',
   mentor: 'mentor',
-  member: 'member',
+  user: 'user',
 };
 
 export const PAGES_KEYS = {
@@ -74,21 +74,21 @@ export const MODALTITLE_KEYS = {
 };
 
 export const USER_FIELDS_KEYS = [
-  { name: 'name', title: 'Name:', type: 'text' },
+  { name: 'firstName', title: 'Name:', type: 'text' },
   { name: 'lastName', title: 'Last name:', type: 'text' },
   { name: 'email', title: 'Email:', type: 'text' },
-  { name: 'direction', title: 'Direction:', type: 'select', options: DIRECTIONS_OPTIONS_KEYS },
+  { name: 'directionName', title: 'Direction:', type: 'select', options: DIRECTIONS_OPTIONS_KEYS },
   { name: 'sex', title: 'Sex:', type: 'select', options: SEX_OPTIONS_KEYS },
-  { name: 'role', title: 'Role:', type: 'select', options: ROLE_OPTIONS_KEYS },
+  { name: 'roles', title: 'Role:', type: 'select', options: ROLE_OPTIONS_KEYS },
   { name: 'password', title: 'Password:', type: 'password' },
-  { name: 'confirmPassword', title: 'Confirm password:', type: 'password' },
+  { name: 'repeatPassword', title: 'Confirm password:', type: 'password' },
   { name: 'birthDate', title: 'Date of Birth:', type: 'date' },
   { name: 'address', title: 'Address:', type: 'text' },
-  { name: 'phone', title: 'Mobile phone:', type: 'text' },
+  { name: 'mobilePhone', title: 'Mobile phone:', type: 'text' },
   { name: 'skype', title: 'Skype:', type: 'text' },
   { name: 'startDate', title: 'Start date:', type: 'date' },
   { name: 'education', title: 'Education:', type: 'text' },
-  { name: 'universityAverageAcore', title: 'University average score:', type: 'text' },
+  { name: 'universityAverageScore', title: 'University average score:', type: 'text' },
   { name: 'mathScore', title: 'Math score:', type: 'text' },
 ];
 
@@ -123,23 +123,21 @@ export const LINKS_HEADER_MENU = [
     activeClassName: 'selected',
     to: '/tasks',
     name: 'Tasks',
-    access: 'member',
+    access: 'user',
   },
 ];
 
 export const FORM_MEMBER_ERRORS = [
-  { name: 'name', error: '', isValid: false },
-  { name: 'lastName', error: '', isValid: false },
-  { name: 'email', error: '', isValid: false },
-  { name: 'password', error: '', isValid: false },
-  { name: 'confirmPassword', error: '', isValid: false },
-  { name: 'birthDate', error: '', isValid: false },
-  { name: 'address', error: '', isValid: false },
-  { name: 'phone', error: '', isValid: false },
-  { name: 'startDate', error: '', isValid: false },
-  { name: 'education', error: '', isValid: false },
-  { name: 'universityAverageAcore', error: '', isValid: false },
-  { name: 'mathScore', error: '', isValid: false },
+  { name: 'firstName', error: null },
+  { name: 'email', error: null },
+  { name: 'password', error: null },
+  { name: 'repeatPassword', error: null },
+  { name: 'birthDate', error: null },
+  { name: 'address', error: null },
+  { name: 'mobilePhone', error: null },
+  { name: 'startDate', error: null },
+  { name: 'universityAverageScore', error: null },
+  { name: 'mathScore', error: null },
 ];
 
 export const FORM_TASK_ERRORS = [

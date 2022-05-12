@@ -1,18 +1,22 @@
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../Hooks/useAuth';
 import { Button } from '../../Buttons/Button/Button';
+import style from './Logout.module.css';
 
 export function Logout() {
   return (
     <AuthContext.Consumer>
-      {({ name, role, logoutHandler }) => {
+      {({ firstName, role, logoutHandler }) => {
         function showUser() {
-          return <span>{`${name}: ${role} `}</span>;
+          return <span className={style.user}>{`${firstName}: ${role} `}</span>;
         }
 
         return (
           <>
             {showUser()}
-            <Button type='button' title='Logout' onClick={logoutHandler} />
+            <Link to='/login'>
+              <Button type='button' title='Logout' onClick={logoutHandler} />
+            </Link>
           </>
         );
       }}

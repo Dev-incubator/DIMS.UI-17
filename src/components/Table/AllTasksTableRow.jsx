@@ -26,10 +26,6 @@ AllTasksTableRow.propTypes = {
   startDate: PropTypes.string.isRequired,
   deadlineDate: PropTypes.string.isRequired,
   action: PropTypes.node.isRequired,
-  id: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
+  id: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.number]).isRequired,
   linkPath: PropTypes.string.isRequired,
-};
-
-AllTasksTableRow.defaultProps = {
-  id: null,
 };

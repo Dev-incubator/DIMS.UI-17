@@ -1,4 +1,11 @@
-import { FORM_MEMBER_ERRORS, FORM_TASK_ERRORS, FORM_TRACKS_ERRORS } from './constants';
+import {
+  DIRECTIONS_OPTIONS_KEYS,
+  FORM_MEMBER_ERRORS,
+  FORM_TASK_ERRORS,
+  FORM_TRACKS_ERRORS,
+  ROLE_OPTIONS_KEYS,
+  SEX_OPTIONS_KEYS,
+} from './constants';
 
 export const initialStateTasks = {
   name: '',
@@ -6,26 +13,27 @@ export const initialStateTasks = {
   startDate: '',
   deadlineDate: '',
   statuses: [],
-  subscribers: [],
+  tracks: [],
+  assignedUsers: [],
   formErrors: FORM_TASK_ERRORS,
 };
 
 export const initialStateCreatMember = {
-  name: '',
+  firstName: '',
   lastName: '',
   email: '',
-  sex: 'male',
-  role: 'member',
+  sex: SEX_OPTIONS_KEYS[0],
+  roles: ROLE_OPTIONS_KEYS[0],
   password: '',
-  confirmPassword: '',
-  direction: 'JAVA',
+  directionName: DIRECTIONS_OPTIONS_KEYS[0],
+  repeatPassword: '',
   birthDate: '',
   address: '',
-  phone: '',
+  mobilePhone: '',
   skype: '',
   startDate: '',
   education: '',
-  universityAverageAcore: '',
+  universityAverageScore: '',
   mathScore: '',
   formErrors: FORM_MEMBER_ERRORS,
 };
@@ -40,9 +48,10 @@ export const initialStateTrack = {
 };
 
 export const initialStateAuth = {
-  name: '',
+  firstName: '',
   role: '',
-  uid: '',
+  userId: '',
   isAuth: false,
+  apiMode: 'restAPI',
   error: '',
 };

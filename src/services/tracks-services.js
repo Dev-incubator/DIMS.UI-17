@@ -16,11 +16,11 @@ export async function getTracks(taskId, userId) {
   }
 }
 
-export async function createTrack(taskId, userId, data) {
+export async function createTrack(taskId, data) {
   try {
     const taskRef = doc(db, 'tasks', taskId);
     await updateDoc(taskRef, {
-      tracks: arrayUnion({ ...data, userId }),
+      tracks: arrayUnion(data),
     });
   } catch (error) {
     console.error(error);
@@ -42,7 +42,7 @@ export async function removeTrack(taskId, trackId) {
 export async function getUserTracks(userId) {
   try {
     const tasksRef = collection(db, 'tasks');
-    const tasksQuery = query(tasksRef, where('subscribers', 'array-contains', userId));
+    const tasksQuery = query(tasksRef, where('assignedUsers', 'array-contains', userId));
     const querySnapshot = await getDocs(tasksQuery);
     const tracks = querySnapshot.docs
       .map((item) => item.data())

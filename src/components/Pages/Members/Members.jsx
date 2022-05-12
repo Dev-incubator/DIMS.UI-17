@@ -7,22 +7,23 @@ import {
   editUserThunk,
   getUsersThunk,
   removeUserThunk,
+  setUserDataThunk,
 } from '../../../store/actionCreators/usersActionCreators';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { ModalWindow } from '../../Common/Modal/Modal';
-import { getUserData } from '../../../services/users-services ';
 import { ButtonsAdminMemberPage } from '../../Buttons/ButtonsAdmin/ButtonsAdmin';
 import { CreateMemberForm } from '../../Forms/CreateMemberForm/CreateMemberForm';
 import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
+import { getAge } from '../../../shared/helpers/getAge/getAge';
+import { Loader } from '../../Common/Loader/Loader';
 
 class Members extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      userData: null,
       selectedUserId: null,
       isUserModalOpen: false,
       isDeleteModalOpen: false,
@@ -35,40 +36,39 @@ class Members extends React.PureComponent {
     await this.getUsers();
   }
 
-  async componentDidUpdate(prevProps) {
-    const { users } = this.props;
-    if (prevProps.users !== users) {
-      this.toggleModal();
-    }
-  }
-
   async getUserData() {
     const { selectedUserId } = this.state;
-    const userData = await getUserData(selectedUserId);
-
-    this.setState({ userData });
+    const { setUserData } = this.props;
+    await setUserData(selectedUserId);
   }
 
   getUsers = async () => {
     const { getUsers } = this.props;
-    getUsers();
+
+    await getUsers();
   };
 
   deleteUserHandler = async () => {
     const { selectedUserId } = this.state;
     const { removeUser } = this.props;
+
     await removeUser(selectedUserId);
+    this.toggleModal();
   };
 
   createUserHandler = async (userData) => {
     const { createUser } = this.props;
+
     await createUser(userData);
+    this.toggleModal();
   };
 
   editUserDataHandler = async (userData) => {
     const { selectedUserId } = this.state;
     const { editUser } = this.props;
-    editUser(selectedUserId, userData);
+
+    await editUser(selectedUserId, userData);
+    this.toggleModal();
   };
 
   selectUserHandler = async (selectedUserId) => {
@@ -118,34 +118,34 @@ class Members extends React.PureComponent {
   };
 
   render() {
-    const { isUserModalOpen, isDeleteModalOpen, userData, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
-    const { users } = this.props;
-    console.log(users);
+    const { isUserModalOpen, isDeleteModalOpen, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
+    const { users, isFetching } = this.props;
+    const userData = users.find((user) => user.userId === selectedUserId);
 
     const items = users.map((user, index) => {
       const showReadOnlyModal = async () => {
-        await this.selectUserHandler(user.id);
+        await this.selectUserHandler(user.userId);
         await this.showUserDataHandler(true);
         this.toggleUserModalHandler();
       };
 
       return (
         <MembersTableRow
-          key={user.name + index.toString()}
+          key={user.firstName + index.toString()}
           index={index}
-          name={user.name}
+          firstName={user.firstName}
           lastName={user.lastName}
-          direction={user.direction}
+          directionName={user.directionName}
           education={user.education}
           startDate={user.startDate}
-          birthDate={user.birthDate}
+          birthDate={getAge(user.birthDate)}
           action={
             <ButtonsAdminMemberPage
               selectUserHandler={this.selectUserHandler}
               showUserDataHandler={this.showUserDataHandler}
               toggleModalDeleteHandler={this.toggleModalDeleteHandler}
               toggleUserModalHandler={this.toggleUserModalHandler}
-              id={user.id}
+              id={user.userId}
             />
           }
           showReadOnlyModal={showReadOnlyModal}
@@ -153,7 +153,9 @@ class Members extends React.PureComponent {
       );
     });
 
-    return (
+    return isFetching ? (
+      <Loader />
+    ) : (
       <>
         <PageTitle
           title={TITLES_PAGES.members}
@@ -203,12 +205,20 @@ class Members extends React.PureComponent {
 const mapStateToProps = (state) => {
   return {
     users: state.users.users,
+    userData: state.users.userData,
+    isFetching: state.loading.isFetching,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators(
-    { getUsers: getUsersThunk, removeUser: removeUserThunk, editUser: editUserThunk, createUser: createUserThunk },
+    {
+      getUsers: getUsersThunk,
+      removeUser: removeUserThunk,
+      editUser: editUserThunk,
+      createUser: createUserThunk,
+      setUserData: setUserDataThunk,
+    },
     dispatch,
   );
 };
@@ -220,5 +230,7 @@ Members.propTypes = {
   getUsers: propTypes.func.isRequired,
   editUser: propTypes.func.isRequired,
   createUser: propTypes.func.isRequired,
+  setUserData: propTypes.func.isRequired,
   users: propTypes.arrayOf(propTypes.object).isRequired,
+  isFetching: propTypes.bool.isRequired,
 };

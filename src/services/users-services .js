@@ -5,7 +5,7 @@ import { registerUser } from './auth-services';
 export async function getAllUsers() {
   try {
     const querySnapshot = await getDocs(collection(db, 'users'));
-    const users = querySnapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
+    const users = querySnapshot.docs.map((document) => ({ userId: document.id, ...document.data() }));
 
     return users;
   } catch (error) {

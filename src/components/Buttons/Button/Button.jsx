@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import style from './Button.module.css';
 import noop from '../../../shared/noop';
 
-export function Button({ title, onClick, stylingType, isBackButton, history, buttonType, ...restProps }) {
+export function Button({ title, onClick, stylingType, isBackButton, history, buttonType, disabled, ...restProps }) {
   const buttonBackHandler = () => {
     const { goBack } = history;
     goBack();
@@ -10,9 +10,10 @@ export function Button({ title, onClick, stylingType, isBackButton, history, but
 
   return (
     <button
-      className={style[stylingType]}
+      className={disabled ? `${style[stylingType]} ${style.disable}` : style[stylingType]}
       type='button'
       onClick={isBackButton ? buttonBackHandler : onClick}
+      disabled={disabled}
       {...restProps}
     >
       <span>{title}</span>
@@ -27,6 +28,7 @@ Button.propTypes = {
   isBackButton: PropTypes.bool,
   history: PropTypes.shape({ goBack: PropTypes.func }),
   buttonType: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 Button.defaultProps = {
@@ -35,4 +37,5 @@ Button.defaultProps = {
   isBackButton: false,
   history: {},
   buttonType: 'button',
+  disabled: false,
 };

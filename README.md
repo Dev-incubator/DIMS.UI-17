@@ -1,37 +1,55 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7744832f-1820-4384-95f5-8cb2d4baf2c2/deploy-status)](https://app.netlify.com/sites/dims-cra/deploys)
-[![codecov](https://codecov.io/gh/Dev-incubator/DIMS-cra/branch/main/graph/badge.svg?token=OGFOYAC3VK)](https://codecov.io/gh/Dev-incubator/DIMS-cra)
-[![Build Status](https://travis-ci.com/Dev-incubator/DIMS-cra.svg?branch=main)](https://travis-ci.com/Dev-incubator/DIMS-cra)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/Dev-incubator/DIMS-cra)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-![GitHub issues](https://img.shields.io/github/issues/Dev-incubator/DIMS-cra)
+<h1 align="center">Welcome to Training CMS 👋</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/Dev-incubator/DIMS-cra#readme" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+  <a href="https://github.com/Dev-incubator/DIMS-cra/graphs/commit-activity" target="_blank">
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
+  </a>
+  <a href="https://github.com/Dev-incubator/DIMS-cra/blob/master/LICENSE" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/github/license/LeoKuD/Training CMS" />
+  </a>
+</p>
 
-## Important notes ⚠️️
+> It is a task management application.
 
-### The link to principal idea of design [mockup](https://symu.co/freebies/templates-4/merkury-dashboard-psd-template/). <br/> **You do not have to follow it, just use it as a guide**
+### 🏠 [Homepage](https://gallant-mayer-81f65d.netlify.app/)
 
-### In **[wiki-ui](https://github.com/Dev-incubator/Wiki-UI)** you can find all other guides regarding project structure, plan etc.
+### ✨ [Demo](https://gallant-mayer-81f65d.netlify.app/)
 
-### Read about good commits, git workflow requirements etc. in repo [guide](https://github.com/Dev-incubator/git)
+## Install
 
-### Main scripts 📄
+```sh
+npm install
+```
 
-```bash
+## Usage
+
+```sh
   "start" - start app
   "build" - build app
-  "test" - run tests
   "test:coverage:ci:codecov" - run test and submit codecoverage to codecov
   "lint" - check your code with eslint
   "lint:fix" - fix your code with eslint
   "cm" - run commitizen to create a good commit
 ```
 
-To commit message you have to write following commands
-```bash
-   git add .
-   git commit 
+## Run tests
+
+```sh
+npm run test
 ```
-then follow commitizen prompts and write a good commit
+
+## Author
+
+👤 **Evgeniy Moroz**
+
+* Github: [@LeoKuD](https://github.com/LeoKuD)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Dev-incubator/DIMS-cra/issues). You can also take a look at the [contributing guide](https://github.com/Dev-incubator/DIMS-cra/blob/master/CONTRIBUTING.md).
 
 ### Main technologies ℹ️
 
@@ -42,25 +60,14 @@ then follow commitizen prompts and write a good commit
 - codecov with Travis CI
 - commitizen
 
-### Publish with netlify button 🚀
+## Show your support
 
-You need to have an account on [netlify](https://www.netlify.com/)
+Give a ⭐️ if this project helped you!
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Dev-incubator/DIMS-cra#CUSTOM_LOGO=https://live.staticflickr.com/65535/50695950941_526e15d2f1.jpg&DIMS_TITLE="Dims%20app")
+## 📝 License
 
-If you click this button, it’ll authenticate you in Netlify and you'll have to choose a repository name. <br/>
-Netlify will automatically create a new repo for you that looks exactly like this one. <br/>
-Next, it will build and deploy the new site on Netlify bringing you to the site dashboard when the build is completed.
+Copyright © 2022 [Evgeniy Moroz](https://github.com/LeoKuD).<br />
+This project is [MIT](https://github.com/Dev-incubator/DIMS-cra/blob/master/LICENSE) licensed.
 
-### Env variables 📝
-
- - **CUSTOM_LOGO** - here you can pass a link to your app logo
- - **DIMS_TITLE** - here you can pass your app title
-
-#### VSCode integration
-For ESLint warnings inline with your code and run formatting automatically with Prettier in VSCode, we need to install:
- - **[ESLint](https://github.com/Microsoft/vscode-eslint)** extension
- - **[Prettier](https://github.com/prettier/prettier-vscode)** extension
- - Edit **VSCode** settings.json to set up formatting on every file change or on every save
-
-#### Basic webstorm setup is in .idea 
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_

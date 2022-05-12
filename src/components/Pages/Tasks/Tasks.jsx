@@ -1,18 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import propTypes from 'prop-types';
+import { getUserTasksThunk, updateTaskStatusThunk } from '../../../store/actionCreators/tasksActionCreators';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, BUTTONS_TYPES } from '../../../shared/constants';
-import { changeTaskStatus, getMemberTasks } from '../../../services/tasks-services';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 import { Table } from '../../Table/Table';
 import { TasksTableRow } from '../../Table/TasksTableRow';
-import { compareObjects } from '../../../shared/helpers/compareObjects/compareObjects';
+import { Loader } from '../../Common/Loader/Loader';
 
-export class Tasks extends React.PureComponent {
+class Tasks extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      tasks: [],
       userId: null,
     };
     this.succesStatusHandler = this.changeStatusHandler.bind(this, BUTTONS_NAMES.success);
@@ -26,45 +27,32 @@ export class Tasks extends React.PureComponent {
         params: { id },
       },
     } = this.props;
+    this.getUserTasks(id);
     this.setState({ userId: id });
-    await this.getTasks(id);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { tasks, userId } = this.state;
-    if (!compareObjects(prevState.tasks, tasks)) {
-      this.getTasks(userId);
-    }
-  }
-
-  async getTasks(userId) {
-    const tasks = await getMemberTasks(userId);
-    this.setState({ tasks });
+  async getUserTasks(userId) {
+    const { getUserTasks } = this.props;
+    await getUserTasks(userId);
   }
 
   changeStatusHandler = async (newStatus, taskId, userId) => {
-    const updatedStatuses = await changeTaskStatus(taskId, userId, newStatus);
-    this.setState((prevState) => {
-      const tasks = prevState.tasks.map((item) => (item.id === taskId ? { ...item, statuses: updatedStatuses } : item));
-
-      return { tasks };
-    });
+    const { updateStatuses } = this.props;
+    await updateStatuses(taskId, userId, newStatus);
   };
 
   render() {
-    const { tasks, userId } = this.state;
-    const { history } = this.props;
+    const { userId } = this.state;
+    const { history, tasks, isFetching } = this.props;
     const items = tasks.map((item, index) => {
-      const statusIndex = item.statuses.findIndex((elem) => elem.id === userId);
-
       const succesStatusHandler = () => {
-        this.succesStatusHandler(item.id, userId);
+        this.succesStatusHandler(item.taskId, userId);
       };
       const activeStatusHandler = () => {
-        this.activeStatusHandler(item.id, userId);
+        this.activeStatusHandler(item.taskId, userId);
       };
       const failStatusHandler = () => {
-        this.failStatusHandler(item.id, userId);
+        this.failStatusHandler(item.taskId, userId);
       };
 
       return (
@@ -74,12 +62,12 @@ export class Tasks extends React.PureComponent {
           name={item.name}
           startDate={item.startDate}
           deadlineDate={item.deadlineDate}
-          status={item.statuses[statusIndex].status}
+          status={item.status}
           actions={
             <ButtonsStatusUpdate
               userId={userId}
-              status={item.statuses[statusIndex].status}
-              taskId={item.id}
+              status={item.status}
+              taskId={item.taskId}
               succesStatusHandler={succesStatusHandler}
               activeStatusHandler={activeStatusHandler}
               failStatusHandler={failStatusHandler}
@@ -100,12 +88,36 @@ export class Tasks extends React.PureComponent {
         />
 
         <Table title={TABLE_TITLES.currentTasks} items={items} />
+        {isFetching && <Loader />}
       </>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks.tasks,
+    isFetching: state.loading.isFetching,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    {
+      getUserTasks: getUserTasksThunk,
+      updateStatuses: updateTaskStatusThunk,
+    },
+    dispatch,
+  );
+};
+
 Tasks.propTypes = {
+  getUserTasks: propTypes.func.isRequired,
+  updateStatuses: propTypes.func.isRequired,
+  tasks: propTypes.arrayOf(propTypes.object).isRequired,
   match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
   history: propTypes.oneOfType([propTypes.func, propTypes.object, propTypes.number]).isRequired,
+  isFetching: propTypes.bool.isRequired,
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tasks);
