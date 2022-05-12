@@ -1,3 +1,16 @@
-.row {
-  display: flex;
+.errors {
+  color: red;
+  padding: 0 0.2rem;
+}
+.inputWrapper {
+  position: relative;
+}
+.showPass {
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  cursor: pointer;
+}
+.formControl {
+  background-position: right 37px center !important;
 }

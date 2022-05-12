@@ -6,7 +6,6 @@ export function validateFormField(name, value, password) {
   switch (name) {
     case 'name':
     case 'firstName':
-    case 'lastName':
       error = value.length < 3 ? 'short' : '';
       break;
     case 'email':
@@ -34,7 +33,7 @@ export function validateFormField(name, value, password) {
       break;
     case 'universityAverageScore':
     case 'mathScore':
-      error = value.match(regExpNumbers) ? '' : 'is invalid';
+      error = value.toString().match(regExpNumbers) ? '' : 'is invalid';
       break;
 
     default:

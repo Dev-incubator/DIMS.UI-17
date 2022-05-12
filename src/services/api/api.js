@@ -4,16 +4,14 @@ import { createUser, editUser, getAllUsers, getUserData, removeUserData } from '
 import { createTask, getAllTasks, getTaskData } from '../tasks-services';
 import { logout, singInEmailAndPassword } from '../auth-services';
 
+const BASE_API_URL = process.env.REACT_APP_API_DATA_BASEURL;
+
 function getToken() {
   return localStorage.getItem('token');
 }
 
 const instance = axios.create({
-  baseURL: 'https://dims-core-api.herokuapp.com/api/',
-  headers: {
-    accept: 'application/json',
-    'Content-Type': 'application/json',
-  },
+  baseURL: BASE_API_URL,
 });
 
 instance.interceptors.request.use((req) => {
@@ -96,11 +94,11 @@ export const authAPI = {
     }
   },
 
-  logout() {
+  async logout() {
     if (isRestAPIMode()) {
       localStorage.removeItem('token');
     } else {
-      logout();
+      await logout();
     }
   },
 

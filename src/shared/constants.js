@@ -129,7 +129,6 @@ export const LINKS_HEADER_MENU = [
 
 export const FORM_MEMBER_ERRORS = [
   { name: 'firstName', error: null },
-  { name: 'lastName', error: null },
   { name: 'email', error: null },
   { name: 'password', error: null },
   { name: 'repeatPassword', error: null },
@@ -137,7 +136,6 @@ export const FORM_MEMBER_ERRORS = [
   { name: 'address', error: null },
   { name: 'mobilePhone', error: null },
   { name: 'startDate', error: null },
-  { name: 'education', error: null },
   { name: 'universityAverageScore', error: null },
   { name: 'mathScore', error: null },
 ];

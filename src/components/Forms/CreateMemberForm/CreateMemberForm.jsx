@@ -2,17 +2,17 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import propTypes from 'prop-types';
 import { initialStateCreatMember } from '../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS, FORM_MEMBER_ERRORS } from '../../../shared/constants';
+import { BUTTONS_TYPES, BUTTONS_NAMES, USER_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import { FormField } from '../FormField/FormField';
 import style from './CreateMemberForm.module.css';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
-import { typeСoercion } from '../../../shared/helpers/typeСoercion/typeСoercion';
+import { userTypesValidation } from '../../../shared/helpers/typesValidation/typesValidation';
 
 export class CreateMemberForm extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { ...initialStateCreatMember, formErrors: FORM_MEMBER_ERRORS };
+    this.state = initialStateCreatMember;
   }
 
   componentDidMount() {
@@ -21,7 +21,6 @@ export class CreateMemberForm extends React.PureComponent {
     if (isEditMode) {
       this.setState({
         ...userData,
-        formErrors: FORM_MEMBER_ERRORS.map((item) => ({ ...item, error: '' })),
       });
     }
   }
@@ -46,31 +45,40 @@ export class CreateMemberForm extends React.PureComponent {
     e.preventDefault();
     const { isEditMode, createUserHandler, editUserDataHandler } = this.props;
     const { formErrors, ...data } = this.state;
-    if (isEditMode) {
-      await editUserDataHandler(typeСoercion(data));
-    } else {
-      await createUserHandler(typeСoercion(data));
+    const isError = formErrors
+      .map((item) => {
+        const { name, error } = validateFormField(item.name, data[item.name], data.password);
+        this.setState((prevState) => ({
+          ...prevState,
+          formErrors: prevState.formErrors.map((field) => (field.name === name ? { ...field, error } : field)),
+        }));
+
+        return error;
+      })
+      .filter((error) => error);
+    if (isEditMode && !isError.length) {
+      await editUserDataHandler(userTypesValidation(data));
+    } else if (!isError.length) {
+      await createUserHandler(userTypesValidation(data));
     }
   };
 
   render() {
     const { toggleModalHandler, isReadOnlyMode } = this.props;
-    const { formErrors } = this.state;
-    const isError = formErrors.filter((item) => item.error !== '');
+    const { formErrors, ...data } = this.state;
 
     return (
       <Form>
         <div className={style.section__fields}>
           {USER_FIELDS_KEYS.map((item) => {
             const { name, title, type, options } = item;
-            const { state } = this;
             const { error } = formErrors.find((field) => field.name === name) || '';
 
             return (
               <FormField
                 key={item.name}
                 onChange={this.handleChange}
-                value={state[name]}
+                value={data[name]}
                 name={name}
                 options={options}
                 type={type}
@@ -82,7 +90,7 @@ export class CreateMemberForm extends React.PureComponent {
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} />}
 
           <Button
             onClick={toggleModalHandler}

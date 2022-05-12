@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import { initialStateTrack } from '../../../shared/initialStates';
-import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS, FORM_TRACKS_ERRORS } from '../../../shared/constants';
+import { BUTTONS_TYPES, BUTTONS_NAMES, TRACK_FIELDS_KEYS } from '../../../shared/constants';
 import { Button } from '../../Buttons/Button/Button';
 import style from './CreateTrackForm.module.css';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
@@ -11,7 +11,7 @@ import { FormField } from '../FormField/FormField';
 export class CreateTrackForm extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { ...initialStateTrack, formErrors: FORM_TRACKS_ERRORS };
+    this.state = initialStateTrack;
   }
 
   componentDidMount() {
@@ -19,7 +19,7 @@ export class CreateTrackForm extends React.PureComponent {
     if (isEditMode) {
       const trackData = tracks.find((track) => track.id === trackId);
       if (isEditMode) {
-        this.setState({ ...trackData, formErrors: FORM_TRACKS_ERRORS.map((item) => ({ ...item, error: '' })) });
+        this.setState({ ...trackData });
       }
     } else {
       const tasksNames = userTasks.map((task) => task.name) || [''];
@@ -49,18 +49,28 @@ export class CreateTrackForm extends React.PureComponent {
     const { userTasks, isEditMode, createTrackHandler, updatedTrackHandler } = this.props;
     const { name, formErrors, ...data } = this.state;
     const selectedTask = userTasks.find((task) => task.name === name);
-    if (isEditMode) {
-      updatedTrackHandler({ name, ...data });
-    } else {
+    const isError = formErrors
+      .map((item) => {
+        const { name: fieldName, error } = validateFormField(item.name, data[item.name]);
+        this.setState((prevState) => ({
+          ...prevState,
+          formErrors: prevState.formErrors.map((field) => (field.name === fieldName ? { ...field, error } : field)),
+        }));
+
+        return error;
+      })
+      .filter((error) => error);
+    if (isEditMode && !isError.length) {
+      await updatedTrackHandler({ name, ...data });
+    } else if (!isError.length) {
       const id = generateId();
-      createTrackHandler(selectedTask.taskId, { ...data, name, id });
+      await createTrackHandler(selectedTask.taskId, { ...data, name, id });
     }
   };
 
   render() {
     const { toggleModalHandler, isReadOnlyMode, userTasks } = this.props;
     const { formErrors } = this.state;
-    const isError = formErrors.filter((item) => item.error !== '');
     const options = userTasks.map((task) => task.name);
 
     return (
@@ -88,7 +98,7 @@ export class CreateTrackForm extends React.PureComponent {
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
+          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} />}
 
           <Button
             onClick={toggleModalHandler}

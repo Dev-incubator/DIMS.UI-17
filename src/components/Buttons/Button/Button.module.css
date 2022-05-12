@@ -12,12 +12,17 @@
 }
 .secondary {
   background-color: var(--bg-color-secondery-button);
+  padding: 0.3rem 0.5rem;
 }
 button {
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 0.5rem;
   min-width: 100px;
   color: var(--text-color-primary);
   border-radius: 5px;
-  padding: .3rem 0;
+  padding: 0.3rem 0;
+  border: 1px solid var(--text-color-primary);
+}
+.disable {
+  opacity: 70%;
 }

@@ -1,3 +1,12 @@
+import {
+  DIRECTIONS_OPTIONS_KEYS,
+  FORM_MEMBER_ERRORS,
+  FORM_TASK_ERRORS,
+  FORM_TRACKS_ERRORS,
+  ROLE_OPTIONS_KEYS,
+  SEX_OPTIONS_KEYS,
+} from './constants';
+
 export const initialStateTasks = {
   name: '',
   description: '',
@@ -6,17 +15,18 @@ export const initialStateTasks = {
   statuses: [],
   tracks: [],
   assignedUsers: [],
+  formErrors: FORM_TASK_ERRORS,
 };
 
 export const initialStateCreatMember = {
   firstName: '',
   lastName: '',
   email: '',
-  sex: '',
-  roles: '',
+  sex: SEX_OPTIONS_KEYS[0],
+  roles: ROLE_OPTIONS_KEYS[0],
   password: '',
+  directionName: DIRECTIONS_OPTIONS_KEYS[0],
   repeatPassword: '',
-  directionName: '',
   birthDate: '',
   address: '',
   mobilePhone: '',
@@ -25,6 +35,7 @@ export const initialStateCreatMember = {
   education: '',
   universityAverageScore: '',
   mathScore: '',
+  formErrors: FORM_MEMBER_ERRORS,
 };
 
 export const initialStateTrack = {
@@ -33,6 +44,7 @@ export const initialStateTrack = {
   date: '',
   node: '',
   userId: '',
+  formErrors: FORM_TRACKS_ERRORS,
 };
 
 export const initialStateAuth = {

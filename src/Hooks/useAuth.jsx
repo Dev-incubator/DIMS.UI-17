@@ -24,12 +24,17 @@ class AuthProvider extends React.Component {
   }
 
   componentDidMount() {
+    const userData = JSON.parse(localStorage.getItem('user'));
     if (!localStorage.getItem('apiMode')) {
       localStorage.setItem('apiMode', 'restAPI');
     }
     this.setState((prevState) => {
       return { ...prevState, apiMode: localStorage.getItem('apiMode') };
     });
+    if (userData) {
+      const { roles, firstName, userId } = userData;
+      this.setAuth(firstName, getRoles(roles), userId);
+    }
   }
 
   setAuth = (firstName, role, userId) => {
@@ -41,7 +46,7 @@ class AuthProvider extends React.Component {
 
   logout = async () => {
     await authAPI.logout();
-    this.setState((prevState) => ({ ...prevState, ...initialStateAuth, apiMode: localStorage.getItem('apiMode') }));
+    this.setState({ ...initialStateAuth, apiMode: localStorage.getItem('apiMode') });
   };
 
   login = async (email, password) => {

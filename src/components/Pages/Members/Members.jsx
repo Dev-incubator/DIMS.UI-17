@@ -16,9 +16,10 @@ import { DeleteForm } from '../../Forms/DeleteForm/DeleteForm';
 import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
 import { getAge } from '../../../shared/helpers/getAge/getAge';
+import { Loader } from '../../Common/Loader/Loader';
 
 export function Members() {
-  const { users, asyncDispatchWrapper } = useContext(StoreContext);
+  const { users, asyncDispatchWrapper, isFetching } = useContext(StoreContext);
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -117,7 +118,9 @@ export function Members() {
     );
   });
 
-  return (
+  return isFetching ? (
+    <Loader />
+  ) : (
     <>
       <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={toggleUserModalHandler} />
 

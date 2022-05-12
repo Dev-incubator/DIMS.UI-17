@@ -1,11 +1,12 @@
 import { useContext } from 'react';
 import { AuthContext } from '../../../Hooks/useAuth';
 import { Button } from '../../Buttons/Button/Button';
+import style from './Logout.module.css';
 
 export function Logout() {
   const { firstName, role, logoutHandler } = useContext(AuthContext);
   function showUser() {
-    return <span>{`${firstName}: ${role} `}</span>;
+    return <span className={style.user}>{`${firstName}: ${role} `}</span>;
   }
 
   return (

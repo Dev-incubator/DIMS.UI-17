@@ -8,6 +8,7 @@ import { PageTitle } from '../../PageTitle/PageTitle';
 import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsStatusUpdate';
 import { Table } from '../../Table/Table';
 import { TasksTableRow } from '../../Table/TasksTableRow';
+import { Loader } from '../../Common/Loader/Loader';
 
 class Tasks extends React.PureComponent {
   constructor(props) {
@@ -42,7 +43,7 @@ class Tasks extends React.PureComponent {
 
   render() {
     const { userId } = this.state;
-    const { history, tasks } = this.props;
+    const { history, tasks, isFetching } = this.props;
     const items = tasks.map((item, index) => {
       const succesStatusHandler = () => {
         this.succesStatusHandler(item.taskId, userId);
@@ -87,6 +88,7 @@ class Tasks extends React.PureComponent {
         />
 
         <Table title={TABLE_TITLES.currentTasks} items={items} />
+        {isFetching && <Loader />}
       </>
     );
   }
@@ -95,6 +97,7 @@ class Tasks extends React.PureComponent {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.tasks,
+    isFetching: state.loading.isFetching,
   };
 };
 
@@ -114,6 +117,7 @@ Tasks.propTypes = {
   tasks: propTypes.arrayOf(propTypes.object).isRequired,
   match: propTypes.shape({ params: propTypes.shape({ id: propTypes.string }) }).isRequired,
   history: propTypes.oneOfType([propTypes.func, propTypes.object, propTypes.number]).isRequired,
+  isFetching: propTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks);
