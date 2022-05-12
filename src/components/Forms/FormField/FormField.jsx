@@ -1,8 +1,17 @@
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import { Form } from 'react-bootstrap';
 import style from './FormField.module.css';
+import eye from '../../../assets/img/eye.png';
 
 export function FormField({ onChange, value, name, title, type = 'text', options, isReadOnlyMode, errors }) {
+  const inputRef = useRef(null);
+
+  const toggleShowPassword = () => {
+    const nodeType = inputRef.current.type;
+    inputRef.current.type = nodeType === 'text' ? 'password' : 'text';
+  };
+
   return (
     <Form.Group>
       <Form.Label>
@@ -18,15 +27,23 @@ export function FormField({ onChange, value, name, title, type = 'text', options
           ))}
         </Form.Select>
       ) : (
-        <Form.Control
-          onChange={onChange}
-          value={value}
-          type={type}
-          name={name}
-          id={name}
-          readOnly={isReadOnlyMode}
-          isInvalid={errors}
-        />
+        <div className={style.inputWrapper}>
+          {type === 'password' && (
+            <img src={eye} alt='Show password' role='none' onClick={toggleShowPassword} className={style.showPass} />
+          )}
+
+          <Form.Control
+            onChange={onChange}
+            value={value}
+            type={type}
+            name={name}
+            id={name}
+            readOnly={isReadOnlyMode}
+            isInvalid={errors}
+            ref={inputRef}
+            className={style.formControl}
+          />
+        </div>
       )}
     </Form.Group>
   );

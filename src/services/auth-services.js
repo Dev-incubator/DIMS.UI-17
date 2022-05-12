@@ -81,6 +81,7 @@ export async function registerUser(email, password) {
 onAuthStateChanged(auth, async (currentUser) => {
   if (currentUser) {
     const userData = await findUser(currentUser.uid);
+    console.log(userData);
 
     localStorage.setItem('user', JSON.stringify(userData));
   } else {
