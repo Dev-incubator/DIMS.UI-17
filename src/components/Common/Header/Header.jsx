@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import style from './Header.module.css';
 import logo from '../../../assets/img/logo.png';
 import { Logout } from '../../Pages/Logout/Logout';
@@ -20,9 +20,7 @@ export function Header() {
     <header className={style.header}>
       <div className={style.contentWrapper}>
         <div className={style.leftContent}>
-          <Link to='/'>
-            <img className={style.logo} src={logo} alt='logo' />
-          </Link>
+          <img className={style.logo} src={logo} alt='logo' />
           <nav>
             <ul className={style.headerNav}>
               {links.map((item) => (

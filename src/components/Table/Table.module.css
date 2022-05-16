@@ -4,12 +4,15 @@
 }
 .table {
   color: var(--text-color-primary);
+  min-width: var(--width-content);
+  text-align: center;
 }
 .table > :not(caption) > * > * {
   border-bottom-width: 0px !important;
 }
 td:last-of-type {
   display: flex;
+  justify-content: center;
 }
 
 td:last-of-type button {
