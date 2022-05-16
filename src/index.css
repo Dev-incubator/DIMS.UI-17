@@ -13,10 +13,12 @@
   --color-modal: rgba(0, 0, 0, 0.4);
 
   --text-color-primary: #000;
+  --header-text-color: #fff;
 
   --bg-color-primary: #fff;
   --bg-color-secondery: #f5f2e7;
   --bg-color-header: #24292f;
+  --border-button-color: #000;
 
   --width-content: 800px;
 
@@ -26,29 +28,37 @@
   --fw-bold: 700;
 
   --transition: 0.3s all;
+  --hover-brightness: 1.2;
 }
 
 [data-theme='dark'] {
-  --bg-color-primary: #0d1117;
-  --bg-color-header: #161b22;
-  --text-color-primary: #fff;
+  --bg-color-primary: #322F20;
+  --bg-color-header: #23231A;
+  --text-color-primary: #FFFBE7;
+  --header-text-color: #FFFBE7;
 
-  --bg-color-primary-button: #4b515c;
-  --bg-color-edit-button: #b17cf6;
-  --bg-color-delete-button: #f76867;
-  --bg-color-save-button: #09b43a;
-  --bg-color-secondery-button: #272b33;
+  --bg-color-primary-button: #6A5837;
+  --bg-color-edit-button: #988F2A;
+  --bg-color-delete-button: #992B3D;
+  --bg-color-save-button: #2B996F;
+  --bg-color-secondery-button: #6B6438;
+  --border-button-color: #6A5837;
+
+  --color-active-link: #CC4B00;
 }
 [data-theme='dark-dimmed'] {
-  --bg-color-primary: #22272e;
-  --bg-color-header: #2d333b;
-  --text-color-primary: #adadb7;
+  --bg-color-primary: #496a81;
+  --bg-color-header: #2b3a67;
+  --text-color-primary: #ffffff;
 
-  --bg-color-primary-button: #373e47;
-  --bg-color-edit-button: #b17cf6;
-  --bg-color-delete-button: #f76867;
-  --bg-color-save-button: #347d39;
+  --bg-color-primary-button: #66999b;
+  --bg-color-edit-button: #b3af8f;
+  --bg-color-delete-button: #ff7070;
+  --bg-color-save-button: #70ffa9;
   --bg-color-secondery-button: #272b33;
+  --border-button-color: #2b3a67;
+
+  --color-active-link: #2666cf;
 }
 * {
   box-sizing: border-box;

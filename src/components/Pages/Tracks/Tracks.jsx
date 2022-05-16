@@ -150,7 +150,7 @@ class Tracks extends React.PureComponent {
           onClick={this.toggleTrackModalHandler}
         />
 
-        <Table title={TABLE_TITLES.track} items={items} />
+        <Table title={TABLE_TITLES.track} items={items} bordered={false} striped={false} hover={false} />
 
         {isTrackModalOpen ? (
           <ModalWindow

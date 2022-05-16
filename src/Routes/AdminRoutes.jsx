@@ -13,7 +13,9 @@ export function AdminRoutes() {
       <Route exact path='/tasks/:id' component={Tasks} />
       <Route exact path='/tasks/:id/tracks' component={Tracks} />
       <Route exact path='/members' component={Members} />
-      <Redirect from='/' to='/members' />
+      <Route path='/'>
+        <Redirect to='/members' />
+      </Route>
     </Switch>
   );
 }

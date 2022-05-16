@@ -49,7 +49,7 @@ export class Progress extends React.PureComponent {
           history={history}
           isBackButton
         />
-        <Table title={TABLE_TITLES.progress} items={items} />
+        <Table title={TABLE_TITLES.progress} items={items} bordered={false} striped={false} hover={false} />
       </div>
     );
   }

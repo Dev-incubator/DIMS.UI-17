@@ -87,7 +87,7 @@ class Tasks extends React.PureComponent {
           isBackButton
         />
 
-        <Table title={TABLE_TITLES.currentTasks} items={items} />
+        <Table title={TABLE_TITLES.currentTasks} items={items} bordered={false} striped={false} hover={false} />
         {isFetching && <Loader />}
       </>
     );

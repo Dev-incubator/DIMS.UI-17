@@ -155,7 +155,7 @@ class AllTasks extends React.PureComponent {
           onClick={this.toggleTaskModalHandler}
         />
 
-        <Table title={TABLE_TITLES.allTasks} items={items} />
+        <Table title={TABLE_TITLES.allTasks} items={items} bordered={false} striped={false} hover={false} />
 
         {isTaskModalOpen ? (
           <ModalWindow

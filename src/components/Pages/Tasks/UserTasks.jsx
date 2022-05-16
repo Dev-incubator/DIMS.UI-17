@@ -39,7 +39,7 @@ class UserTasks extends React.PureComponent {
     ) : (
       <>
         <PageTitle title={TITLES_PAGES.userTasks} isContainsButton={false} />
-        <Table title={TABLE_TITLES.userTasks} items={items} />
+        <Table title={TABLE_TITLES.userTasks} items={items} bordered={false} striped={false} hover={false} />
       </>
     );
   }

@@ -124,7 +124,7 @@ export function Members() {
     <>
       <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={toggleUserModalHandler} />
 
-      <Table title={TABLE_TITLES.members} items={items} />
+      <Table title={TABLE_TITLES.members} items={items} bordered={false} striped={false} hover={false} />
 
       {isUserModalOpen ? (
         <ModalWindow

@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES, USER_ROLES } from '../../../shared/constants';
 import { AuthContext } from '../../../Hooks/useAuth';
+import style from './ButtonsAdmin.module.css';
 
 export function ButtonsAdminMemberPage({
   selectUserHandler,
@@ -26,18 +27,22 @@ export function ButtonsAdminMemberPage({
 
   return (
     <>
-      <NavLink to={`/tasks/${id}`}>
-        <Button title={BUTTONS_NAMES.tasks} />
-      </NavLink>
-      <NavLink to={`/progress/${id}`}>
-        <Button title={BUTTONS_NAMES.progress} />
-      </NavLink>
-      {role === USER_ROLES.admin && (
-        <>
-          <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
-          <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
-        </>
-      )}
+      <div className={style.wrapper}>
+        <NavLink to={`/tasks/${id}`}>
+          <Button title={BUTTONS_NAMES.tasks} />
+        </NavLink>
+        <NavLink to={`/progress/${id}`}>
+          <Button title={BUTTONS_NAMES.progress} />
+        </NavLink>
+      </div>
+      <div className={style.wrapper}>
+        {role === USER_ROLES.admin && (
+          <>
+            <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
+            <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
+          </>
+        )}
+      </div>
     </>
   );
 }
