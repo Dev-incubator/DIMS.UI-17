@@ -28,10 +28,10 @@ export function ButtonsAdminMemberPage({
   return (
     <>
       <div className={style.wrapper}>
-        <NavLink to={`/tasks/${id}`}>
+        <NavLink to={`/members/${id}/tasks`}>
           <Button title={BUTTONS_NAMES.tasks} />
         </NavLink>
-        <NavLink to={`/progress/${id}`}>
+        <NavLink to={`/members/${id}/progress`}>
           <Button title={BUTTONS_NAMES.progress} />
         </NavLink>
       </div>

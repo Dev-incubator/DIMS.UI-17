@@ -24,3 +24,8 @@ td:last-of-type button {
   text-decoration: underline;
   cursor: pointer;
 }
+@media (max-width: 1140px) {
+  .table {
+    min-width: 800px;
+  }
+}
