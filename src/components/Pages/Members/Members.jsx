@@ -1,4 +1,5 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   createUserThunk,
   editUserThunk,
@@ -6,7 +7,6 @@ import {
   removeUserThunk,
   setUserDataThunk,
 } from '../../../store/actionCreators/usersActionCreators';
-import { StoreContext } from '../../../Hooks/useStore';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, TITLES_PAGES, BUTTONS_NAMES, MODALTITLE_KEYS } from '../../../shared/constants';
 import { ModalWindow } from '../../Common/Modal/Modal';
@@ -17,9 +17,12 @@ import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
 import { getAge } from '../../../shared/helpers/getAge/getAge';
 import { Loader } from '../../Common/Loader/Loader';
+import { getAllUsers, getIsFetching } from '../../../store/selectors/selectors';
 
 export function Members() {
-  const { users, asyncDispatchWrapper, isFetching } = useContext(StoreContext);
+  const isFetching = useSelector(getIsFetching);
+  const users = useSelector(getAllUsers);
+  const dispatch = useDispatch();
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -27,25 +30,25 @@ export function Members() {
   const [isReadOnlyMode, setIsReadOnlyMode] = useState(false);
 
   useEffect(() => {
-    asyncDispatchWrapper(getUsersThunk());
-  }, [asyncDispatchWrapper]);
+    dispatch(getUsersThunk());
+  }, [dispatch]);
 
   const getUserData = async (userId) => {
-    await asyncDispatchWrapper(setUserDataThunk(userId));
+    await dispatch(setUserDataThunk(userId));
   };
 
   const deleteUserHandler = () => {
-    asyncDispatchWrapper(removeUserThunk(selectedUserId));
+    dispatch(removeUserThunk(selectedUserId));
     toggleModal();
   };
 
   const createUserHandler = (userData) => {
-    asyncDispatchWrapper(createUserThunk(userData));
+    dispatch(createUserThunk(userData));
     toggleModal();
   };
 
   const editUserDataHandler = (userData) => {
-    asyncDispatchWrapper(editUserThunk(selectedUserId, userData));
+    dispatch(editUserThunk(selectedUserId, userData));
     toggleModal();
   };
 
@@ -117,6 +120,8 @@ export function Members() {
       />
     );
   });
+  console.log(isFetching);
+  console.log(users);
 
   return isFetching ? (
     <Loader />

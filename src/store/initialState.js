@@ -13,5 +13,5 @@ export const loaderInitialState = {
 export const rootReducerItinialState = {
   users: { users: [] },
   tasks: { tasks: [] },
-  loading: { isFetching: false },
+  loading: { isFetching: true },
 };
