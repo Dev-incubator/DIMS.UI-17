@@ -7,7 +7,9 @@ export function MemberRoutes() {
     <Switch>
       <Route exact path='/tasks' component={UserTasks} />
       <Route exact path='/tasks/:id/tracks' component={Tracks} />
-      <Redirect from='/' to='/tasks' />
+      <Route exact path='/login'>
+        <Redirect to='/tasks' />
+      </Route>
     </Switch>
   );
 }
