@@ -120,8 +120,6 @@ export function Members() {
       />
     );
   });
-  console.log(isFetching);
-  console.log(users);
 
   return isFetching ? (
     <Loader />

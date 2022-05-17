@@ -15,6 +15,7 @@ class Tasks extends React.PureComponent {
     super(props);
     this.state = {
       userId: null,
+      tasks: [],
     };
     this.succesStatusHandler = this.changeStatusHandler.bind(this, BUTTONS_NAMES.success);
     this.activeStatusHandler = this.changeStatusHandler.bind(this, BUTTONS_NAMES.active);
@@ -23,17 +24,15 @@ class Tasks extends React.PureComponent {
 
   async componentDidMount() {
     const {
+      getUserTasks,
+      tasks,
       match: {
         params: { id },
       },
     } = this.props;
-    this.getUserTasks(id);
-    this.setState({ userId: id });
-  }
+    await getUserTasks(id);
 
-  async getUserTasks(userId) {
-    const { getUserTasks } = this.props;
-    await getUserTasks(userId);
+    this.setState({ userId: id, tasks });
   }
 
   changeStatusHandler = async (newStatus, taskId, userId) => {
@@ -42,8 +41,8 @@ class Tasks extends React.PureComponent {
   };
 
   render() {
-    const { userId } = this.state;
-    const { history, tasks, isFetching } = this.props;
+    const { userId, tasks } = this.state;
+    const { history, isFetching } = this.props;
     const items = tasks.map((item, index) => {
       const succesStatusHandler = () => {
         this.succesStatusHandler(item.taskId, userId);
