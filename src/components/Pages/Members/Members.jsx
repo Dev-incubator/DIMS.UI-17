@@ -20,8 +20,8 @@ import { Loader } from '../../Common/Loader/Loader';
 import { getAllUsers, getIsFetching } from '../../../store/selectors/selectors';
 
 export function Members() {
-  const isFetching = useSelector(getIsFetching);
   const users = useSelector(getAllUsers);
+  const isFetching = useSelector(getIsFetching);
   const dispatch = useDispatch();
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
