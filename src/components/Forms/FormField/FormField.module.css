@@ -5,12 +5,10 @@
 .inputWrapper {
   position: relative;
 }
-.showPass {
+.show {
   position: absolute;
   right: 10px;
   top: 14px;
   cursor: pointer;
-}
-.formControl {
-  background-position: right 37px center !important;
+  width: 1rem;
 }
