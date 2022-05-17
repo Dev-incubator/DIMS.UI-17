@@ -52,10 +52,13 @@ class AuthProvider extends React.Component {
   login = async (email, password) => {
     const { toggleLoading } = this.props;
     toggleLoading(true);
-    const { roles, firstName, userId } = await authAPI.login(email, password);
+    try {
+      const { roles, firstName, userId } = await authAPI.login(email, password);
+      this.setAuth(firstName, getRoles(roles), userId);
+    } catch (error) {
+      this.setState({ error: 'user not found' });
+    }
     toggleLoading(false);
-
-    this.setAuth(firstName, getRoles(roles), userId);
   };
 
   singInGoogle = async () => {

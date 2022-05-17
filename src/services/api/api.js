@@ -85,8 +85,6 @@ export const authAPI = {
 
         return userData;
       } catch (error) {
-        console.error(error);
-
         return undefined;
       }
     } else {
