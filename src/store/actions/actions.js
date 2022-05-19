@@ -14,6 +14,7 @@ export const UPDATE_TASK_STATUS = 'UPDATE_TASK_STATUS';
 export const RESET_USER_TASKS = 'RESET_USER_TASKS';
 export const RESET_TASK = 'RESET_TASK';
 
+export const GET_TRACKS = 'GET_TRACKS';
 export const CREATE_TRACK = 'CREATE_TRACK';
 export const REMOVE_TRACK = 'REMOVE_TRACK';
 export const UPDATE_TRACK = 'UPDATE_TRACK';

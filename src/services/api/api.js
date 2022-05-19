@@ -80,8 +80,11 @@ export const authAPI = {
         const {
           data: { token },
         } = response;
+        const user = await instance.get('auth/me', token);
+        console.log('user', user);
         localStorage.setItem('token', token);
         const userData = await usersAPI.getUserById(authAPI.decodingToken());
+        console.log('userData', userData);
 
         return userData;
       } catch (error) {

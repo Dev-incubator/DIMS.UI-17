@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   createUserThunk,
@@ -29,7 +29,7 @@ export function Members() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isReadOnlyMode, setIsReadOnlyMode] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     dispatch(getUsersThunk());
   }, [dispatch]);
 

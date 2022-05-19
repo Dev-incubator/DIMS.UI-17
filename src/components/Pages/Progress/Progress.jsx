@@ -1,27 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import propTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES, BUTTONS_TYPES } from '../../../shared/constants';
-import { getUserTracks } from '../../../services/tracks-services';
 import { ProgressTableRow } from '../../Table/ProgressTableRow';
 import { Table } from '../../Table/Table';
+import { getTracksThunk } from '../../../store/actionCreators/tracksActionCreators';
+import { getUserTracks } from '../../../store/selectors/selectors';
 
 export function Progress({ history, match }) {
-  const [progress, getProgress] = useState([]);
+  const dispatch = useDispatch();
+  const tracks = useSelector(getUserTracks);
+  const {
+    params: { id },
+  } = match;
 
   useEffect(() => {
-    const {
-      params: { id },
-    } = match;
+    dispatch(getTracksThunk(id));
+  }, [dispatch, id]);
 
-    async function getData() {
-      const response = await getUserTracks(id);
-      getProgress(response);
-    }
-    getData();
-  });
-
-  const items = progress.map((item, index) => {
+  const items = tracks.map((item, index) => {
     return (
       <ProgressTableRow
         key={item.name + index.toString()}

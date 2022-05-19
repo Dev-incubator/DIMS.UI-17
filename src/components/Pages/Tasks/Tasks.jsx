@@ -9,13 +9,13 @@ import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsSt
 import { Table } from '../../Table/Table';
 import { TasksTableRow } from '../../Table/TasksTableRow';
 import { Loader } from '../../Common/Loader/Loader';
+import { AuthContext } from '../../../Hooks/useAuth';
 
 class Tasks extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       userId: null,
-      tasks: [],
     };
     this.succesStatusHandler = this.changeStatusHandler.bind(this, BUTTONS_NAMES.success);
     this.activeStatusHandler = this.changeStatusHandler.bind(this, BUTTONS_NAMES.active);
@@ -23,16 +23,10 @@ class Tasks extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const {
-      getUserTasks,
-      tasks,
-      match: {
-        params: { id },
-      },
-    } = this.props;
-    await getUserTasks(id);
-
-    this.setState({ userId: id, tasks });
+    const { getUserTasks } = this.props;
+    const { userId } = this.context;
+    this.setState({ userId });
+    await getUserTasks(userId);
   }
 
   changeStatusHandler = async (newStatus, taskId, userId) => {
@@ -41,8 +35,8 @@ class Tasks extends React.PureComponent {
   };
 
   render() {
-    const { userId, tasks } = this.state;
-    const { history, isFetching } = this.props;
+    const { userId } = this.state;
+    const { history, isFetching, tasks } = this.props;
     const items = tasks.map((item, index) => {
       const succesStatusHandler = () => {
         this.succesStatusHandler(item.taskId, userId);
@@ -118,5 +112,7 @@ Tasks.propTypes = {
   history: propTypes.oneOfType([propTypes.func, propTypes.object, propTypes.number]).isRequired,
   isFetching: propTypes.bool.isRequired,
 };
+
+Tasks.contextType = AuthContext;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks);
