@@ -9,7 +9,6 @@ import { ButtonsStatusUpdate } from '../../Buttons/ButtonsStatusUpdate/ButtonsSt
 import { Table } from '../../Table/Table';
 import { TasksTableRow } from '../../Table/TasksTableRow';
 import { Loader } from '../../Common/Loader/Loader';
-import { AuthContext } from '../../../Hooks/useAuth';
 
 class Tasks extends React.PureComponent {
   constructor(props) {
@@ -23,10 +22,12 @@ class Tasks extends React.PureComponent {
   }
 
   async componentDidMount() {
-    const { getUserTasks } = this.props;
-    const { userId } = this.context;
-    this.setState({ userId });
-    await getUserTasks(userId);
+    const { getUserTasks, match } = this.props;
+    const {
+      params: { id },
+    } = match;
+    this.setState({ userId: id });
+    await getUserTasks(id);
   }
 
   changeStatusHandler = async (newStatus, taskId, userId) => {
@@ -112,7 +113,5 @@ Tasks.propTypes = {
   history: propTypes.oneOfType([propTypes.func, propTypes.object, propTypes.number]).isRequired,
   isFetching: propTypes.bool.isRequired,
 };
-
-Tasks.contextType = AuthContext;
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasks);

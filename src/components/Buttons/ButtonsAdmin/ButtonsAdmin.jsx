@@ -13,7 +13,7 @@ export function ButtonsAdminMemberPage({
   toggleModalDeleteHandler,
   toggleUserModalHandler,
 }) {
-  const { role } = useContext(AuthContext);
+  const { role, userId } = useContext(AuthContext);
   const showDeleteModal = () => {
     selectUserHandler(id);
     toggleModalDeleteHandler();
@@ -39,7 +39,9 @@ export function ButtonsAdminMemberPage({
         {role === USER_ROLES.admin && (
           <>
             <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
-            <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
+            {userId !== id ? (
+              <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
+            ) : null}
           </>
         )}
       </div>
