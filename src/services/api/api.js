@@ -1,5 +1,4 @@
 import * as axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import { createUser, editUser, getAllUsers, getUserData, removeUserData } from '../users-services ';
 import { createTask, getAllTasks, getTaskData } from '../tasks-services';
 import { logout, singInEmailAndPassword } from '../auth-services';
@@ -27,8 +26,9 @@ export const usersAPI = {
       const {
         data: { data },
       } = await response;
+      const users = data.map((user) => ({ ...user, userId: user.id }));
 
-      return data;
+      return users;
     }
 
     return getAllUsers();
@@ -40,7 +40,7 @@ export const usersAPI = {
 
       const { data } = await response;
 
-      return data;
+      return { ...data, userId: data.id };
     }
     const userData = await getUserData(userId);
 
@@ -80,11 +80,11 @@ export const authAPI = {
         const {
           data: { token },
         } = response;
-        const user = await instance.get('auth/me', token);
-        console.log('user', user);
         localStorage.setItem('token', token);
-        const userData = await usersAPI.getUserById(authAPI.decodingToken());
-        console.log('userData', userData);
+        const {
+          data: { userId },
+        } = await instance.get('auth/me', token);
+        const userData = await usersAPI.getUserById(userId);
 
         return userData;
       } catch (error) {
@@ -101,13 +101,6 @@ export const authAPI = {
     } else {
       await logout();
     }
-  },
-
-  decodingToken() {
-    const token = localStorage.getItem('token');
-    const { userId } = jwtDecode(token);
-
-    return userId;
   },
 };
 
