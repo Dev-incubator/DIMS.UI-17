@@ -50,7 +50,6 @@ class AllTasks extends React.PureComponent {
   }
 
   createTaskHandler = async (data) => {
-    console.log(data);
     const { createTask } = this.props;
 
     await createTask(data);
