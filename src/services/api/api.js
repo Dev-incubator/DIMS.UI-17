@@ -85,9 +85,13 @@ export const authAPI = {
           data: { userId },
         } = await instance.get('auth/me', token);
         const userData = await usersAPI.getUserById(userId);
+        const { roles, firstName, id } = userData;
+        localStorage.setItem('user', JSON.stringify({ roles, firstName, userId: id }));
 
         return userData;
       } catch (error) {
+        console.error(error);
+
         return undefined;
       }
     } else {
@@ -98,6 +102,7 @@ export const authAPI = {
   async logout() {
     if (isRestAPIMode()) {
       localStorage.removeItem('token');
+      localStorage.setItem('user', null);
     } else {
       await logout();
     }

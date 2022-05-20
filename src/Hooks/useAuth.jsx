@@ -62,9 +62,12 @@ class AuthProvider extends React.Component {
   };
 
   singInGoogle = async () => {
-    const { roles, firstName, userId } = await singInGoogle();
-
-    this.setAuth(firstName, getRoles(roles), userId);
+    try {
+      const { roles, firstName, userId } = await singInGoogle();
+      this.setAuth(firstName, getRoles(roles), userId);
+    } catch (error) {
+      this.setState({ error: 'user not found' });
+    }
   };
 
   resetError = () => {

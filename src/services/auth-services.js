@@ -47,7 +47,11 @@ async function findUser(uid) {
     const docSnap = await getDoc(docRef);
     const { roles, firstName } = docSnap.data();
 
-    return { roles, firstName, userId: uid };
+    if (roles && firstName) {
+      return { roles, firstName, userId: uid };
+    }
+
+    return undefined;
   } catch (error) {
     console.error(error);
 
@@ -77,13 +81,14 @@ export async function registerUser(email, password) {
     return undefined;
   }
 }
-
 onAuthStateChanged(auth, async (currentUser) => {
-  if (currentUser) {
-    const userData = await findUser(currentUser.uid);
+  if (localStorage.getItem('apiMode') === 'firebase') {
+    if (currentUser) {
+      const userData = await findUser(currentUser.uid);
 
-    localStorage.setItem('user', JSON.stringify(userData));
-  } else {
-    localStorage.setItem('user', null);
+      localStorage.setItem('user', JSON.stringify(userData));
+    } else {
+      localStorage.setItem('user', null);
+    }
   }
 });

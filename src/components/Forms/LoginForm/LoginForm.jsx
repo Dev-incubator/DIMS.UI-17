@@ -5,6 +5,7 @@ import { Button } from '../../Buttons/Button/Button';
 import { regExpEmail } from '../../../shared/regulars';
 import { AuthContext } from '../../../Hooks/useAuth';
 import { RadioButton } from '../../Common/RadioButton/RadioButton';
+import { isRestAPIMode } from '../../../services/api/api';
 
 export class LoginForm extends React.PureComponent {
   constructor(props) {
@@ -113,7 +114,9 @@ export class LoginForm extends React.PureComponent {
             <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
               Sign in
             </button>
-            <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSinginWithGoogle} />
+            {isRestAPIMode() ? null : (
+              <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSinginWithGoogle} />
+            )}
           </form>
         </Col>
       </Row>
