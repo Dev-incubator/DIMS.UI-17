@@ -23,7 +23,7 @@ export function Progress({ history, match }) {
     return (
       <ProgressTableRow
         key={item.name + index.toString()}
-        index={index}
+        index={index + 1}
         name={item.name}
         node={item.node}
         date={item.date}

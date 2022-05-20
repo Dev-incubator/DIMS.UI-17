@@ -118,7 +118,7 @@ class Tracks extends React.PureComponent {
           return (
             <TrackTableRow
               key={item.name + index.toString()}
-              index={index}
+              index={index + 1}
               name={item.name}
               node={item.node}
               date={item.date}

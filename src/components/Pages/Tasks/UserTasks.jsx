@@ -23,7 +23,7 @@ class UserTasks extends React.PureComponent {
       return (
         <UserTasksTableRow
           key={item.name + index.toString()}
-          index={index}
+          index={index + 1}
           id={item.taskId}
           name={item.name}
           startDate={item.startDate}

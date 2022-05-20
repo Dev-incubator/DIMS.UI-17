@@ -52,7 +52,7 @@ class Tasks extends React.PureComponent {
       return (
         <TasksTableRow
           key={item.name + index.toString()}
-          index={index}
+          index={index + 1}
           name={item.name}
           startDate={item.startDate}
           deadlineDate={item.deadlineDate}

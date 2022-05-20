@@ -100,7 +100,7 @@ export function Members() {
     return (
       <MembersTableRow
         key={user.name + index.toString()}
-        index={index}
+        index={index + 1}
         firstName={user.firstName}
         lastName={user.lastName}
         directionName={user.directionName}

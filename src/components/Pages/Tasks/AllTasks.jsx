@@ -123,7 +123,7 @@ class AllTasks extends React.PureComponent {
       return (
         <AllTasksTableRow
           key={item.name + index.toString()}
-          index={index}
+          index={index + 1}
           name={item.name}
           description={item.description}
           startDate={item.startDate}
