@@ -28,6 +28,7 @@ class AllTasks extends React.PureComponent {
       isTaskModalOpen: false,
       isDeleteModalOpen: false,
       isEditMode: false,
+      isReadOnlyMode: false,
     };
   }
 
@@ -76,9 +77,9 @@ class AllTasks extends React.PureComponent {
     this.setState({ selectedTaskId });
   };
 
-  showTaskDataHandler = async () => {
+  showTaskDataHandler = async (isReadOnlyMode = false) => {
     await this.getTaskData();
-    this.setState({ isEditMode: true });
+    this.setState({ isEditMode: true, isReadOnlyMode });
   };
 
   toggleTaskModalHandler = () => {
@@ -116,7 +117,7 @@ class AllTasks extends React.PureComponent {
   };
 
   render() {
-    const { isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode } = this.state;
+    const { isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode, isReadOnlyMode } = this.state;
     const { tasks, users, isFetching } = this.props;
     const taskData = tasks.find((item) => item.taskId === selectedTaskId);
     const items = tasks.map((item, index) => {
@@ -130,6 +131,9 @@ class AllTasks extends React.PureComponent {
           deadlineDate={item.deadlineDate}
           id={item.taskId}
           linkPath={LINKPATH_KEYS.tasks}
+          showTaskDataHandler={this.showTaskDataHandler}
+          selectTaskHandler={this.selectTaskHandler}
+          toggleTaskModalHandler={this.toggleTaskModalHandler}
           action={
             <ButtonsTask
               selectTaskHandler={this.selectTaskHandler}
@@ -170,6 +174,7 @@ class AllTasks extends React.PureComponent {
               isEditMode={isEditMode}
               taskData={taskData}
               id={selectedTaskId}
+              isReadOnlyMode={isReadOnlyMode}
               createTaskHandler={this.createTaskHandler}
               updateTaskHandler={this.updateTaskHandler}
             />

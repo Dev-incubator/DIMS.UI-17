@@ -121,6 +121,7 @@ export class CreateTaskForm extends React.PureComponent {
             <label className={style.users} key={user.userId} htmlFor={user.userId}>
               {getFullName(user.firstName, user.lastName)}
               <Form.Check
+                disabled={isReadOnlyMode}
                 ref={(ref) => {
                   this.myRef[index] = ref;
                 }}
