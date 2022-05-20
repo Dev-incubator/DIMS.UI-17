@@ -8,7 +8,6 @@ import style from './CreateTaskForm.module.css';
 import { FormField } from '../FormField/FormField';
 import { validateFormField } from '../../../shared/helpers/validateFormField/validateFormField';
 import { getFullName } from '../../../shared/helpers/getFullName/getFullName';
-import { isRestAPIMode } from '../../../services/api/api';
 
 export class CreateTaskForm extends React.PureComponent {
   constructor(props) {
@@ -68,7 +67,7 @@ export class CreateTaskForm extends React.PureComponent {
           ? statuses.find((elem) => elem.id === item.name) || { id: item.name, status: 'Active' }
           : { id: item.name, status: 'Active' },
       );
-    const assignedUsers = selectedUsers.map((item) => (isRestAPIMode() ? Number(item.id) : item.id));
+    const assignedUsers = selectedUsers.map((item) => item.id);
     const isError = formErrors
       .map((item) => {
         const { name, error } = validateFormField(item.name, data[item.name]);
@@ -91,7 +90,6 @@ export class CreateTaskForm extends React.PureComponent {
     const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
     const { formErrors } = this.state;
     const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
-    // const isError = formErrors.filter((item) => item.error !== '');
     const assignedUsers = !taskData ? [] : taskData.statuses.map((item) => item.id);
 
     return (
