@@ -27,7 +27,7 @@ a:hover {
   padding-left: 3rem;
 }
 .navItem {
-  padding-left: 1rem;
+  padding: 0 1rem;
 }
 .selected {
   color: var(--color-active-link);

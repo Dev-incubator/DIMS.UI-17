@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import propTypes from 'prop-types';
 import { Row, Col } from 'react-bootstrap';
 import style from './LoginForm.module.css';
 import { Button } from '../../Buttons/Button/Button';
@@ -6,8 +8,9 @@ import { regExpEmail } from '../../../shared/regulars';
 import { AuthContext } from '../../../Hooks/useAuth';
 import { RadioButton } from '../../Common/RadioButton/RadioButton';
 import { isRestAPIMode } from '../../../services/api/api';
+import { Loader } from '../../Common/Loader/Loader';
 
-export class LoginForm extends React.PureComponent {
+class LoginForm extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -71,10 +74,13 @@ export class LoginForm extends React.PureComponent {
 
   render() {
     const { email, password, formErrors, formValid } = this.state;
+    const { isFetching } = this.props;
     const { email: emailErrors, password: passworErrors } = formErrors;
     const { error, handleSinginWithGoogle, apiMode } = this.context;
 
-    return (
+    return isFetching ? (
+      <Loader />
+    ) : (
       <Row sm='auto' className={style.wrapper}>
         <Col>
           <h1 className={style.title}>Sign in to CMS</h1>
@@ -114,6 +120,7 @@ export class LoginForm extends React.PureComponent {
             <button disabled={!formValid} onClick={this.handleSubmit} className={style.buttonLogin} type='submit'>
               Sign in
             </button>
+
             {isRestAPIMode() ? null : (
               <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSinginWithGoogle} />
             )}
@@ -125,3 +132,15 @@ export class LoginForm extends React.PureComponent {
 }
 
 LoginForm.contextType = AuthContext;
+
+const mapStateToProps = (state) => {
+  return {
+    isFetching: state.loading.isFetching,
+  };
+};
+
+LoginForm.propTypes = {
+  isFetching: propTypes.bool.isRequired,
+};
+
+export default connect(mapStateToProps, null)(LoginForm);

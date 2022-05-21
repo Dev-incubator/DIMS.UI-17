@@ -23,22 +23,33 @@ export function Header() {
           <img className={style.logo} src={logo} alt='logo' />
           <nav>
             <ul className={style.headerNav}>
-              {links.map((item) => (
-                <NavLink
-                  key={item.name}
-                  to={item.to}
-                  className={style[item.className]}
-                  activeClassName={style[item.activeClassName]}
-                >
-                  {item.name}
-                </NavLink>
-              ))}
+              {isAuth
+                ? links.map((item) => (
+                    <NavLink
+                      key={item.name}
+                      to={item.to}
+                      className={style[item.className]}
+                      activeClassName={style[item.activeClassName]}
+                    >
+                      {item.name}
+                    </NavLink>
+                  ))
+                : null}
+              <NavLink to='/about' className={style.navItem} activeClassName={style.selected}>
+                About
+              </NavLink>
             </ul>
           </nav>
         </div>
         <div className={style.rightContent}>
           <SettingsLogo className={style.settings} onClick={toggleSettings} />
-          {isAuth ? <Logout /> : `Login`}
+          {isAuth ? (
+            <Logout />
+          ) : (
+            <NavLink className={style.navItem} to='/login'>
+              Login
+            </NavLink>
+          )}
           {isShowSettings ? <SettingsPge /> : null}
         </div>
       </div>

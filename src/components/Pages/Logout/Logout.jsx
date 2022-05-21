@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../../Hooks/useAuth';
 import { Button } from '../../Buttons/Button/Button';
 import style from './Logout.module.css';
@@ -12,7 +13,9 @@ export function Logout() {
   return (
     <>
       {showUser()}
-      <Button type='button' title='Logout' onClick={logoutHandler} />
+      <NavLink to='/login'>
+        <Button type='button' title='Logout' onClick={logoutHandler} />
+      </NavLink>
     </>
   );
 }

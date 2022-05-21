@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { ErrorBoundary } from '../Hooks/ErrorBoundary';
 import { Header } from '../components/Common/Header/Header';
@@ -8,25 +8,27 @@ import { AuthContext } from '../Hooks/useAuth';
 import { Login } from '../components/Pages/Login/Login';
 import style from './App.module.css';
 import { getRoute } from '../Routes/getRoute';
+import { About } from '../components/Pages/About/About';
 
 export function App() {
   const { isAuth, role } = useContext(AuthContext);
 
   return (
     <Container className={style.container}>
+      <Header />
       <ErrorBoundary>
         {isAuth ? (
-          <>
-            <Header />
-            <main>{getRoute(role)}</main>
-          </>
+          <main>{getRoute(role)}</main>
         ) : (
-          <>
-            <Redirect to='/login' />
-            <main>
-              <Login />
-            </main>
-          </>
+          <main>
+            <Switch>
+              <Route exact path='/about' component={About} />
+              <Route path='/'>
+                <Redirect to='/login' />
+                <Login />
+              </Route>
+            </Switch>
+          </main>
         )}
       </ErrorBoundary>
       <Footer />
