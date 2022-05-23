@@ -1,6 +1,6 @@
 import * as axios from 'axios';
 import { createUser, editUser, getAllUsers, getUserData, removeUserData } from '../users-services ';
-import { createTask, getAllTasks, getTaskData } from '../tasks-services';
+import { createTask, getAllTasks, getMemberTasks, getTaskData } from '../tasks-services';
 import { logout, singInEmailAndPassword } from '../auth-services';
 
 const BASE_API_URL = process.env.REACT_APP_API_DATA_BASEURL;
@@ -124,6 +124,21 @@ export const tasksAPI = {
     const tasks = await getAllTasks();
 
     return tasks;
+  },
+  async getUserTasks(userId) {
+    if (isRestAPIMode()) {
+      try {
+        const response = await instance.get(`users/${userId}/user-tasks`);
+        const { data } = response;
+
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    const userTasks = await getMemberTasks(userId);
+
+    return userTasks;
   },
 
   async getTask(taskId) {
