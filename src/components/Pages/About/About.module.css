@@ -2,11 +2,18 @@
   font-size: 2rem;
   text-align: center;
   padding: 1rem 0.5rem;
+  margin-top: 1rem;
 }
 
 .title {
   text-align: center;
   padding: 1rem 0.5rem;
+}
+
+.bgTitle {
+  padding: 0.5rem;
+  color: var(--header-text-color);
+  background-color: var(--bg-color-header);
 }
 
 .topic {
@@ -16,6 +23,7 @@
 .topicTitle {
   text-align: center;
   padding: 1rem 0.5rem;
+  text-decoration: underline;
 }
 
 .techContent {
@@ -30,4 +38,26 @@
 
 .list > li {
   list-style-type: square;
+}
+
+.admin {
+  background-color: var(--bg-color-primary-button);
+  padding-right: 0.3rem;
+  padding-left: 0.3rem;
+}
+.mentor {
+  background-color: var(--bg-color-edit-button);
+  padding-right: 0.3rem;
+  padding-left: 0.3rem;
+}
+.user {
+  background-color: var(--bg-color-delete-button);
+  padding-right: 0.3rem;
+  padding-left: 0.3rem;
+}
+
+.access {
+  background-color: var(--bg-color-save-button);
+  padding-right: 0.3rem;
+  padding-left: 0.3rem;
 }

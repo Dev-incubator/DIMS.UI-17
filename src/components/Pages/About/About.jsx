@@ -3,7 +3,9 @@ import style from './About.module.css';
 export function About() {
   return (
     <>
-      <h1 className={style.mainTitle}>EMS - APPLICATION FOR MANAGING THE EDUCATIONAL PROCESS</h1>
+      <h1 className={style.mainTitle}>
+        <span className={style.bgTitle}>EMS - APPLICATION FOR MANAGING THE EDUCATIONAL PROCESS</span>
+      </h1>
       <section className={style.topic}>
         <div className={style.techContent}>
           <div>
@@ -28,13 +30,21 @@ export function About() {
           </div>
         </div>
       </section>
-      <h2 className={style.title}>How it works?</h2>
+      <h2 className={style.title}>
+        <span className={style.bgTitle}>How it works?</span>
+      </h2>
       <section className={style.topic}>
         <h3 className={style.topicTitle}>ROLES</h3>
         <ul className={style.list}>
-          <li>admin - has access to all functionality;</li>
-          <li>mentor - has access to members tasks and progress;</li>
-          <li>user - has access to own tasks and tracks.</li>
+          <li>
+            <span className={style.admin}>admin</span> - has access to all functionality;
+          </li>
+          <li>
+            <span className={style.mentor}>mentor</span> - has access to members tasks and progress;
+          </li>
+          <li>
+            <span className={style.user}>user</span> - has access to own tasks and tracks.
+          </li>
         </ul>
       </section>
       <section className={style.topic}>
@@ -43,7 +53,10 @@ export function About() {
       </section>
       <section className={style.topic}>
         <h3 className={style.topicTitle}>MEMBERS PAGE</h3>
-        <p>Access: admin, mentor.</p>
+        <p>
+          <span className={style.access}>Access:</span> <span className={style.admin}>admin</span>,
+          <span className={style.mentor}>mentor</span>.
+        </p>
         <p>
           We can see all users on this page. We can view the progress of tasks and tasks assigned to users. If you are
           an administrator, we can add, change, remove users.
@@ -51,14 +64,21 @@ export function About() {
       </section>
       <section className={style.topic}>
         <h3 className={style.topicTitle}>TASKS PAGE</h3>
-        <p>Access: admin, mentor.</p>
+        <p>
+          <span className={style.access}>Access:</span> <span className={style.admin}>admin</span>,
+          <span className={style.mentor}>mentor</span>.
+        </p>
         <p>On this page we can view all tasks, add, remove tasks, assign tasks to users.</p>
-        <p>Access: user.</p>
+        <p>
+          <span className={style.access}>Access:</span> <span className={style.user}>user</span>.
+        </p>
         <p>On this page, we can see the tasks assigned to you.</p>
       </section>
       <section className={style.topic}>
         <h3 className={style.topicTitle}>TASKS PAGE</h3>
-        <p>Access: user.</p>
+        <p>
+          <span className={style.access}>Access:</span> <span className={style.user}>user</span>.
+        </p>
         <p>On this page we can see your progress, mark your progress, change, add, remove your tracks.</p>
       </section>
     </>
