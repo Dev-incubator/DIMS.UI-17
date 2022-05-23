@@ -1,0 +1,33 @@
+.mainTitle {
+  font-size: 2rem;
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+
+.title {
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+
+.topic {
+  padding: 1rem;
+}
+
+.topicTitle {
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+
+.techContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.list {
+  padding-left: 1rem;
+}
+
+.list > li {
+  list-style-type: square;
+}
