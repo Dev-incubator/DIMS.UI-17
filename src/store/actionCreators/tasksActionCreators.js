@@ -71,7 +71,6 @@ export function getUserTasksThunk(userId) {
   return async (dispatch) => {
     dispatch(loading(true));
     const userTasks = await tasksAPI.getUserTasks(userId);
-    console.log(userTasks);
     dispatch(getUserTasks(userTasks, userId));
     dispatch(loading(false));
   };
