@@ -83,7 +83,7 @@ class LoginForm extends React.PureComponent {
     ) : (
       <Row sm='auto' className={style.wrapper}>
         <Col>
-          <h1 className={style.title}>Sign in to CMS</h1>
+          <h1 className={style.title}>Sign in to EMS</h1>
           <form className={style.login}>
             <label className={style.login__label} htmlFor='email'>
               Email address

@@ -5,6 +5,11 @@ export function About() {
     <>
       <h1 className={style.mainTitle}>
         <span className={style.bgTitle}>EMS - APPLICATION FOR MANAGING THE EDUCATIONAL PROCESS</span>
+        <div className={style.presentationWrapper}>
+          <a href='/presentation' className={style.presentation}>
+            Presentation
+          </a>
+        </div>
       </h1>
       <section className={style.topic}>
         <div className={style.techContent}>
@@ -75,7 +80,7 @@ export function About() {
         <p>On this page, we can see the tasks assigned to you.</p>
       </section>
       <section className={style.topic}>
-        <h3 className={style.topicTitle}>TASKS PAGE</h3>
+        <h3 className={style.topicTitle}>TRACKS PAGE</h3>
         <p>
           <span className={style.access}>Access:</span> <span className={style.user}>user</span>.
         </p>

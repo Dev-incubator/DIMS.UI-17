@@ -9,6 +9,7 @@ import { Login } from '../components/Pages/Login/Login';
 import style from './App.module.css';
 import { getRoute } from '../Routes/getRoute';
 import { About } from '../components/Pages/About/About';
+import { Presentation } from '../Presentation/Presentation';
 
 export function App() {
   const { isAuth, role } = useContext(AuthContext);
@@ -23,6 +24,7 @@ export function App() {
           <main>
             <Switch>
               <Route exact path='/about' component={About} />
+              <Route exact path='/presentation' component={Presentation} />
               <Route path='/'>
                 <Redirect to='/login' />
                 <Login />
