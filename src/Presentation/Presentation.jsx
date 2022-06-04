@@ -75,7 +75,6 @@ export const Presentation = () => (
               <ul>
                 <li>axios;</li>
                 <li>react-bootstrap;</li>
-                <li>hooks;</li>
                 <li>jest;</li>
                 <li>redux-thunk;</li>
                 <li>prop-types.</li>

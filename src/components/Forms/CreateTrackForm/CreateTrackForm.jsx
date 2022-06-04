@@ -49,7 +49,7 @@ export class CreateTrackForm extends React.PureComponent {
     const { userTasks, isEditMode, createTrackHandler, updatedTrackHandler } = this.props;
     const { name, formErrors, ...data } = this.state;
     const selectedTask = userTasks.find((task) => task.name === name);
-    const isError = formErrors
+    const errors = formErrors
       .map((item) => {
         const { name: fieldName, error } = validateFormField(item.name, data[item.name]);
         this.setState((prevState) => ({
@@ -60,9 +60,9 @@ export class CreateTrackForm extends React.PureComponent {
         return error;
       })
       .filter((error) => error);
-    if (isEditMode && !isError.length) {
+    if (isEditMode && !errors.length) {
       await updatedTrackHandler({ name, ...data });
-    } else if (!isError.length) {
+    } else if (!errors.length) {
       const id = generateId();
       await createTrackHandler(selectedTask.taskId, { ...data, name, id });
     }

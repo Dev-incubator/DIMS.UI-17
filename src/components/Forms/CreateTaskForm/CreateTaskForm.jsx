@@ -68,7 +68,7 @@ export class CreateTaskForm extends React.PureComponent {
           : { id: item.name, status: 'Active' },
       );
     const assignedUsers = selectedUsers.map((item) => item.id);
-    const isError = formErrors
+    const errors = formErrors
       .map((item) => {
         const { name, error } = validateFormField(item.name, data[item.name]);
         this.setState((prevState) => ({
@@ -79,9 +79,9 @@ export class CreateTaskForm extends React.PureComponent {
         return error;
       })
       .filter((error) => error);
-    if (isEditMode && !isError.length) {
+    if (isEditMode && !errors.length) {
       updateTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
-    } else if (!isError.length) {
+    } else if (!errors.length) {
       createTaskHandler({ ...data, statuses: [...selectedUsers], assignedUsers });
     }
   };

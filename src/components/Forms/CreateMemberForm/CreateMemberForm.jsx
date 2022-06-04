@@ -45,7 +45,7 @@ export class CreateMemberForm extends React.PureComponent {
     e.preventDefault();
     const { isEditMode, createUserHandler, editUserDataHandler } = this.props;
     const { formErrors, ...data } = this.state;
-    const isError = formErrors
+    const errors = formErrors
       .map((item) => {
         const { name, error } = validateFormField(item.name, data[item.name], data.password);
         this.setState((prevState) => ({
@@ -56,9 +56,9 @@ export class CreateMemberForm extends React.PureComponent {
         return error;
       })
       .filter((error) => error);
-    if (isEditMode && !isError.length) {
+    if (isEditMode && !errors.length) {
       await editUserDataHandler(userTypesValidation(data));
-    } else if (!isError.length) {
+    } else if (!errors.length) {
       await createUserHandler(userTypesValidation(data));
     }
   };

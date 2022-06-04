@@ -14,8 +14,7 @@ export function AllTasksTableRow({
   toggleTaskModalHandler,
 }) {
   async function showTask() {
-    await selectTaskHandler(id);
-    await showTaskDataHandler(true);
+    await Promise.all([selectTaskHandler(id), showTaskDataHandler(true)]);
     toggleTaskModalHandler();
   }
 

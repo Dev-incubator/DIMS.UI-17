@@ -1,3 +1,7 @@
+:root {
+  --primary-padding: 0.3rem;
+}
+
 .mainTitle {
   font-size: 2rem;
   text-align: center;
@@ -42,24 +46,20 @@
 
 .admin {
   background-color: var(--bg-color-primary-button);
-  padding-right: 0.3rem;
-  padding-left: 0.3rem;
+  padding: 0 var(--primary-padding);
 }
 .mentor {
   background-color: var(--bg-color-edit-button);
-  padding-right: 0.3rem;
-  padding-left: 0.3rem;
+  padding: 0 var(--primary-padding);
 }
 .user {
   background-color: var(--bg-color-delete-button);
-  padding-right: 0.3rem;
-  padding-left: 0.3rem;
+  padding: 0 var(--primary-padding);
 }
 
 .access {
   background-color: var(--bg-color-save-button);
-  padding-right: 0.3rem;
-  padding-left: 0.3rem;
+  padding: 0 var(--primary-padding);
 }
 
 .presentation {

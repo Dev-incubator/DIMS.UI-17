@@ -64,22 +64,18 @@ export function Members() {
 
   const toggleUserModalHandler = () => {
     if (isUserModalOpen) {
-      setIsUserModalOpen(!isUserModalOpen);
       setSelectedUserId(null);
       setIsEditMode(false);
       setIsReadOnlyMode(false);
-    } else {
-      setIsUserModalOpen(!isUserModalOpen);
     }
+    setIsUserModalOpen((isModalOpen) => !isModalOpen);
   };
 
   const toggleModalDeleteHandler = () => {
     if (isDeleteModalOpen) {
       setSelectedUserId(null);
-      setIsDeleteModalOpen(!isDeleteModalOpen);
-    } else {
-      setIsDeleteModalOpen(!isDeleteModalOpen);
     }
+    setIsDeleteModalOpen((isModalOpen) => !isModalOpen);
   };
 
   const toggleModal = () => {

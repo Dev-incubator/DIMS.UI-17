@@ -202,7 +202,7 @@ class AllTasks extends React.PureComponent {
 const mapStateToProps = (state) => {
   return {
     tasks: state.tasks.tasks,
-    users: state.users.users,
+    users: state.users,
     taskData: state.tasks.taskData,
     isFetching: state.loading.isFetching,
   };

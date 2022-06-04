@@ -1,6 +1,4 @@
-export const usersInitialState = {
-  users: [],
-};
+export const usersInitialState = [];
 
 export const tasksInitialState = {
   tasks: [],
@@ -9,10 +7,4 @@ export const tasksInitialState = {
 
 export const loaderInitialState = {
   isFetching: false,
-};
-
-export const rootReducerItinialState = {
-  users: { users: [] },
-  tasks: { tasks: [] },
-  loading: { isFetching: true },
 };
