@@ -23,8 +23,8 @@ export function App() {
         ) : (
           <main>
             <Switch>
-              <Route exact path='/about' component={About} />
               <Route exact path='/presentation' component={Presentation} />
+              <Route exact path='/about' component={About} />
               <Route path='/'>
                 <Redirect to='/login' />
                 <Login />
