@@ -64,7 +64,7 @@ export class CreateMemberForm extends React.PureComponent {
   };
 
   render() {
-    const { toggleModalHandler, isReadOnlyMode } = this.props;
+    const { toggleModalHandler, isReadonly } = this.props;
     const { formErrors, ...data } = this.state;
 
     return (
@@ -83,14 +83,14 @@ export class CreateMemberForm extends React.PureComponent {
                 options={options}
                 type={type}
                 title={title}
-                isReadOnlyMode={isReadOnlyMode}
+                isReadonly={isReadonly}
                 errors={error}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} />}
+          {!isReadonly && <Button title='Save' onClick={this.handleSubmit} />}
 
           <Button
             onClick={toggleModalHandler}
@@ -108,12 +108,12 @@ CreateMemberForm.propTypes = {
   editUserDataHandler: propTypes.func.isRequired,
   createUserHandler: propTypes.func.isRequired,
   userData: propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.array]),
-  isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
+  isReadonly: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   isEditMode: propTypes.bool,
 };
 
 CreateMemberForm.defaultProps = {
   userData: null,
-  isReadOnlyMode: false,
+  isReadonly: false,
   isEditMode: false,
 };

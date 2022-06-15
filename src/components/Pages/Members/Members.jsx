@@ -27,7 +27,7 @@ export function Members() {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [isReadOnlyMode, setIsReadOnlyMode] = useState(false);
+  const [isReadonly, setisReadonly] = useState(false);
 
   useLayoutEffect(() => {
     dispatch(getUsersThunk());
@@ -59,14 +59,14 @@ export function Members() {
   const showUserDataHandler = async (userId, readOnlyMode = false) => {
     await getUserData(userId);
     setIsEditMode(true);
-    setIsReadOnlyMode(readOnlyMode);
+    setisReadonly(readOnlyMode);
   };
 
   const toggleUserModalHandler = () => {
     if (isUserModalOpen) {
       setSelectedUserId(null);
       setIsEditMode(false);
-      setIsReadOnlyMode(false);
+      setisReadonly(false);
     }
     setIsUserModalOpen((isModalOpen) => !isModalOpen);
   };
@@ -136,7 +136,7 @@ export function Members() {
             createUserHandler={createUserHandler}
             userData={userData}
             isEditMode={isEditMode}
-            isReadOnlyMode={isReadOnlyMode}
+            isReadonly={isReadonly}
             id={selectedUserId}
             editUserDataHandler={editUserDataHandler}
           />

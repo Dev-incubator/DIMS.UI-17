@@ -12,7 +12,7 @@ import {
   Notes,
   Text,
 } from 'spectacle';
-import logo from '../assets/img/education.png';
+import logo from '../assets/img/education.svg';
 
 const theme = {
   fonts: {
@@ -35,7 +35,7 @@ export const Presentation = () => (
   <Deck theme={theme} template={template}>
     <Slide>
       <FlexBox height='100%'>
-        <img src={logo} alt='logo' />
+        <img src={logo} alt='logo' height='70%' />
       </FlexBox>
       <Notes>
         Spectacle supports notes per slide.

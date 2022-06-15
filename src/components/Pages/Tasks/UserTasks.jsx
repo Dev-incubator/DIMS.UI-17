@@ -47,7 +47,7 @@ class UserTasks extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasks.tasks,
+    tasks: state.items.tasks,
     isFetching: state.loading.isFetching,
   };
 };

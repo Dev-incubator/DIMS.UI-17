@@ -69,7 +69,7 @@ export class CreateTrackForm extends React.PureComponent {
   };
 
   render() {
-    const { toggleModalHandler, isReadOnlyMode, userTasks } = this.props;
+    const { toggleModalHandler, isReadonly, userTasks } = this.props;
     const { formErrors } = this.state;
     const options = userTasks.map((task) => task.name);
 
@@ -91,14 +91,14 @@ export class CreateTrackForm extends React.PureComponent {
                 type={type}
                 title={title}
                 required={required}
-                isReadOnlyMode={isReadOnlyMode}
+                isReadonly={isReadonly}
                 errors={error}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} />}
+          {!isReadonly && <Button title='Save' onClick={this.handleSubmit} />}
 
           <Button
             onClick={toggleModalHandler}
@@ -115,7 +115,7 @@ CreateTrackForm.propTypes = {
   createTrackHandler: propTypes.func.isRequired,
   updatedTrackHandler: propTypes.func.isRequired,
   toggleModalHandler: propTypes.func.isRequired,
-  isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
+  isReadonly: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   userTasks: propTypes.arrayOf(propTypes.oneOfType([propTypes.string, propTypes.object, propTypes.array])),
   isEditMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   tracks: propTypes.arrayOf(propTypes.object),
@@ -123,7 +123,7 @@ CreateTrackForm.propTypes = {
 };
 
 CreateTrackForm.defaultProps = {
-  isReadOnlyMode: false,
+  isReadonly: false,
   userTasks: [],
   isEditMode: false,
   trackId: null,

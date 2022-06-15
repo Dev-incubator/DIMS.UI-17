@@ -7,7 +7,6 @@ import { initialStateAuth } from '../shared/initialStates';
 import { authAPI, setAPIMode } from '../services/api/api';
 import { getRoles } from '../shared/helpers/getRole/getRole';
 import { loading } from '../store/actionCreators/loadingActionCreators';
-// import { getRoute } from '../Routes/getRoute';
 
 export const AuthContext = createContext(null);
 
@@ -35,7 +34,6 @@ class AuthProvider extends React.Component {
     if (userData) {
       const { roles, firstName, userId } = userData;
       this.setAuth(firstName, getRoles(roles), userId);
-      // getRoute(roles);
     }
   }
 

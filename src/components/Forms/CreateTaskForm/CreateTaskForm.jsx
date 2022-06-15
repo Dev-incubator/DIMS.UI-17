@@ -67,7 +67,7 @@ export class CreateTaskForm extends React.PureComponent {
           ? statuses.find((elem) => elem.id === item.name) || { id: item.name, status: 'Active' }
           : { id: item.name, status: 'Active' },
       );
-    const assignedUsers = selectedUsers.map((item) => item.id);
+    const assignedUsers = selectedUsers.map(({ id }) => id);
     const errors = formErrors
       .map((item) => {
         const { name, error } = validateFormField(item.name, data[item.name]);
@@ -87,7 +87,7 @@ export class CreateTaskForm extends React.PureComponent {
   };
 
   render() {
-    const { toggleModalHandler, isReadOnlyMode, users, taskData, isEditMode } = this.props;
+    const { toggleModalHandler, isReadonly, users, taskData, isEditMode } = this.props;
     const { formErrors } = this.state;
     const { error: checkboxError } = formErrors.find((item) => item.name === 'checkbox');
     const assignedUsers = !taskData ? [] : taskData.statuses.map((item) => item.id);
@@ -110,7 +110,7 @@ export class CreateTaskForm extends React.PureComponent {
                 type={type}
                 title={title}
                 required={required}
-                isReadOnlyMode={isReadOnlyMode}
+                isReadonly={isReadonly}
                 errors={error}
               />
             );
@@ -121,7 +121,7 @@ export class CreateTaskForm extends React.PureComponent {
             <label className={style.users} key={user.userId} htmlFor={user.userId}>
               {getFullName(user.firstName, user.lastName)}
               <Form.Check
-                disabled={isReadOnlyMode}
+                disabled={isReadonly}
                 ref={(ref) => {
                   this.myRef[index] = ref;
                 }}
@@ -137,7 +137,7 @@ export class CreateTaskForm extends React.PureComponent {
         <p className={style.error}>{checkboxError}</p>
 
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} />}
+          {!isReadonly && <Button title='Save' onClick={this.handleSubmit} />}
 
           <Button
             onClick={toggleModalHandler}
@@ -154,7 +154,7 @@ CreateTaskForm.propTypes = {
   toggleModalHandler: propTypes.func.isRequired,
   createTaskHandler: propTypes.func.isRequired,
   updateTaskHandler: propTypes.func.isRequired,
-  isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
+  isReadonly: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   users: propTypes.arrayOf(propTypes.object).isRequired,
   taskData: propTypes.oneOfType([propTypes.string, propTypes.object]),
   isEditMode: propTypes.bool,
@@ -162,6 +162,6 @@ CreateTaskForm.propTypes = {
 
 CreateTaskForm.defaultProps = {
   taskData: null,
-  isReadOnlyMode: false,
+  isReadonly: false,
   isEditMode: false,
 };
