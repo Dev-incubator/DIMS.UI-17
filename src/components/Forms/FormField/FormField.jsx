@@ -5,7 +5,7 @@ import style from './FormField.module.css';
 import eye from '../../../assets/img/opened-eye.svg';
 import hideEye from '../../../assets/img/closed-eye.svg';
 
-export function FormField({ onChange, value, name, title, type = 'text', options, isReadOnlyMode, errors }) {
+export function FormField({ onChange, value, name, title, type = 'text', options, isReadonly, errors }) {
   const inputRef = useRef(null);
   const [isShowPass, setShowPass] = useState(false);
 
@@ -23,7 +23,7 @@ export function FormField({ onChange, value, name, title, type = 'text', options
         <span className={style.errors}>{errors}</span>
       </Form.Label>
       {type === 'select' ? (
-        <Form.Select name={name} onChange={onChange} value={value} disabled={isReadOnlyMode}>
+        <Form.Select name={name} onChange={onChange} value={value} disabled={isReadonly}>
           {options.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -48,7 +48,7 @@ export function FormField({ onChange, value, name, title, type = 'text', options
             type={type}
             name={name}
             id={name}
-            readOnly={isReadOnlyMode}
+            readOnly={isReadonly}
             isInvalid={errors}
             ref={inputRef}
           />
@@ -65,13 +65,13 @@ FormField.propTypes = {
   type: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.string)]).isRequired,
   options: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-  isReadOnlyMode: PropTypes.bool,
+  isReadonly: PropTypes.bool,
   errors: PropTypes.string,
 };
 FormField.defaultProps = {
   type: 'text',
   title: 'name',
   options: '',
-  isReadOnlyMode: false,
+  isReadonly: false,
   errors: '',
 };

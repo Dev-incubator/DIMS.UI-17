@@ -29,7 +29,6 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
       return {
         ...state,
         tasks: [...state.tasks, { ...action.payload.data, taskId: action.payload.taskId }],
-        taskData: null,
       };
     case EDIT_TASK:
       return {

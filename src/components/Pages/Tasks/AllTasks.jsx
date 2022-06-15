@@ -28,7 +28,7 @@ class AllTasks extends React.PureComponent {
       isTaskModalOpen: false,
       isDeleteModalOpen: false,
       isEditMode: false,
-      isReadOnlyMode: false,
+      isReadonly: false,
     };
   }
 
@@ -77,9 +77,9 @@ class AllTasks extends React.PureComponent {
     this.setState({ selectedTaskId });
   };
 
-  showTaskDataHandler = async (isReadOnlyMode = false) => {
+  showTaskDataHandler = async (isReadonly = false) => {
     await this.getTaskData();
-    this.setState({ isEditMode: true, isReadOnlyMode });
+    this.setState({ isEditMode: true, isReadonly });
   };
 
   toggleTaskModalHandler = () => {
@@ -117,7 +117,7 @@ class AllTasks extends React.PureComponent {
   };
 
   render() {
-    const { isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode, isReadOnlyMode } = this.state;
+    const { isTaskModalOpen, isDeleteModalOpen, selectedTaskId, isEditMode, isReadonly } = this.state;
     const { tasks, users, isFetching } = this.props;
     const taskData = tasks.find((item) => item.taskId === selectedTaskId);
     const items = tasks.map((item, index) => {
@@ -174,7 +174,7 @@ class AllTasks extends React.PureComponent {
               isEditMode={isEditMode}
               taskData={taskData}
               id={selectedTaskId}
-              isReadOnlyMode={isReadOnlyMode}
+              isReadonly={isReadonly}
               createTaskHandler={this.createTaskHandler}
               updateTaskHandler={this.updateTaskHandler}
             />
@@ -201,9 +201,8 @@ class AllTasks extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasks.tasks,
+    tasks: state.items.tasks,
     users: state.users,
-    taskData: state.tasks.taskData,
     isFetching: state.loading.isFetching,
   };
 };
