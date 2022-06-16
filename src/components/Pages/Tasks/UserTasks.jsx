@@ -23,7 +23,7 @@ class UserTasks extends React.PureComponent {
       return (
         <UserTasksTableRow
           key={item.name + index.toString()}
-          index={index}
+          index={index + 1}
           id={item.taskId}
           name={item.name}
           startDate={item.startDate}
@@ -39,7 +39,7 @@ class UserTasks extends React.PureComponent {
     ) : (
       <>
         <PageTitle title={TITLES_PAGES.userTasks} isContainsButton={false} />
-        <Table title={TABLE_TITLES.userTasks} items={items} />
+        <Table title={TABLE_TITLES.userTasks} items={items} bordered={false} striped={false} hover={false} />
       </>
     );
   }
@@ -47,7 +47,7 @@ class UserTasks extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasks.tasks,
+    tasks: state.items.tasks,
     isFetching: state.loading.isFetching,
   };
 };

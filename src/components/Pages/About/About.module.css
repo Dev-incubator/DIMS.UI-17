@@ -1,0 +1,77 @@
+:root {
+  --primary-padding: 0.3rem;
+}
+
+.mainTitle {
+  font-size: 2rem;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  margin-top: 1rem;
+}
+
+.title {
+  text-align: center;
+  padding: 1rem 0.5rem;
+}
+
+.bgTitle {
+  padding: 0.5rem;
+  color: var(--header-text-color);
+  background-color: var(--bg-color-header);
+}
+
+.topic {
+  padding: 1rem;
+}
+
+.topicTitle {
+  text-align: center;
+  padding: 1rem 0.5rem;
+  text-decoration: underline;
+}
+
+.techContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.list {
+  padding-left: 1rem;
+}
+
+.list > li {
+  list-style-type: square;
+}
+
+.admin {
+  background-color: var(--bg-color-primary-button);
+  padding: 0 var(--primary-padding);
+}
+.mentor {
+  background-color: var(--bg-color-edit-button);
+  padding: 0 var(--primary-padding);
+}
+.user {
+  background-color: var(--bg-color-delete-button);
+  padding: 0 var(--primary-padding);
+}
+
+.access {
+  background-color: var(--bg-color-save-button);
+  padding: 0 var(--primary-padding);
+}
+
+.presentation {
+  background-color: var(--color-active-link);
+  color: var(--header-text-color);
+  padding: 1rem;
+}
+.presentation:hover {
+  color: var(--bg-color-delete-button);
+}
+
+.presentationWrapper {
+  text-align: left;
+  padding: 2rem;
+}

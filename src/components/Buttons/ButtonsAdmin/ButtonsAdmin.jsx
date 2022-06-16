@@ -1,8 +1,10 @@
+import { useContext } from 'react';
 import PropTypes, { oneOfType } from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES, USER_ROLES } from '../../../shared/constants';
 import { AuthContext } from '../../../Hooks/useAuth';
+import style from './ButtonsAdmin.module.css';
 
 export function ButtonsAdminMemberPage({
   selectUserHandler,
@@ -11,38 +13,39 @@ export function ButtonsAdminMemberPage({
   toggleModalDeleteHandler,
   toggleUserModalHandler,
 }) {
-  const showDeleteModal = async () => {
-    await selectUserHandler(id);
+  const { role, userId } = useContext(AuthContext);
+  const showDeleteModal = () => {
+    selectUserHandler(id);
     toggleModalDeleteHandler();
   };
 
   const showEditModal = async () => {
-    await selectUserHandler(id);
-    await showUserDataHandler();
+    selectUserHandler(id);
+    await showUserDataHandler(id, false);
     toggleUserModalHandler();
   };
 
   return (
-    <AuthContext.Consumer>
-      {({ role }) => {
-        return (
+    <>
+      <div className={style.wrapper}>
+        <NavLink to={`/members/${id}/tasks`}>
+          <Button title={BUTTONS_NAMES.tasks} />
+        </NavLink>
+        <NavLink to={`/members/${id}/progress`}>
+          <Button title={BUTTONS_NAMES.progress} />
+        </NavLink>
+      </div>
+      <div className={style.wrapper}>
+        {role === USER_ROLES.admin && (
           <>
-            <NavLink to={`/tasks/${id}`}>
-              <Button title={BUTTONS_NAMES.tasks} />
-            </NavLink>
-            <NavLink to={`/progress/${id}`}>
-              <Button title={BUTTONS_NAMES.progress} />
-            </NavLink>
-            {role === USER_ROLES.admin && (
-              <>
-                <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
-                <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
-              </>
-            )}
+            <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
+            {userId !== id ? (
+              <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
+            ) : null}
           </>
-        );
-      }}
-    </AuthContext.Consumer>
+        )}
+      </div>
+    </>
   );
 }
 

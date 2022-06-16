@@ -1,7 +1,6 @@
 import * as axios from 'axios';
-import jwtDecode from 'jwt-decode';
 import { createUser, editUser, getAllUsers, getUserData, removeUserData } from '../users-services ';
-import { createTask, getAllTasks, getTaskData } from '../tasks-services';
+import { createTask, getAllTasks, getMemberTasks, getTaskData } from '../tasks-services';
 import { logout, singInEmailAndPassword } from '../auth-services';
 
 const BASE_API_URL = process.env.REACT_APP_API_DATA_BASEURL;
@@ -27,8 +26,9 @@ export const usersAPI = {
       const {
         data: { data },
       } = await response;
+      const users = data.map((user) => ({ ...user, userId: user.id }));
 
-      return data;
+      return users;
     }
 
     return getAllUsers();
@@ -40,7 +40,7 @@ export const usersAPI = {
 
       const { data } = await response;
 
-      return data;
+      return { ...data, userId: data.id };
     }
     const userData = await getUserData(userId);
 
@@ -81,7 +81,12 @@ export const authAPI = {
           data: { token },
         } = response;
         localStorage.setItem('token', token);
-        const userData = await usersAPI.getUserById(authAPI.decodingToken());
+        const {
+          data: { userId },
+        } = await instance.get('auth/me', token);
+        const userData = await usersAPI.getUserById(userId);
+        const { roles, firstName, id } = userData;
+        localStorage.setItem('user', JSON.stringify({ roles, firstName, userId: id }));
 
         return userData;
       } catch (error) {
@@ -97,16 +102,10 @@ export const authAPI = {
   async logout() {
     if (isRestAPIMode()) {
       localStorage.removeItem('token');
+      localStorage.setItem('user', null);
     } else {
       await logout();
     }
-  },
-
-  decodingToken() {
-    const token = localStorage.getItem('token');
-    const { userId } = jwtDecode(token);
-
-    return userId;
   },
 };
 
@@ -125,6 +124,21 @@ export const tasksAPI = {
     const tasks = await getAllTasks();
 
     return tasks;
+  },
+  async getUserTasks(userId) {
+    if (isRestAPIMode()) {
+      try {
+        const response = await instance.get(`users/${userId}/user-tasks`);
+        const { data } = response;
+
+        return data;
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    const userTasks = await getMemberTasks(userId);
+
+    return userTasks;
   },
 
   async getTask(taskId) {

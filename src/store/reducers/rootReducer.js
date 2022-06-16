@@ -5,6 +5,6 @@ import { usersReducer } from './usersReducer';
 
 export const rootReducer = combineReducers({
   users: usersReducer,
-  tasks: tasksReducer,
+  items: tasksReducer,
   loading: loadingReducer,
 });

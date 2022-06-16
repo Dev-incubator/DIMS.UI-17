@@ -7,7 +7,7 @@ import {
   REMOVE_TASK,
   UPDATE_TASK_STATUS,
 } from '../actions/actions';
-import { removeTask, updateTask, getMemberTasks, changeTaskStatus } from '../../services/tasks-services';
+import { removeTask, updateTask, changeTaskStatus } from '../../services/tasks-services';
 import { tasksAPI } from '../../services/api/api';
 import { loading } from './loadingActionCreators';
 
@@ -70,7 +70,7 @@ export function getTaskThunk(taskId) {
 export function getUserTasksThunk(userId) {
   return async (dispatch) => {
     dispatch(loading(true));
-    const userTasks = await getMemberTasks(userId);
+    const userTasks = await tasksAPI.getUserTasks(userId);
     dispatch(getUserTasks(userTasks, userId));
     dispatch(loading(false));
   };

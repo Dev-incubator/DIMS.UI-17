@@ -22,18 +22,12 @@ class Tasks extends React.PureComponent {
   }
 
   async componentDidMount() {
+    const { getUserTasks, match } = this.props;
     const {
-      match: {
-        params: { id },
-      },
-    } = this.props;
-    this.getUserTasks(id);
+      params: { id },
+    } = match;
     this.setState({ userId: id });
-  }
-
-  async getUserTasks(userId) {
-    const { getUserTasks } = this.props;
-    await getUserTasks(userId);
+    await getUserTasks(id);
   }
 
   changeStatusHandler = async (newStatus, taskId, userId) => {
@@ -43,7 +37,7 @@ class Tasks extends React.PureComponent {
 
   render() {
     const { userId } = this.state;
-    const { history, tasks, isFetching } = this.props;
+    const { history, isFetching, tasks } = this.props;
     const items = tasks.map((item, index) => {
       const succesStatusHandler = () => {
         this.succesStatusHandler(item.taskId, userId);
@@ -58,7 +52,7 @@ class Tasks extends React.PureComponent {
       return (
         <TasksTableRow
           key={item.name + index.toString()}
-          index={index}
+          index={index + 1}
           name={item.name}
           startDate={item.startDate}
           deadlineDate={item.deadlineDate}
@@ -87,7 +81,7 @@ class Tasks extends React.PureComponent {
           isBackButton
         />
 
-        <Table title={TABLE_TITLES.currentTasks} items={items} />
+        <Table title={TABLE_TITLES.currentTasks} items={items} bordered={false} striped={false} hover={false} />
         {isFetching && <Loader />}
       </>
     );
@@ -96,7 +90,7 @@ class Tasks extends React.PureComponent {
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasks.tasks,
+    tasks: state.items.tasks,
     isFetching: state.loading.isFetching,
   };
 };

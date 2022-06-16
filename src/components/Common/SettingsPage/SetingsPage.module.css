@@ -10,7 +10,7 @@
 }
 
 .dark {
-  background-color: black;
+  background-color: #322F20;
   color: white;
 }
 .light {
@@ -18,8 +18,8 @@
   color: black;
 }
 .darkDimmed {
-  background-color: #21262d;
-  color: #acb8c4;
+  background-color: #496a81;
+  color: #fff;
 }
 .buttonWrapper > button {
 min-width: 150px;

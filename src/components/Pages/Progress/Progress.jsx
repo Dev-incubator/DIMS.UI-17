@@ -1,58 +1,48 @@
-import React from 'react';
+import { useEffect } from 'react';
 import propTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { PageTitle } from '../../PageTitle/PageTitle';
 import { TABLE_TITLES, BUTTONS_NAMES, TITLES_PAGES, BUTTONS_TYPES } from '../../../shared/constants';
-import { getUserTracks } from '../../../services/tracks-services';
 import { ProgressTableRow } from '../../Table/ProgressTableRow';
 import { Table } from '../../Table/Table';
+import { getTracksThunk } from '../../../store/actionCreators/tracksActionCreators';
+import { getUserTracks } from '../../../store/selectors/selectors';
 
-export class Progress extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      progress: [],
-    };
-  }
+export function Progress({ history, match }) {
+  const dispatch = useDispatch();
+  const tracks = useSelector(getUserTracks);
+  const {
+    params: { id },
+  } = match;
 
-  async componentDidMount() {
-    const {
-      match: {
-        params: { id },
-      },
-    } = this.props;
+  useEffect(() => {
+    dispatch(getTracksThunk(id));
+  }, [dispatch, id]);
 
-    const progress = await getUserTracks(id);
-    this.setState({ progress });
-  }
-
-  render() {
-    const { progress } = this.state;
-    const { history } = this.props;
-    const items = progress.map((item, index) => {
-      return (
-        <ProgressTableRow
-          key={item.name + index.toString()}
-          index={index}
-          name={item.name}
-          node={item.node}
-          date={item.date}
-        />
-      );
-    });
-
+  const items = tracks.map((item, index) => {
     return (
-      <div>
-        <PageTitle
-          title={TITLES_PAGES.progress}
-          buttonTitle={BUTTONS_NAMES.backToList}
-          stylingType={BUTTONS_TYPES.typeSecondary}
-          history={history}
-          isBackButton
-        />
-        <Table title={TABLE_TITLES.progress} items={items} />
-      </div>
+      <ProgressTableRow
+        key={item.name + index.toString()}
+        index={index + 1}
+        name={item.name}
+        node={item.node}
+        date={item.date}
+      />
     );
-  }
+  });
+
+  return (
+    <div>
+      <PageTitle
+        title={TITLES_PAGES.progress}
+        buttonTitle={BUTTONS_NAMES.backToList}
+        stylingType={BUTTONS_TYPES.typeSecondary}
+        history={history}
+        isBackButton
+      />
+      <Table title={TABLE_TITLES.progress} items={items} bordered={false} striped={false} hover={false} />
+    </div>
+  );
 }
 
 Progress.propTypes = {

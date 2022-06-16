@@ -5,6 +5,7 @@ import {
   EDIT_TASK,
   GET_TASK,
   GET_TASKS,
+  GET_TRACKS,
   GET_USER_TASKS,
   REMOVE_TASK,
   REMOVE_TRACK,
@@ -28,7 +29,6 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
       return {
         ...state,
         tasks: [...state.tasks, { ...action.payload.data, taskId: action.payload.taskId }],
-        taskData: null,
       };
     case EDIT_TASK:
       return {
@@ -64,6 +64,11 @@ export const tasksReducer = (state = tasksInitialState, action = {}) => {
         tasks: state.tasks.map((item) =>
           item.taskId === action.payload.taskId ? { ...item, tracks: [...item.tracks, action.payload.data] } : item,
         ),
+      };
+    case GET_TRACKS:
+      return {
+        ...state,
+        tracks: [...action.payload.tracks],
       };
     case REMOVE_TRACK:
       return {
