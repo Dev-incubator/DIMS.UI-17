@@ -19,7 +19,11 @@ export class SettingsProvider extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.setState((prevState) => ({ ...prevState, theme: localStorage.getItem('theme') || 'light' }));
+    this.setState((prevState) => ({
+      ...prevState,
+      theme: localStorage.getItem('theme') || 'light',
+      mediumBreakpoint: window.innerWidth,
+    }));
   }
 
   componentDidUpdate(prevProps, prevState) {
