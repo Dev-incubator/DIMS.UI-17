@@ -7,7 +7,12 @@ import style from './Logout.module.css';
 export function Logout() {
   const { firstName, role, logoutHandler } = useContext(AuthContext);
   function showUser() {
-    return <span className={style.user}>{`${firstName}: ${role} `}</span>;
+    return (
+      <span className={style.user}>
+        <i>{firstName}</i>
+        <i>: {role}</i>
+      </span>
+    );
   }
 
   return (
