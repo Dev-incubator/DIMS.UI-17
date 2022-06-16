@@ -7,7 +7,7 @@ import { GetRoute } from '../Routes/getRoute';
 
 export function App() {
   return (
-    <Container className={style.container}>
+    <Container className={style.container} fluid>
       <Header />
       <ErrorBoundary>
         <main>{GetRoute()}</main>

@@ -18,37 +18,39 @@ export function NavBar() {
     role === USER_ROLES.user ? LINKS_HEADER_MENU.filter((item) => item.access === USER_ROLES.user) : LINKS_HEADER_MENU;
 
   return (
-    <Container>
+    <Container fluid>
       <Navbar collapseOnSelect expand='md' variant='dark'>
-        <Container>
-          <img className={style.logo} src={logo} alt='logo' />
-          <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-          <Navbar.Collapse id='responsive-navbar-nav'>
-            <Nav className='me-auto'>
+        <img className={style.logo} src={logo} alt='logo' />
+        <Navbar.Toggle aria-controls='responsive-navbar-nav' className={style.navBtn} />
+        <Navbar.Collapse id='responsive-navbar-nav'>
+          <Nav className='me-auto'>
+            <ul className={style.navMenu}>
               {isAuth
                 ? links.map((item) => (
-                    <NavLink
-                      key={item.name}
-                      to={item.to}
-                      className={style[item.className]}
-                      activeClassName={style[item.activeClassName]}
-                    >
-                      {item.name}
-                    </NavLink>
+                    <li key={item.name}>
+                      <NavLink
+                        to={item.to}
+                        className={style[item.className]}
+                        activeClassName={style[item.activeClassName]}
+                      >
+                        {item.name}
+                      </NavLink>
+                    </li>
                   ))
                 : null}
-
-              <NavLink to='/about' activeClassName={style.selected}>
-                About
-              </NavLink>
-            </Nav>
-          </Navbar.Collapse>
-          <div className={style.user}>
-            <SettingsLogo className={style.settings} onClick={toggleSettings} />
-            {isAuth ? <Logout /> : <NavLink to='/login'>Login</NavLink>}
-            {isShowSettings ? <SettingsPge /> : null}
-          </div>
-        </Container>
+              <li>
+                <NavLink to='/about' activeClassName={style.selected}>
+                  About
+                </NavLink>
+              </li>
+            </ul>
+          </Nav>
+        </Navbar.Collapse>
+        <div className={style.user}>
+          <SettingsLogo className={style.settings} onClick={toggleSettings} />
+          {isAuth ? <Logout /> : <NavLink to='/login'>Login</NavLink>}
+          {isShowSettings ? <SettingsPge /> : null}
+        </div>
       </Navbar>
     </Container>
   );
