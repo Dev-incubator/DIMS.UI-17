@@ -20,10 +20,12 @@ export function ButtonsAdminMemberPage({
   toggleUserModalHandler,
 }) {
   const { role, userId } = useContext(AuthContext);
-  const { mediumBrakpoint, setBreakepointHeandler } = useContext(SettingsContext);
+  const { mediumBreakpoint, setBreakepointHeandler } = useContext(SettingsContext);
 
   useEffect(() => {
     window.addEventListener('resize', setBreakepointHeandler);
+
+    return () => window.removeEventListener('resize', setBreakepointHeandler);
   });
 
   const showDeleteModal = () => {
@@ -41,11 +43,11 @@ export function ButtonsAdminMemberPage({
     <>
       <div className={style.wrapper}>
         <NavLink to={`/members/${id}/tasks`}>
-          <Button>{isMediumScreen(mediumBrakpoint) ? <img src={tasks} alt='Tasks' /> : BUTTONS_NAMES.tasks}</Button>
+          <Button>{isMediumScreen(mediumBreakpoint) ? <img src={tasks} alt='Tasks' /> : BUTTONS_NAMES.tasks}</Button>
         </NavLink>
         <NavLink to={`/members/${id}/progress`}>
           <Button>
-            {isMediumScreen(mediumBrakpoint) ? <img src={progress} alt='Progress' /> : BUTTONS_NAMES.progress}
+            {isMediumScreen(mediumBreakpoint) ? <img src={progress} alt='Progress' /> : BUTTONS_NAMES.progress}
           </Button>
         </NavLink>
       </div>
@@ -53,11 +55,11 @@ export function ButtonsAdminMemberPage({
         {role === USER_ROLES.admin && (
           <>
             <Button stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal}>
-              {isMediumScreen(mediumBrakpoint) ? <img src={edit} alt='Edit' /> : BUTTONS_NAMES.edit}
+              {isMediumScreen(mediumBreakpoint) ? <img src={edit} alt='Edit' /> : BUTTONS_NAMES.edit}
             </Button>
             {userId !== id ? (
               <Button stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal}>
-                {isMediumScreen(mediumBrakpoint) ? <img src={del} alt='Delete' /> : BUTTONS_NAMES.delete}
+                {isMediumScreen(mediumBreakpoint) ? <img src={del} alt='Delete' /> : BUTTONS_NAMES.delete}
               </Button>
             ) : null}
           </>

@@ -14,10 +14,12 @@ export function ButtonsTask({
   showTaskDataHandler,
   toggleTaskModalHandler,
 }) {
-  const { mediumBrakpoint, setBreakepointHeandler } = useContext(SettingsContext);
+  const { mediumBreakpoint, setBreakepointHeandler } = useContext(SettingsContext);
 
   useEffect(() => {
     window.addEventListener('resize', setBreakepointHeandler);
+
+    return () => window.removeEventListener('resize', setBreakepointHeandler);
   });
 
   const showDeleteModal = async () => {
@@ -34,10 +36,10 @@ export function ButtonsTask({
   return (
     <>
       <Button stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal}>
-        {isMediumScreen(mediumBrakpoint) ? <img src={edit} alt='Edit' /> : BUTTONS_NAMES.edit}
+        {isMediumScreen(mediumBreakpoint) ? <img src={edit} alt='Edit' /> : BUTTONS_NAMES.edit}
       </Button>
       <Button stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal}>
-        {isMediumScreen(mediumBrakpoint) ? <img src={del} alt='Delete' /> : BUTTONS_NAMES.delete}
+        {isMediumScreen(mediumBreakpoint) ? <img src={del} alt='Delete' /> : BUTTONS_NAMES.delete}
       </Button>
     </>
   );

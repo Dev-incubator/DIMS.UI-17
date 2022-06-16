@@ -8,7 +8,7 @@ export class SettingsProvider extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      mediumBrakpoint: null,
+      mediumBreakpoint: null,
       isShowSettings: false,
       toggleSettings: this.toggleSettings,
       setLightTheme: this.toggleTheme.bind(this, 'light'),
@@ -35,7 +35,7 @@ export class SettingsProvider extends React.PureComponent {
   };
 
   setBreakpoint = () => {
-    this.setState({ mediumBrakpoint: window.innerWidth });
+    this.setState({ mediumBreakpoint: window.innerWidth });
   };
 
   toggleTheme(theme) {
