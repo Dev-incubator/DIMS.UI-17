@@ -1,8 +1,16 @@
+import { useContext, useEffect } from 'react';
 import PropTypes, { oneOfType } from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES, USER_ROLES } from '../../../shared/constants';
 import { AuthContext } from '../../../Hooks/useAuth';
+import { SettingsContext } from '../../../Hooks/useSettings';
+import { isMediumScreen } from '../../../shared/helpers/checkMediaQuery/checkMediaQuery';
+import style from './ButtonsAdmin.module.css';
+import tasks from '../../../assets/img/tasks.svg';
+import edit from '../../../assets/img/edit.svg';
+import progress from '../../../assets/img/progress.svg';
+import del from '../../../assets/img/delete.svg';
 
 export function ButtonsAdminMemberPage({
   selectUserHandler,
@@ -11,38 +19,53 @@ export function ButtonsAdminMemberPage({
   toggleModalDeleteHandler,
   toggleUserModalHandler,
 }) {
-  const showDeleteModal = async () => {
-    await selectUserHandler(id);
+  const { role, userId } = useContext(AuthContext);
+  const { mediumBreakpoint, setBreakepointHeandler } = useContext(SettingsContext);
+
+  useEffect(() => {
+    window.addEventListener('resize', setBreakepointHeandler);
+
+    return () => window.removeEventListener('resize', setBreakepointHeandler);
+  });
+
+  const showDeleteModal = () => {
+    selectUserHandler(id);
     toggleModalDeleteHandler();
   };
 
   const showEditModal = async () => {
-    await selectUserHandler(id);
-    await showUserDataHandler();
+    selectUserHandler(id);
+    await showUserDataHandler(id, false);
     toggleUserModalHandler();
   };
 
   return (
-    <AuthContext.Consumer>
-      {({ role }) => {
-        return (
+    <>
+      <div className={style.wrapper}>
+        <NavLink to={`/members/${id}/tasks`}>
+          <Button>{isMediumScreen(mediumBreakpoint) ? <img src={tasks} alt='Tasks' /> : BUTTONS_NAMES.tasks}</Button>
+        </NavLink>
+        <NavLink to={`/members/${id}/progress`}>
+          <Button>
+            {isMediumScreen(mediumBreakpoint) ? <img src={progress} alt='Progress' /> : BUTTONS_NAMES.progress}
+          </Button>
+        </NavLink>
+      </div>
+      <div className={style.wrapper}>
+        {role === USER_ROLES.admin && (
           <>
-            <NavLink to={`/tasks/${id}`}>
-              <Button title={BUTTONS_NAMES.tasks} />
-            </NavLink>
-            <NavLink to={`/progress/${id}`}>
-              <Button title={BUTTONS_NAMES.progress} />
-            </NavLink>
-            {role === USER_ROLES.admin && (
-              <>
-                <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
-                <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
-              </>
-            )}
+            <Button stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal}>
+              {isMediumScreen(mediumBreakpoint) ? <img src={edit} alt='Edit' /> : BUTTONS_NAMES.edit}
+            </Button>
+            {userId !== id ? (
+              <Button stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal}>
+                {isMediumScreen(mediumBreakpoint) ? <img src={del} alt='Delete' /> : BUTTONS_NAMES.delete}
+              </Button>
+            ) : null}
           </>
-        );
-      }}
-    </AuthContext.Consumer>
+        )}
+      </div>
+    </>
   );
 }
 

@@ -1,3 +1,14 @@
 .user {
-  color: var(--bg-color-primary);
+  color: var(--header-text-color);
+}
+.user > svg {
+  padding: 0 1rem;
+}
+@media (max-width: 768px) {
+  .user > i:last-child {
+    display: none;
+  }
+  .user > i {
+    padding: 0 1rem;
+  }
 }

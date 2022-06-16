@@ -1,30 +1,34 @@
+import { useContext } from 'react';
 import { Offcanvas } from 'react-bootstrap';
+import style from './SetingsPage.module.css';
 import { SettingsContext } from '../../../Hooks/useSettings';
 import { Button } from '../../Buttons/Button/Button';
-import style from './SetingsPage.module.css';
 
 export function SettingsPge() {
+  const { isShowSettings, toggleSettings, setLightTheme, setDarkTheme, setDarkDimmedTheme } =
+    useContext(SettingsContext);
+
   return (
-    <SettingsContext.Consumer>
-      {({ isShowSettings, toggleSettings, setLightTheme, setDarkTheme, setDarkDimmedTheme }) => {
-        return (
-          <Offcanvas show={isShowSettings} onHide={toggleSettings} className={style.settings}>
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title>Settings</Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <div className={style.theme}>
-                <p>Theme mode</p>
-                <div className={style.buttonWrapper}>
-                  <Button title='Light' onClick={setLightTheme} className={style.light} />
-                  <Button title='Dark' onClick={setDarkTheme} className={style.dark} />
-                  <Button title='Dark dimmed' onClick={setDarkDimmedTheme} className={style.darkDimmed} />
-                </div>
-              </div>
-            </Offcanvas.Body>
-          </Offcanvas>
-        );
-      }}
-    </SettingsContext.Consumer>
+    <Offcanvas show={isShowSettings} onHide={toggleSettings} className={style.settings}>
+      <Offcanvas.Header closeButton>
+        <Offcanvas.Title>Settings</Offcanvas.Title>
+      </Offcanvas.Header>
+      <Offcanvas.Body>
+        <div className={style.theme}>
+          <p>Theme mode</p>
+          <div className={style.buttonWrapper}>
+            <Button onClick={setLightTheme} className={style.light}>
+              Light
+            </Button>
+            <Button onClick={setDarkTheme} className={style.dark}>
+              Dark
+            </Button>
+            <Button onClick={setDarkDimmedTheme} className={style.darkDimmed}>
+              Dark dimmed
+            </Button>
+          </div>
+        </div>
+      </Offcanvas.Body>
+    </Offcanvas>
   );
 }

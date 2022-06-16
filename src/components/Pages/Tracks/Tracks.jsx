@@ -118,7 +118,7 @@ class Tracks extends React.PureComponent {
           return (
             <TrackTableRow
               key={item.name + index.toString()}
-              index={index}
+              index={index + 1}
               name={item.name}
               node={item.node}
               date={item.date}
@@ -150,7 +150,7 @@ class Tracks extends React.PureComponent {
           onClick={this.toggleTrackModalHandler}
         />
 
-        <Table title={TABLE_TITLES.track} items={items} />
+        <Table title={TABLE_TITLES.track} items={items} bordered={false} striped={false} hover={false} />
 
         {isTrackModalOpen ? (
           <ModalWindow
@@ -194,7 +194,7 @@ Tracks.contextType = AuthContext;
 
 const mapStateToProps = (state) => {
   return {
-    tasks: state.tasks.tasks,
+    tasks: state.items.tasks,
     isFetching: state.loading.isFetching,
   };
 };

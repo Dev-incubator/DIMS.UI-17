@@ -152,3 +152,7 @@ export const FORM_TRACKS_ERRORS = [
   { name: 'date', error: null },
   { name: 'node', error: null },
 ];
+
+export const BREAKPOINTS = {
+  md: 768,
+};

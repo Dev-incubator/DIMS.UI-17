@@ -13,12 +13,14 @@
   --color-modal: rgba(0, 0, 0, 0.4);
 
   --text-color-primary: #000;
+  --header-text-color: #fff;
 
   --bg-color-primary: #fff;
   --bg-color-secondery: #f5f2e7;
   --bg-color-header: #24292f;
+  --border-button-color: #000;
 
-  --width-content: 800px;
+  --width-content: 1140px;
 
   --fw-thin: 100;
   --fw-light: 300;
@@ -26,29 +28,37 @@
   --fw-bold: 700;
 
   --transition: 0.3s all;
+  --hover-brightness: 1.2;
 }
 
 [data-theme='dark'] {
-  --bg-color-primary: #0d1117;
-  --bg-color-header: #161b22;
-  --text-color-primary: #fff;
+  --bg-color-primary: #322f20;
+  --bg-color-header: #23231a;
+  --text-color-primary: #fffbe7;
+  --header-text-color: #fffbe7;
 
-  --bg-color-primary-button: #4b515c;
-  --bg-color-edit-button: #b17cf6;
-  --bg-color-delete-button: #f76867;
-  --bg-color-save-button: #09b43a;
-  --bg-color-secondery-button: #272b33;
+  --bg-color-primary-button: #6a5837;
+  --bg-color-edit-button: #988f2a;
+  --bg-color-delete-button: #992b3d;
+  --bg-color-save-button: #2b996f;
+  --bg-color-secondery-button: #6b6438;
+  --border-button-color: #6a5837;
+
+  --color-active-link: #cc4b00;
 }
 [data-theme='dark-dimmed'] {
-  --bg-color-primary: #22272e;
-  --bg-color-header: #2d333b;
-  --text-color-primary: #adadb7;
+  --bg-color-primary: #496a81;
+  --bg-color-header: #2b3a67;
+  --text-color-primary: #ffffff;
 
-  --bg-color-primary-button: #373e47;
-  --bg-color-edit-button: #b17cf6;
-  --bg-color-delete-button: #f76867;
-  --bg-color-save-button: #347d39;
+  --bg-color-primary-button: #66999b;
+  --bg-color-edit-button: #b3af8f;
+  --bg-color-delete-button: #ff7070;
+  --bg-color-save-button: #70ffa9;
   --bg-color-secondery-button: #272b33;
+  --border-button-color: #2b3a67;
+
+  --color-active-link: #2666cf;
 }
 * {
   box-sizing: border-box;
@@ -67,14 +77,21 @@ li {
 #root {
   font-family: 'Roboto Serif', sans-serif;
 }
-.container {
+/* .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
+} */
 
 main {
+  min-height: 100vh;
   flex: 1;
   max-width: var(--width-content);
   margin: 0 auto;
+}
+
+@media (max-width: 71.25rem) {
+  main {
+    max-width: 800px;
+  }
 }

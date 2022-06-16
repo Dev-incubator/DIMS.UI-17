@@ -8,12 +8,12 @@ export function DeleteForm({ deleteHandler, toggleModalHandler, item }) {
     <div className={style.wrapper}>
       <h3>Are you sure you want to delete the current {item} ?</h3>
       <div className={style.buttons}>
-        <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={deleteHandler} />
-        <Button
-          title={BUTTONS_NAMES.backToList}
-          stylingType={BUTTONS_TYPES.typeSecondary}
-          onClick={toggleModalHandler}
-        />
+        <Button stylingType={BUTTONS_TYPES.typeDelete} onClick={deleteHandler}>
+          {BUTTONS_NAMES.delete}
+        </Button>
+        <Button stylingType={BUTTONS_TYPES.typeSecondary} onClick={toggleModalHandler}>
+          {BUTTONS_NAMES.backToList}
+        </Button>
       </div>
     </div>
   );

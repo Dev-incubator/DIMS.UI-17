@@ -1,7 +1,5 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import propTypes from 'prop-types';
+import { useLayoutEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   createUserThunk,
   editUserThunk,
@@ -19,218 +17,141 @@ import { MembersTableRow } from '../../Table/MembersTableRow';
 import { Table } from '../../Table/Table';
 import { getAge } from '../../../shared/helpers/getAge/getAge';
 import { Loader } from '../../Common/Loader/Loader';
+import { getAllUsers, getIsFetching } from '../../../store/selectors/selectors';
 
-class Members extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedUserId: null,
-      isUserModalOpen: false,
-      isDeleteModalOpen: false,
-      isEditMode: false,
-      isReadOnlyMode: false,
-    };
-  }
+export function Members() {
+  const users = useSelector(getAllUsers);
+  const isFetching = useSelector(getIsFetching);
+  const dispatch = useDispatch();
+  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [isReadonly, setisReadonly] = useState(false);
 
-  async componentDidMount() {
-    await this.getUsers();
-  }
+  useLayoutEffect(() => {
+    dispatch(getUsersThunk());
+  }, [dispatch]);
 
-  async getUserData() {
-    const { selectedUserId } = this.state;
-    const { setUserData } = this.props;
-    await setUserData(selectedUserId);
-  }
-
-  getUsers = async () => {
-    const { getUsers } = this.props;
-
-    await getUsers();
+  const getUserData = async (userId) => {
+    await dispatch(setUserDataThunk(userId));
   };
 
-  deleteUserHandler = async () => {
-    const { selectedUserId } = this.state;
-    const { removeUser } = this.props;
-
-    await removeUser(selectedUserId);
-    this.toggleModal();
+  const deleteUserHandler = () => {
+    dispatch(removeUserThunk(selectedUserId));
+    toggleModal();
   };
 
-  createUserHandler = async (userData) => {
-    const { createUser } = this.props;
-
-    await createUser(userData);
-    this.toggleModal();
+  const createUserHandler = (userData) => {
+    dispatch(createUserThunk(userData));
+    toggleModal();
   };
 
-  editUserDataHandler = async (userData) => {
-    const { selectedUserId } = this.state;
-    const { editUser } = this.props;
-
-    await editUser(selectedUserId, userData);
-    this.toggleModal();
+  const editUserDataHandler = (userData) => {
+    dispatch(editUserThunk(selectedUserId, userData));
+    toggleModal();
   };
 
-  selectUserHandler = async (selectedUserId) => {
-    this.setState({ selectedUserId });
+  const selectUserHandler = (userId) => {
+    setSelectedUserId(userId);
   };
 
-  showUserDataHandler = async (isReadOnlyMode = false) => {
-    await this.getUserData();
-    this.setState({ isEditMode: true, isReadOnlyMode });
+  const showUserDataHandler = async (userId, readOnlyMode = false) => {
+    await getUserData(userId);
+    setIsEditMode(true);
+    setisReadonly(readOnlyMode);
   };
 
-  toggleUserModalHandler = () => {
-    this.setState((prevState) => {
-      const { isUserModalOpen } = this.state;
-
-      if (isUserModalOpen) {
-        return {
-          ...prevState,
-          isUserModalOpen: !prevState.isUserModalOpen,
-          selectedUserId: null,
-          isEditMode: false,
-          isReadOnlyMode: false,
-        };
-      }
-
-      return { ...prevState, isUserModalOpen: !prevState.isUserModalOpen };
-    });
-  };
-
-  toggleModalDeleteHandler = () => {
-    this.setState((prevState) => {
-      const { isDeleteModalOpen } = prevState;
-
-      return isDeleteModalOpen
-        ? { selectedUserId: null, isDeleteModalOpen: !prevState.isDeleteModalOpen }
-        : { isDeleteModalOpen: !prevState.isDeleteModalOpen };
-    });
-  };
-
-  toggleModal = () => {
-    const { isUserModalOpen, isDeleteModalOpen } = this.state;
+  const toggleUserModalHandler = () => {
     if (isUserModalOpen) {
-      this.toggleUserModalHandler();
+      setSelectedUserId(null);
+      setIsEditMode(false);
+      setisReadonly(false);
+    }
+    setIsUserModalOpen((isModalOpen) => !isModalOpen);
+  };
+
+  const toggleModalDeleteHandler = () => {
+    if (isDeleteModalOpen) {
+      setSelectedUserId(null);
+    }
+    setIsDeleteModalOpen((isModalOpen) => !isModalOpen);
+  };
+
+  const toggleModal = () => {
+    if (isUserModalOpen) {
+      toggleUserModalHandler();
     } else if (isDeleteModalOpen) {
-      this.toggleModalDeleteHandler();
+      toggleModalDeleteHandler();
     }
   };
+  const userData = users.find((user) => user.userId === selectedUserId);
+  const items = users.map((user, index) => {
+    const showReadOnlyModal = async () => {
+      selectUserHandler(user.userId);
+      await showUserDataHandler(user.userId, true);
+      toggleUserModalHandler();
+    };
 
-  render() {
-    const { isUserModalOpen, isDeleteModalOpen, isEditMode, isReadOnlyMode, selectedUserId } = this.state;
-    const { users, isFetching } = this.props;
-    const userData = users.find((user) => user.userId === selectedUserId);
-
-    const items = users.map((user, index) => {
-      const showReadOnlyModal = async () => {
-        await this.selectUserHandler(user.userId);
-        await this.showUserDataHandler(true);
-        this.toggleUserModalHandler();
-      };
-
-      return (
-        <MembersTableRow
-          key={user.firstName + index.toString()}
-          index={index}
-          firstName={user.firstName}
-          lastName={user.lastName}
-          directionName={user.directionName}
-          education={user.education}
-          startDate={user.startDate}
-          birthDate={getAge(user.birthDate)}
-          action={
-            <ButtonsAdminMemberPage
-              selectUserHandler={this.selectUserHandler}
-              showUserDataHandler={this.showUserDataHandler}
-              toggleModalDeleteHandler={this.toggleModalDeleteHandler}
-              toggleUserModalHandler={this.toggleUserModalHandler}
-              id={user.userId}
-            />
-          }
-          showReadOnlyModal={showReadOnlyModal}
-        />
-      );
-    });
-
-    return isFetching ? (
-      <Loader />
-    ) : (
-      <>
-        <PageTitle
-          title={TITLES_PAGES.members}
-          buttonTitle={BUTTONS_NAMES.create}
-          onClick={this.toggleUserModalHandler}
-        />
-
-        <Table title={TABLE_TITLES.members} items={items} />
-
-        {isUserModalOpen ? (
-          <ModalWindow
-            title={MODALTITLE_KEYS.createMember}
-            isModalOpen={isUserModalOpen}
-            toggleModalHandler={this.toggleUserModalHandler}
-          >
-            <CreateMemberForm
-              toggleModalHandler={this.toggleUserModalHandler}
-              createUserHandler={this.createUserHandler}
-              userData={userData}
-              isEditMode={isEditMode}
-              isReadOnlyMode={isReadOnlyMode}
-              id={selectedUserId}
-              editUserDataHandler={this.editUserDataHandler}
-            />
-          </ModalWindow>
-        ) : null}
-
-        {isDeleteModalOpen ? (
-          <ModalWindow
-            title='Delete member'
-            isModalOpen={isDeleteModalOpen}
-            toggleModalHandler={this.toggleModalDeleteHandler}
-          >
-            <DeleteForm
-              toggleError={this.toggleError}
-              item='member'
-              deleteHandler={this.deleteUserHandler}
-              toggleModalHandler={this.toggleModalDeleteHandler}
-            />
-          </ModalWindow>
-        ) : null}
-      </>
+    return (
+      <MembersTableRow
+        key={user.name + index.toString()}
+        index={index + 1}
+        firstName={user.firstName}
+        lastName={user.lastName}
+        directionName={user.directionName}
+        education={user.education}
+        startDate={user.startDate}
+        birthDate={getAge(user.birthDate)}
+        action={
+          <ButtonsAdminMemberPage
+            selectUserHandler={selectUserHandler}
+            showUserDataHandler={showUserDataHandler}
+            toggleModalDeleteHandler={toggleModalDeleteHandler}
+            toggleUserModalHandler={toggleUserModalHandler}
+            id={user.userId}
+          />
+        }
+        showReadOnlyModal={showReadOnlyModal}
+      />
     );
-  }
-}
+  });
 
-const mapStateToProps = (state) => {
-  return {
-    users: state.users.users,
-    userData: state.users.userData,
-    isFetching: state.loading.isFetching,
-  };
-};
+  return isFetching ? (
+    <Loader />
+  ) : (
+    <>
+      <PageTitle title={TITLES_PAGES.members} buttonTitle={BUTTONS_NAMES.create} onClick={toggleUserModalHandler} />
 
-const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators(
-    {
-      getUsers: getUsersThunk,
-      removeUser: removeUserThunk,
-      editUser: editUserThunk,
-      createUser: createUserThunk,
-      setUserData: setUserDataThunk,
-    },
-    dispatch,
+      <Table title={TABLE_TITLES.members} items={items} bordered={false} striped={false} hover={false} />
+
+      {isUserModalOpen ? (
+        <ModalWindow
+          title={MODALTITLE_KEYS.createMember}
+          isModalOpen={isUserModalOpen}
+          toggleModalHandler={toggleUserModalHandler}
+        >
+          <CreateMemberForm
+            toggleModalHandler={toggleUserModalHandler}
+            createUserHandler={createUserHandler}
+            userData={userData}
+            isEditMode={isEditMode}
+            isReadonly={isReadonly}
+            id={selectedUserId}
+            editUserDataHandler={editUserDataHandler}
+          />
+        </ModalWindow>
+      ) : null}
+
+      {isDeleteModalOpen ? (
+        <ModalWindow
+          title='Delete member'
+          isModalOpen={isDeleteModalOpen}
+          toggleModalHandler={toggleModalDeleteHandler}
+        >
+          <DeleteForm item='member' deleteHandler={deleteUserHandler} toggleModalHandler={toggleModalDeleteHandler} />
+        </ModalWindow>
+      ) : null}
+    </>
   );
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Members);
-
-Members.propTypes = {
-  removeUser: propTypes.func.isRequired,
-  getUsers: propTypes.func.isRequired,
-  editUser: propTypes.func.isRequired,
-  createUser: propTypes.func.isRequired,
-  setUserData: propTypes.func.isRequired,
-  users: propTypes.arrayOf(propTypes.object).isRequired,
-  isFetching: propTypes.bool.isRequired,
-};
+}

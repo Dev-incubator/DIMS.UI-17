@@ -49,18 +49,28 @@ export class CreateTrackForm extends React.PureComponent {
     const { userTasks, isEditMode, createTrackHandler, updatedTrackHandler } = this.props;
     const { name, formErrors, ...data } = this.state;
     const selectedTask = userTasks.find((task) => task.name === name);
-    if (isEditMode) {
-      updatedTrackHandler({ name, ...data });
-    } else {
+    const errors = formErrors
+      .map((item) => {
+        const { name: fieldName, error } = validateFormField(item.name, data[item.name]);
+        this.setState((prevState) => ({
+          ...prevState,
+          formErrors: prevState.formErrors.map((field) => (field.name === fieldName ? { ...field, error } : field)),
+        }));
+
+        return error;
+      })
+      .filter((error) => error);
+    if (isEditMode && !errors.length) {
+      await updatedTrackHandler({ name, ...data });
+    } else if (!errors.length) {
       const id = generateId();
-      createTrackHandler(selectedTask.taskId, { ...data, name, id });
+      await createTrackHandler(selectedTask.taskId, { ...data, name, id });
     }
   };
 
   render() {
-    const { toggleModalHandler, isReadOnlyMode, userTasks } = this.props;
+    const { toggleModalHandler, isReadonly, userTasks } = this.props;
     const { formErrors } = this.state;
-    const isError = formErrors.filter((item) => item.error !== '');
     const options = userTasks.map((task) => task.name);
 
     return (
@@ -81,20 +91,18 @@ export class CreateTrackForm extends React.PureComponent {
                 type={type}
                 title={title}
                 required={required}
-                isReadOnlyMode={isReadOnlyMode}
+                isReadonly={isReadonly}
                 errors={error}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} disabled={isError.length} />}
+          {!isReadonly && <Button onClick={this.handleSubmit}> Save </Button>}
 
-          <Button
-            onClick={toggleModalHandler}
-            stylingType={BUTTONS_TYPES.typeSecondary}
-            title={BUTTONS_NAMES.backToList}
-          />
+          <Button onClick={toggleModalHandler} stylingType={BUTTONS_TYPES.typeSecondary}>
+            {BUTTONS_NAMES.backToList}
+          </Button>
         </div>
       </form>
     );
@@ -105,16 +113,17 @@ CreateTrackForm.propTypes = {
   createTrackHandler: propTypes.func.isRequired,
   updatedTrackHandler: propTypes.func.isRequired,
   toggleModalHandler: propTypes.func.isRequired,
-  isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
+  isReadonly: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   userTasks: propTypes.arrayOf(propTypes.oneOfType([propTypes.string, propTypes.object, propTypes.array])),
   isEditMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
-  tracks: propTypes.arrayOf(propTypes.object).isRequired,
+  tracks: propTypes.arrayOf(propTypes.object),
   trackId: propTypes.oneOfType([propTypes.object, propTypes.string]),
 };
 
 CreateTrackForm.defaultProps = {
-  isReadOnlyMode: false,
+  isReadonly: false,
   userTasks: [],
   isEditMode: false,
   trackId: null,
+  tracks: [],
 };

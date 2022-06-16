@@ -1,15 +1,19 @@
 import PropTypes from 'prop-types';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import style from './FormField.module.css';
-import eye from '../../../assets/img/eye.png';
+import eye from '../../../assets/img/opened-eye.svg';
+import hideEye from '../../../assets/img/closed-eye.svg';
 
-export function FormField({ onChange, value, name, title, type = 'text', options, isReadOnlyMode, errors }) {
+export function FormField({ onChange, value, name, title, type = 'text', options, isReadonly, errors }) {
   const inputRef = useRef(null);
+  const [isShowPass, setShowPass] = useState(false);
 
-  const toggleShowPassword = () => {
+  const toggleShowPassword = (e) => {
+    e.preventDefault();
     const nodeType = inputRef.current.type;
     inputRef.current.type = nodeType === 'text' ? 'password' : 'text';
+    setShowPass(!isShowPass);
   };
 
   return (
@@ -19,7 +23,7 @@ export function FormField({ onChange, value, name, title, type = 'text', options
         <span className={style.errors}>{errors}</span>
       </Form.Label>
       {type === 'select' ? (
-        <Form.Select name={name} onChange={onChange} value={value} disabled={isReadOnlyMode}>
+        <Form.Select name={name} onChange={onChange} value={value} disabled={isReadonly}>
           {options.map((item) => (
             <option key={item} value={item}>
               {item}
@@ -29,7 +33,13 @@ export function FormField({ onChange, value, name, title, type = 'text', options
       ) : (
         <div className={style.inputWrapper}>
           {type === 'password' && (
-            <img src={eye} alt='Show password' role='none' onClick={toggleShowPassword} className={style.showPass} />
+            <input
+              type='image'
+              src={isShowPass ? hideEye : eye}
+              alt='Show password'
+              onClick={toggleShowPassword}
+              className={style.show}
+            />
           )}
 
           <Form.Control
@@ -38,10 +48,9 @@ export function FormField({ onChange, value, name, title, type = 'text', options
             type={type}
             name={name}
             id={name}
-            readOnly={isReadOnlyMode}
+            readOnly={isReadonly}
             isInvalid={errors}
             ref={inputRef}
-            className={style.formControl}
           />
         </div>
       )}
@@ -56,13 +65,13 @@ FormField.propTypes = {
   type: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.arrayOf(PropTypes.string)]).isRequired,
   options: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
-  isReadOnlyMode: PropTypes.bool,
+  isReadonly: PropTypes.bool,
   errors: PropTypes.string,
 };
 FormField.defaultProps = {
   type: 'text',
   title: 'name',
   options: '',
-  isReadOnlyMode: false,
+  isReadonly: false,
   errors: '',
 };

@@ -1,19 +1,17 @@
-/* .table {
-  background-color: var(--bg-color-primary);
-} */
 .table a {
   color: var(--text-color-primary);
   text-decoration: underline;
 }
 .table {
   color: var(--text-color-primary);
+  text-align: center;
 }
-.table > tbody > tr > td {
-  color: var(--text-color-primary) !important;
+.table > :not(caption) > * > * {
+  border-bottom-width: 0px !important;
 }
 td:last-of-type {
-  display: grid;
-  grid-template: auto auto / auto auto;
+  display: flex;
+  justify-content: center;
 }
 
 td:last-of-type button {
@@ -24,4 +22,18 @@ td:last-of-type button {
 .link {
   text-decoration: underline;
   cursor: pointer;
+}
+@media (max-width: 768px) {
+  td:last-of-type button {
+    /* font-size: 0px; */
+    min-width: 35px;
+  }
+}
+@media (max-width: 576px) {
+  td:nth-of-type(1) {
+    display: none;
+  }
+  th:nth-of-type(1) {
+    display: none;
+  }
 }

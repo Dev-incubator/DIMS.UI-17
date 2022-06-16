@@ -22,8 +22,12 @@ export function ButtonsTrack({
 
   return (
     <>
-      <Button title={BUTTONS_NAMES.edit} stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal} />
-      <Button title={BUTTONS_NAMES.delete} stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal} />
+      <Button stylingType={BUTTONS_TYPES.typeEdit} onClick={showEditModal}>
+        {BUTTONS_NAMES.edit}
+      </Button>
+      <Button stylingType={BUTTONS_TYPES.typeDelete} onClick={showDeleteModal}>
+        {BUTTONS_NAMES.delete}
+      </Button>
     </>
   );
 }

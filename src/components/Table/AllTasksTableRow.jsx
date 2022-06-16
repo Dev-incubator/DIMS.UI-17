@@ -1,14 +1,32 @@
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
 import style from './Table.module.css';
 
-export function AllTasksTableRow({ index, name, description, startDate, deadlineDate, action, id, linkPath }) {
+export function AllTasksTableRow({
+  index,
+  name,
+  description,
+  startDate,
+  deadlineDate,
+  action,
+  id,
+  showTaskDataHandler,
+  selectTaskHandler,
+  toggleTaskModalHandler,
+}) {
+  async function showTask() {
+    await selectTaskHandler(id);
+    await showTaskDataHandler(true);
+    toggleTaskModalHandler();
+  }
+
   return (
     <tbody className={style.table}>
       <tr>
         <td>{index}</td>
         <td>
-          <NavLink to={`${linkPath}/${id}/tracks`}>{name}</NavLink>
+          <div className={style.link} role='none' onClick={showTask}>
+            {name}
+          </div>
         </td>
         <td>{description}</td>
         <td>{startDate}</td>
@@ -27,5 +45,7 @@ AllTasksTableRow.propTypes = {
   deadlineDate: PropTypes.string.isRequired,
   action: PropTypes.node.isRequired,
   id: PropTypes.oneOfType([PropTypes.object, PropTypes.string, PropTypes.number]).isRequired,
-  linkPath: PropTypes.string.isRequired,
+  showTaskDataHandler: PropTypes.func.isRequired,
+  selectTaskHandler: PropTypes.func.isRequired,
+  toggleTaskModalHandler: PropTypes.func.isRequired,
 };

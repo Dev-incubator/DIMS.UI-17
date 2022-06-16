@@ -15,7 +15,7 @@ export class CreateMemberForm extends React.PureComponent {
     this.state = initialStateCreatMember;
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { userData, isEditMode } = this.props;
 
     if (isEditMode) {
@@ -45,7 +45,7 @@ export class CreateMemberForm extends React.PureComponent {
     e.preventDefault();
     const { isEditMode, createUserHandler, editUserDataHandler } = this.props;
     const { formErrors, ...data } = this.state;
-    const isError = formErrors
+    const errors = formErrors
       .map((item) => {
         const { name, error } = validateFormField(item.name, data[item.name], data.password);
         this.setState((prevState) => ({
@@ -56,15 +56,15 @@ export class CreateMemberForm extends React.PureComponent {
         return error;
       })
       .filter((error) => error);
-    if (isEditMode && !isError.length) {
+    if (isEditMode && !errors.length) {
       await editUserDataHandler(userTypesValidation(data));
-    } else if (!isError.length) {
+    } else if (!errors.length) {
       await createUserHandler(userTypesValidation(data));
     }
   };
 
   render() {
-    const { toggleModalHandler, isReadOnlyMode } = this.props;
+    const { toggleModalHandler, isReadonly } = this.props;
     const { formErrors, ...data } = this.state;
 
     return (
@@ -83,20 +83,18 @@ export class CreateMemberForm extends React.PureComponent {
                 options={options}
                 type={type}
                 title={title}
-                isReadOnlyMode={isReadOnlyMode}
+                isReadonly={isReadonly}
                 errors={error}
               />
             );
           })}
         </div>
         <div className={style.section__buttons}>
-          {!isReadOnlyMode && <Button title='Save' onClick={this.handleSubmit} />}
+          {!isReadonly && <Button onClick={this.handleSubmit}> Save </Button>}
 
-          <Button
-            onClick={toggleModalHandler}
-            stylingType={BUTTONS_TYPES.typeSecondary}
-            title={BUTTONS_NAMES.backToList}
-          />
+          <Button onClick={toggleModalHandler} stylingType={BUTTONS_TYPES.typeSecondary}>
+            {BUTTONS_NAMES.backToList}
+          </Button>
         </div>
       </Form>
     );
@@ -108,12 +106,12 @@ CreateMemberForm.propTypes = {
   editUserDataHandler: propTypes.func.isRequired,
   createUserHandler: propTypes.func.isRequired,
   userData: propTypes.oneOfType([propTypes.object, propTypes.string, propTypes.array]),
-  isReadOnlyMode: propTypes.oneOfType([propTypes.bool, propTypes.string]),
+  isReadonly: propTypes.oneOfType([propTypes.bool, propTypes.string]),
   isEditMode: propTypes.bool,
 };
 
 CreateMemberForm.defaultProps = {
   userData: null,
-  isReadOnlyMode: false,
+  isReadonly: false,
   isEditMode: false,
 };
