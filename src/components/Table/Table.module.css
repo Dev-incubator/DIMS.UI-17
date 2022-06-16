@@ -4,7 +4,6 @@
 }
 .table {
   color: var(--text-color-primary);
-  min-width: var(--width-content);
   text-align: center;
 }
 .table > :not(caption) > * > * {
@@ -24,8 +23,17 @@ td:last-of-type button {
   text-decoration: underline;
   cursor: pointer;
 }
-@media (max-width: 1140px) {
-  .table {
-    min-width: 800px;
+@media (max-width: 768px) {
+  td:last-of-type button {
+    /* font-size: 0px; */
+    min-width: 35px;
+  }
+}
+@media (max-width: 576px) {
+  td:nth-of-type(1) {
+    display: none;
+  }
+  th:nth-of-type(1) {
+    display: none;
   }
 }

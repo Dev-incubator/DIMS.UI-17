@@ -122,7 +122,9 @@ class LoginForm extends React.PureComponent {
             </button>
 
             {isRestAPIMode() ? null : (
-              <Button className={style.buttonLogin} title='Sing In with Google' onClick={handleSinginWithGoogle} />
+              <Button className={style.buttonLogin} onClick={handleSinginWithGoogle}>
+                Sing In with Google
+              </Button>
             )}
           </form>
         </Col>

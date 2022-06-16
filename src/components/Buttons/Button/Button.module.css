@@ -31,3 +31,7 @@ button:hover {
 .disable {
   opacity: 70%;
 }
+button img {
+  height: 25px;
+  width: 35px;
+}

@@ -8,13 +8,9 @@ export function PageTitle({ title, buttonTitle, onClick, isBackButton, isContain
     <div className={style.title}>
       <h1>{title}</h1>
       {isContainsButton && (
-        <Button
-          stylingType={stylingType}
-          title={buttonTitle}
-          isBackButton={isBackButton}
-          onClick={onClick}
-          history={history}
-        />
+        <Button stylingType={stylingType} isBackButton={isBackButton} onClick={onClick} history={history}>
+          {buttonTitle}
+        </Button>
       )}
     </div>
   );

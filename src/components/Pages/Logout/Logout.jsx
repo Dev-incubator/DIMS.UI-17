@@ -19,7 +19,9 @@ export function Logout() {
     <>
       {showUser()}
       <NavLink to='/login'>
-        <Button type='button' title='Logout' onClick={logoutHandler} />
+        <Button type='button' onClick={logoutHandler}>
+          Logout
+        </Button>
       </NavLink>
     </>
   );

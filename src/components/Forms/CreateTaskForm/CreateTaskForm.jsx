@@ -137,13 +137,11 @@ export class CreateTaskForm extends React.PureComponent {
         <p className={style.error}>{checkboxError}</p>
 
         <div className={style.section__buttons}>
-          {!isReadonly && <Button title='Save' onClick={this.handleSubmit} />}
+          {!isReadonly && <Button onClick={this.handleSubmit}> Save </Button>}
 
-          <Button
-            onClick={toggleModalHandler}
-            stylingType={BUTTONS_TYPES.typeSecondary}
-            title={BUTTONS_NAMES.backToList}
-          />
+          <Button onClick={toggleModalHandler} stylingType={BUTTONS_TYPES.typeSecondary}>
+            {BUTTONS_NAMES.backToList}
+          </Button>
         </div>
       </Form>
     );

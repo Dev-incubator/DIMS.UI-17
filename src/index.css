@@ -84,6 +84,7 @@ li {
 } */
 
 main {
+  min-height: 100vh;
   flex: 1;
   max-width: var(--width-content);
   margin: 0 auto;

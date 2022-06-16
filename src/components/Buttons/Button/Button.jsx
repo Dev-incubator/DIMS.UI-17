@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import style from './Button.module.css';
 import noop from '../../../shared/noop';
 
-export function Button({ title, onClick, stylingType, isBackButton, history, buttonType, disabled, ...restProps }) {
+export function Button({ onClick, stylingType, isBackButton, history, buttonType, disabled, children, ...restProps }) {
   const buttonBackHandler = () => {
     const { goBack } = history;
     goBack();
@@ -16,19 +16,19 @@ export function Button({ title, onClick, stylingType, isBackButton, history, but
       disabled={disabled}
       {...restProps}
     >
-      <span>{title}</span>
+      <span>{children}</span>
     </button>
   );
 }
 
 Button.propTypes = {
-  title: PropTypes.string.isRequired,
   onClick: PropTypes.func,
   stylingType: PropTypes.string,
   isBackButton: PropTypes.bool,
   history: PropTypes.shape({ goBack: PropTypes.func }),
   buttonType: PropTypes.string,
   disabled: PropTypes.bool,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]).isRequired,
 };
 
 Button.defaultProps = {
