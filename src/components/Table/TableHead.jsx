@@ -1,11 +1,14 @@
 import PropTypes from 'prop-types';
+import style from './TableHeader.module.css';
 
 export function TableHead({ items }) {
   return (
     <thead>
       <tr>
         {items.map((item) => (
-          <th key={item}>{item}</th>
+          <th className={style[item]} key={item}>
+            {item}
+          </th>
         ))}
       </tr>
     </thead>

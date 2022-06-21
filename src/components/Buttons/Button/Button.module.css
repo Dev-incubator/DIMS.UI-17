@@ -1,18 +1,18 @@
 .primary {
-  background-color: var(--bg-color-primary-button);
+  background-color: var(--bg-color-primary-button) !important;
 }
 .success {
-  background-color: var(--bg-color-save-button);
+  background-color: var(--bg-color-save-button) !important;
 }
 .danger {
-  background-color: var(--bg-color-delete-button);
+  background-color: var(--bg-color-delete-button) !important;
 }
 .warning {
-  background-color: var(--bg-color-edit-button);
+  background-color: var(--bg-color-edit-button) !important;
 }
 .secondary {
-  background-color: var(--bg-color-secondery-button);
-  border: 1px solid var(--border-button-color);
+  background-color: var(--bg-color-secondery-button) !important;
+  border: 1px solid var(--border-button-color) !important;
   padding: 0.3rem 0.5rem;
 }
 button {
@@ -20,10 +20,12 @@ button {
   margin: 0.5rem;
   min-width: 100px;
   color: var(--text-color-primary);
+  background-color: var(--bg-color-primary-button) !important;
   border-radius: 5px;
   padding: 0.3rem 0;
-  border: 1px solid var(--border-button-color);
+  border: 1px solid var(--border-button-color) !important;
   transition: var(--transition);
+  opacity: 1 !important;
 }
 button:hover {
   filter: brightness(var(--hover-brightness));
@@ -34,4 +36,11 @@ button:hover {
 button img {
   height: 25px;
   width: 35px;
+}
+
+@media (max-width: 48rem) {
+  button {
+    font-size: 0.8rem;
+    min-width: 70px;
+  }
 }

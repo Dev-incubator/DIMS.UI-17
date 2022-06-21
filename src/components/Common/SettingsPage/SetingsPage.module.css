@@ -10,15 +10,15 @@
 }
 
 .dark {
-  background-color: #322F20;
+  background-color: #322F20 !important;
   color: white;
 }
 .light {
-  background-color: white;
+  background-color: white !important;
   color: black;
 }
 .darkDimmed {
-  background-color: #496a81;
+  background-color: #496a81 !important;
   color: #fff;
 }
 .buttonWrapper > button {

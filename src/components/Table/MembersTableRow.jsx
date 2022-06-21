@@ -23,10 +23,10 @@ export function MembersTableRow({
           </div>
         </td>
         <td>{directionName}</td>
-        <td>{education}</td>
+        <td className={style.education}>{education}</td>
         <td>{startDate}</td>
         <td>{birthDate}</td>
-        <td>{action}</td>
+        <td className={style.adminBtn}>{action}</td>
       </tr>
     </tbody>
   );

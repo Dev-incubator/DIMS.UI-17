@@ -77,12 +77,6 @@ li {
 #root {
   font-family: 'Roboto Serif', sans-serif;
 }
-/* .container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-} */
-
 main {
   min-height: 100vh;
   flex: 1;
@@ -90,8 +84,27 @@ main {
   margin: 0 auto;
 }
 
+.dropdown-menu {
+  min-width: auto !important;
+}
+
 @media (max-width: 71.25rem) {
   main {
     max-width: 800px;
+  }
+}
+
+@media (max-width: 48rem) {
+  .table > :not(caption) > * > * {
+    padding: 0.4rem 0.4rem !important;
+  }
+}
+
+@media (max-width: 30rem) {
+  main {
+    font-size: 0.8rem;
+  }
+  .table > :not(caption) > * > * {
+    padding: 0.3rem 0.2rem !important;
   }
 }

@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { Button } from '../Button/Button';
 import { BUTTONS_NAMES, BUTTONS_TYPES, STATUS_KEYS } from '../../../shared/constants';
-import style from './ButtonsStatusUpdate.module.css';
+// import style from './ButtonsStatusUpdate.module.css';
 
 export function ButtonsStatusUpdate({ status, succesStatusHandler, activeStatusHandler, failStatusHandler }) {
   return (
-    <div className={style.statusBtn}>
+    <div>
       {status === STATUS_KEYS.active ? (
         <Button stylingType={BUTTONS_TYPES.typeSave} onClick={succesStatusHandler}>
           {BUTTONS_NAMES.success}

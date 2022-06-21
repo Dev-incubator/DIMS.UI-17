@@ -1,6 +1,11 @@
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
-import { isSmallScreen, isMediumScreen, isLargeScreen } from '../shared/helpers/checkMediaQuery/checkMediaQuery';
+import {
+  isSmallScreen,
+  isMediumScreen,
+  isLargeScreen,
+  isXSScreen,
+} from '../shared/helpers/checkMediaQuery/checkMediaQuery';
 
 export const SettingsContext = createContext(null);
 const { body } = document;
@@ -10,6 +15,7 @@ export class SettingsProvider extends React.PureComponent {
     super(props);
     this.state = {
       mediumBreakpoint: null,
+      isXSBreakpoint: false,
       isSmallBreakpoint: false,
       isMediumBreakpoint: false,
       isLargeBreakpoint: false,
@@ -25,6 +31,7 @@ export class SettingsProvider extends React.PureComponent {
     this.setState((prevState) => ({
       ...prevState,
       theme: localStorage.getItem('theme') || 'light',
+      isXSBreakpoint: isXSScreen(window.innerWidth),
       isSmallBreakpoint: isSmallScreen(window.innerWidth),
       isMediumBreakpoint: isMediumScreen(window.innerWidth),
       isLargeBreakpoint: isLargeScreen(window.innerWidth),
@@ -50,6 +57,7 @@ export class SettingsProvider extends React.PureComponent {
 
   setBreakpoint = () => {
     this.setState({
+      isXSBreakpoint: isXSScreen(window.innerWidth),
       isSmallBreakpoint: isSmallScreen(window.innerWidth),
       isMediumBreakpoint: isMediumScreen(window.innerWidth),
       isLargeBreakpoint: isLargeScreen(window.innerWidth),

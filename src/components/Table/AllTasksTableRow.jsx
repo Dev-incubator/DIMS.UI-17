@@ -28,10 +28,10 @@ export function AllTasksTableRow({
             {name}
           </div>
         </td>
-        <td>{description}</td>
+        <td className={style.description}>{description}</td>
         <td>{startDate}</td>
         <td>{deadlineDate}</td>
-        <td>{action}</td>
+        <td className={style.adminBtn}>{action}</td>
       </tr>
     </tbody>
   );

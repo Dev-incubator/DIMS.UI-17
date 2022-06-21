@@ -1,6 +1,5 @@
 .container {
   padding: 0;
-  /* max-width: 100%; */
   background-color: var(--bg-color-primary);
   color: var(--text-color-primary);
 }

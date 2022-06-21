@@ -23,17 +23,28 @@ td:last-of-type button {
   text-decoration: underline;
   cursor: pointer;
 }
-@media (max-width: 576px) {
-  td:last-of-type button {
-    /* font-size: 0px; */
-    min-width: 35px;
+
+@media (max-width: 36rem) {
+  .adminBtn button {
+    min-width: 35px !important;
   }
-}
-@media (max-width: 576px) {
   td:nth-of-type(1) {
     display: none;
   }
   th:nth-of-type(1) {
+    display: none;
+  }
+}
+
+@media (max-width: 30rem) {
+  .adminBtn {
+    display: none;
+  }
+  th:nth-of-type(1) {
+    display: none;
+  }
+  .education,
+  .description {
     display: none;
   }
 }
