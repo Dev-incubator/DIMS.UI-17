@@ -23,7 +23,7 @@ td:last-of-type button {
   text-decoration: underline;
   cursor: pointer;
 }
-@media (max-width: 768px) {
+@media (max-width: 576px) {
   td:last-of-type button {
     /* font-size: 0px; */
     min-width: 35px;

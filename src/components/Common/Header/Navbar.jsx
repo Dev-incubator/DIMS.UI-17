@@ -19,7 +19,7 @@ export function NavBar() {
 
   return (
     <Container fluid>
-      <Navbar collapseOnSelect expand='md' variant='dark'>
+      <Navbar collapseOnSelect expand='sm' variant='dark'>
         <img className={style.logo} src={logo} alt='logo' />
         <Navbar.Toggle aria-controls='responsive-navbar-nav' className={style.navBtn} />
         <Navbar.Collapse id='responsive-navbar-nav'>

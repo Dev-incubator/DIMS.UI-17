@@ -5,7 +5,7 @@ import { AdminRoutes } from './AdminRoutes';
 import { MemberRoutes } from './MemberRoutes';
 import { DefaultRoutes } from './DefaultRoutes';
 
-export const GetRoute = () => {
+export const Routes = () => {
   const { isAuth, role } = useContext(AuthContext);
   if (isAuth) {
     return role === USER_ROLES.user ? <MemberRoutes /> : <AdminRoutes />;

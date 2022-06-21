@@ -4,11 +4,11 @@
 .user > svg {
   padding: 0 1rem;
 }
-@media (max-width: 768px) {
+@media (max-width: 380px) {
   .user > i:last-child {
     display: none;
   }
   .user > i {
-    padding: 0 1rem;
+    padding: 0 .3rem;
   }
 }

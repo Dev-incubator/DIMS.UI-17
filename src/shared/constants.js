@@ -154,5 +154,8 @@ export const FORM_TRACKS_ERRORS = [
 ];
 
 export const BREAKPOINTS = {
+  lg: 992,
   md: 768,
+  sm: 576,
+  xs: 380,
 };

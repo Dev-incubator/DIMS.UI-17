@@ -1,5 +1,6 @@
 import React, { createContext } from 'react';
 import PropTypes from 'prop-types';
+import { isSmallScreen, isMediumScreen, isLargeScreen } from '../shared/helpers/checkMediaQuery/checkMediaQuery';
 
 export const SettingsContext = createContext(null);
 const { body } = document;
@@ -9,12 +10,14 @@ export class SettingsProvider extends React.PureComponent {
     super(props);
     this.state = {
       mediumBreakpoint: null,
+      isSmallBreakpoint: false,
+      isMediumBreakpoint: false,
+      isLargeBreakpoint: false,
       isShowSettings: false,
       toggleSettings: this.toggleSettings,
       setLightTheme: this.toggleTheme.bind(this, 'light'),
       setDarkTheme: this.toggleTheme.bind(this, 'dark'),
       setDarkDimmedTheme: this.toggleTheme.bind(this, 'dark-dimmed'),
-      setBreakepointHeandler: this.setBreakpoint,
     };
   }
 
@@ -22,8 +25,11 @@ export class SettingsProvider extends React.PureComponent {
     this.setState((prevState) => ({
       ...prevState,
       theme: localStorage.getItem('theme') || 'light',
-      mediumBreakpoint: window.innerWidth,
+      isSmallBreakpoint: isSmallScreen(window.innerWidth),
+      isMediumBreakpoint: isMediumScreen(window.innerWidth),
+      isLargeBreakpoint: isLargeScreen(window.innerWidth),
     }));
+    window.addEventListener('resize', this.setBreakpoint);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -34,12 +40,20 @@ export class SettingsProvider extends React.PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.setBreakpoint);
+  }
+
   toggleSettings = () => {
     this.setState((prevState) => ({ ...prevState, isShowSettings: !prevState.isShowSettings }));
   };
 
   setBreakpoint = () => {
-    this.setState({ mediumBreakpoint: window.innerWidth });
+    this.setState({
+      isSmallBreakpoint: isSmallScreen(window.innerWidth),
+      isMediumBreakpoint: isMediumScreen(window.innerWidth),
+      isLargeBreakpoint: isLargeScreen(window.innerWidth),
+    });
   };
 
   toggleTheme(theme) {
